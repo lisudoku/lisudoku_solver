@@ -10,7 +10,7 @@ pub struct SudokuConstraints {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct FixedNumber {
   pub position: CellPosition,
-  pub value: i32,
+  pub value: u32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -19,18 +19,48 @@ pub struct CellPosition {
   pub col: usize,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct SudokuSolveResult {
-  pub solvable: bool,
-}
+pub type Region = Vec<CellPosition>;
+
+pub type Grid = Vec<Vec<u32>>;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SudokuGrid {
-  pub values: Vec<Vec<i32>>,
+  pub values: Grid,
 }
 
-pub type Region = Vec<CellPosition>;
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SudokuSolveResult {
+  pub solution_count: u32,
+  pub solution: Grid,
+  pub steps: Vec<SolutionStep>,
+}
 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SolutionStep {
+  pub rule: Rule,
+  pub cells: Vec<CellPosition>,
+  pub values: Vec<u32>,
+  pub areas: Vec<Area>,
+  pub affected_cells: Vec<CellPosition>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum Rule {
+  ObviousSingle, // 1 Cell Position, 1 value + who it is constrained by
+  HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
+  NakedPairs, // 2 Cell Positions, 2 values + what they affect
+  PointingPairs, // 2 CellPositions + what they affect
+  XWing, // 4 CellPositions
+  YWing, // 4 CellPositions
+  Swordfish, // ???
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum Area {
+  Row(usize),
+  Column(usize),
+  Region(usize),
+}
 
 impl SudokuConstraints {
   #[allow(dead_code)]
@@ -64,6 +94,18 @@ impl SudokuConstraints {
       (2, 3)
     } else {
       (3, 3)
+    }
+  }
+}
+
+impl FixedNumber {
+  pub fn new(row: usize, col: usize, value: u32) -> FixedNumber {
+    FixedNumber {
+      position: CellPosition {
+        row,
+        col,
+      },
+      value,
     }
   }
 }
