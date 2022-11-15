@@ -5,6 +5,7 @@ pub struct SudokuConstraints {
   pub grid_size: usize,
   pub fixed_numbers: Vec<FixedNumber>,
   pub regions: Vec<Region>,
+  pub thermos: Vec<Thermo>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -62,7 +63,19 @@ pub enum Area {
   Region(usize),
 }
 
+pub type Thermo = Vec<CellPosition>;
+
 impl SudokuConstraints {
+  #[cfg(test)]
+  pub fn new(grid_size: usize, fixed_numbers: Vec<FixedNumber>) -> SudokuConstraints {
+    SudokuConstraints {
+      grid_size,
+      fixed_numbers,
+      regions: SudokuConstraints::default_regions(grid_size),
+      thermos: vec![],
+    }
+  }
+
   #[allow(dead_code)]
   pub fn default_regions(grid_size: usize) -> Vec<Region> {
     let (region_height, region_width) = SudokuConstraints::compute_region_sizes(grid_size);
@@ -99,6 +112,7 @@ impl SudokuConstraints {
 }
 
 impl FixedNumber {
+  #[cfg(test)]
   pub fn new(row: usize, col: usize, value: u32) -> FixedNumber {
     FixedNumber {
       position: CellPosition {

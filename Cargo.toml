@@ -5,7 +5,7 @@ authors = ["George Marcus <george.marcus922@gmail.com>"]
 description = "Solver for sudoku puzzles used by lisudoku"
 license = "TBD"
 repository = "TBD"
-edition = "2018"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
