@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use crate::types::{SudokuConstraints, SudokuSolveResult, SudokuGrid, Region, CellPosition, Grid, SolutionStep};
+use crate::types::{SudokuConstraints, SudokuSolveResult, SudokuGrid, CellPosition, Grid, SolutionStep, Area};
 
 mod rules;
 mod checker;
@@ -75,6 +75,15 @@ impl Solver {
     None
   }
 
+  fn compute_area_set(&self, grid: &Grid, area: &Area) -> HashSet<u32> {
+    match *area {
+      Area::Row(row) => self.compute_row_values_set(grid, row),
+      Area::Column(col) => self.compute_col_values_set(grid, col),
+      Area::Region(region_index) => self.compute_region_values_set(grid, region_index),
+      Area::Thermo(_) => todo!(),
+    }
+  }
+
   fn compute_row_values_set(&self, grid: &Grid, row: usize) -> HashSet<u32> {
     let mut set = HashSet::new();
     for col in 0..self.constraints.grid_size {
@@ -97,8 +106,9 @@ impl Solver {
     set
   }
 
-  fn compute_region_values_set(&self, grid: &Grid, region: &Region) -> HashSet<u32> {
+  fn compute_region_values_set(&self, grid: &Grid, region_index: usize) -> HashSet<u32> {
     let mut set = HashSet::new();
+    let region = &self.constraints.regions[region_index];
     for cell in region {
       if grid[cell.row][cell.col] != 0 {
         set.insert(grid[cell.row][cell.col]);

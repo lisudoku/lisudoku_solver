@@ -25,8 +25,7 @@ impl Solver {
 
         // region
         let region_index = self.grid_to_region[row][col];
-        let region = &self.constraints.regions[region_index];
-        let region_set = self.compute_region_values_set(&grid, region);
+        let region_set = self.compute_region_values_set(&grid, region_index);
         candidates[row][col] = candidates[row][col].difference(&region_set).cloned().collect();
       }
     }

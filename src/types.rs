@@ -56,11 +56,12 @@ pub enum Rule {
   Swordfish, // ???
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 pub enum Area {
   Row(usize),
   Column(usize),
   Region(usize),
+  Thermo(usize),
 }
 
 pub type Thermo = Vec<CellPosition>;
