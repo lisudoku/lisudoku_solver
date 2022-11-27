@@ -2,6 +2,7 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, SudokuGrid}, s
 
 #[test]
 fn check_6x6_thermo_solve() {
+  // WSC booklet 6x6 thermo https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
   let grid_size = 6;
   let fixed_numbers = vec![
     FixedNumber::new(1, 0, 4),
@@ -43,6 +44,92 @@ fn check_6x6_thermo_solve() {
       CellPosition { row: 1, col: 3 },
       CellPosition { row: 1, col: 2 },
     ],
+  ];
+  let solver = Solver::new(constraints, None);
+  let solution = solver.intuitive_solve();
+  assert_eq!(solution.solution_count, 1);
+  assert_eq!(solution.solution, vec![
+    vec![ 1, 2, 3, 4, 5, 6 ],
+    vec![ 4, 5, 6, 3, 2, 1 ],
+    vec![ 5, 6, 1, 2, 3, 4 ],
+    vec![ 2, 3, 4, 1, 6, 5 ],
+    vec![ 3, 4, 5, 6, 1, 2 ],
+    vec![ 6, 1, 2, 5, 4, 3 ],
+  ]);
+  assert_eq!(solution.steps.len(), empty_cells);
+}
+
+#[test]
+fn check_9x9_thermo_solve() {
+  // UK Sudoku Championship 2022 booklet - 9x9 thermo https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(2, 2, 2),
+    FixedNumber::new(2, 6, 4),
+    FixedNumber::new(3, 4, 5),
+    FixedNumber::new(5, 4, 1),
+    FixedNumber::new(6, 2, 9),
+    FixedNumber::new(6, 6, 5),
+  ];
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.thermos = vec![
+    vec![
+      CellPosition { row: 0, col: 6 },
+      CellPosition { row: 0, col: 5 },
+      CellPosition { row: 0, col: 4 },
+      CellPosition { row: 0, col: 3 },
+      CellPosition { row: 0, col: 2 },
+      CellPosition { row: 0, col: 1 },
+      CellPosition { row: 0, col: 0 },
+    ],
+    vec![
+      CellPosition { row: 2, col: 0 },
+      CellPosition { row: 3, col: 0 },
+      CellPosition { row: 4, col: 0 },
+      CellPosition { row: 5, col: 0 },
+      CellPosition { row: 6, col: 0 },
+      CellPosition { row: 7, col: 0 },
+      CellPosition { row: 8, col: 0 },
+    ],
+    vec![
+      CellPosition { row: 2, col: 5 },
+      CellPosition { row: 2, col: 4 },
+      CellPosition { row: 2, col: 3 },
+    ],
+    vec![
+      CellPosition { row: 3, col: 2 },
+      CellPosition { row: 4, col: 2 },
+      CellPosition { row: 5, col: 2 },
+    ],
+    vec![
+      CellPosition { row: 5, col: 6 },
+      CellPosition { row: 4, col: 6 },
+      CellPosition { row: 3, col: 6 },
+    ],
+    vec![
+      CellPosition { row: 6, col: 3 },
+      CellPosition { row: 6, col: 4 },
+      CellPosition { row: 6, col: 5 },
+    ],
+    vec![
+      CellPosition { row: 6, col: 8 },
+      CellPosition { row: 5, col: 8 },
+      CellPosition { row: 4, col: 8 },
+      CellPosition { row: 3, col: 8 },
+      CellPosition { row: 2, col: 8 },
+      CellPosition { row: 1, col: 8 },
+      CellPosition { row: 0, col: 8 },
+    ],
+    vec![
+      CellPosition { row: 8, col: 2 },
+      CellPosition { row: 8, col: 3 },
+      CellPosition { row: 8, col: 4 },
+      CellPosition { row: 8, col: 5 },
+      CellPosition { row: 8, col: 6 },
+      CellPosition { row: 8, col: 7 },
+      CellPosition { row: 8, col: 8 },
+    ]
   ];
   let solver = Solver::new(constraints, None);
   let solution = solver.intuitive_solve();

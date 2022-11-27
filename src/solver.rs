@@ -70,6 +70,11 @@ impl Solver {
       return step
     }
 
+    let step = self.find_thermo_steps(grid);
+    if step.is_some() {
+      return step
+    }
+
     // TODO: implement other rules
 
     None
@@ -116,6 +121,19 @@ impl Solver {
     }
 
     set
+  }
+
+  fn compute_cell_candidates_set(&self, grid: &Grid, row: usize, col: usize) -> HashSet<u32> {
+    let mut candidates: HashSet<u32> = (1..self.constraints.grid_size as u32 + 1).collect();
+    let region_index = self.grid_to_region[row][col];
+    let areas = [ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
+
+    for area in &areas {
+      let area_set = self.compute_area_set(grid, area);
+      candidates = candidates.difference(&area_set).cloned().collect();
+    }
+
+    candidates
   }
 }
 

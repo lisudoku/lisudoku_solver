@@ -14,7 +14,7 @@ pub struct FixedNumber {
   pub value: u32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 pub struct CellPosition {
   pub row: usize,
   pub col: usize,
@@ -54,6 +54,7 @@ pub enum Rule {
   XWing, // 4 CellPositions
   YWing, // 4 CellPositions
   Swordfish, // ???
+  Thermo,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone)]
