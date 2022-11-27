@@ -124,7 +124,7 @@ impl Solver {
   }
 
   fn compute_cell_candidates_set(&self, grid: &Grid, row: usize, col: usize) -> HashSet<u32> {
-    let mut candidates: HashSet<u32> = (1..self.constraints.grid_size as u32 + 1).collect();
+    let mut candidates = self.compute_all_candidates();
     let region_index = self.grid_to_region[row][col];
     let areas = [ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
 
@@ -134,6 +134,10 @@ impl Solver {
     }
 
     candidates
+  }
+
+  fn compute_all_candidates(&self) -> HashSet<u32> {
+    (1..self.constraints.grid_size as u32 + 1).collect::<HashSet<u32>>()
   }
 }
 

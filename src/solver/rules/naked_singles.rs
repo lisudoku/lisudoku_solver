@@ -53,7 +53,7 @@ impl Solver {
       areas_set = areas_set.union(&area_set).cloned().collect();
     }
     if areas_set.len() == self.constraints.grid_size - 1 {
-      let all_candidates: HashSet<u32> = (1..self.constraints.grid_size as u32 + 1).collect();
+      let all_candidates = self.compute_all_candidates();
       let value = *all_candidates.difference(&areas_set).next().unwrap();
       return Some(
         SolutionStep {
