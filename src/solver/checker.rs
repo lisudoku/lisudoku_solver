@@ -29,7 +29,7 @@ impl Solver {
     let mut values = HashSet::new();
 
     for col in 0..self.constraints.grid_size {
-      let value = self.grid.as_ref().unwrap().values[row][col];
+      let value = self.grid[row][col];
       if values.contains(&value) {
         return false
       }
@@ -43,7 +43,7 @@ impl Solver {
     let mut values = HashSet::new();
 
     for row in 0..self.constraints.grid_size {
-      let value = self.grid.as_ref().unwrap().values[row][col];
+      let value = self.grid[row][col];
       if values.contains(&value) {
         return false
       }
@@ -57,7 +57,7 @@ impl Solver {
     let mut values = HashSet::new();
 
     for cell in region {
-      let value = self.grid.as_ref().unwrap().values[cell.row][cell.col];
+      let value = self.grid[cell.row][cell.col];
       if values.contains(&value) {
         return false
       }

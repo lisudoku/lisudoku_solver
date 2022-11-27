@@ -1,17 +1,17 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Grid, CellPosition, Rule, Area};
+use crate::types::{SolutionStep, CellPosition, Rule, Area};
 use combinations::Combinations;
 
 impl Solver {
-  pub fn find_naked_singles(&self, grid: &Grid) -> Option<SolutionStep> {
+  pub fn find_naked_singles(&self) -> Option<SolutionStep> {
     for row in 0..self.constraints.grid_size {
       for col in 0..self.constraints.grid_size {
-        if grid[row][col] != 0 {
+        if self.grid[row][col] != 0 {
           continue
         }
 
-        let step = self.find_naked_single_in_cell(grid, row, col);
+        let step = self.find_naked_single_in_cell(row, col);
         if step.is_some() {
           return step
         }
@@ -21,7 +21,7 @@ impl Solver {
     None
   }
 
-  fn find_naked_single_in_cell(&self, grid: &Grid, row: usize, col: usize) -> Option<SolutionStep> {
+  fn find_naked_single_in_cell(&self, row: usize, col: usize) -> Option<SolutionStep> {
     let region_index = self.grid_to_region[row][col];
     let candidate_areas = [ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
 
@@ -36,7 +36,7 @@ impl Solver {
 
       for area_combination in area_combinations {
         let selected_areas = area_combination.iter().map(|index| &candidate_areas[*index]).collect();
-        let step = self.find_naked_single_in_cell_and_areas(grid, row, col, selected_areas);
+        let step = self.find_naked_single_in_cell_and_areas(row, col, selected_areas);
         if step.is_some() {
           return step
         }
@@ -46,10 +46,10 @@ impl Solver {
     None
   }
 
-  fn find_naked_single_in_cell_and_areas(&self, grid: &Grid, row: usize, col: usize, areas: Vec<&Area>) -> Option<SolutionStep> {
+  fn find_naked_single_in_cell_and_areas(&self, row: usize, col: usize, areas: Vec<&Area>) -> Option<SolutionStep> {
     let mut areas_set = HashSet::new();
     for area in &areas {
-      let area_set = self.compute_area_set(grid, area);
+      let area_set = self.compute_area_set(area);
       areas_set = areas_set.union(&area_set).cloned().collect();
     }
     if areas_set.len() == self.constraints.grid_size - 1 {

@@ -1,15 +1,15 @@
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Grid, Rule, Area};
+use crate::types::{SolutionStep, Rule, Area};
 
 impl Solver {
-  pub fn find_thermo_steps(&self, grid: &Grid) -> Option<SolutionStep> {
+  pub fn find_thermo_steps(&self) -> Option<SolutionStep> {
     for thermo_index in 0..self.constraints.thermos.len() {
-      let step = self.find_thermo_steps_for_thermo_min(grid, thermo_index);
+      let step = self.find_thermo_steps_for_thermo_min(thermo_index);
       if step.is_some() {
         return step
       }
 
-      let step = self.find_thermo_steps_for_thermo_max(grid, thermo_index);
+      let step = self.find_thermo_steps_for_thermo_max(thermo_index);
       if step.is_some() {
         return step
       }
@@ -18,16 +18,16 @@ impl Solver {
     None
   }
 
-  pub fn find_thermo_steps_for_thermo_min(&self, grid: &Grid, thermo_index: usize) -> Option<SolutionStep> {
+  pub fn find_thermo_steps_for_thermo_min(&self, thermo_index: usize) -> Option<SolutionStep> {
     let thermo = &self.constraints.thermos[thermo_index];
     let mut current_min = 0;
     for cell in thermo {
-      if grid[cell.row][cell.col] != 0 {
-        current_min = grid[cell.row][cell.col];
+      if self.grid[cell.row][cell.col] != 0 {
+        current_min = self.grid[cell.row][cell.col];
         continue
       }
 
-      let cell_candidates = self.compute_cell_candidates_set(grid, cell.row, cell.col);
+      let cell_candidates = self.compute_cell_candidates_set(cell.row, cell.col);
       current_min += 1;
 
       let valid_candidates: Vec<_> = cell_candidates.iter().filter(|val| **val >= current_min).collect();
@@ -50,16 +50,16 @@ impl Solver {
     None
   }
 
-  pub fn find_thermo_steps_for_thermo_max(&self, grid: &Grid, thermo_index: usize) -> Option<SolutionStep> {
+  pub fn find_thermo_steps_for_thermo_max(&self, thermo_index: usize) -> Option<SolutionStep> {
     let thermo = &self.constraints.thermos[thermo_index];
     let mut current_max = self.constraints.grid_size as u32 + 1;
     for cell in thermo.iter().rev() {
-      if grid[cell.row][cell.col] != 0 {
-        current_max = grid[cell.row][cell.col];
+      if self.grid[cell.row][cell.col] != 0 {
+        current_max = self.grid[cell.row][cell.col];
         continue
       }
 
-      let cell_candidates = self.compute_cell_candidates_set(grid, cell.row, cell.col);
+      let cell_candidates = self.compute_cell_candidates_set(cell.row, cell.col);
       current_max -= 1;
 
       let valid_candidates: Vec<_> = cell_candidates.iter().filter(|val| **val <= current_max).collect();

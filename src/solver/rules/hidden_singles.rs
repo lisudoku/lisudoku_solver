@@ -1,13 +1,13 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Grid, CellPosition, Rule, Area};
+use crate::types::{SolutionStep, CellPosition, Rule, Area};
 
 impl Solver {
-  pub fn find_hidden_singles(&self, grid: &Grid) -> Option<SolutionStep> {
+  pub fn find_hidden_singles(&self) -> Option<SolutionStep> {
     let mut candidates: Vec<Vec<HashSet<u32>>> = vec![ vec![ HashSet::new(); self.constraints.grid_size ]; self.constraints.grid_size ];
     for row in 0..self.constraints.grid_size {
       for col in 0..self.constraints.grid_size {
-        if grid[row][col] != 0 {
+        if self.grid[row][col] != 0 {
           continue
         }
 
@@ -16,32 +16,32 @@ impl Solver {
         }
 
         // eliminate values from row
-        let row_set = self.compute_row_values_set(&grid, row);
+        let row_set = self.compute_row_values_set(row);
         candidates[row][col] = candidates[row][col].difference(&row_set).cloned().collect();
 
         // col
-        let col_set = self.compute_col_values_set(&grid, col);
+        let col_set = self.compute_col_values_set(col);
         candidates[row][col] = candidates[row][col].difference(&col_set).cloned().collect();
 
         // region
         let region_index = self.grid_to_region[row][col];
-        let region_set = self.compute_region_values_set(&grid, region_index);
+        let region_set = self.compute_region_values_set(region_index);
         candidates[row][col] = candidates[row][col].difference(&region_set).cloned().collect();
       }
     }
 
     // Check regions
-    let hidden_single = self.find_hidden_single_region(&grid, &candidates);
+    let hidden_single = self.find_hidden_single_region(&candidates);
     if let Some((region_index, found_cell, value)) = hidden_single {
       let mut covered_cells = vec![ vec![ false; self.constraints.grid_size ]; self.constraints.grid_size ];
       let mut cells = vec![ CellPosition { row: found_cell.row, col: found_cell.col } ];
       let region = &self.constraints.regions[region_index];
       for cell in region {
-        if grid[cell.row][cell.col] == 0 && (cell.row != found_cell.row || cell.col != found_cell.col) && !covered_cells[cell.row][cell.col] {
+        if self.grid[cell.row][cell.col] == 0 && (cell.row != found_cell.row || cell.col != found_cell.col) && !covered_cells[cell.row][cell.col] {
           // search for rows
           let mut found_row: Option<usize> = None;
           for row in 0..self.constraints.grid_size {
-            if grid[row][cell.col] == value {
+            if self.grid[row][cell.col] == value {
               found_row = Some(row);
               break
             }
@@ -58,7 +58,7 @@ impl Solver {
           // search for cols
           let mut found_col: Option<usize> = None;
           for col in 0..self.constraints.grid_size {
-            if grid[cell.row][col] == value {
+            if self.grid[cell.row][col] == value {
               found_col = Some(col);
               break
             }
@@ -90,13 +90,13 @@ impl Solver {
     None
   }
 
-  fn find_hidden_single_region(&self, grid: &Grid, candidates: &Vec<Vec<HashSet<u32>>>) -> Option<(usize, CellPosition, u32)> {
+  fn find_hidden_single_region(&self, candidates: &Vec<Vec<HashSet<u32>>>) -> Option<(usize, CellPosition, u32)> {
     for (index, region) in self.constraints.regions.iter().enumerate() {
       for value in 1..self.constraints.grid_size as u32 + 1 {
         let mut count = 0;
         let mut pos: Option<&CellPosition> = None;
         for cell in region {
-          if grid[cell.row][cell.col] != 0 {
+          if self.grid[cell.row][cell.col] != 0 {
             continue
           }
           if candidates[cell.row][cell.col].contains(&value) {

@@ -21,7 +21,7 @@ pub fn wasm_check_solved(js_constraints: JsValue, js_grid: JsValue) -> JsValue {
 pub fn wasm_intuitive_solve(js_constraints: JsValue) -> JsValue {
   panic::set_hook(Box::new(console_error_panic_hook::hook));
   let constraints: types::SudokuConstraints = js_constraints.into_serde().unwrap();
-  let solver = solver::Solver::new(constraints, None);
+  let mut solver = solver::Solver::new(constraints, None);
   let result = solver.intuitive_solve();
   JsValue::from_serde(&result).unwrap()
 }

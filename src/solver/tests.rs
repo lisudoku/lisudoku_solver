@@ -45,7 +45,7 @@ fn check_6x6_thermo_solve() {
       CellPosition { row: 1, col: 2 },
     ],
   ];
-  let solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None);
   let solution = solver.intuitive_solve();
   assert_eq!(solution.solution_count, 1);
   assert_eq!(solution.solution, vec![
@@ -157,7 +157,7 @@ fn check_4x4_solve() {
   ];
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None);
   let solution = solver.intuitive_solve();
   assert_eq!(solution.solution_count, 1);
   assert_eq!(solution.solution, vec![
@@ -190,7 +190,7 @@ fn check_6x6_solve() {
   ];
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None);
   let solution = solver.intuitive_solve();
   assert_eq!(solution.solution_count, 1);
   assert_eq!(solution.solution, vec![
@@ -245,7 +245,7 @@ fn check_9x9_solve() {
   ];
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None);
   let solution = solver.intuitive_solve();
   assert_eq!(solution.solution_count, 1);
   assert_eq!(solution.solution, vec![
