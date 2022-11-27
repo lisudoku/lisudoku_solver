@@ -93,7 +93,7 @@ impl Solver {
           let value = *candidates[row][col].iter().next().unwrap();
           return Some(
             SolutionStep {
-              rule: Rule::ObviousSingle,
+              rule: Rule::NakedSingle,
               cells: vec![ CellPosition { row, col } ],
               values: vec![ value ],
               areas: vec![], // ?????????

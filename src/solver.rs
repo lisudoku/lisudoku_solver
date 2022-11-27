@@ -60,7 +60,7 @@ impl Solver {
   }
 
   fn find_step_raw(&self, grid: &Grid) -> Option<SolutionStep> {
-    let step = self.find_obvious_singles(grid);
+    let step = self.find_naked_singles(grid);
     if step.is_some() {
       return step
     }

@@ -47,7 +47,7 @@ pub struct SolutionStep {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum Rule {
-  ObviousSingle, // 1 Cell Position, 1 value + who it is constrained by
+  NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   PointingPairs, // 2 CellPositions + what they affect
