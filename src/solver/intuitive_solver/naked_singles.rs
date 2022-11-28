@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
 use combinations::Combinations;
@@ -47,14 +46,13 @@ impl Solver {
   }
 
   fn find_naked_single_in_cell_and_areas(&self, row: usize, col: usize, areas: Vec<&Area>) -> Option<SolutionStep> {
-    let mut areas_set = HashSet::new();
+    let mut areas_set = self.compute_all_candidates();
     for area in &areas {
-      let area_set = self.compute_area_set(area);
-      areas_set = areas_set.union(&area_set).cloned().collect();
+      let area_set = self.compute_area_cell_candidates(area, row, col);
+      areas_set = areas_set.intersection(&area_set).cloned().collect();
     }
-    if areas_set.len() == self.constraints.grid_size - 1 {
-      let all_candidates = self.compute_all_candidates();
-      let value = *all_candidates.difference(&areas_set).next().unwrap();
+    if areas_set.len() == 1 {
+      let value = *areas_set.iter().next().unwrap();
       return Some(
         SolutionStep {
           rule: Rule::NakedSingle,

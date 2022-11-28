@@ -7,26 +7,9 @@ impl Solver {
     let mut candidates: Vec<Vec<HashSet<u32>>> = vec![ vec![ HashSet::new(); self.constraints.grid_size ]; self.constraints.grid_size ];
     for row in 0..self.constraints.grid_size {
       for col in 0..self.constraints.grid_size {
-        if self.grid[row][col] != 0 {
-          continue
+        if self.grid[row][col] == 0 {
+          candidates[row][col] = self.compute_cell_candidates(row, col);
         }
-
-        for value in 1..self.constraints.grid_size+1 {
-          candidates[row][col].insert(value as u32);
-        }
-
-        // eliminate values from row
-        let row_set = self.compute_row_values_set(row);
-        candidates[row][col] = candidates[row][col].difference(&row_set).cloned().collect();
-
-        // col
-        let col_set = self.compute_col_values_set(col);
-        candidates[row][col] = candidates[row][col].difference(&col_set).cloned().collect();
-
-        // region
-        let region_index = self.grid_to_region[row][col];
-        let region_set = self.compute_region_values_set(region_index);
-        candidates[row][col] = candidates[row][col].difference(&region_set).cloned().collect();
       }
     }
 

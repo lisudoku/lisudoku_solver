@@ -27,7 +27,7 @@ impl Solver {
         continue
       }
 
-      let cell_candidates = self.compute_cell_candidates_set(cell.row, cell.col);
+      let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
       current_min += 1;
 
       let valid_candidates: Vec<_> = cell_candidates.iter().filter(|val| **val >= current_min).collect();
@@ -41,6 +41,9 @@ impl Solver {
             affected_cells: vec![],
           }
         )
+      }
+      if valid_candidates.is_empty() {
+        return None
       }
 
       let lowest_candidate = **valid_candidates.iter().min().unwrap();
@@ -59,7 +62,7 @@ impl Solver {
         continue
       }
 
-      let cell_candidates = self.compute_cell_candidates_set(cell.row, cell.col);
+      let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
       current_max -= 1;
 
       let valid_candidates: Vec<_> = cell_candidates.iter().filter(|val| **val <= current_max).collect();
@@ -73,6 +76,9 @@ impl Solver {
             affected_cells: vec![],
           }
         )
+      }
+      if valid_candidates.is_empty() {
+        return None
       }
 
       let highest_candidate = **valid_candidates.iter().max().unwrap();

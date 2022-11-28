@@ -30,10 +30,16 @@ pub struct SudokuGrid {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct SudokuSolveResult {
+pub struct SudokuIntuitiveSolveResult {
   pub solution_count: u32,
   pub solution: Grid,
   pub steps: Vec<SolutionStep>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SudokuBruteSolveResult {
+  pub solution_count: u32,
+  pub solution: Option<Grid>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
