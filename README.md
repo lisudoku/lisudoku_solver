@@ -2,7 +2,7 @@
 
 ## Build
 
-`wasm-pack build --target bundler `
+`wasm-pack build --target bundler`
 
 ## Running tests
 
