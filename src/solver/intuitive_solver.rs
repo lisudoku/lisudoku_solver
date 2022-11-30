@@ -11,12 +11,19 @@ impl Solver {
 
     println!("{}", empty_cell_count);
 
-    let mut solution_count = 1;
+    let mut full_solution = true;
+    let mut no_solution = false;
     let mut steps: Vec<SolutionStep> = vec![];
     while empty_cell_count > 0 {
+      if self.is_cell_with_no_candidates() {
+        full_solution = false;
+        no_solution = true;
+        break;
+      }
+
       let step = self.find_step_raw();
       if step.is_none() {
-        solution_count = 0;
+        full_solution = false;
         break
       }
 
@@ -28,13 +35,14 @@ impl Solver {
       self.grid[row][col] = value;
       empty_cell_count -= 1;
 
-      println!("{} {} {}", row, col, value);
+      println!("{} {} {} {:?}", row, col, value, step.rule);
 
       steps.push(step);
     }
 
     let res = SudokuIntuitiveSolveResult {
-      solution_count,
+      full_solution,
+      no_solution,
       solution: self.grid.to_vec(),
       steps,
     };
@@ -60,5 +68,20 @@ impl Solver {
     // TODO: implement other rules
 
     None
+  }
+
+  fn is_cell_with_no_candidates(&self) -> bool {
+    for row in 0..self.constraints.grid_size {
+      for col in 0..self.constraints.grid_size {
+        if self.grid[row][col] == 0 {
+          let cell_candidates = self.compute_cell_candidates(row, col);
+          if cell_candidates.is_empty() {
+            return true
+          }
+        }
+      }
+    }
+
+    false
   }
 }

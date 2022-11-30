@@ -31,7 +31,8 @@ pub struct SudokuGrid {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SudokuIntuitiveSolveResult {
-  pub solution_count: u32,
+  pub full_solution: bool,
+  pub no_solution: bool,
   pub solution: Grid,
   pub steps: Vec<SolutionStep>,
 }

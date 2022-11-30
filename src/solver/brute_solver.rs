@@ -5,16 +5,16 @@ use crate::types::{SudokuBruteSolveResult, Grid};
 impl Solver {
   pub fn brute_solve(&mut self, use_intuition: bool) -> SudokuBruteSolveResult {
     let mut solution_count = 0;
-    self.recursive_check(&mut solution_count, use_intuition);
+    self.recursive_check(&mut solution_count, use_intuition, 1);
 
     let res = SudokuBruteSolveResult {
       solution_count,
-      solution: Some(self.solution.as_ref().unwrap().to_vec()),
+      solution: if let Some(grid) = &self.solution { Some(grid.to_vec()) } else { None },
     };
     res
   }
 
-  pub fn recursive_check(&mut self, solution_count: &mut u32, use_intuition: bool) {
+  pub fn recursive_check(&mut self, solution_count: &mut u32, use_intuition: bool, depth: u32) {
     let mut best_row = usize::MAX;
     let mut best_col = usize::MAX;
     let mut best_candidates: HashSet<u32> = HashSet::new();
@@ -23,7 +23,10 @@ impl Solver {
     if use_intuition {
       original_grid = Some(self.grid.to_vec());
       let result = self.intuitive_solve();
-      self.grid = result.solution;
+      if result.no_solution {
+        self.grid = original_grid.unwrap();
+        return
+      }
     }
 
     for row in 0..self.constraints.grid_size {
@@ -42,18 +45,14 @@ impl Solver {
     if best_row == usize::MAX {
       self.solution = Some(self.grid.to_vec());
       *solution_count += 1;
-      if use_intuition {
-        self.grid = original_grid.unwrap();
-      }
-      return
-    }
-
-    for value in &best_candidates {
-      self.grid[best_row][best_col] = *value;
-      self.recursive_check(solution_count, use_intuition);
-      self.grid[best_row][best_col] = 0;
-      if *solution_count > 1 {
-        break
+    } else if !best_candidates.is_empty() {
+      for value in best_candidates.into_iter() {
+        self.grid[best_row][best_col] = value;
+        self.recursive_check(solution_count, use_intuition, depth + 1);
+        self.grid[best_row][best_col] = 0;
+        if *solution_count > 1 {
+          break
+        }
       }
     }
 

@@ -12,15 +12,15 @@ fn check_4x4_solve() {
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let solution = solver.intuitive_solve();
-  assert_eq!(solution.solution_count, 1);
-  assert_eq!(solution.solution, vec![
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
     vec![ 2, 1, 4, 3 ],
     vec![ 3, 4, 1, 2 ],
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  assert_eq!(solution.steps.len(), empty_cells);
+  assert_eq!(result.steps.len(), empty_cells);
 }
 
 #[test]
@@ -45,9 +45,9 @@ fn check_6x6_solve() {
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let solution = solver.intuitive_solve();
-  assert_eq!(solution.solution_count, 1);
-  assert_eq!(solution.solution, vec![
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
     vec![ 6, 2, 3, 1, 4, 5 ],
     vec![ 1, 4, 5, 3, 6, 2 ],
     vec![ 4, 1, 2, 5, 3, 6 ],
@@ -55,7 +55,7 @@ fn check_6x6_solve() {
     vec![ 3, 5, 4, 6, 2, 1 ],
     vec![ 2, 6, 1, 4, 5, 3 ],
   ]);
-  assert_eq!(solution.steps.len(), empty_cells);
+  assert_eq!(result.steps.len(), empty_cells);
 }
 
 #[test]
@@ -100,9 +100,9 @@ fn check_9x9_solve() {
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let solution = solver.intuitive_solve();
-  assert_eq!(solution.solution_count, 1);
-  assert_eq!(solution.solution, vec![
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
     vec![ 8, 6, 7, 5, 9, 1, 2, 3, 4 ],
     vec![ 4, 5, 2, 6, 3, 8, 9, 1, 7 ],
     vec![ 3, 9, 1, 7, 2, 4, 5, 6, 8 ],
@@ -113,7 +113,7 @@ fn check_9x9_solve() {
     vec![ 5, 8, 9, 2, 4, 3, 1, 7, 6 ],
     vec![ 6, 2, 4, 1, 7, 5, 8, 9, 3 ],
   ]);
-  assert_eq!(solution.steps.len(), empty_cells);
+  assert_eq!(result.steps.len(), empty_cells);
 }
 
 #[test]
@@ -162,9 +162,9 @@ fn check_6x6_thermo_solve() {
     ],
   ];
   let mut solver = Solver::new(constraints, None);
-  let solution = solver.intuitive_solve();
-  assert_eq!(solution.solution_count, 1);
-  assert_eq!(solution.solution, vec![
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
     vec![ 1, 2, 3, 4, 5, 6 ],
     vec![ 4, 5, 6, 3, 2, 1 ],
     vec![ 5, 6, 1, 2, 3, 4 ],
@@ -172,7 +172,7 @@ fn check_6x6_thermo_solve() {
     vec![ 3, 4, 5, 6, 1, 2 ],
     vec![ 6, 1, 2, 5, 4, 3 ],
   ]);
-  assert_eq!(solution.steps.len(), empty_cells);
+  assert_eq!(result.steps.len(), empty_cells);
 }
 
 // TODO: uncomment after implementing more rules
@@ -264,3 +264,29 @@ fn check_6x6_thermo_solve() {
 //   ]);
 //   assert_eq!(solution.steps.len(), empty_cells);
 // }
+
+#[test]
+fn check_9x9_thermo_no_solution() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(8, 1, 9),
+  ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.thermos = vec![
+    vec![
+      CellPosition { row: 0, col: 0 },
+      CellPosition { row: 1, col: 0 },
+      CellPosition { row: 2, col: 0 },
+      CellPosition { row: 3, col: 0 },
+      CellPosition { row: 4, col: 0 },
+      CellPosition { row: 5, col: 0 },
+      CellPosition { row: 6, col: 0 },
+      CellPosition { row: 7, col: 0 },
+      CellPosition { row: 8, col: 0 },
+    ],
+  ];
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, false);
+  assert_eq!(result.no_solution, true);
+}

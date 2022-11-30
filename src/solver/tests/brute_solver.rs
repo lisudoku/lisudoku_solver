@@ -22,6 +22,19 @@ fn check_4x4_solve() {
 }
 
 #[test]
+fn check_4x4_multiple_solutions() {
+  let grid_size = 4;
+  let fixed_numbers = vec![
+    FixedNumber::new(1, 1, 4),
+    FixedNumber::new(1, 3, 2),
+  ];
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.brute_solve(false);
+  assert_eq!(result.solution_count, 2);
+}
+
+#[test]
 fn check_6x6_solve() {
   let grid_size = 6;
   let fixed_numbers = vec![
@@ -240,6 +253,32 @@ fn check_9x9_thermo_solve() {
   ];
   let mut solver = Solver::new(constraints, None);
   let result = solver.brute_solve(true);
-  assert_eq!(result.solution_count, 2);
-  assert_eq!(result.solution.unwrap().len(), grid_size);
+  assert_eq!(result.solution_count, 1);
+  assert_eq!(result.solution.as_ref().unwrap().len(), grid_size);
+}
+
+#[test]
+fn check_9x9_thermo_no_solution() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(8, 1, 9),
+  ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.thermos = vec![
+    vec![
+      CellPosition { row: 0, col: 0 },
+      CellPosition { row: 1, col: 0 },
+      CellPosition { row: 2, col: 0 },
+      CellPosition { row: 3, col: 0 },
+      CellPosition { row: 4, col: 0 },
+      CellPosition { row: 5, col: 0 },
+      CellPosition { row: 6, col: 0 },
+      CellPosition { row: 7, col: 0 },
+      CellPosition { row: 8, col: 0 },
+    ],
+  ];
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.brute_solve(true);
+  assert_eq!(result.solution_count, 0);
+  assert_eq!(result.solution, None);
 }
