@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -14,10 +15,19 @@ pub struct FixedNumber {
   pub value: u32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CellPosition {
   pub row: usize,
   pub col: usize,
+}
+
+impl CellPosition {
+  pub fn new(row: usize, col: usize) -> CellPosition {
+    CellPosition {
+      row,
+      col,
+    }
+  }
 }
 
 pub type Region = Vec<CellPosition>;
@@ -50,21 +60,23 @@ pub struct SolutionStep {
   pub values: Vec<u32>,
   pub areas: Vec<Area>,
   pub affected_cells: Vec<CellPosition>,
+  pub candidates: Option<Vec<Vec<HashSet<u32>>>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum Rule {
   NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
+  Thermo,
+  Candidates,
+  LockedCandidates, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
-  PointingPairs, // 2 CellPositions + what they affect
   XWing, // 4 CellPositions
   YWing, // 4 CellPositions
   Swordfish, // ???
-  Thermo,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
 pub enum Area {
   Row(usize),
   Column(usize),

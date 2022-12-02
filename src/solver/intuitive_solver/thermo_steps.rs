@@ -30,15 +30,16 @@ impl Solver {
       let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
       current_min += 1;
 
-      let valid_candidates: Vec<_> = cell_candidates.iter().filter(|val| **val >= current_min).collect();
+      let valid_candidates: Vec<_> = cell_candidates.into_iter().filter(|val| *val >= current_min).collect();
       if valid_candidates.len() == 1 {
         return Some(
           SolutionStep {
             rule: Rule::Thermo,
             cells: vec![ *cell ],
-            values: vec![ *valid_candidates[0] ],
+            values: vec![ valid_candidates[0] ],
             areas: vec![ Area::Thermo(thermo_index) ],
             affected_cells: vec![],
+            candidates: None,
           }
         )
       }
@@ -46,7 +47,7 @@ impl Solver {
         return None
       }
 
-      let lowest_candidate = **valid_candidates.iter().min().unwrap();
+      let lowest_candidate = valid_candidates.into_iter().min().unwrap();
       current_min = std::cmp::max(current_min, lowest_candidate);
     }
 
@@ -65,15 +66,16 @@ impl Solver {
       let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
       current_max -= 1;
 
-      let valid_candidates: Vec<_> = cell_candidates.iter().filter(|val| **val <= current_max).collect();
+      let valid_candidates: Vec<_> = cell_candidates.into_iter().filter(|val| *val <= current_max).collect();
       if valid_candidates.len() == 1 {
         return Some(
           SolutionStep {
             rule: Rule::Thermo,
             cells: vec![ *cell ],
-            values: vec![ *valid_candidates[0] ],
+            values: vec![ valid_candidates[0] ],
             areas: vec![ Area::Thermo(thermo_index) ],
             affected_cells: vec![],
+            candidates: None,
           }
         )
       }
@@ -81,7 +83,7 @@ impl Solver {
         return None
       }
 
-      let highest_candidate = **valid_candidates.iter().max().unwrap();
+      let highest_candidate = *valid_candidates.iter().max().unwrap();
       current_max = std::cmp::min(current_max, highest_candidate);
     }
 

@@ -21,8 +21,11 @@ impl Solver {
   }
 
   fn find_naked_single_in_cell(&self, row: usize, col: usize) -> Option<SolutionStep> {
-    let region_index = self.grid_to_region[row][col];
-    let candidate_areas = [ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
+    if self.candidates_active {
+      return self.find_naked_single_with_candidates(row, col);
+    }
+
+    let candidate_areas = self.get_cell_areas(row, col, false);
 
     for area_count in 1..candidate_areas.len()+1 {
       let area_indexes: Vec<usize> = (0..candidate_areas.len()).collect();
@@ -48,7 +51,7 @@ impl Solver {
   fn find_naked_single_in_cell_and_areas(&self, row: usize, col: usize, areas: Vec<&Area>) -> Option<SolutionStep> {
     let mut areas_set = self.compute_all_candidates();
     for area in &areas {
-      let area_set = self.compute_area_cell_candidates(area, row, col);
+      let area_set = self.compute_area_cell_candidates(area, CellPosition { row, col });
       areas_set = areas_set.intersection(&area_set).cloned().collect();
     }
     if areas_set.len() == 1 {
@@ -60,10 +63,29 @@ impl Solver {
           values: vec![ value ],
           areas: areas.into_iter().map(|x| *x).collect(),
           affected_cells: vec![],
+          candidates: None,
         }
       )
     }
 
     None
+  }
+
+  fn find_naked_single_with_candidates(&self, row: usize, col: usize) -> Option<SolutionStep> {
+    if self.candidates[row][col].len() != 1 {
+      return None
+    }
+
+    let value = *self.candidates[row][col].iter().next().unwrap();
+    Some(
+      SolutionStep {
+        rule: Rule::NakedSingle,
+        cells: vec![ CellPosition { row, col } ],
+        values: vec![ value ],
+        areas: vec![],
+        affected_cells: vec![],
+        candidates: None,
+      }
+    )
   }
 }

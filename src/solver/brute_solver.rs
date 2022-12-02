@@ -22,6 +22,9 @@ impl Solver {
     let mut original_grid: Option<Grid> = None;
     if use_intuition {
       original_grid = Some(self.grid.to_vec());
+      // No need to store candidates, we will recompute
+      // Storing would complicate things and we need to do it for each candidate at each depth
+      self.candidates_active = false;
       let result = self.intuitive_solve();
       if result.no_solution {
         self.grid = original_grid.unwrap();

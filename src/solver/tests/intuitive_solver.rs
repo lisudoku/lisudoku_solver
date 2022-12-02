@@ -1,5 +1,9 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solver};
 
+mod locked_candidates;
+mod naked_singles;
+mod grid_steps;
+
 #[test]
 fn check_4x4_solve() {
   let grid_size = 4;
@@ -59,7 +63,7 @@ fn check_6x6_solve() {
 }
 
 #[test]
-fn check_9x9_solve() {
+fn check_9x9_easy_solve() {
   let grid_size = 9;
   let fixed_numbers = vec![
     FixedNumber::new(0, 0, 8),
@@ -114,6 +118,58 @@ fn check_9x9_solve() {
     vec![ 6, 2, 4, 1, 7, 5, 8, 9, 3 ],
   ]);
   assert_eq!(result.steps.len(), empty_cells);
+}
+
+#[test]
+fn check_9x9_medium_solve() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 1, 1),
+    FixedNumber::new(0, 2, 4),
+    FixedNumber::new(1, 4, 6),
+    FixedNumber::new(1, 5, 5),
+    FixedNumber::new(2, 3, 9),
+    FixedNumber::new(2, 4, 2),
+    FixedNumber::new(2, 6, 1),
+    FixedNumber::new(2, 7, 5),
+    FixedNumber::new(3, 1, 5),
+    FixedNumber::new(3, 4, 3),
+    FixedNumber::new(3, 6, 4),
+    FixedNumber::new(3, 7, 6),
+    FixedNumber::new(4, 2, 3),
+    FixedNumber::new(4, 4, 4),
+    FixedNumber::new(5, 2, 2),
+    FixedNumber::new(5, 3, 6),
+    FixedNumber::new(5, 5, 1),
+    FixedNumber::new(5, 6, 7),
+    FixedNumber::new(5, 8, 5),
+    FixedNumber::new(6, 1, 7),
+    FixedNumber::new(6, 6, 5),
+    FixedNumber::new(6, 7, 1),
+    FixedNumber::new(6, 8, 3),
+    FixedNumber::new(7, 0, 1),
+    FixedNumber::new(7, 7, 9),
+    FixedNumber::new(8, 3, 3),
+    FixedNumber::new(8, 5, 6),
+    FixedNumber::new(8, 7, 7),
+  ];
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
+    vec![ 5, 1, 4, 8, 7, 3, 9, 2, 6 ],
+    vec![ 8, 2, 9, 1, 6, 5, 3, 4, 7 ],
+    vec![ 3, 6, 7, 9, 2, 4, 1, 5, 8 ],
+    vec![ 7, 5, 1, 2, 3, 8, 4, 6, 9 ],
+    vec![ 6, 9, 3, 5, 4, 7, 2, 8, 1 ],
+    vec![ 4, 8, 2, 6, 9, 1, 7, 3, 5 ],
+    vec![ 2, 7, 6, 4, 8, 9, 5, 1, 3 ],
+    vec![ 1, 3, 8, 7, 5, 2, 6, 9, 4 ],
+    vec![ 9, 4, 5, 3, 1, 6, 8, 7, 2 ],
+  ]);
+  assert!(result.steps.len() >= empty_cells);
 }
 
 #[test]

@@ -64,11 +64,12 @@ impl Solver {
           values: vec![ value ],
           areas: vec![ Area::Region(region_index) ],
           affected_cells: vec![],
+          candidates: None,
         }
       )
     }
 
-    // TODO: check other types of hidden singles
+    // TODO: check hidden singles on rows, cols
 
     None
   }
