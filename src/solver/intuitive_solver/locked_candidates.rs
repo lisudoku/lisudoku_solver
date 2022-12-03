@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
 
@@ -10,16 +9,7 @@ impl Solver {
 
     let areas = self.get_all_areas();
     for area in areas {
-      let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
-      for cell in self.get_area_cells(&area) {
-        if self.grid[cell.row][cell.col] != 0 {
-          continue
-        }
-        for value in &self.candidates[cell.row][cell.col] {
-          let entry = value_cells.entry(*value).or_insert(vec![]);
-          entry.push(cell);
-        }
-      }
+      let value_cells = self.compute_cells_by_value_in_area(&area, &self.candidates);
 
       for (value, cells) in value_cells {
         // TODO: also check for triples

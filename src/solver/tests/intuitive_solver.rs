@@ -3,6 +3,7 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solve
 mod locked_candidates;
 mod naked_singles;
 mod grid_steps;
+mod hidden_singles;
 
 #[test]
 fn check_4x4_solve() {

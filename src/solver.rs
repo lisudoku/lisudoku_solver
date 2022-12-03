@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
 use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition};
 
@@ -186,6 +186,10 @@ impl Solver {
     }
   }
 
+  fn get_empty_area_cells(&self, area: &Area) -> Vec<CellPosition> {
+    self.get_area_cells(area).into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).collect()
+  }
+
   fn get_row_cells(&self, row: usize) -> Vec<CellPosition> {
     (0..self.constraints.grid_size).map(|col| CellPosition::new(row, col)).collect()
   }
@@ -205,11 +209,21 @@ impl Solver {
   }
 
   fn get_area_cells_with_candidate(&self, area: &Area, value: u32) -> Vec<CellPosition> {
-    self.get_area_cells(area)
+    self.get_empty_area_cells(area)
         .into_iter()
-        .filter(|cell| self.grid[cell.row][cell.col] == 0 &&
-                       self.compute_cell_candidates(cell.row, cell.col).contains(&value))
+        .filter(|cell| self.compute_cell_candidates(cell.row, cell.col).contains(&value))
         .collect()
+  }
+
+  fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<HashSet<u32>>>) -> HashMap<u32, Vec<CellPosition>> {
+    let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
+    for cell in self.get_empty_area_cells(area) {
+      for value in &candidates[cell.row][cell.col] {
+        let entry = value_cells.entry(*value).or_insert(vec![]);
+        entry.push(cell);
+      }
+    }
+    value_cells
   }
 }
 
