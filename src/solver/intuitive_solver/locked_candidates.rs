@@ -1,5 +1,5 @@
 use crate::solver::Solver;
-use crate::types::{SolutionStep, CellPosition, Rule, Area};
+use crate::types::{SolutionStep, CellPosition, Rule};
 
 impl Solver {
   pub fn find_locked_candidates(&self) -> Option<SolutionStep> {    
@@ -17,7 +17,7 @@ impl Solver {
           continue
         }
 
-        let other_area = self.find_common_area_except(cells[0], cells[1], area);
+        let other_area = self.find_common_area_except(&cells, area);
         if other_area.is_none() {
           continue
         }
@@ -43,28 +43,5 @@ impl Solver {
     }
 
     return None
-  }
-
-  fn find_common_area_except(&self, cell1: CellPosition, cell2: CellPosition, area_exception: Area) -> Option<Area> {
-    let areas = self.find_common_areas(cell1, cell2);
-    let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
-    assert!(other_areas.len() <= 1);
-    other_areas.get(0).copied()
-  }
-
-  fn find_common_areas(&self, cell1: CellPosition, cell2: CellPosition) -> Vec<Area> {
-    let mut areas = vec![];
-    if cell1.row == cell2.row {
-      areas.push(Area::Row(cell1.row));
-    }
-    if cell1.col == cell2.col {
-      areas.push(Area::Column(cell1.col));
-    }
-    let region1 = self.grid_to_region[cell1.row][cell1.col];
-    let region2 = self.grid_to_region[cell2.row][cell2.col];
-    if region1 == region2 {
-      areas.push(Area::Region(region1));
-    }
-    areas
   }
 }

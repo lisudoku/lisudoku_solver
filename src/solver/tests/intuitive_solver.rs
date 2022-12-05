@@ -4,6 +4,8 @@ mod locked_candidates;
 mod naked_singles;
 mod grid_steps;
 mod hidden_singles;
+mod naked_pairs;
+mod naked_triples;
 
 #[test]
 fn check_4x4_solve() {
@@ -169,6 +171,53 @@ fn check_9x9_medium_solve() {
     vec![ 2, 7, 6, 4, 8, 9, 5, 1, 3 ],
     vec![ 1, 3, 8, 7, 5, 2, 6, 9, 4 ],
     vec![ 9, 4, 5, 3, 1, 6, 8, 7, 2 ],
+  ]);
+  assert!(result.steps.len() >= empty_cells);
+}
+
+#[test]
+fn check_9x9_hard_solve() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 0, 8),
+    FixedNumber::new(0, 1, 7),
+    FixedNumber::new(1, 3, 9),
+    FixedNumber::new(1, 8, 4),
+    FixedNumber::new(2, 1, 2),
+    FixedNumber::new(2, 3, 7),
+    FixedNumber::new(2, 6, 1),
+    FixedNumber::new(2, 8, 5),
+    FixedNumber::new(3, 2, 9),
+    FixedNumber::new(3, 3, 6),
+    FixedNumber::new(3, 7, 3),
+    FixedNumber::new(4, 8, 9),
+    FixedNumber::new(5, 2, 6),
+    FixedNumber::new(5, 3, 5),
+    FixedNumber::new(5, 4, 4),
+    FixedNumber::new(6, 0, 6),
+    FixedNumber::new(6, 1, 9),
+    FixedNumber::new(6, 6, 7),
+    FixedNumber::new(7, 0, 2),
+    FixedNumber::new(7, 5, 7),
+    FixedNumber::new(7, 6, 4),
+    FixedNumber::new(8, 3, 3),
+    FixedNumber::new(8, 7, 1),
+  ];
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
+    vec![ 8, 7, 3, 4, 1, 5, 9, 6, 2 ],
+    vec![ 1, 6, 5, 9, 2, 8, 3, 7, 4 ],
+    vec![ 9, 2, 4, 7, 6, 3, 1, 8, 5 ],
+    vec![ 4, 8, 9, 6, 7, 2, 5, 3, 1 ],
+    vec![ 7, 5, 2, 8, 3, 1, 6, 4, 9 ],
+    vec![ 3, 1, 6, 5, 4, 9, 8, 2, 7 ],
+    vec![ 6, 9, 1, 2, 8, 4, 7, 5, 3 ],
+    vec![ 2, 3, 8, 1, 5, 7, 4, 9, 6 ],
+    vec![ 5, 4, 7, 3, 9, 6, 2, 1, 8 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
 }

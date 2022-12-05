@@ -15,7 +15,7 @@ pub struct FixedNumber {
   pub value: u32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct CellPosition {
   pub row: usize,
   pub col: usize,
@@ -71,6 +71,7 @@ pub enum Rule {
   Candidates,
   LockedCandidates, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
+  NakedTriples, // 2 Cell Positions, 2 values + what they affect
   XWing, // 4 CellPositions
   YWing, // 4 CellPositions
   Swordfish, // ???

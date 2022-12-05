@@ -209,9 +209,13 @@ impl Solver {
   }
 
   fn get_area_cells_with_candidate(&self, area: &Area, value: u32) -> Vec<CellPosition> {
+    self.get_area_cells_with_candidates(area, &HashSet::from([ value ]))
+  }
+
+  fn get_area_cells_with_candidates(&self, area: &Area, values: &HashSet<u32>) -> Vec<CellPosition> {
     self.get_empty_area_cells(area)
         .into_iter()
-        .filter(|cell| self.compute_cell_candidates(cell.row, cell.col).contains(&value))
+        .filter(|cell| !self.compute_cell_candidates(cell.row, cell.col).is_disjoint(values))
         .collect()
   }
 

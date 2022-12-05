@@ -1,4 +1,5 @@
-use crate::types::{SudokuIntuitiveSolveResult, CellPosition, SolutionStep, Rule};
+use std::collections::HashSet;
+use crate::types::{SudokuIntuitiveSolveResult, CellPosition, SolutionStep, Rule, Area};
 use crate::solver::Solver;
 use itertools::Itertools;
 
@@ -7,6 +8,7 @@ mod hidden_singles;
 mod thermo_steps;
 mod candidates;
 mod locked_candidates;
+mod naked_set;
 
 impl Solver {
   pub fn intuitive_solve(&mut self) -> SudokuIntuitiveSolveResult {
@@ -34,7 +36,7 @@ impl Solver {
 
       self.apply_rule(&mut step);
 
-      if ![ Rule::Candidates, Rule::LockedCandidates, Rule::NakedPairs ].contains(&step.rule) {
+      if [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&step.rule) {
         empty_cell_count -= 1;
       }
 
@@ -77,9 +79,10 @@ impl Solver {
 
     if let Some(mut_step) = &mut step {
       if self.candidates_active {
-        let CellPosition { row, col } = mut_step.cells[0];
+        let cell = mut_step.cells[0];
         let value = mut_step.values[0];
-        mut_step.affected_cells = self.get_affected_cells(row, col, value);
+        let values_set = &HashSet::from([value]);
+        mut_step.affected_cells = self.get_affected_by_cell(&cell, values_set);
       }
       return step
     }
@@ -98,10 +101,15 @@ impl Solver {
       return step
     }
 
-    // let step = self.find_naked_pairs();
-    // if step.is_some() {
-    //   return step
-    // }
+    let step = self.find_naked_pairs();
+    if step.is_some() {
+      return step
+    }
+
+    let step = self.find_naked_triples();
+    if step.is_some() {
+      return step
+    }
 
     // TODO: implement other rules
 
@@ -110,23 +118,7 @@ impl Solver {
 
   pub fn apply_rule(&mut self, step: &mut SolutionStep) {
     match &step.rule {
-      Rule::Candidates => {
-        self.candidates_active = true;
-        self.candidates = step.candidates.as_ref().unwrap().to_vec();
-        println!("{:?}", step.rule);
-      }
-      Rule::LockedCandidates => {
-        let value = step.values[0];
-        let cell1 = step.cells[0];
-        let cell2 = step.cells[1];
-        print!("{:?} ({},{}) ({},{}) {}: ", step.rule, cell1.row, cell1.col, cell2.row, cell2.col, value);
-        for CellPosition { row, col } in step.affected_cells.iter().cloned() {
-          self.candidates[row][col].remove(&value);
-          print!("({},{}) ", row, col);
-        }
-        println!();
-      }
-      _ => {
+      Rule::NakedSingle | Rule::HiddenSingle | Rule::Thermo => {
         let CellPosition { row, col } = step.cells[0];
         let value = step.values[0];
 
@@ -137,6 +129,25 @@ impl Solver {
         }
 
         println!("{} {} {} {:?}", row, col, value, step.rule);
+      }
+      Rule::Candidates => {
+        self.candidates_active = true;
+        self.candidates = step.candidates.as_ref().unwrap().to_vec();
+        println!("{:?}", step.rule);
+      }
+      _ => {
+        println!(
+          "{:?} ({}) ({}): {}",
+          step.rule,
+          step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
+          step.values.iter().map(|x| format!("{}", x)).join(", "),
+          step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
+        );
+        for &CellPosition { row, col } in &step.affected_cells {
+          for value in &step.values {
+            self.candidates[row][col].remove(value);
+          }
+        }
       }
     }
   }
@@ -156,13 +167,19 @@ impl Solver {
     false
   }
 
-  fn get_affected_cells(&self, row: usize, col: usize, value: u32) -> Vec<CellPosition> {
-    self.get_cell_areas(row, col, true)
+  fn get_affected_by_cell(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
+    self.get_cell_areas(cell.row, cell.col, true)
         .iter()
-        .flat_map(|area| self.get_area_cells_with_candidate(area, value))
-        .filter(|cell| (cell.row != row || cell.col != col) &&
-                       self.grid[cell.row][cell.col] == 0)
+        .flat_map(|area| self.get_area_cells_with_candidates(area, values))
+        .filter(|other_cell| other_cell != cell)
         .unique()
+        .collect()
+  }
+
+  fn get_affected_by_area_cells(&self, area: &Area, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    self.get_area_cells_with_candidates(area, values)
+        .into_iter()
+        .filter(|cell| !cells.contains(cell))
         .collect()
   }
 
@@ -172,7 +189,7 @@ impl Solver {
       self.candidates[cell.row][cell.col] = self.recompute_cell_candidates(cell.row, cell.col);
     }
   }
-  
+
   fn compute_empty_cell_count(&self) -> usize {
     self.grid
         .iter()
@@ -180,5 +197,36 @@ impl Solver {
                       .map(|cell| if *cell == 0 { 1 } else { 0 })
                       .sum::<usize>())
         .sum()
+  }
+
+  fn find_common_area_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Option<Area> {
+    let areas = self.find_common_areas(cells);
+    let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
+    assert!(other_areas.len() <= 1);
+    other_areas.get(0).copied()
+  }
+
+  fn find_common_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
+    assert!(cells.len() >= 2);
+
+    let cell1 = cells[0];
+
+    let mut areas = vec![];
+    if cells.iter().map(|cell| cell.row).all_equal() {
+      areas.push(Area::Row(cell1.row));
+    }
+    if cells.iter().map(|cell| cell.col).all_equal() {
+      areas.push(Area::Column(cell1.col));
+    }
+    if cells.iter().map(|cell| self.grid_to_region[cell.row][cell.col]).all_equal() {
+      let region_index = self.grid_to_region[cell1.row][cell1.col];
+      areas.push(Area::Region(region_index));
+    }
+
+    areas
+  }
+
+  fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> bool {
+    cells.iter().any(|cell| !self.candidates[cell.row][cell.col].is_disjoint(&values))
   }
 }
