@@ -11,7 +11,7 @@ fn check_4x4_solve() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let result = solver.brute_solve(false);
+  let result = solver.brute_solve(true);
   assert_eq!(result.solution_count, 1);
   assert_eq!(result.solution.unwrap(), vec![
     vec![ 2, 1, 4, 3 ],
@@ -30,7 +30,7 @@ fn check_4x4_multiple_solutions() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let result = solver.brute_solve(false);
+  let result = solver.brute_solve(true);
   assert_eq!(result.solution_count, 2);
 }
 
@@ -55,7 +55,7 @@ fn check_6x6_solve() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let result = solver.brute_solve(false);
+  let result = solver.brute_solve(true);
   assert_eq!(result.solution_count, 1);
   assert_eq!(result.solution.unwrap(), vec![
     vec![ 6, 2, 3, 1, 4, 5 ],
@@ -108,9 +108,9 @@ fn check_9x9_easy_solve() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  let solution = solver.brute_solve(false);
-  assert_eq!(solution.solution_count, 1);
-  assert_eq!(solution.solution.unwrap(), vec![
+  let result = solver.brute_solve(true);
+  assert_eq!(result.solution_count, 1);
+  assert_eq!(result.solution.unwrap(), vec![
     vec![ 8, 6, 7, 5, 9, 1, 2, 3, 4 ],
     vec![ 4, 5, 2, 6, 3, 8, 9, 1, 7 ],
     vec![ 3, 9, 1, 7, 2, 4, 5, 6, 8 ],
@@ -168,7 +168,7 @@ fn check_6x6_thermo_solve() {
     ],
   ];
   let mut solver = Solver::new(constraints, None);
-  let result = solver.brute_solve(false);
+  let result = solver.brute_solve(true);
   assert_eq!(result.solution_count, 1);
   assert_eq!(result.solution.unwrap(), vec![
     vec![ 1, 2, 3, 4, 5, 6 ],

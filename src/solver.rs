@@ -98,6 +98,7 @@ impl Solver {
     set
   }
 
+  // This could be made more intelligent, but we leave the tricks to intuitive_solver
   fn compute_thermo_cell_candidates(&self, thermo_index: usize, area_cell: CellPosition) -> HashSet<u32> {
     let thermo = &self.constraints.thermos[thermo_index];
 
@@ -136,7 +137,8 @@ impl Solver {
   }
 
   fn recompute_cell_candidates(&self, row: usize, col: usize) -> HashSet<u32> {
-    let areas = self.get_cell_areas(row, col, true);
+    // Note: we don't restrict thermo candidates at this level
+    let areas = self.get_cell_areas(row, col, false);
     let mut candidates = self.compute_all_candidates();
     for area in &areas {
       let area_set = self.compute_area_cell_candidates(area, CellPosition { row, col });

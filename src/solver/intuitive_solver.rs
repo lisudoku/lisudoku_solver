@@ -9,6 +9,7 @@ mod thermo_steps;
 mod candidates;
 mod locked_candidates;
 mod naked_set;
+mod thermo_candidates;
 
 impl Solver {
   pub fn intuitive_solve(&mut self) -> SudokuIntuitiveSolveResult {
@@ -53,6 +54,12 @@ impl Solver {
   }
 
   fn find_next_step(&self) -> Option<SolutionStep> {
+    // This type of rule must be 1st to make sure all candidates are valid
+    let step = self.find_thermo_candidate_updates();
+    if step.is_some() {
+      return step
+    }
+
     let step = self.find_grid_step();
     if step.is_some() {
       return step
@@ -116,7 +123,15 @@ impl Solver {
     None
   }
 
-  pub fn apply_rule(&mut self, step: &mut SolutionStep) {
+  pub fn apply_rule(&mut self, step: &SolutionStep) {
+    println!(
+      "{:?} {} ({}) ({}): {}",
+      step.rule,
+      step.areas.iter().map(|x| format!("{:?}", x)).join(", "),
+      step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
+      step.values.iter().map(|x| format!("{}", x)).join(", "),
+      step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
+    );
     match &step.rule {
       Rule::NakedSingle | Rule::HiddenSingle | Rule::Thermo => {
         let CellPosition { row, col } = step.cells[0];
@@ -125,24 +140,15 @@ impl Solver {
         self.grid[row][col] = value;
 
         if self.candidates_active {
+          self.candidates[row][col].clear();
           self.update_candidates(&step.affected_cells, value);
         }
-
-        println!("{} {} {} {:?}", row, col, value, step.rule);
       }
       Rule::Candidates => {
         self.candidates_active = true;
         self.candidates = step.candidates.as_ref().unwrap().to_vec();
-        println!("{:?}", step.rule);
       }
       _ => {
-        println!(
-          "{:?} ({}) ({}): {}",
-          step.rule,
-          step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
-          step.values.iter().map(|x| format!("{}", x)).join(", "),
-          step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
-        );
         for &CellPosition { row, col } in &step.affected_cells {
           for value in &step.values {
             self.candidates[row][col].remove(value);
@@ -167,8 +173,10 @@ impl Solver {
     false
   }
 
+  // This method is used after placing a digit into the grid
   fn get_affected_by_cell(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.get_cell_areas(cell.row, cell.col, true)
+    // Note: we ignore thermos here, there is a separate rule for updating them
+    self.get_cell_areas(cell.row, cell.col, false)
         .iter()
         .flat_map(|area| self.get_area_cells_with_candidates(area, values))
         .filter(|other_cell| other_cell != cell)

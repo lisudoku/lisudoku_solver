@@ -6,6 +6,8 @@ mod grid_steps;
 mod hidden_singles;
 mod naked_pairs;
 mod naked_triples;
+mod thermo_steps;
+mod thermo_candidates;
 
 #[test]
 fn check_4x4_solve() {
@@ -176,7 +178,7 @@ fn check_9x9_medium_solve() {
 }
 
 #[test]
-fn check_9x9_hard_solve() {
+fn check_9x9_hard_naked_triples_solve() {
   let grid_size = 9;
   let fixed_numbers = vec![
     FixedNumber::new(0, 0, 8),
@@ -221,6 +223,54 @@ fn check_9x9_hard_solve() {
   ]);
   assert!(result.steps.len() >= empty_cells);
 }
+
+// TODO: implement XY-Wing
+// #[test]
+// fn check_9x9_hard_xy_wing_solve() {
+//   let grid_size = 9;
+//   let fixed_numbers = vec![
+//     FixedNumber::new(0, 2, 1),
+//     FixedNumber::new(0, 6, 9),
+//     FixedNumber::new(1, 1, 7),
+//     FixedNumber::new(1, 5, 8),
+//     FixedNumber::new(1, 6, 4),
+//     FixedNumber::new(1, 7, 3),
+//     FixedNumber::new(2, 0, 8),
+//     FixedNumber::new(2, 3, 6),
+//     FixedNumber::new(3, 2, 2),
+//     FixedNumber::new(3, 4, 1),
+//     FixedNumber::new(4, 1, 4),
+//     FixedNumber::new(4, 5, 6),
+//     FixedNumber::new(4, 6, 8),
+//     FixedNumber::new(4, 7, 7),
+//     FixedNumber::new(5, 8, 5),
+//     FixedNumber::new(6, 2, 4),
+//     FixedNumber::new(6, 3, 2),
+//     FixedNumber::new(6, 6, 3),
+//     FixedNumber::new(6, 7, 5),
+//     FixedNumber::new(7, 1, 5),
+//     FixedNumber::new(7, 8, 6),
+//     FixedNumber::new(8, 5, 3),
+//     FixedNumber::new(8, 8, 9),
+//   ];
+//   let empty_cells = grid_size * grid_size - fixed_numbers.len();
+//   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+//   let mut solver = Solver::new(constraints, None);
+//   let result = solver.intuitive_solve();
+//   assert_eq!(result.full_solution, true);
+//   assert_eq!(result.solution, vec![
+//     vec![ 4, 2, 1, 3, 5, 7, 9, 6, 8 ],
+//     vec![ 5, 7, 6, 1, 9, 8, 4, 3, 2 ],
+//     vec![ 8, 3, 9, 6, 4, 2, 5, 1, 7 ],
+//     vec![ 3, 8, 2, 7, 1, 5, 6, 9, 4 ],
+//     vec![ 1, 4, 5, 9, 2, 6, 8, 7, 3 ],
+//     vec![ 6, 9, 7, 8, 3, 4, 1, 2, 5 ],
+//     vec![ 7, 6, 4, 2, 8, 9, 3, 5, 1 ],
+//     vec![ 9, 5, 3, 4, 7, 1, 2, 8, 6 ],
+//     vec![ 2, 1, 8, 5, 6, 3, 7, 4, 9 ],
+//   ]);
+//   assert!(result.steps.len() >= empty_cells);
+// }
 
 #[test]
 fn check_6x6_thermo_solve() {
@@ -281,95 +331,94 @@ fn check_6x6_thermo_solve() {
   assert_eq!(result.steps.len(), empty_cells);
 }
 
-// TODO: uncomment after implementing more rules
-// #[test]
-// fn check_9x9_thermo_solve() {
-//   // UK Sudoku Championship 2022 booklet - 9x9 thermo https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
-//   // Note: added extra fixed numbers to make the solution unique
-//   let grid_size = 9;
-//   let fixed_numbers = vec![
-//     FixedNumber::new(0, 0, 9), // extra!
-//     FixedNumber::new(0, 1, 8), // extra!
-//     FixedNumber::new(2, 2, 2),
-//     FixedNumber::new(2, 6, 4),
-//     FixedNumber::new(3, 4, 5),
-//     FixedNumber::new(5, 4, 1),
-//     FixedNumber::new(6, 2, 9),
-//     FixedNumber::new(6, 6, 5),
-//   ];
-//   let empty_cells = grid_size * grid_size - fixed_numbers.len();
-//   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-//   constraints.thermos = vec![
-//     vec![
-//       CellPosition { row: 0, col: 6 },
-//       CellPosition { row: 0, col: 5 },
-//       CellPosition { row: 0, col: 4 },
-//       CellPosition { row: 0, col: 3 },
-//       CellPosition { row: 0, col: 2 },
-//       CellPosition { row: 0, col: 1 },
-//       CellPosition { row: 0, col: 0 },
-//     ],
-//     vec![
-//       CellPosition { row: 2, col: 0 },
-//       CellPosition { row: 3, col: 0 },
-//       CellPosition { row: 4, col: 0 },
-//       CellPosition { row: 5, col: 0 },
-//       CellPosition { row: 6, col: 0 },
-//       CellPosition { row: 7, col: 0 },
-//       CellPosition { row: 8, col: 0 },
-//     ],
-//     vec![
-//       CellPosition { row: 2, col: 5 },
-//       CellPosition { row: 2, col: 4 },
-//       CellPosition { row: 2, col: 3 },
-//     ],
-//     vec![
-//       CellPosition { row: 3, col: 2 },
-//       CellPosition { row: 4, col: 2 },
-//       CellPosition { row: 5, col: 2 },
-//     ],
-//     vec![
-//       CellPosition { row: 5, col: 6 },
-//       CellPosition { row: 4, col: 6 },
-//       CellPosition { row: 3, col: 6 },
-//     ],
-//     vec![
-//       CellPosition { row: 6, col: 3 },
-//       CellPosition { row: 6, col: 4 },
-//       CellPosition { row: 6, col: 5 },
-//     ],
-//     vec![
-//       CellPosition { row: 6, col: 8 },
-//       CellPosition { row: 5, col: 8 },
-//       CellPosition { row: 4, col: 8 },
-//       CellPosition { row: 3, col: 8 },
-//       CellPosition { row: 2, col: 8 },
-//       CellPosition { row: 1, col: 8 },
-//       CellPosition { row: 0, col: 8 },
-//     ],
-//     vec![
-//       CellPosition { row: 8, col: 2 },
-//       CellPosition { row: 8, col: 3 },
-//       CellPosition { row: 8, col: 4 },
-//       CellPosition { row: 8, col: 5 },
-//       CellPosition { row: 8, col: 6 },
-//       CellPosition { row: 8, col: 7 },
-//       CellPosition { row: 8, col: 8 },
-//     ]
-//   ];
-//   let mut solver = Solver::new(constraints, None);
-//   let solution = solver.intuitive_solve();
-//   assert_eq!(solution.solution_count, 1);
-//   assert_eq!(solution.solution, vec![
-//     vec![ 1, 2, 3, 4, 5, 6 ],
-//     vec![ 4, 5, 6, 3, 2, 1 ],
-//     vec![ 5, 6, 1, 2, 3, 4 ],
-//     vec![ 2, 3, 4, 1, 6, 5 ],
-//     vec![ 3, 4, 5, 6, 1, 2 ],
-//     vec![ 6, 1, 2, 5, 4, 3 ],
-//   ]);
-//   assert_eq!(solution.steps.len(), empty_cells);
-// }
+#[test]
+fn check_9x9_thermo_medium_solve() {
+  // UK Sudoku Championship 2022 booklet - 9x9 thermo https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(2, 2, 2),
+    FixedNumber::new(2, 6, 4),
+    FixedNumber::new(3, 4, 5),
+    FixedNumber::new(5, 4, 1),
+    FixedNumber::new(6, 2, 9),
+    FixedNumber::new(6, 6, 5),
+  ];
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.thermos = vec![
+    vec![
+      CellPosition { row: 0, col: 6 },
+      CellPosition { row: 0, col: 5 },
+      CellPosition { row: 0, col: 4 },
+      CellPosition { row: 0, col: 3 },
+      CellPosition { row: 0, col: 2 },
+      CellPosition { row: 0, col: 1 },
+      CellPosition { row: 0, col: 0 },
+    ],
+    vec![
+      CellPosition { row: 2, col: 0 },
+      CellPosition { row: 3, col: 0 },
+      CellPosition { row: 4, col: 0 },
+      CellPosition { row: 5, col: 0 },
+      CellPosition { row: 6, col: 0 },
+      CellPosition { row: 7, col: 0 },
+      CellPosition { row: 8, col: 0 },
+    ],
+    vec![
+      CellPosition { row: 2, col: 5 },
+      CellPosition { row: 2, col: 4 },
+      CellPosition { row: 2, col: 3 },
+    ],
+    vec![
+      CellPosition { row: 3, col: 2 },
+      CellPosition { row: 4, col: 2 },
+      CellPosition { row: 5, col: 2 },
+    ],
+    vec![
+      CellPosition { row: 5, col: 6 },
+      CellPosition { row: 4, col: 6 },
+      CellPosition { row: 3, col: 6 },
+    ],
+    vec![
+      CellPosition { row: 6, col: 3 },
+      CellPosition { row: 6, col: 4 },
+      CellPosition { row: 6, col: 5 },
+    ],
+    vec![
+      CellPosition { row: 6, col: 8 },
+      CellPosition { row: 5, col: 8 },
+      CellPosition { row: 4, col: 8 },
+      CellPosition { row: 3, col: 8 },
+      CellPosition { row: 2, col: 8 },
+      CellPosition { row: 1, col: 8 },
+      CellPosition { row: 0, col: 8 },
+    ],
+    vec![
+      CellPosition { row: 8, col: 2 },
+      CellPosition { row: 8, col: 3 },
+      CellPosition { row: 8, col: 4 },
+      CellPosition { row: 8, col: 5 },
+      CellPosition { row: 8, col: 6 },
+      CellPosition { row: 8, col: 7 },
+      CellPosition { row: 8, col: 8 },
+    ]
+  ];
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
+    vec![ 9, 8, 6, 5, 4, 2, 1, 3, 7 ],
+    vec![ 3, 5, 4, 7, 8, 1, 2, 9, 6 ],
+    vec![ 1, 7, 2, 9, 6, 3, 4, 8, 5 ],
+    vec![ 2, 6, 3, 8, 5, 7, 9, 1, 4 ],
+    vec![ 4, 1, 7, 6, 2, 9, 8, 5, 3 ],
+    vec![ 5, 9, 8, 3, 1, 4, 7, 6, 2 ],
+    vec![ 6, 3, 9, 4, 7, 8, 5, 2, 1 ],
+    vec![ 7, 2, 5, 1, 9, 6, 3, 4, 8 ],
+    vec![ 8, 4, 1, 2, 3, 5, 6, 7, 9 ],
+  ]);
+  assert!(result.steps.len() > empty_cells);
+}
 
 #[test]
 fn check_9x9_thermo_no_solution() {

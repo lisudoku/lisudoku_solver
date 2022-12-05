@@ -50,4 +50,5 @@ fn check_naked_single_with_candidates() {
   solver.apply_rule(&mut step);
   let final_value = solver.grid[row][col];
   assert!(final_value == rule_value);
+  assert!(solver.candidates[row][col].is_empty());
 }

@@ -69,6 +69,7 @@ pub enum Rule {
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
   Thermo,
   Candidates,
+  ThermoCandidates,
   LockedCandidates, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   NakedTriples, // 2 Cell Positions, 2 values + what they affect

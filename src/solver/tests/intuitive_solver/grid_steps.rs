@@ -11,7 +11,7 @@ fn check_grid_steps_without_candidates() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  
+
   let step = solver.find_grid_step();
   assert!(step.is_some());
   let mut step = step.unwrap();
@@ -20,9 +20,9 @@ fn check_grid_steps_without_candidates() {
   let rule_value = step.values[0];
   let initial_value = solver.grid[row][col];
   assert!(initial_value == 0);
-  
+
   solver.apply_rule(&mut step);
-  
+
   let final_value = solver.grid[row][col];
   assert!(final_value == rule_value);
 }

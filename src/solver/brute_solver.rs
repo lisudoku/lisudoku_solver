@@ -4,6 +4,9 @@ use crate::types::{SudokuBruteSolveResult, Grid};
 
 impl Solver {
   pub fn brute_solve(&mut self, use_intuition: bool) -> SudokuBruteSolveResult {
+    // Not sure if there is value in running it without intuition
+    assert!(use_intuition);
+
     let mut solution_count = 0;
     self.recursive_check(&mut solution_count, use_intuition, 1);
 
@@ -51,7 +54,11 @@ impl Solver {
     } else if !best_candidates.is_empty() {
       for value in best_candidates.into_iter() {
         self.grid[best_row][best_col] = value;
+
+        // Currently we only run the solver with intuition and because of
+        // rules that restrict candidates to valid ones we know <value> is valid
         self.recursive_check(solution_count, use_intuition, depth + 1);
+
         self.grid[best_row][best_col] = 0;
         if *solution_count > 1 {
           break
