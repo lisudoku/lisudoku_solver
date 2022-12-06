@@ -1,4 +1,5 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solver};
+use itertools::Itertools;
 
 #[test]
 fn check_hidden_single_in_region() {
@@ -13,6 +14,7 @@ fn check_hidden_single_in_region() {
   let step = solver.find_hidden_singles();
   assert!(step.is_some());
   let mut step = step.unwrap();
+  assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
@@ -41,6 +43,7 @@ fn check_hidden_single_on_row() {
   let step = solver.find_hidden_singles();
   assert!(step.is_some());
   let mut step = step.unwrap();
+  assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
@@ -67,6 +70,7 @@ fn check_hidden_single_on_col() {
   let step = solver.find_hidden_singles();
   assert!(step.is_some());
   let mut step = step.unwrap();
+  assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];

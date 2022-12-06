@@ -1,12 +1,14 @@
 use std::collections::HashSet;
+use itertools::Itertools;
+
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
 
 impl Solver {
   pub fn find_hidden_singles(&self) -> Option<SolutionStep> {
     let mut candidates: Vec<Vec<HashSet<u32>>> = vec![
-      vec![ HashSet::new();
-      self.constraints.grid_size ]; self.constraints.grid_size
+      vec![ HashSet::new(); self.constraints.grid_size ];
+      self.constraints.grid_size
     ];
     for row in 0..self.constraints.grid_size {
       for col in 0..self.constraints.grid_size {
@@ -25,8 +27,7 @@ impl Solver {
 
       let (found_cell, value) = hidden_single.unwrap();
 
-      let mut cells: Vec<CellPosition> = vec![];
-      cells.push(found_cell);
+      let mut cells: Vec<CellPosition> = vec![ found_cell ];
 
       if !self.candidates_active {
         let other_cells = self.find_hidden_single_covering_cells(&area, &found_cell, value);
@@ -58,9 +59,10 @@ impl Solver {
     None
   }
 
+  // does this return duplicates?
   fn find_hidden_single_covering_cells(&self, area: &Area, found_cell: &CellPosition, value: u32) -> Vec<CellPosition> {
     let mut covered_cells = vec![ vec![ false; self.constraints.grid_size ]; self.constraints.grid_size ];
-    let mut cells: Vec<CellPosition> = vec![ found_cell.clone() ];
+    let mut cells: Vec<CellPosition> = vec![];
     for cell in self.get_empty_area_cells(area) {
       if cell.eq(found_cell) || covered_cells[cell.row][cell.col] {
         continue
@@ -85,6 +87,6 @@ impl Solver {
         }
       }
     }
-    cells
+    cells.into_iter().unique().collect()
   }
 }
