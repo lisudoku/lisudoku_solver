@@ -277,6 +277,39 @@ fn check_9x9_hard_xy_wing_solve() {
 }
 
 #[test]
+fn check_9x9_hard_solve_with_solution() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 1, 3),
+    FixedNumber::new(0, 3, 5),
+    FixedNumber::new(1, 0, 1),
+    FixedNumber::new(1, 3, 8),
+    FixedNumber::new(1, 5, 2),
+    FixedNumber::new(1, 7, 9),
+    FixedNumber::new(2, 2, 9),
+    FixedNumber::new(2, 6, 4),
+    FixedNumber::new(3, 0, 8),
+    FixedNumber::new(3, 3, 9),
+    FixedNumber::new(3, 5, 1),
+    FixedNumber::new(3, 7, 4),
+    FixedNumber::new(4, 4, 7),
+    FixedNumber::new(5, 1, 6),
+    FixedNumber::new(5, 8, 3),
+    FixedNumber::new(6, 0, 7),
+    FixedNumber::new(6, 4, 4),
+    FixedNumber::new(7, 1, 8),
+    FixedNumber::new(7, 3, 2),
+    FixedNumber::new(7, 5, 7),
+    FixedNumber::new(7, 6, 6),
+    FixedNumber::new(8, 7, 2),
+  ];
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.no_solution, false);
+}
+
+#[test]
 fn check_6x6_thermo_solve() {
   // WSC booklet 6x6 thermo https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
   let grid_size = 6;
@@ -342,7 +375,7 @@ fn check_9x9_thermo_medium_solve() {
   let fixed_numbers = vec![
     FixedNumber::new(2, 2, 2),
     FixedNumber::new(2, 6, 4),
-    FixedNumber::new(3, 4, 5), // TODO: uncomment this and fix!
+    FixedNumber::new(3, 4, 5),
     FixedNumber::new(5, 4, 1),
     FixedNumber::new(6, 2, 9),
     FixedNumber::new(6, 6, 5),

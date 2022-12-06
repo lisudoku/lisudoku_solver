@@ -153,7 +153,7 @@ impl Solver {
 
   pub fn apply_rule(&mut self, step: &SolutionStep) {
     println!(
-      "{:?} {} ({}) ({}): {}",
+      "{:?} ({}) ({}) ({}): {}",
       step.rule,
       step.areas.iter().map(|x| format!("{:?}", x)).join(", "),
       step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
@@ -237,6 +237,7 @@ impl Solver {
   }
 
   fn cells_affect_eachother(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
+    cell1 != cell2 &&
     !self.get_cell_areas(cell1.row, cell1.col, false)
          .into_iter()
          .collect::<HashSet<Area>>()

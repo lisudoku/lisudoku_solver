@@ -82,3 +82,31 @@ fn check_xy_wing_no_affected_cells() {
   let step = solver.find_xy_wing();
   assert!(step.is_none());
 }
+
+#[test]
+fn check_xy_wing_on_row_no_affected_cells() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 3, 4),
+    FixedNumber::new(0, 4, 5),
+    FixedNumber::new(0, 5, 6),
+    FixedNumber::new(1, 3, 1),
+    FixedNumber::new(1, 4, 2),
+    FixedNumber::new(1, 5, 3),
+    FixedNumber::new(0, 6, 7),
+    FixedNumber::new(0, 7, 8),
+    FixedNumber::new(0, 8, 9),
+    FixedNumber::new(2, 6, 1),
+    FixedNumber::new(2, 7, 2),
+    FixedNumber::new(2, 8, 3),
+    FixedNumber::new(3, 0, 3),
+    FixedNumber::new(3, 1, 2),
+    FixedNumber::new(3, 2, 1),
+  ];
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+
+  let step = solver.find_xy_wing();
+  assert!(step.is_none());
+}
