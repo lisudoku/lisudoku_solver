@@ -8,6 +8,8 @@ mod naked_pairs;
 mod naked_triples;
 mod thermo_steps;
 mod thermo_candidates;
+mod hidden_pairs;
+mod hidden_triples;
 
 #[test]
 fn check_4x4_solve() {
@@ -338,7 +340,7 @@ fn check_9x9_thermo_medium_solve() {
   let fixed_numbers = vec![
     FixedNumber::new(2, 2, 2),
     FixedNumber::new(2, 6, 4),
-    FixedNumber::new(3, 4, 5),
+    FixedNumber::new(3, 4, 5), // TODO: uncomment this and fix!
     FixedNumber::new(5, 4, 1),
     FixedNumber::new(6, 2, 9),
     FixedNumber::new(6, 6, 5),

@@ -73,6 +73,8 @@ pub enum Rule {
   LockedCandidates, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   NakedTriples, // 2 Cell Positions, 2 values + what they affect
+  HiddenPairs,
+  HiddenTriples,
   XWing, // 4 CellPositions
   YWing, // 4 CellPositions
   Swordfish, // ???

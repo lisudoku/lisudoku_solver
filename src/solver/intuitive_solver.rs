@@ -10,6 +10,7 @@ mod candidates;
 mod locked_candidates;
 mod naked_set;
 mod thermo_candidates;
+mod hidden_set;
 
 impl Solver {
   pub fn intuitive_solve(&mut self) -> SudokuIntuitiveSolveResult {
@@ -113,7 +114,17 @@ impl Solver {
       return step
     }
 
+    let step = self.find_hidden_pairs();
+    if step.is_some() {
+      return step
+    }
+
     let step = self.find_naked_triples();
+    if step.is_some() {
+      return step
+    }
+
+    let step = self.find_hidden_triples();
     if step.is_some() {
       return step
     }
@@ -147,6 +158,11 @@ impl Solver {
       Rule::Candidates => {
         self.candidates_active = true;
         self.candidates = step.candidates.as_ref().unwrap().to_vec();
+      }
+      Rule::HiddenPairs | Rule::HiddenTriples => {
+        for &CellPosition { row, col } in &step.cells {
+          self.candidates[row][col] = step.values.iter().copied().collect();
+        }
       }
       _ => {
         for &CellPosition { row, col } in &step.affected_cells {
@@ -236,5 +252,9 @@ impl Solver {
 
   fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> bool {
     cells.iter().any(|cell| !self.candidates[cell.row][cell.col].is_disjoint(&values))
+  }
+
+  fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> bool {
+    cells.iter().any(|cell| self.candidates[cell.row][cell.col].difference(&values).count() > 0)
   }
 }
