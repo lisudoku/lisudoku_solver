@@ -104,7 +104,9 @@ impl Solver {
       return step
     }
 
-    let step = self.find_locked_candidates();
+    // Pairs
+
+    let step = self.find_locked_candidates_pairs();
     if step.is_some() {
       return step
     }
@@ -115,6 +117,13 @@ impl Solver {
     }
 
     let step = self.find_hidden_pairs();
+    if step.is_some() {
+      return step
+    }
+
+    // Triples
+
+    let step = self.find_locked_candidates_triples();
     if step.is_some() {
       return step
     }

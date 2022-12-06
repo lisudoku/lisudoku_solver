@@ -1,0 +1,54 @@
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::Solver};
+
+#[test]
+fn check_locked_candidates_pairs() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 0, 4),
+    FixedNumber::new(0, 1, 5),
+    FixedNumber::new(0, 2, 6),
+    FixedNumber::new(1, 3, 1),
+    FixedNumber::new(3, 0, 1),
+  ];
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+
+  let step = solver.find_locked_candidates_pairs();
+  assert!(step.is_some());
+  let mut step = step.unwrap();
+  assert_eq!(step.rule, Rule::LockedCandidatesPairs);
+  assert_eq!(step.areas, vec![ Area::Region(0), Area::Row(2) ]);
+  assert_eq!(step.cells, vec![ CellPosition::new(2, 1), CellPosition::new(2, 2) ]);
+  assert_eq!(step.values, vec![ 1 ]);
+  assert_eq!(step.affected_cells, vec![
+    CellPosition::new(2, 6), CellPosition::new(2, 7), CellPosition::new(2, 8),
+  ]);
+  let initial_candidates = solver.candidates[2][6].clone();
+  assert!(initial_candidates.contains(&1));
+  assert_eq!(initial_candidates.len(), 9);
+
+  solver.apply_rule(&mut step);
+  let final_candidates = &solver.candidates[2][6];
+  assert!(!final_candidates.contains(&1));
+  assert_eq!(final_candidates.len(), 8);
+}
+
+#[test]
+fn check_locked_candidates_pairs_no_affected_cells() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 0, 4),
+    FixedNumber::new(0, 1, 5),
+    FixedNumber::new(0, 2, 6),
+    FixedNumber::new(0, 6, 1),
+    FixedNumber::new(1, 3, 1),
+    FixedNumber::new(3, 0, 1),
+  ];
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+
+  let step = solver.find_locked_candidates_pairs();
+  assert!(step.is_none());
+}

@@ -1,15 +1,17 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solver};
 
-mod locked_candidates;
 mod naked_singles;
 mod grid_steps;
+mod locked_candidates_pairs;
+mod locked_candidates_triples;
 mod hidden_singles;
+mod hidden_pairs;
+mod hidden_triples;
 mod naked_pairs;
+// mod locked_candidates_pairs;
 mod naked_triples;
 mod thermo_steps;
 mod thermo_candidates;
-mod hidden_pairs;
-mod hidden_triples;
 
 #[test]
 fn check_4x4_solve() {

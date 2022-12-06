@@ -70,10 +70,11 @@ pub enum Rule {
   Thermo,
   Candidates,
   ThermoCandidates,
-  LockedCandidates, // 2 CellPositions + what they affect
+  LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
-  NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenPairs,
+  LockedCandidatesTriples,
+  NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenTriples,
   XWing, // 4 CellPositions
   YWing, // 4 CellPositions

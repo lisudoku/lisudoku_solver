@@ -62,7 +62,7 @@ fn check_thermo_candidates_update_locked_candidates() {
     solver.apply_rule(&step);
   }
 
-  let step = solver.find_locked_candidates();
+  let step = solver.find_locked_candidates_pairs();
   assert!(step.is_some());
   let step = step.unwrap();
   assert_eq!(step.cells, vec![ CellPosition::new(3, 1), CellPosition::new(3, 2) ]);

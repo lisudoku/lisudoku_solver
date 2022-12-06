@@ -2,7 +2,15 @@ use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule};
 
 impl Solver {
-  pub fn find_locked_candidates(&self) -> Option<SolutionStep> {    
+  pub fn find_locked_candidates_pairs(&self) -> Option<SolutionStep> {
+    self.find_locked_candidates_set(2)
+  }
+
+  pub fn find_locked_candidates_triples(&self) -> Option<SolutionStep> {
+    self.find_locked_candidates_set(3)
+  }
+
+  pub fn find_locked_candidates_set(&self, set_size: usize) -> Option<SolutionStep> {
     if !self.candidates_active {
       return None
     }
@@ -12,8 +20,7 @@ impl Solver {
       let value_cells = self.compute_cells_by_value_in_area(&area, &self.candidates);
 
       for (value, cells) in value_cells {
-        // TODO: also check for triples
-        if cells.len() != 2 {
+        if cells.len() != set_size {
           continue
         }
 
@@ -30,10 +37,10 @@ impl Solver {
         if !affected_cells.is_empty() {
           return Some(
             SolutionStep {
-              rule: Rule::LockedCandidates,
+              rule: if set_size == 2 { Rule::LockedCandidatesPairs } else { Rule::LockedCandidatesTriples },
               cells,
               values: vec![ value ],
-              areas: vec![ other_area ],
+              areas: vec![ area, other_area ],
               affected_cells,
               candidates: None,
             }
