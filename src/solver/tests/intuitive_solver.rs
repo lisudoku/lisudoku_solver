@@ -12,6 +12,7 @@ mod naked_pairs;
 mod naked_triples;
 mod thermo_steps;
 mod thermo_candidates;
+mod xy_wing;
 
 #[test]
 fn check_4x4_solve() {
@@ -228,53 +229,52 @@ fn check_9x9_hard_naked_triples_solve() {
   assert!(result.steps.len() >= empty_cells);
 }
 
-// TODO: implement XY-Wing
-// #[test]
-// fn check_9x9_hard_xy_wing_solve() {
-//   let grid_size = 9;
-//   let fixed_numbers = vec![
-//     FixedNumber::new(0, 2, 1),
-//     FixedNumber::new(0, 6, 9),
-//     FixedNumber::new(1, 1, 7),
-//     FixedNumber::new(1, 5, 8),
-//     FixedNumber::new(1, 6, 4),
-//     FixedNumber::new(1, 7, 3),
-//     FixedNumber::new(2, 0, 8),
-//     FixedNumber::new(2, 3, 6),
-//     FixedNumber::new(3, 2, 2),
-//     FixedNumber::new(3, 4, 1),
-//     FixedNumber::new(4, 1, 4),
-//     FixedNumber::new(4, 5, 6),
-//     FixedNumber::new(4, 6, 8),
-//     FixedNumber::new(4, 7, 7),
-//     FixedNumber::new(5, 8, 5),
-//     FixedNumber::new(6, 2, 4),
-//     FixedNumber::new(6, 3, 2),
-//     FixedNumber::new(6, 6, 3),
-//     FixedNumber::new(6, 7, 5),
-//     FixedNumber::new(7, 1, 5),
-//     FixedNumber::new(7, 8, 6),
-//     FixedNumber::new(8, 5, 3),
-//     FixedNumber::new(8, 8, 9),
-//   ];
-//   let empty_cells = grid_size * grid_size - fixed_numbers.len();
-//   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-//   let mut solver = Solver::new(constraints, None);
-//   let result = solver.intuitive_solve();
-//   assert_eq!(result.full_solution, true);
-//   assert_eq!(result.solution, vec![
-//     vec![ 4, 2, 1, 3, 5, 7, 9, 6, 8 ],
-//     vec![ 5, 7, 6, 1, 9, 8, 4, 3, 2 ],
-//     vec![ 8, 3, 9, 6, 4, 2, 5, 1, 7 ],
-//     vec![ 3, 8, 2, 7, 1, 5, 6, 9, 4 ],
-//     vec![ 1, 4, 5, 9, 2, 6, 8, 7, 3 ],
-//     vec![ 6, 9, 7, 8, 3, 4, 1, 2, 5 ],
-//     vec![ 7, 6, 4, 2, 8, 9, 3, 5, 1 ],
-//     vec![ 9, 5, 3, 4, 7, 1, 2, 8, 6 ],
-//     vec![ 2, 1, 8, 5, 6, 3, 7, 4, 9 ],
-//   ]);
-//   assert!(result.steps.len() >= empty_cells);
-// }
+#[test]
+fn check_9x9_hard_xy_wing_solve() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 2, 1),
+    FixedNumber::new(0, 6, 9),
+    FixedNumber::new(1, 1, 7),
+    FixedNumber::new(1, 5, 8),
+    FixedNumber::new(1, 6, 4),
+    FixedNumber::new(1, 7, 3),
+    FixedNumber::new(2, 0, 8),
+    FixedNumber::new(2, 3, 6),
+    FixedNumber::new(3, 2, 2),
+    FixedNumber::new(3, 4, 1),
+    FixedNumber::new(4, 1, 4),
+    FixedNumber::new(4, 5, 6),
+    FixedNumber::new(4, 6, 8),
+    FixedNumber::new(4, 7, 7),
+    FixedNumber::new(5, 8, 5),
+    FixedNumber::new(6, 2, 4),
+    FixedNumber::new(6, 3, 2),
+    FixedNumber::new(6, 6, 3),
+    FixedNumber::new(6, 7, 5),
+    FixedNumber::new(7, 1, 5),
+    FixedNumber::new(7, 8, 6),
+    FixedNumber::new(8, 5, 3),
+    FixedNumber::new(8, 8, 9),
+  ];
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
+    vec![ 4, 2, 1, 3, 5, 7, 9, 6, 8 ],
+    vec![ 5, 7, 6, 1, 9, 8, 4, 3, 2 ],
+    vec![ 8, 3, 9, 6, 4, 2, 5, 1, 7 ],
+    vec![ 3, 8, 2, 7, 1, 5, 6, 9, 4 ],
+    vec![ 1, 4, 5, 9, 2, 6, 8, 7, 3 ],
+    vec![ 6, 9, 7, 8, 3, 4, 1, 2, 5 ],
+    vec![ 7, 6, 4, 2, 8, 9, 3, 5, 1 ],
+    vec![ 9, 5, 3, 4, 7, 1, 2, 8, 6 ],
+    vec![ 2, 1, 8, 5, 6, 3, 7, 4, 9 ],
+  ]);
+  assert!(result.steps.len() >= empty_cells);
+}
 
 #[test]
 fn check_6x6_thermo_solve() {

@@ -61,6 +61,7 @@ impl Solver {
       Area::Column(col) => self.compute_col_values_candidates(col),
       Area::Region(region_index) => self.compute_region_values_candidates(region_index),
       Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
+      Area::Grid => unimplemented!(),
     }
   }
 
@@ -181,6 +182,7 @@ impl Solver {
 
   fn get_area_cells(&self, area: &Area) -> Vec<CellPosition> {
     match area {
+      Area::Grid => self.get_grid_cells(),
       Area::Row(row) => self.get_row_cells(*row),
       Area::Column(col) => self.get_col_cells(*col),
       Area::Region(region_index) => self.constraints.regions[*region_index].to_vec(),
@@ -190,6 +192,14 @@ impl Solver {
 
   fn get_empty_area_cells(&self, area: &Area) -> Vec<CellPosition> {
     self.get_area_cells(area).into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).collect()
+  }
+
+  fn get_grid_cells(&self) -> Vec<CellPosition> {
+    (0..self.constraints.grid_size).flat_map(|row| {
+      (0..self.constraints.grid_size).map(|col| {
+        CellPosition::new(row, col)
+      }).collect::<Vec<CellPosition>>()
+    }).collect()
   }
 
   fn get_row_cells(&self, row: usize) -> Vec<CellPosition> {

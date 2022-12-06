@@ -11,6 +11,7 @@ mod locked_candidates;
 mod naked_set;
 mod thermo_candidates;
 mod hidden_set;
+mod xy_wing;
 
 impl Solver {
   pub fn intuitive_solve(&mut self) -> SudokuIntuitiveSolveResult {
@@ -138,6 +139,13 @@ impl Solver {
       return step
     }
 
+    // Other
+
+    let step = self.find_xy_wing();
+    if step.is_some() {
+      return step
+    }
+
     // TODO: implement other rules
 
     None
@@ -173,6 +181,12 @@ impl Solver {
           self.candidates[row][col] = step.values.iter().copied().collect();
         }
       }
+      Rule::XYWing => {
+        for &CellPosition { row, col } in &step.affected_cells {
+          // Remove Z as candidate
+          self.candidates[row][col].remove(&step.values[2]);
+        }
+      }
       _ => {
         for &CellPosition { row, col } in &step.affected_cells {
           for value in &step.values {
@@ -199,6 +213,7 @@ impl Solver {
   }
 
   // This method is used after placing a digit into the grid
+  // Returns cells that <cell> sees which have any of <values> candidates
   fn get_affected_by_cell(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
     // Note: we ignore thermos here, there is a separate rule for updating them
     self.get_cell_areas(cell.row, cell.col, false)
@@ -209,6 +224,30 @@ impl Solver {
         .collect()
   }
 
+  // Returns cells that are seen by all <cells> with any of <values> candidates
+  fn get_affected_by_cells(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    self.get_affected_by_cell(&cells[0], values)
+        .into_iter()
+        .filter(|cell| {
+          cells[1..].iter().all(|other_cell| {
+            self.cells_affect_eachother(cell, other_cell)
+          })
+        })
+        .collect()
+  }
+
+  fn cells_affect_eachother(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
+    !self.get_cell_areas(cell1.row, cell1.col, false)
+         .into_iter()
+         .collect::<HashSet<Area>>()
+         .is_disjoint(
+           &self.get_cell_areas(cell2.row, cell2.col, false)
+                .into_iter()
+                .collect()
+         )
+  }
+
+  // Returns cells in <area> except <cells> that have any of <values> candidates
   fn get_affected_by_area_cells(&self, area: &Area, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
     self.get_area_cells_with_candidates(area, values)
         .into_iter()

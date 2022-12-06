@@ -76,13 +76,15 @@ pub enum Rule {
   LockedCandidatesTriples,
   NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenTriples,
-  XWing, // 4 CellPositions
-  YWing, // 4 CellPositions
+  XWing,
+  YWing,
+  XYWing,
   Swordfish, // ???
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Area {
+  Grid,
   Row(usize),
   Column(usize),
   Region(usize),
