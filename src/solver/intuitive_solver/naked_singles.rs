@@ -4,16 +4,10 @@ use combinations::Combinations;
 
 impl Solver {
   pub fn find_naked_singles(&self) -> Option<SolutionStep> {
-    for row in 0..self.constraints.grid_size {
-      for col in 0..self.constraints.grid_size {
-        if self.grid[row][col] != 0 {
-          continue
-        }
-
-        let step = self.find_naked_single_in_cell(row, col);
-        if step.is_some() {
-          return step
-        }
+    for CellPosition { row, col } in self.get_empty_area_cells(&Area::Grid) {
+      let step = self.find_naked_single_in_cell(row, col);
+      if step.is_some() {
+        return step
       }
     }
 
@@ -27,6 +21,7 @@ impl Solver {
 
     let candidate_areas = self.get_cell_areas(row, col, false);
 
+    // Try to use as few areas as possible to cover all candidates
     for area_count in 1..candidate_areas.len()+1 {
       let area_indexes: Vec<usize> = (0..candidate_areas.len()).collect();
       let area_combinations: Vec<_> = if area_count < area_indexes.len() {
@@ -37,7 +32,7 @@ impl Solver {
       };
 
       for area_combination in area_combinations {
-        let selected_areas = area_combination.iter().map(|index| &candidate_areas[*index]).collect();
+        let selected_areas = area_combination.into_iter().map(|index| &candidate_areas[index]).collect();
         let step = self.find_naked_single_in_cell_and_areas(row, col, selected_areas);
         if step.is_some() {
           return step
