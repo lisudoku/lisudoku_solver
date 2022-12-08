@@ -1,7 +1,5 @@
 use std::collections::HashSet;
-
 use itertools::Itertools;
-
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, Area, CellPosition};
 

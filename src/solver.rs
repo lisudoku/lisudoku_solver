@@ -166,18 +166,22 @@ impl Solver {
 
   fn get_all_areas(&self) -> Vec<Area> {
     let mut areas = vec![];
-    for row in 0..self.constraints.grid_size {
-      areas.push(Area::Row(row));
-    }
-    for col in 0..self.constraints.grid_size {
-      areas.push(Area::Column(col));
-    }
+    areas.extend(self.get_row_areas());
+    areas.extend(self.get_col_areas());
     for region_index in 0..self.constraints.regions.len() {
       areas.push(Area::Region(region_index));
     }
     // TODO: thermo?
 
     areas
+  }
+
+  fn get_row_areas(&self) -> Vec<Area> {
+    (0..self.constraints.grid_size).map(|row| Area::Row(row)).collect()
+  }
+
+  fn get_col_areas(&self) -> Vec<Area> {
+    (0..self.constraints.grid_size).map(|col| Area::Column(col)).collect()
   }
 
   fn get_area_cells(&self, area: &Area) -> Vec<CellPosition> {

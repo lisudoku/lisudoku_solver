@@ -11,6 +11,7 @@ mod locked_candidates;
 mod naked_set;
 mod thermo_candidates;
 mod hidden_set;
+mod x_wing;
 mod xy_wing;
 
 impl Solver {
@@ -140,6 +141,11 @@ impl Solver {
     }
 
     // Other
+
+    let step = self.find_x_wing();
+    if step.is_some() {
+      return step
+    }
 
     let step = self.find_xy_wing();
     if step.is_some() {
@@ -305,5 +311,14 @@ impl Solver {
 
   fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> bool {
     cells.iter().any(|cell| self.candidates[cell.row][cell.col].difference(&values).count() > 0)
+  }
+
+  // Move <cell> orthogonally to <area>
+  fn cell_to_area(&self, cell: &CellPosition, area: &Area) -> CellPosition {
+    match area {
+      &Area::Row(row) => CellPosition { row, col: cell.col },
+      &Area::Column(col) => CellPosition { row: cell.row, col },
+      _ => unimplemented!(),
+    }
   }
 }

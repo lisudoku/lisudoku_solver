@@ -12,6 +12,7 @@ mod naked_pairs;
 mod naked_triples;
 mod thermo_steps;
 mod thermo_candidates;
+mod x_wing;
 mod xy_wing;
 
 #[test]
@@ -272,6 +273,53 @@ fn check_9x9_hard_xy_wing_solve() {
     vec![ 7, 6, 4, 2, 8, 9, 3, 5, 1 ],
     vec![ 9, 5, 3, 4, 7, 1, 2, 8, 6 ],
     vec![ 2, 1, 8, 5, 6, 3, 7, 4, 9 ],
+  ]);
+  assert!(result.steps.len() >= empty_cells);
+}
+
+#[test]
+fn check_9x9_hard_x_wing_solve() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 0, 6),
+    FixedNumber::new(0, 4, 9),
+    FixedNumber::new(0, 8, 7),
+    FixedNumber::new(1, 1, 4),
+    FixedNumber::new(1, 5, 7),
+    FixedNumber::new(1, 6, 1),
+    FixedNumber::new(2, 2, 2),
+    FixedNumber::new(2, 3, 8),
+    FixedNumber::new(2, 7, 5),
+    FixedNumber::new(3, 0, 8),
+    FixedNumber::new(3, 7, 9),
+    FixedNumber::new(4, 4, 7),
+    FixedNumber::new(5, 1, 3),
+    FixedNumber::new(5, 8, 8),
+    FixedNumber::new(6, 1, 5),
+    FixedNumber::new(6, 5, 2),
+    FixedNumber::new(6, 6, 3),
+    FixedNumber::new(7, 2, 4),
+    FixedNumber::new(7, 3, 5),
+    FixedNumber::new(7, 7, 2),
+    FixedNumber::new(8, 0, 9),
+    FixedNumber::new(8, 4, 3),
+    FixedNumber::new(8, 8, 4),
+  ];
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.intuitive_solve();
+  assert_eq!(result.full_solution, true);
+  assert_eq!(result.solution, vec![
+    vec![ 6, 8, 3, 1, 9, 5, 2, 4, 7 ],
+    vec![ 5, 4, 9, 6, 2, 7, 1, 8, 3 ],
+    vec![ 7, 1, 2, 8, 4, 3, 9, 5, 6 ],
+    vec![ 8, 6, 5, 3, 1, 4, 7, 9, 2 ],
+    vec![ 4, 9, 1, 2, 7, 8, 6, 3, 5 ],
+    vec![ 2, 3, 7, 9, 5, 6, 4, 1, 8 ],
+    vec![ 1, 5, 6, 4, 8, 2, 3, 7, 9 ],
+    vec![ 3, 7, 4, 5, 6, 9, 8, 2, 1 ],
+    vec![ 9, 2, 8, 7, 3, 1, 5, 6, 4 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
 }
