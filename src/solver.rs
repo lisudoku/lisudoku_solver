@@ -164,14 +164,18 @@ impl Solver {
     areas
   }
 
-  fn get_all_areas(&self) -> Vec<Area> {
+  fn get_all_areas(&self, include_thermo: bool) -> Vec<Area> {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
     areas.extend(self.get_col_areas());
     for region_index in 0..self.constraints.regions.len() {
       areas.push(Area::Region(region_index));
     }
-    // TODO: thermo?
+    if include_thermo {
+      for thermo_index in 0..self.constraints.thermos.len() {
+        areas.push(Area::Thermo(thermo_index));
+      }
+    }
 
     areas
   }

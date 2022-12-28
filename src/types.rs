@@ -9,7 +9,7 @@ pub struct SudokuConstraints {
   pub thermos: Vec<Thermo>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
 pub struct FixedNumber {
   pub position: CellPosition,
   pub value: u32,
@@ -41,10 +41,16 @@ pub struct SudokuGrid {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SudokuIntuitiveSolveResult {
-  pub full_solution: bool,
-  pub no_solution: bool,
-  pub solution: Grid,
+  pub solution_type: SolutionType,
+  pub solution: Option<Grid>,
   pub steps: Vec<SolutionStep>,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub enum SolutionType {
+  Full,
+  Partial,
+  None,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -148,6 +154,16 @@ impl FixedNumber {
         col,
       },
       value,
+    }
+  }
+}
+
+impl SudokuIntuitiveSolveResult {
+  pub fn no_solution() -> SudokuIntuitiveSolveResult {
+    SudokuIntuitiveSolveResult {
+      solution_type: SolutionType::None,
+      solution: None,
+      steps: vec![],
     }
   }
 }

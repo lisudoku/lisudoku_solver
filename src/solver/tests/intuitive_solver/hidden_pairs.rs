@@ -21,12 +21,12 @@ fn check_hidden_pairs() {
   assert_eq!(step.rule, Rule::HiddenPairs);
   assert_eq!(step.cells, vec![ CellPosition::new(1, 0), CellPosition::new(2, 0) ]);
   assert_eq!(step.values, vec![ 1, 2 ]);
-  let initial_candidates = solver.candidates[2][0].clone();
-  assert_eq!(initial_candidates.len(), 9);
+  assert_eq!(solver.candidates[1][0].len(), 9);
+  assert_eq!(solver.candidates[2][0].len(), 9);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][0];
-  assert_eq!(final_candidates.len(), 2);
+  assert_eq!(solver.candidates[2][0].len(), 2);
+  assert_eq!(solver.candidates[2][0].len(), 2);
 }
 
 #[test]

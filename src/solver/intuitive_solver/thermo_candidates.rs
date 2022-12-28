@@ -44,7 +44,11 @@ impl Solver {
         current_min = self.grid[cell.row][cell.col];
       } else {
         let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
-        current_min += 1;
+
+        // If it reaches grid_sze it should result in a cell with no candidates
+        if current_min < max_value {
+          current_min += 1;
+        }
   
         let valid_candidates: Vec<_> = cell_candidates.into_iter().filter(|&val| val >= current_min).collect();
   
@@ -62,7 +66,11 @@ impl Solver {
         current_max = self.grid[cell.row][cell.col];
       } else {
         let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
-        current_max -= 1;
+
+        // If it reaches 0 it should result in a cell with no candidates
+        if current_max > 0 {
+          current_max -= 1;
+        }
   
         let valid_candidates: Vec<_> = cell_candidates.into_iter().filter(|&val| val <= current_max).collect();
   

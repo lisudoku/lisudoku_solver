@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use crate::types::{SudokuIntuitiveSolveResult, CellPosition, SolutionStep, Rule, Area};
+use crate::types::{SudokuIntuitiveSolveResult, CellPosition, SolutionStep, Rule, Area, SolutionType};
 use crate::solver::Solver;
 use itertools::Itertools;
 
@@ -14,25 +14,36 @@ mod hidden_set;
 mod x_wing;
 mod xy_wing;
 
+const DEBUG: bool = false;
+
 impl Solver {
   pub fn intuitive_solve(&mut self) -> SudokuIntuitiveSolveResult {
-    let mut empty_cell_count = self.compute_empty_cell_count();
+    let mut solution_type = SolutionType::Full;
+    let mut steps: Vec<SolutionStep> = vec![];
 
+    if !self.check_partially_solved() {
+      println!("Invalid initial grid");
+      return SudokuIntuitiveSolveResult::no_solution()
+    }
+
+    let mut empty_cell_count = self.compute_empty_cell_count();
     println!("Empty cell count: {}", empty_cell_count);
 
-    let mut full_solution = true;
-    let mut no_solution = false;
-    let mut steps: Vec<SolutionStep> = vec![];
     while empty_cell_count > 0 {
       if self.is_cell_with_no_candidates() {
-        full_solution = false;
-        no_solution = true;
-        break;
+        println!("No candidates");
+        return SudokuIntuitiveSolveResult::no_solution()
+      }
+
+      // TODO: only check cells impacted by latest change
+      if !self.check_partially_solved() {
+        println!("Reached invalid state");
+        return SudokuIntuitiveSolveResult::no_solution()
       }
 
       let step = self.find_next_step();
       if step.is_none() {
-        full_solution = false;
+        solution_type = SolutionType::Partial;
         break
       }
 
@@ -48,11 +59,11 @@ impl Solver {
     }
 
     let res = SudokuIntuitiveSolveResult {
-      full_solution,
-      no_solution,
-      solution: self.grid.to_vec(),
+      solution_type,
+      solution: Some(self.grid.to_vec()),
       steps,
     };
+
     res
   }
 
@@ -184,7 +195,8 @@ impl Solver {
       }
       Rule::HiddenPairs | Rule::HiddenTriples => {
         for &CellPosition { row, col } in &step.cells {
-          self.candidates[row][col] = step.values.iter().copied().collect();
+          let value_set: HashSet<u32> = step.values.iter().copied().collect();
+          self.candidates[row][col] = self.candidates[row][col].intersection(&value_set).copied().collect();
         }
       }
       Rule::XYWing => {
@@ -201,17 +213,18 @@ impl Solver {
         }
       }
     }
+
+    if DEBUG {
+      // only after cell changes
+      self.validate_candidates();
+    }
   }
 
   fn is_cell_with_no_candidates(&self) -> bool {
-    for row in 0..self.constraints.grid_size {
-      for col in 0..self.constraints.grid_size {
-        if self.grid[row][col] == 0 {
-          let cell_candidates = self.compute_cell_candidates(row, col);
-          if cell_candidates.is_empty() {
-            return true
-          }
-        }
+    for CellPosition { row, col } in self.get_empty_area_cells(&Area::Grid) {
+      let cell_candidates = self.compute_cell_candidates(row, col);
+      if cell_candidates.is_empty() {
+        return true
       }
     }
 
@@ -319,6 +332,21 @@ impl Solver {
       &Area::Row(row) => CellPosition { row, col: cell.col },
       &Area::Column(col) => CellPosition { row: cell.row, col },
       _ => unimplemented!(),
+    }
+  }
+
+  fn validate_candidates(&self) {
+    if !self.candidates_active {
+      return
+    }
+    for CellPosition { row, col } in self.get_empty_area_cells(&Area::Grid) {
+      let cell_candidates = self.recompute_cell_candidates(row, col);
+      if self.candidates[row][col] != cell_candidates {
+        println!("==> Invalid candidates for ({},{})!", row, col);
+        println!("Saved candidates: {:?}", self.candidates[row][col]);
+        println!("Real candidates: {:?}", cell_candidates);
+        return
+      }
     }
   }
 }

@@ -1,49 +1,53 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::Region;
+use crate::types::{Area, CellPosition};
 
 impl Solver {
   pub fn check_solved(&self) -> bool {
-    for row in 0..self.constraints.grid_size {
-      if !self.check_row_solved(row) {
-        return false
-      }
-    }
-
-    for col in 0..self.constraints.grid_size {
-      if !self.check_col_solved(col) {
-        return false
-      }
-    }
-
-    for region in &self.constraints.regions {
-      if !self.check_region_solved(region) {
-        return false
-      }
-    }
-
-    true
+    self.check_grid_valid(false)
   }
 
-  fn check_row_solved(&self, row: usize) -> bool {
-    let mut values = HashSet::new();
+  pub fn check_partially_solved(&self) -> bool {
+    self.check_grid_valid(true)
+  }
 
-    for col in 0..self.constraints.grid_size {
+  fn check_grid_valid(&self, allow_empty: bool) -> bool {
+    for CellPosition { row, col } in self.get_area_cells(&Area::Grid) {
       let value = self.grid[row][col];
-      if values.contains(&value) {
+      if value == 0 {
+        if !allow_empty {
+          return false
+        }
+      } else if value < 1 || value > self.constraints.grid_size as u32 {
         return false
       }
-      values.insert(value);
+    }
+
+    for area in self.get_all_areas(true) {
+      if !self.check_area_valid(&area) {
+        return false
+      }
     }
 
     true
   }
 
-  fn check_col_solved(&self, col: usize) -> bool {
+  fn check_area_valid(&self, area: &Area) -> bool {
+    match area {
+      Area::Row(_) | Area::Column(_) | Area::Region(_) => self.check_area_region_valid(area),
+      Area::Thermo(_) => self.check_thermo_area_valid(area),
+      Area::Grid => unimplemented!(),
+    }
+  }
+
+  fn check_area_region_valid(&self, area: &Area) -> bool {
     let mut values = HashSet::new();
 
-    for row in 0..self.constraints.grid_size {
+    for CellPosition { row, col } in self.get_area_cells(area) {
       let value = self.grid[row][col];
+      if value == 0 {
+        continue
+      }
       if values.contains(&value) {
         return false
       }
@@ -53,15 +57,18 @@ impl Solver {
     true
   }
 
-  fn check_region_solved(&self, region: &Region) -> bool {
-    let mut values = HashSet::new();
+  fn check_thermo_area_valid(&self, area: &Area) -> bool {
+    let mut crt_max_value: u32 = 0;
 
-    for cell in region {
-      let value = self.grid[cell.row][cell.col];
-      if values.contains(&value) {
+    for CellPosition { row, col } in self.get_area_cells(area) {
+      let value = self.grid[row][col];
+      if value == 0 {
+        continue
+      }
+      if value <= crt_max_value {
         return false
       }
-      values.insert(value);
+      crt_max_value = value
     }
 
     true

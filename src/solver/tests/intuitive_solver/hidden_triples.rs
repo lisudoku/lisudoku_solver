@@ -10,6 +10,7 @@ fn check_hidden_triples() {
     FixedNumber::new(6, 2, 1),
     FixedNumber::new(7, 2, 2),
     FixedNumber::new(8, 2, 3),
+    FixedNumber::new(0, 3, 1),
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
@@ -21,12 +22,14 @@ fn check_hidden_triples() {
   assert_eq!(step.rule, Rule::HiddenTriples);
   assert_eq!(step.cells, vec![ CellPosition::new(0, 0), CellPosition::new(1, 0), CellPosition::new(2, 0) ]);
   assert_eq!(step.values, vec![ 1, 2, 3 ]);
-  let initial_candidates = solver.candidates[2][0].clone();
-  assert_eq!(initial_candidates.len(), 9);
+  assert_eq!(solver.candidates[0][0].len(), 8);
+  assert_eq!(solver.candidates[1][0].len(), 9);
+  assert_eq!(solver.candidates[2][0].len(), 9);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][0];
-  assert_eq!(final_candidates.len(), 3);
+  assert_eq!(solver.candidates[0][0].len(), 2);
+  assert_eq!(solver.candidates[1][0].len(), 3);
+  assert_eq!(solver.candidates[2][0].len(), 3);
 }
 
 #[test]

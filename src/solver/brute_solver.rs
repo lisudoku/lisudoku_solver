@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SudokuBruteSolveResult, Grid};
+use crate::types::{SudokuBruteSolveResult, Grid, SolutionType};
 
 impl Solver {
   pub fn brute_solve(&mut self, use_intuition: bool) -> SudokuBruteSolveResult {
@@ -29,7 +29,7 @@ impl Solver {
       // Storing would complicate things and we need to do it for each candidate at each depth
       self.candidates_active = false;
       let result = self.intuitive_solve();
-      if result.no_solution {
+      if result.solution_type == SolutionType::None {
         self.grid = original_grid.unwrap();
         return
       }

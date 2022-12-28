@@ -18,7 +18,7 @@ impl Solver {
       }
     }
 
-    for area in self.get_all_areas() {
+    for area in self.get_all_areas(false) {
       let hidden_single = self.find_hidden_single_in_area(&area, &candidates);
 
       if hidden_single.is_none() {

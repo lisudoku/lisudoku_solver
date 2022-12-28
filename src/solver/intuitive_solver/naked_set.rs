@@ -17,7 +17,7 @@ impl Solver {
       return None
     }
 
-    let areas = self.get_all_areas();
+    let areas = self.get_all_areas(false);
     for area in areas {
       let area_cells = self.get_empty_area_cells(&area);
       let cell_combinations: Vec<_> = if set_size < area_cells.len() {
