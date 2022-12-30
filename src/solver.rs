@@ -56,46 +56,20 @@ impl Solver {
   }
 
   fn compute_area_cell_candidates(&self, area: &Area, cell: CellPosition) -> HashSet<u32> {
-    match *area {
-      Area::Row(row) => self.compute_row_values_candidates(row),
-      Area::Column(col) => self.compute_col_values_candidates(col),
-      Area::Region(region_index) => self.compute_region_values_candidates(region_index),
-      Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
+    match area {
+      &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
       Area::Grid => unimplemented!(),
+      _ => self.compute_generic_area_cell_candidates(area),
     }
   }
 
-  fn compute_row_values_candidates(&self, row: usize) -> HashSet<u32> {
+  fn compute_generic_area_cell_candidates(&self, area: &Area) -> HashSet<u32> {
     let mut set = self.compute_all_candidates();
-    for col in 0..self.constraints.grid_size {
+    for CellPosition { row, col } in self.get_area_cells(area) {
       if self.grid[row][col] != 0 {
         set.remove(&self.grid[row][col]);
       }
     }
-
-    set
-  }
-
-  fn compute_col_values_candidates(&self, col: usize) -> HashSet<u32> {
-    let mut set = self.compute_all_candidates();
-    for row in 0..self.constraints.grid_size {
-      if self.grid[row][col] != 0 {
-        set.remove(&self.grid[row][col]);
-      }
-    }
-
-    set
-  }
-
-  fn compute_region_values_candidates(&self, region_index: usize) -> HashSet<u32> {
-    let mut set = self.compute_all_candidates();
-    let region = &self.constraints.regions[region_index];
-    for cell in region {
-      if self.grid[cell.row][cell.col] != 0 {
-        set.remove(&self.grid[cell.row][cell.col]);
-      }
-    }
-
     set
   }
 
@@ -153,23 +127,38 @@ impl Solver {
     (1..self.constraints.grid_size as u32 + 1).collect::<HashSet<u32>>()
   }
 
+  // Note: update when adding new areas
   fn get_cell_areas(&self, row: usize, col: usize, include_thermo: bool) -> Vec<Area> {
     let region_index = self.grid_to_region[row][col];
     let mut areas = vec![ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
+    if self.constraints.primary_diagonal && row == col {
+      areas.push(Area::PrimaryDiagonal);
+    }
+    if self.constraints.secondary_diagonal && row == self.constraints.grid_size - 1 - col {
+      areas.push(Area::SecondaryDiagonal);
+    }
     let thermo_index = self.grid_to_thermo[row][col];
     if include_thermo && thermo_index != usize::MAX {
       areas.push(Area::Thermo(thermo_index));
+      // TODO: handle intersecting thermos
     }
-    // TODO: handle intersecting thermos
+
     areas
   }
 
+  // Note: update when adding new areas
   fn get_all_areas(&self, include_thermo: bool) -> Vec<Area> {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
     areas.extend(self.get_col_areas());
     for region_index in 0..self.constraints.regions.len() {
       areas.push(Area::Region(region_index));
+    }
+    if self.constraints.primary_diagonal {
+      areas.push(Area::PrimaryDiagonal);
+    }
+    if self.constraints.secondary_diagonal {
+      areas.push(Area::SecondaryDiagonal);
     }
     if include_thermo {
       for thermo_index in 0..self.constraints.thermos.len() {
@@ -195,6 +184,8 @@ impl Solver {
       Area::Column(col) => self.get_col_cells(*col),
       Area::Region(region_index) => self.constraints.regions[*region_index].to_vec(),
       Area::Thermo(thermo_index) => self.constraints.thermos[*thermo_index].to_vec(),
+      Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
+      Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
     }
   }
 
@@ -216,6 +207,16 @@ impl Solver {
 
   fn get_col_cells(&self, col: usize) -> Vec<CellPosition> {
     (0..self.constraints.grid_size).map(|row| CellPosition::new(row, col)).collect()
+  }
+
+  fn get_primary_diagonal_cells(&self) -> Vec<CellPosition> {
+    (0..self.constraints.grid_size).map(|index| CellPosition::new(index, index)).collect()
+  }
+
+  fn get_secondary_diagonal_cells(&self) -> Vec<CellPosition> {
+    (0..self.constraints.grid_size).map(|index| {
+      CellPosition::new(index, self.constraints.grid_size - 1 - index)
+    }).collect()
   }
 
   #[allow(dead_code)]

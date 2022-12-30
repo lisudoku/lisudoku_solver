@@ -59,7 +59,6 @@ impl Solver {
     None
   }
 
-  // does this return duplicates?
   fn find_hidden_single_covering_cells(&self, area: &Area, found_cell: &CellPosition, value: u32) -> Vec<CellPosition> {
     let mut covered_cells = vec![ vec![ false; self.constraints.grid_size ]; self.constraints.grid_size ];
     let mut cells: Vec<CellPosition> = vec![];

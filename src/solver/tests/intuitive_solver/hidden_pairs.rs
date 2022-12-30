@@ -1,7 +1,7 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::Solver};
 
 #[test]
-fn check_hidden_pairs() {
+fn check_hidden_pairs_with_affected_cells() {
   let grid_size = 9;
   let fixed_numbers = vec![
     FixedNumber::new(0, 3, 1),

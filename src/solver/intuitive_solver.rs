@@ -278,6 +278,7 @@ impl Solver {
   fn update_candidates(&mut self, cells: &Vec<CellPosition>, _value: u32) {
     for cell in cells {
       // TODO: can be improved by not recomputing and just removing <value>
+      // This also makes sure we don't lose applied rules and having to reapply them
       self.candidates[cell.row][cell.col] = self.recompute_cell_candidates(cell.row, cell.col);
     }
   }
@@ -298,6 +299,7 @@ impl Solver {
     other_areas.get(0).copied()
   }
 
+  // Note: update when adding new areas
   fn find_common_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
     assert!(cells.len() >= 2);
 
@@ -313,6 +315,12 @@ impl Solver {
     if cells.iter().map(|cell| self.grid_to_region[cell.row][cell.col]).all_equal() {
       let region_index = self.grid_to_region[cell1.row][cell1.col];
       areas.push(Area::Region(region_index));
+    }
+    if self.constraints.primary_diagonal && cells.iter().all(|cell| cell.row == cell.col) {
+      areas.push(Area::PrimaryDiagonal);
+    }
+    if self.constraints.secondary_diagonal && cells.iter().all(|cell| cell.row + cell.col == self.constraints.grid_size - 1) {
+      areas.push(Area::SecondaryDiagonal);
     }
 
     areas

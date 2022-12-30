@@ -7,6 +7,8 @@ pub struct SudokuConstraints {
   pub fixed_numbers: Vec<FixedNumber>,
   pub regions: Vec<Region>,
   pub thermos: Vec<Thermo>,
+  pub primary_diagonal: bool,
+  pub secondary_diagonal: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -95,6 +97,8 @@ pub enum Area {
   Column(usize),
   Region(usize),
   Thermo(usize),
+  PrimaryDiagonal,
+  SecondaryDiagonal,
 }
 
 pub type Thermo = Vec<CellPosition>;
@@ -107,6 +111,8 @@ impl SudokuConstraints {
       fixed_numbers,
       regions: SudokuConstraints::default_regions(grid_size),
       thermos: vec![],
+      primary_diagonal: false,
+      secondary_diagonal: false,
     }
   }
 

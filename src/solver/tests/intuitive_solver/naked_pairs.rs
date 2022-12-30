@@ -2,7 +2,7 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver:
 use itertools::Itertools;
 
 #[test]
-fn check_naked_pairs() {
+fn check_naked_pairs_with_affected_cells() {
   let grid_size = 9;
   let fixed_numbers = vec![
     FixedNumber::new(0, 0, 1),

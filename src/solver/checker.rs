@@ -36,6 +36,7 @@ impl Solver {
     match area {
       Area::Row(_) | Area::Column(_) | Area::Region(_) => self.check_area_region_valid(area),
       Area::Thermo(_) => self.check_thermo_area_valid(area),
+      Area::PrimaryDiagonal | Area::SecondaryDiagonal => self.check_area_region_valid(area),
       Area::Grid => unimplemented!(),
     }
   }
