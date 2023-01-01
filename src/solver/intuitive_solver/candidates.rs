@@ -12,12 +12,8 @@ impl Solver {
       vec![ HashSet::new(); self.constraints.grid_size ];
       self.constraints.grid_size
     ];
-    for row in 0..self.constraints.grid_size {
-      for col in 0..self.constraints.grid_size {
-        if self.grid[row][col] == 0 {
-          candidates[row][col] = self.compute_cell_candidates(row, col);
-        }
-      }
+    for cell in &self.get_all_empty_cells() {
+      candidates[cell.row][cell.col] = self.compute_cell_candidates(cell);
     }
 
     return Some(

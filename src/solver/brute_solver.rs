@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SudokuBruteSolveResult, Grid, SolutionType};
+use crate::types::{SudokuBruteSolveResult, Grid, SolutionType, CellPosition};
 
 impl Solver {
   pub fn brute_solve(&mut self, use_intuition: bool) -> SudokuBruteSolveResult {
@@ -18,8 +18,7 @@ impl Solver {
   }
 
   pub fn recursive_check(&mut self, solution_count: &mut u32, use_intuition: bool, depth: u32) {
-    let mut best_row = usize::MAX;
-    let mut best_col = usize::MAX;
+    let mut best_cell: Option<CellPosition> = None;
     let mut best_candidates: HashSet<u32> = HashSet::new();
 
     let mut original_grid: Option<Grid> = None;
@@ -35,24 +34,20 @@ impl Solver {
       }
     }
 
-    for row in 0..self.constraints.grid_size {
-      for col in 0..self.constraints.grid_size {
-        if self.grid[row][col] == 0 {
-          let cell_candidates = self.compute_cell_candidates(row, col);
-          if best_row == usize::MAX || cell_candidates.len() < best_candidates.len() {
-            best_row = row;
-            best_col = col;
-            best_candidates = cell_candidates;
-          }
-        }
+    for cell in self.get_all_empty_cells() {
+      let cell_candidates = self.compute_cell_candidates(&cell);
+      if best_cell.is_none() || cell_candidates.len() < best_candidates.len() {
+        best_cell = Some(cell);
+        best_candidates = cell_candidates;
       }
     }
 
-    if best_row == usize::MAX {
+    if best_cell.is_none() {
       self.solution = Some(self.grid.to_vec());
       *solution_count += 1;
     } else if !best_candidates.is_empty() {
       for value in best_candidates.into_iter() {
+        let CellPosition { row: best_row, col: best_col } = best_cell.unwrap();
         self.grid[best_row][best_col] = value;
 
         // Currently we only run the solver with intuition and because of

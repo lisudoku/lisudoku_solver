@@ -4,8 +4,8 @@ use combinations::Combinations;
 
 impl Solver {
   pub fn find_naked_singles(&self) -> Option<SolutionStep> {
-    for CellPosition { row, col } in self.get_empty_area_cells(&Area::Grid) {
-      let step = self.find_naked_single_in_cell(row, col);
+    for cell in self.get_all_empty_cells() {
+      let step = self.find_naked_single_in_cell(cell);
       if step.is_some() {
         return step
       }
@@ -14,12 +14,13 @@ impl Solver {
     None
   }
 
-  fn find_naked_single_in_cell(&self, row: usize, col: usize) -> Option<SolutionStep> {
+  fn find_naked_single_in_cell(&self, cell: CellPosition) -> Option<SolutionStep> {
+    let CellPosition { row, col } = cell;
     if self.candidates_active {
       return self.find_naked_single_with_candidates(row, col);
     }
 
-    let candidate_areas = self.get_cell_areas(row, col, false);
+    let candidate_areas = self.get_cell_areas(&cell, false);
 
     // Try to use as few areas as possible to cover all candidates
     for area_count in 1..candidate_areas.len()+1 {
@@ -33,7 +34,7 @@ impl Solver {
 
       for area_combination in area_combinations {
         let selected_areas = area_combination.into_iter().map(|index| &candidate_areas[index]).collect();
-        let step = self.find_naked_single_in_cell_and_areas(row, col, selected_areas);
+        let step = self.find_naked_single_in_cell_and_areas(&cell, selected_areas);
         if step.is_some() {
           return step
         }
@@ -43,10 +44,10 @@ impl Solver {
     None
   }
 
-  fn find_naked_single_in_cell_and_areas(&self, row: usize, col: usize, areas: Vec<&Area>) -> Option<SolutionStep> {
+  fn find_naked_single_in_cell_and_areas(&self, cell: &CellPosition, areas: Vec<&Area>) -> Option<SolutionStep> {
     let mut areas_set = self.compute_all_candidates();
     for area in &areas {
-      let area_set = self.compute_area_cell_candidates(area, CellPosition { row, col });
+      let area_set = self.compute_area_cell_candidates(area, cell);
       areas_set = areas_set.intersection(&area_set).cloned().collect();
     }
     if areas_set.len() == 1 {
@@ -54,7 +55,7 @@ impl Solver {
       return Some(
         SolutionStep {
           rule: Rule::NakedSingle,
-          cells: vec![ CellPosition { row, col } ],
+          cells: vec![ *cell ],
           values: vec![ value ],
           areas: areas.into_iter().map(|x| *x).collect(),
           affected_cells: vec![],

@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use itertools::Itertools;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule, Area, CellPosition};
+use crate::types::{SolutionStep, Rule, CellPosition};
 
 impl Solver {
   pub fn find_xy_wing(&self) -> Option<SolutionStep> {
@@ -9,7 +9,7 @@ impl Solver {
       return None;
     }
 
-    let cells_with_2: Vec<CellPosition> = self.get_empty_area_cells(&Area::Grid)
+    let cells_with_2: Vec<CellPosition> = self.get_all_empty_cells()
       .into_iter()
       .filter(|cell| self.candidates[cell.row][cell.col].len() == 2)
       .collect();

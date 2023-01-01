@@ -8,7 +8,7 @@ impl Solver {
       let upper_bounds = self.find_thermo_upper_bounds(&thermo);
 
       for (cell_index, cell) in thermo.iter().enumerate() {
-        let valid_values: Vec<u32> = self.compute_cell_candidates(cell.row, cell.col)
+        let valid_values: Vec<u32> = self.compute_cell_candidates(cell)
           .into_iter()
           .filter(|&value| lower_bounds[cell_index] <= value && value <= upper_bounds[cell_index])
           .collect();

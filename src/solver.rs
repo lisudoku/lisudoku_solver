@@ -55,7 +55,7 @@ impl Solver {
     }
   }
 
-  fn compute_area_cell_candidates(&self, area: &Area, cell: CellPosition) -> HashSet<u32> {
+  fn compute_area_cell_candidates(&self, area: &Area, cell: &CellPosition) -> HashSet<u32> {
     match area {
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
       Area::Grid => unimplemented!(),
@@ -74,7 +74,7 @@ impl Solver {
   }
 
   // This could be made more intelligent, but we leave the tricks to intuitive_solver
-  fn compute_thermo_cell_candidates(&self, thermo_index: usize, area_cell: CellPosition) -> HashSet<u32> {
+  fn compute_thermo_cell_candidates(&self, thermo_index: usize, area_cell: &CellPosition) -> HashSet<u32> {
     let thermo = &self.constraints.thermos[thermo_index];
 
     let mut after = false;
@@ -103,20 +103,20 @@ impl Solver {
     set
   }
 
-  fn compute_cell_candidates(&self, row: usize, col: usize) -> HashSet<u32> {
+  fn compute_cell_candidates(&self, cell: &CellPosition) -> HashSet<u32> {
     if self.candidates_active {
-      return self.candidates[row][col].clone();
+      return self.candidates[cell.row][cell.col].clone();
     }
 
-    self.recompute_cell_candidates(row, col)
+    self.recompute_cell_candidates(cell)
   }
 
-  fn recompute_cell_candidates(&self, row: usize, col: usize) -> HashSet<u32> {
+  fn recompute_cell_candidates(&self, cell: &CellPosition) -> HashSet<u32> {
     // Note: we don't restrict thermo candidates at this level
-    let areas = self.get_cell_areas(row, col, false);
+    let areas = self.get_cell_areas(cell, false);
     let mut candidates = self.compute_all_candidates();
     for area in &areas {
-      let area_set = self.compute_area_cell_candidates(area, CellPosition { row, col });
+      let area_set = self.compute_area_cell_candidates(area, cell);
       candidates = candidates.intersection(&area_set).cloned().collect();
     }
 
@@ -128,7 +128,8 @@ impl Solver {
   }
 
   // Note: update when adding new areas
-  fn get_cell_areas(&self, row: usize, col: usize, include_thermo: bool) -> Vec<Area> {
+  fn get_cell_areas(&self, cell: &CellPosition, include_thermo: bool) -> Vec<Area> {
+    let &CellPosition { row, col } = cell;
     let region_index = self.grid_to_region[row][col];
     let mut areas = vec![ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
     if self.constraints.primary_diagonal && row == col {
@@ -193,6 +194,10 @@ impl Solver {
     self.get_area_cells(area).into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).collect()
   }
 
+  fn get_all_empty_cells(&self) -> Vec<CellPosition> {
+    self.get_empty_area_cells(&Area::Grid)
+  }
+
   fn get_grid_cells(&self) -> Vec<CellPosition> {
     (0..self.constraints.grid_size).flat_map(|row| {
       (0..self.constraints.grid_size).map(|col| {
@@ -223,7 +228,7 @@ impl Solver {
   fn compute_area_candidates_union(&self, area: &Area) -> HashSet<u32> {
     let mut area_candidates: HashSet<u32> = HashSet::new();
     for cell in self.get_area_cells(area) {
-      let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
+      let cell_candidates = self.compute_cell_candidates(&cell);
       area_candidates = area_candidates.union(&cell_candidates).cloned().collect();
     }
     area_candidates
@@ -236,7 +241,7 @@ impl Solver {
   fn get_area_cells_with_candidates(&self, area: &Area, values: &HashSet<u32>) -> Vec<CellPosition> {
     self.get_empty_area_cells(area)
         .into_iter()
-        .filter(|cell| !self.compute_cell_candidates(cell.row, cell.col).is_disjoint(values))
+        .filter(|cell| !self.compute_cell_candidates(&cell).is_disjoint(values))
         .collect()
   }
 

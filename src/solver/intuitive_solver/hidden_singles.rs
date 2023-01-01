@@ -10,12 +10,8 @@ impl Solver {
       vec![ HashSet::new(); self.constraints.grid_size ];
       self.constraints.grid_size
     ];
-    for row in 0..self.constraints.grid_size {
-      for col in 0..self.constraints.grid_size {
-        if self.grid[row][col] == 0 {
-          candidates[row][col] = self.compute_cell_candidates(row, col);
-        }
-      }
+    for cell in &self.get_all_empty_cells() {
+      candidates[cell.row][cell.col] = self.compute_cell_candidates(cell);
     }
 
     for area in self.get_all_areas(false) {
@@ -62,12 +58,12 @@ impl Solver {
   fn find_hidden_single_covering_cells(&self, area: &Area, found_cell: &CellPosition, value: u32) -> Vec<CellPosition> {
     let mut covered_cells = vec![ vec![ false; self.constraints.grid_size ]; self.constraints.grid_size ];
     let mut cells: Vec<CellPosition> = vec![];
-    for cell in self.get_empty_area_cells(area) {
+    for cell in &self.get_empty_area_cells(area) {
       if cell.eq(found_cell) || covered_cells[cell.row][cell.col] {
         continue
       }
 
-      for other_area in self.get_cell_areas(cell.row, cell.col, false) {
+      for other_area in self.get_cell_areas(cell, false) {
         if other_area.eq(area) {
           continue
         }

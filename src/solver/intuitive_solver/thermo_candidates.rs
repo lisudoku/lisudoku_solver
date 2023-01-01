@@ -43,7 +43,7 @@ impl Solver {
       if self.grid[cell.row][cell.col] != 0 {
         current_min = self.grid[cell.row][cell.col];
       } else {
-        let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
+        let cell_candidates = self.compute_cell_candidates(cell);
 
         // If it reaches grid_sze it should result in a cell with no candidates
         if current_min < max_value {
@@ -65,7 +65,7 @@ impl Solver {
       if self.grid[cell.row][cell.col] != 0 {
         current_max = self.grid[cell.row][cell.col];
       } else {
-        let cell_candidates = self.compute_cell_candidates(cell.row, cell.col);
+        let cell_candidates = self.compute_cell_candidates(cell);
 
         // If it reaches 0 it should result in a cell with no candidates
         if current_max > 0 {

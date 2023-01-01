@@ -221,8 +221,8 @@ impl Solver {
   }
 
   fn is_cell_with_no_candidates(&self) -> bool {
-    for CellPosition { row, col } in self.get_empty_area_cells(&Area::Grid) {
-      let cell_candidates = self.compute_cell_candidates(row, col);
+    for cell in self.get_all_empty_cells() {
+      let cell_candidates = self.compute_cell_candidates(&cell);
       if cell_candidates.is_empty() {
         return true
       }
@@ -235,7 +235,7 @@ impl Solver {
   // Returns cells that <cell> sees which have any of <values> candidates
   fn get_affected_by_cell(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
     // Note: we ignore thermos here, there is a separate rule for updating them
-    self.get_cell_areas(cell.row, cell.col, false)
+    self.get_cell_areas(cell, false)
         .iter()
         .flat_map(|area| self.get_area_cells_with_candidates(area, values))
         .filter(|other_cell| other_cell != cell)
@@ -257,11 +257,11 @@ impl Solver {
 
   fn cells_affect_eachother(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
     cell1 != cell2 &&
-    !self.get_cell_areas(cell1.row, cell1.col, false)
+    !self.get_cell_areas(cell1, false)
          .into_iter()
          .collect::<HashSet<Area>>()
          .is_disjoint(
-           &self.get_cell_areas(cell2.row, cell2.col, false)
+           &self.get_cell_areas(cell2, false)
                 .into_iter()
                 .collect()
          )
@@ -279,7 +279,7 @@ impl Solver {
     for cell in cells {
       // TODO: can be improved by not recomputing and just removing <value>
       // This also makes sure we don't lose applied rules and having to reapply them
-      self.candidates[cell.row][cell.col] = self.recompute_cell_candidates(cell.row, cell.col);
+      self.candidates[cell.row][cell.col] = self.recompute_cell_candidates(cell);
     }
   }
 
@@ -347,8 +347,9 @@ impl Solver {
     if !self.candidates_active {
       return
     }
-    for CellPosition { row, col } in self.get_empty_area_cells(&Area::Grid) {
-      let cell_candidates = self.recompute_cell_candidates(row, col);
+    for cell in &self.get_all_empty_cells() {
+      let &CellPosition { row, col } = cell;
+      let cell_candidates = self.recompute_cell_candidates(cell);
       if self.candidates[row][col] != cell_candidates {
         println!("==> Invalid candidates for ({},{})!", row, col);
         println!("Saved candidates: {:?}", self.candidates[row][col]);
