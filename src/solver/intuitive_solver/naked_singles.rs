@@ -22,6 +22,9 @@ impl Solver {
 
     let candidate_areas = self.get_cell_areas(&cell, false);
 
+    // TODO: we may want to also consider anti knight cells
+    // currently that case will be caught when candidates_active
+
     // Try to use as few areas as possible to cover all candidates
     for area_count in 1..candidate_areas.len()+1 {
       let area_indexes: Vec<usize> = (0..candidate_areas.len()).collect();

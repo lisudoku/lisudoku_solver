@@ -6,3 +6,7 @@ mod thermo_6x6;
 mod thermo_9x9;
 mod diagonal_4x4;
 mod diagonal_9x9;
+mod anti_knight_4x4;
+mod anti_knight_6x6;
+mod anti_knight_9x9;
+mod mixed_9x9;

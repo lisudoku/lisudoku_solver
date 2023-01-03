@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Area}, solver::Solver};
 use itertools::Itertools;
 
 #[test]
@@ -14,16 +14,19 @@ fn check_hidden_single_in_region() {
   let step = solver.find_hidden_singles();
   assert!(step.is_some());
   let mut step = step.unwrap();
-  assert_eq!(step.cells.len(), step.cells.iter().unique().count());
+  assert_eq!(step.values, vec![1]);
+  assert_eq!(step.cells[0], CellPosition::new(0, 0));
+  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 0), CellPosition::new(1, 3), CellPosition::new(3, 1),
+  ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let rule_value = step.values[0];
   let initial_value = solver.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
   let final_value = solver.grid[row][col];
-  assert!(final_value == rule_value);
+  assert!(final_value == 1);
 }
 
 #[test]
@@ -43,16 +46,20 @@ fn check_hidden_single_on_row() {
   let step = solver.find_hidden_singles();
   assert!(step.is_some());
   let mut step = step.unwrap();
-  assert_eq!(step.cells.len(), step.cells.iter().unique().count());
+  assert_eq!(step.values, vec![1]);
+  assert_eq!(step.areas, vec![Area::Row(0)]);
+  assert_eq!(step.cells[0], CellPosition::new(0, 0));
+  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 0), CellPosition::new(2, 8), CellPosition::new(5, 2), CellPosition::new(6, 1),
+  ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let rule_value = step.values[0];
   let initial_value = solver.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
   let final_value = solver.grid[row][col];
-  assert!(final_value == rule_value);
+  assert!(final_value == 1);
 }
 
 #[test]
@@ -70,16 +77,21 @@ fn check_hidden_single_on_col() {
   let step = solver.find_hidden_singles();
   assert!(step.is_some());
   let mut step = step.unwrap();
+  assert_eq!(step.values, vec![1]);
+  assert_eq!(step.areas, vec![Area::Column(3)]);
+  assert_eq!(step.cells[0], CellPosition::new(5, 3));
+  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 5), CellPosition::new(4, 0), CellPosition::new(5, 3),
+  ]);
   assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let rule_value = step.values[0];
   let initial_value = solver.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
   let final_value = solver.grid[row][col];
-  assert!(final_value == rule_value);
+  assert!(final_value == 1);
 }
 
 #[test]
@@ -105,4 +117,70 @@ fn check_hidden_single_in_region_with_candidates() {
   solver.apply_rule(&mut step);
   let final_value = solver.grid[row][col];
   assert!(final_value == rule_value);
+}
+
+#[test]
+fn check_hidden_single_using_anti_knight_1() {
+  let grid_size = 9;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 8, 1),
+    FixedNumber::new(2, 3, 2),
+    FixedNumber::new(3, 3, 1),
+    FixedNumber::new(5, 0, 1),
+    FixedNumber::new(6, 2, 1),
+  ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.anti_knight = true;
+  let mut solver = Solver::new(constraints, None);
+
+  let step = solver.find_hidden_singles();
+  assert!(step.is_some());
+  let mut step = step.unwrap();
+  assert_eq!(step.areas, vec![Area::Row(2)]);
+  assert_eq!(step.values, vec![1]);
+  assert_eq!(step.cells[0], CellPosition::new(2, 4));
+  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 8), CellPosition::new(2, 4), CellPosition::new(3, 3), CellPosition::new(5, 0), CellPosition::new(6, 2),
+  ]);
+  assert!(step.affected_cells.is_empty());
+  let CellPosition { row, col } = step.cells[0];
+  let initial_value = solver.grid[row][col];
+  assert!(initial_value == 0);
+
+  solver.apply_rule(&mut step);
+  let final_value = solver.grid[row][col];
+  assert!(final_value == 1);
+}
+
+#[test]
+fn check_hidden_single_using_anti_knight_2() {
+  let grid_size = 6;
+  let fixed_numbers = vec![
+    FixedNumber::new(1, 0, 1),
+    FixedNumber::new(1, 1, 2),
+    FixedNumber::new(1, 2, 3),
+    FixedNumber::new(1, 4, 4),
+    FixedNumber::new(3, 2, 5),
+  ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.anti_knight = true;
+  let mut solver = Solver::new(constraints, None);
+
+  let step = solver.find_hidden_singles();
+  assert!(step.is_some());
+  let mut step = step.unwrap();
+  assert_eq!(step.areas, vec![Area::Row(1)]);
+  assert_eq!(step.values, vec![5]);
+  assert_eq!(step.cells[0], CellPosition::new(1, 5));
+  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(1, 5), CellPosition::new(3, 2),
+  ]);
+  assert!(step.affected_cells.is_empty());
+  let CellPosition { row, col } = step.cells[0];
+  let initial_value = solver.grid[row][col];
+  assert!(initial_value == 0);
+
+  solver.apply_rule(&mut step);
+  let final_value = solver.grid[row][col];
+  assert!(final_value == 5);
 }

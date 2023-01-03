@@ -12,4 +12,5 @@ mod thermo_steps;
 mod thermo_candidates;
 mod x_wing;
 mod xy_wing;
+mod common_peer_elimination;
 mod puzzles;

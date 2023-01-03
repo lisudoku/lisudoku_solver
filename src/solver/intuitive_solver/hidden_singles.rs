@@ -63,23 +63,16 @@ impl Solver {
         continue
       }
 
-      for other_area in self.get_cell_areas(cell, false) {
-        if other_area.eq(area) {
+      for peer in self.get_cell_peers(cell) {
+        let peer_value = self.grid[peer.row][peer.col];
+        if peer_value != value {
           continue
         }
 
-        let area_cells = self.get_area_cells(&other_area);
-        let area_cell = area_cells.iter().find(|c| self.grid[c.row][c.col] == value);
-        if area_cell.is_none() {
-          continue
-        }
-
-        let area_cell = area_cell.unwrap();
-        cells.push(*area_cell);
-
-        for CellPosition { row, col } in area_cells {
+        for CellPosition { row, col } in self.get_cell_peers(&peer) {
           covered_cells[row][col] = true;
         }
+        cells.push(peer);
       }
     }
     cells.into_iter().unique().collect()

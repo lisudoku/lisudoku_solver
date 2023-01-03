@@ -9,6 +9,7 @@ pub struct SudokuConstraints {
   pub thermos: Vec<Thermo>,
   pub primary_diagonal: bool,
   pub secondary_diagonal: bool,
+  pub anti_knight: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -30,6 +31,12 @@ impl CellPosition {
       col,
     }
   }
+}
+
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+pub struct CellDirection {
+  pub row: isize,
+  pub col: isize,
 }
 
 pub type Region = Vec<CellPosition>;
@@ -81,6 +88,7 @@ pub enum Rule {
   LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   HiddenPairs,
+  CommonPeerElimination, // cells = have common peers, affected_cells = would eliminate them
   LockedCandidatesTriples,
   NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenTriples,
@@ -113,6 +121,7 @@ impl SudokuConstraints {
       thermos: vec![],
       primary_diagonal: false,
       secondary_diagonal: false,
+      anti_knight: false,
     }
   }
 

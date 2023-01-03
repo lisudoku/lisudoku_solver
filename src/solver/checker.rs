@@ -29,6 +29,10 @@ impl Solver {
       }
     }
 
+    if self.constraints.anti_knight && !self.check_anti_knight_valid() {
+      return false
+    }
+
     true
   }
 
@@ -43,16 +47,25 @@ impl Solver {
 
   fn check_area_region_valid(&self, area: &Area) -> bool {
     let mut values = HashSet::new();
+    let mut candidates = HashSet::new();
 
-    for CellPosition { row, col } in self.get_area_cells(area) {
-      let value = self.grid[row][col];
+    let area_cells = self.get_area_cells(area);
+    for cell in &area_cells {
+      let value = self.grid[cell.row][cell.col];
       if value == 0 {
+        candidates.extend(self.compute_cell_candidates(cell));
         continue
       }
       if values.contains(&value) {
         return false
       }
       values.insert(value);
+    }
+
+    candidates.extend(values);
+    // Can't place some value in this area so there is no solution
+    if candidates.len() != area_cells.len() {
+      return false
     }
 
     true
@@ -70,6 +83,27 @@ impl Solver {
         return false
       }
       crt_max_value = value
+    }
+
+    true
+  }
+
+  fn check_anti_knight_valid(&self) -> bool {
+    for cell in self.get_area_cells(&Area::Grid) {
+      let value = self.grid[cell.row][cell.col];
+      if value == 0 {
+        continue
+      }
+
+      for peer in self.get_knight_peers(&cell) {
+        let peer_value = self.grid[peer.row][peer.col];
+        if peer_value == 0 {
+          continue
+        }
+        if value == peer_value {
+          return false
+        }
+      }
     }
 
     true

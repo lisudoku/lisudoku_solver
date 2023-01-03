@@ -1,10 +1,23 @@
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
-use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition};
+use itertools::Itertools;
+
+use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection};
 
 mod checker;
 mod intuitive_solver;
 mod brute_solver;
+
+const KNIGHT_MOVES: [CellDirection; 8] = [
+  CellDirection { row: 1, col: 2 },
+  CellDirection { row: 1, col: -2 },
+  CellDirection { row: -1, col: 2 },
+  CellDirection { row: -1, col: -2 },
+  CellDirection { row: 2, col: 1 },
+  CellDirection { row: 2, col: -1 },
+  CellDirection { row: -2, col: 1 },
+  CellDirection { row: -2, col: -1 },
+];
 
 pub struct Solver {
   pub constraints: SudokuConstraints,
@@ -119,6 +132,17 @@ impl Solver {
       let area_set = self.compute_area_cell_candidates(area, cell);
       candidates = candidates.intersection(&area_set).cloned().collect();
     }
+    if self.constraints.anti_knight {
+      let mut knight_set = self.compute_all_candidates();
+      for peer in self.get_knight_peers(&cell) {
+        let value = self.grid[peer.row][peer.col];
+        if value == 0 {
+          continue
+        }
+        knight_set.remove(&value);
+      }
+      candidates = candidates.intersection(&knight_set).cloned().collect();
+    }
 
     candidates
   }
@@ -198,6 +222,13 @@ impl Solver {
     self.get_empty_area_cells(&Area::Grid)
   }
 
+  fn get_all_cells_with_candidate(&self, value: u32) -> Vec<CellPosition> {
+    self.get_all_empty_cells()
+        .into_iter()
+        .filter(|&CellPosition { row, col }| self.candidates[row][col].contains(&value))
+        .collect()
+  }
+
   fn get_grid_cells(&self) -> Vec<CellPosition> {
     (0..self.constraints.grid_size).flat_map(|row| {
       (0..self.constraints.grid_size).map(|col| {
@@ -254,6 +285,46 @@ impl Solver {
       }
     }
     value_cells
+  }
+
+  fn get_cell_peers_with_candidates(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
+    self.get_cell_peers(cell)
+        .into_iter()
+        .filter(|cell| !self.compute_cell_candidates(&cell).is_disjoint(values))
+        .collect()
+  }
+
+  // Note: update when adding constraints
+  fn get_cell_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
+    let mut peers: Vec<CellPosition> = self.get_cell_areas(cell, true)
+      .iter()
+      .flat_map(|area| self.get_area_cells(area))
+      .collect();
+
+    if self.constraints.anti_knight {
+      peers.extend(self.get_knight_peers(cell));
+    }
+
+    peers.into_iter()
+         .filter(|other_cell| other_cell != cell)
+         .unique()
+         .collect()
+  }
+
+  fn get_knight_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
+    KNIGHT_MOVES.iter().filter_map(|direction| {
+      let prow = cell.row as isize + direction.row;
+      let pcol = cell.col as isize + direction.col;
+      if prow < 0 || prow >= self.constraints.grid_size as isize ||
+         pcol < 0 || pcol >= self.constraints.grid_size as isize {
+        return None
+      }
+      let peer = CellPosition {
+        row: prow as usize,
+        col: pcol as usize,
+      };
+      Some(peer)
+    }).collect()
   }
 }
 

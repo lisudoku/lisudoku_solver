@@ -13,6 +13,7 @@ mod thermo_candidates;
 mod hidden_set;
 mod x_wing;
 mod xy_wing;
+mod common_peer_elimination;
 
 const DEBUG: bool = false;
 
@@ -30,8 +31,8 @@ impl Solver {
     println!("Empty cell count: {}", empty_cell_count);
 
     while empty_cell_count > 0 {
-      if self.is_cell_with_no_candidates() {
-        println!("No candidates");
+      if let Some(cell) = self.get_cell_with_no_candidates() {
+        println!("Cell with no candidates {:?}", cell);
         return SudokuIntuitiveSolveResult::no_solution()
       }
 
@@ -163,6 +164,11 @@ impl Solver {
       return step
     }
 
+    let step = self.find_common_peer_elimination();
+    if step.is_some() {
+      return step
+    }
+
     // TODO: implement other rules
 
     None
@@ -220,27 +226,21 @@ impl Solver {
     }
   }
 
-  fn is_cell_with_no_candidates(&self) -> bool {
+  fn get_cell_with_no_candidates(&self) -> Option<CellPosition> {
     for cell in self.get_all_empty_cells() {
       let cell_candidates = self.compute_cell_candidates(&cell);
       if cell_candidates.is_empty() {
-        return true
+        return Some(cell)
       }
     }
 
-    false
+    None
   }
 
   // This method is used after placing a digit into the grid
   // Returns cells that <cell> sees which have any of <values> candidates
   fn get_affected_by_cell(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
-    // Note: we ignore thermos here, there is a separate rule for updating them
-    self.get_cell_areas(cell, false)
-        .iter()
-        .flat_map(|area| self.get_area_cells_with_candidates(area, values))
-        .filter(|other_cell| other_cell != cell)
-        .unique()
-        .collect()
+    self.get_cell_peers_with_candidates(cell, values)
   }
 
   // Returns cells that are seen by all <cells> with any of <values> candidates
@@ -275,11 +275,9 @@ impl Solver {
         .collect()
   }
 
-  fn update_candidates(&mut self, cells: &Vec<CellPosition>, _value: u32) {
+  fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
     for cell in cells {
-      // TODO: can be improved by not recomputing and just removing <value>
-      // This also makes sure we don't lose applied rules and having to reapply them
-      self.candidates[cell.row][cell.col] = self.recompute_cell_candidates(cell);
+      self.candidates[cell.row][cell.col].remove(&value);
     }
   }
 

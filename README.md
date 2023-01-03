@@ -2,7 +2,7 @@
 
 ## Build
 
-`wasm-pack build --target bundler`
+`cargo run-script build`
 
 ## Running tests
 
