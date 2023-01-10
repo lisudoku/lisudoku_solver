@@ -4,6 +4,8 @@ use crate::types::{SolutionStep, Rule, CellPosition};
 use combinations::Combinations;
 use itertools::Itertools;
 
+// Within a house, X and Y are candidates in only 2 cells, so you can remove any other
+// candidate from those 2 cells.
 impl Solver {
   pub fn find_hidden_pairs(&self) -> Option<SolutionStep> {
     self.find_hidden_set(2)
@@ -18,7 +20,7 @@ impl Solver {
       return None
     }
 
-    let areas = self.get_all_areas(false);
+    let areas = self.get_all_areas(false, false);
     for area in areas {
       let value_cells = self.compute_cells_by_value_in_area(&area, &self.candidates);
 

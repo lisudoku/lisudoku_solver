@@ -2,13 +2,14 @@ use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
 use itertools::Itertools;
 
+// Cell can’t be X because it eliminates all X candidates from a region
 impl Solver {
   pub fn find_common_peer_elimination(&self) -> Option<SolutionStep> {
     if !self.candidates_active {
       return None
     }
 
-    for area in self.get_all_areas(false) {
+    for area in self.get_all_areas(false, false) {
       let cells_by_value = self.compute_cells_by_value_in_area(&area, &self.candidates);
       for (value, cells) in cells_by_value.into_iter().sorted() {
         let step = self.find_common_peer_elimination_cells_with_value(&area, cells, value);

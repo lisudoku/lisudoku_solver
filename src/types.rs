@@ -6,6 +6,7 @@ pub struct SudokuConstraints {
   pub grid_size: usize,
   pub fixed_numbers: Vec<FixedNumber>,
   pub regions: Vec<Region>,
+  pub killer_cages: Vec<KillerCage>,
   pub thermos: Vec<Thermo>,
   pub primary_diagonal: bool,
   pub secondary_diagonal: bool,
@@ -42,6 +43,12 @@ pub struct CellDirection {
 pub type Region = Vec<CellPosition>;
 
 pub type Grid = Vec<Vec<u32>>;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct KillerCage {
+  pub sum: Option<u32>,
+  pub region: Region,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SudokuGrid {
@@ -85,6 +92,8 @@ pub enum Rule {
   Thermo,
   Candidates,
   ThermoCandidates,
+  KillerCandidates,
+  Killer45,
   LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   HiddenPairs,
@@ -105,6 +114,7 @@ pub enum Area {
   Column(usize),
   Region(usize),
   Thermo(usize),
+  KillerCage(usize),
   PrimaryDiagonal,
   SecondaryDiagonal,
 }
@@ -118,6 +128,7 @@ impl SudokuConstraints {
       grid_size,
       fixed_numbers,
       regions: SudokuConstraints::default_regions(grid_size),
+      killer_cages: vec![],
       thermos: vec![],
       primary_diagonal: false,
       secondary_diagonal: false,

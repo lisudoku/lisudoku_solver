@@ -23,7 +23,7 @@ impl Solver {
       }
     }
 
-    for area in self.get_all_areas(true) {
+    for area in self.get_all_areas(true, true) {
       if !self.check_area_valid(&area) {
         return false
       }
@@ -38,10 +38,11 @@ impl Solver {
 
   fn check_area_valid(&self, area: &Area) -> bool {
     match area {
-      Area::Row(_) | Area::Column(_) | Area::Region(_) => self.check_area_region_valid(area),
-      Area::Thermo(_) => self.check_thermo_area_valid(area),
-      Area::PrimaryDiagonal | Area::SecondaryDiagonal => self.check_area_region_valid(area),
-      Area::Grid => unimplemented!(),
+      &Area::Row(_) | &Area::Column(_) | &Area::Region(_) |
+        &Area::PrimaryDiagonal | &Area::SecondaryDiagonal => self.check_area_region_valid(area),
+      &Area::KillerCage(killer_cage_index) => self.check_killer_area_valid(area, killer_cage_index),
+      &Area::Thermo(_) => self.check_thermo_area_valid(area),
+      &Area::Grid => unimplemented!(),
     }
   }
 
@@ -64,7 +65,7 @@ impl Solver {
 
     candidates.extend(values);
     // Can't place some value in this area so there is no solution
-    if candidates.len() != area_cells.len() {
+    if candidates.len() < area_cells.len() {
       return false
     }
 
@@ -103,6 +104,31 @@ impl Solver {
         if value == peer_value {
           return false
         }
+      }
+    }
+
+    true
+  }
+
+  fn check_killer_area_valid(&self, area: &Area, killer_cage_index: usize) -> bool {
+    if !self.check_area_region_valid(area) {
+      return false
+    }
+
+    let mut sum: u32 = 0;
+    let mut any_zero = false;
+    for cell in self.get_area_cells(&area) {
+      let value = self.grid[cell.row][cell.col];
+      if value == 0 {
+        any_zero = true;
+      }
+      sum += value;
+    }
+
+    let killer_cage = &self.constraints.killer_cages[killer_cage_index];
+    if let Some(killer_sum) = killer_cage.sum {
+      if sum != killer_sum && !any_zero || sum > killer_sum {
+        return false
       }
     }
 

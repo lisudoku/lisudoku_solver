@@ -3,6 +3,7 @@ use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule};
 use combinations::Combinations;
 
+// Within a house, 2/3 cells have the same set of 2/3 candidates, remove those from all other cells in the house
 impl Solver {
   pub fn find_naked_pairs(&self) -> Option<SolutionStep> {
     self.find_naked_set(2)
@@ -17,7 +18,7 @@ impl Solver {
       return None
     }
 
-    let areas = self.get_all_areas(false);
+    let areas = self.get_all_areas(false, true);
     for area in areas {
       let area_cells = self.get_empty_area_cells(&area);
       let cell_combinations: Vec<_> = if set_size < area_cells.len() {

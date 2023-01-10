@@ -14,6 +14,9 @@ mod hidden_set;
 mod x_wing;
 mod xy_wing;
 mod common_peer_elimination;
+mod sum_candidates;
+mod killer_candidates;
+mod killer45;
 
 const DEBUG: bool = false;
 
@@ -74,6 +77,10 @@ impl Solver {
     if step.is_some() {
       return step
     }
+    let step = self.find_killer_candidate_updates();
+    if step.is_some() {
+      return step
+    }
 
     let step = self.find_grid_step();
     if step.is_some() {
@@ -114,6 +121,12 @@ impl Solver {
 
   fn find_nongrid_step(&self) -> Option<SolutionStep> {
     let step = self.find_candidates_step();
+    if step.is_some() {
+      return step
+    }
+
+    // Killer
+    let step = self.find_killer45();
     if step.is_some() {
       return step
     }
@@ -290,11 +303,10 @@ impl Solver {
         .sum()
   }
 
-  fn find_common_area_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Option<Area> {
+  fn find_common_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
     let areas = self.find_common_areas(cells);
-    let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
-    assert!(other_areas.len() <= 1);
-    other_areas.get(0).copied()
+    let other_areas: Vec<Area> = areas.into_iter().filter(|&area| area != area_exception).collect();
+    other_areas
   }
 
   // Note: update when adding new areas
@@ -313,6 +325,12 @@ impl Solver {
     if cells.iter().map(|cell| self.grid_to_region[cell.row][cell.col]).all_equal() {
       let region_index = self.grid_to_region[cell1.row][cell1.col];
       areas.push(Area::Region(region_index));
+    }
+    if cells.iter().map(|cell| self.grid_to_killer_cage[cell.row][cell.col]).all_equal() {
+      let killer_cage_index = self.grid_to_killer_cage[cell1.row][cell1.col];
+      if killer_cage_index != usize::MAX {
+        areas.push(Area::KillerCage(killer_cage_index));
+      }
     }
     if self.constraints.primary_diagonal && cells.iter().all(|cell| cell.row == cell.col) {
       areas.push(Area::PrimaryDiagonal);

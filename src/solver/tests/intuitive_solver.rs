@@ -13,4 +13,6 @@ mod thermo_candidates;
 mod x_wing;
 mod xy_wing;
 mod common_peer_elimination;
+mod killer_candidates;
+mod killer45;
 mod puzzles;

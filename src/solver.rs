@@ -1,8 +1,7 @@
+use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage};
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
 use itertools::Itertools;
-
-use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection};
 
 mod checker;
 mod intuitive_solver;
@@ -25,6 +24,7 @@ pub struct Solver {
   pub solution: Option<Grid>,
   grid_to_region: Vec<Vec<usize>>,
   grid_to_thermo: Vec<Vec<usize>>,
+  grid_to_killer_cage: Vec<Vec<usize>>,
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
 }
@@ -42,6 +42,13 @@ impl Solver {
     for (index, thermo) in constraints.thermos.iter().enumerate() {
       for cell in thermo {
         grid_to_thermo[cell.row][cell.col] = index;
+      }
+    }
+
+    let mut grid_to_killer_cage = vec![ vec![ usize::MAX; constraints.grid_size ]; constraints.grid_size ];
+    for (index, killer_cage) in constraints.killer_cages.iter().enumerate() {
+      for cell in &killer_cage.region {
+        grid_to_killer_cage[cell.row][cell.col] = index;
       }
     }
 
@@ -63,6 +70,7 @@ impl Solver {
       solution: None,
       grid_to_region,
       grid_to_thermo,
+      grid_to_killer_cage,
       candidates_active: false,
       candidates,
     }
@@ -71,7 +79,8 @@ impl Solver {
   fn compute_area_cell_candidates(&self, area: &Area, cell: &CellPosition) -> HashSet<u32> {
     match area {
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
-      Area::Grid => unimplemented!(),
+      &Area::KillerCage(killer_cage_index) => self.compute_killer_cell_candidates(killer_cage_index),
+      &Area::Grid => unimplemented!(),
       _ => self.compute_generic_area_cell_candidates(area),
     }
   }
@@ -83,6 +92,20 @@ impl Solver {
         set.remove(&self.grid[row][col]);
       }
     }
+    set
+  }
+
+  fn compute_killer_cell_candidates(&self, killer_cage_index: usize) -> HashSet<u32> {
+    let area = Area::KillerCage(killer_cage_index);
+    let mut set = self.compute_generic_area_cell_candidates(&area);
+
+    let killer_cage = &self.constraints.killer_cages[killer_cage_index];
+    if let Some(sum) = killer_cage.sum {
+      for value in (sum+1)..(self.constraints.grid_size as u32 + 1) {
+        set.remove(&value);
+      }
+    }
+
     set
   }
 
@@ -162,6 +185,10 @@ impl Solver {
     if self.constraints.secondary_diagonal && row == self.constraints.grid_size - 1 - col {
       areas.push(Area::SecondaryDiagonal);
     }
+    let killer_cage_index = self.grid_to_killer_cage[row][col];
+    if killer_cage_index != usize::MAX {
+      areas.push(Area::KillerCage(killer_cage_index));
+    }
     let thermo_index = self.grid_to_thermo[row][col];
     if include_thermo && thermo_index != usize::MAX {
       areas.push(Area::Thermo(thermo_index));
@@ -172,7 +199,7 @@ impl Solver {
   }
 
   // Note: update when adding new areas
-  fn get_all_areas(&self, include_thermo: bool) -> Vec<Area> {
+  fn get_all_areas(&self, include_thermo: bool, include_killer: bool) -> Vec<Area> {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
     areas.extend(self.get_col_areas());
@@ -190,6 +217,11 @@ impl Solver {
         areas.push(Area::Thermo(thermo_index));
       }
     }
+    if include_killer {
+      for killer_cage_index in 0..self.constraints.killer_cages.len() {
+        areas.push(Area::KillerCage(killer_cage_index));
+      }
+    }
 
     areas
   }
@@ -204,13 +236,16 @@ impl Solver {
 
   fn get_area_cells(&self, area: &Area) -> Vec<CellPosition> {
     match area {
-      Area::Grid => self.get_grid_cells(),
-      Area::Row(row) => self.get_row_cells(*row),
-      Area::Column(col) => self.get_col_cells(*col),
-      Area::Region(region_index) => self.constraints.regions[*region_index].to_vec(),
-      Area::Thermo(thermo_index) => self.constraints.thermos[*thermo_index].to_vec(),
-      Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
-      Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
+      &Area::Grid => self.get_grid_cells(),
+      &Area::Row(row) => self.get_row_cells(row),
+      &Area::Column(col) => self.get_col_cells(col),
+      &Area::Region(region_index) => self.constraints.regions[region_index].to_vec(),
+      &Area::Thermo(thermo_index) => self.constraints.thermos[thermo_index].to_vec(),
+      &Area::KillerCage(killer_cage_index) => {
+        self.constraints.killer_cages[killer_cage_index].region.to_vec()
+      },
+      &Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
+      &Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
     }
   }
 
@@ -325,6 +360,28 @@ impl Solver {
       };
       Some(peer)
     }).collect()
+  }
+
+  fn is_empty_area_subset(&self, small_area: &Area, big_area: &Area) -> bool {
+    let small_set: HashSet<CellPosition> = self.get_empty_area_cells(small_area).into_iter().collect();
+    if small_set.is_empty() {
+      return false
+    }
+
+    let big_set: HashSet<CellPosition> = self.get_area_cells(big_area).into_iter().collect();
+    big_set.is_superset(&small_set)
+  }
+
+  fn get_subset_area_sum(&self, killer_cage: &KillerCage, big_area: &Area) -> u32 {
+    let big_set: HashSet<CellPosition> = self.get_area_cells(big_area).into_iter().collect();
+    let killer_cells_sum: u32 = killer_cage.region.iter().map(|&cell| {
+      if !big_set.contains(&cell) {
+        self.grid[cell.row][cell.col]
+      } else {
+        0
+      }
+    }).sum();
+    killer_cage.sum.unwrap() - killer_cells_sum
   }
 }
 
