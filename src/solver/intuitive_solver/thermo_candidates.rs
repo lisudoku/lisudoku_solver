@@ -2,9 +2,9 @@ use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, Area, Thermo};
 
 impl Solver {
-  pub fn find_thermo_candidate_updates(&self) -> Option<SolutionStep> {
+  pub fn find_thermo_candidate_updates(&self) -> Vec<SolutionStep> {
     if !self.candidates_active {
-      return None
+      return vec![]
     }
 
     for (thermo_index, thermo) in self.constraints.thermos.iter().enumerate() {
@@ -19,7 +19,7 @@ impl Solver {
           .collect();
 
         if !invalid_values.is_empty() {
-          return Some(
+          return vec![
             SolutionStep {
               rule: Rule::ThermoCandidates,
               cells: vec![],
@@ -28,12 +28,12 @@ impl Solver {
               affected_cells: vec![ *cell ],
               candidates: None,
             }
-          )
+          ]
         }
       }
     }
 
-    None
+    vec![]
   }
 
   pub fn find_thermo_lower_bounds(&self, thermo: &Thermo) -> Vec<u32> {

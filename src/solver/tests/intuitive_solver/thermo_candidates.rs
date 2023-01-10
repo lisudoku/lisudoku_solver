@@ -16,9 +16,9 @@ fn check_thermo_candidates_update_hidden_single() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_grid_step();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_grid_steps();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::HiddenSingle);
   assert_eq!(step.cells[0], CellPosition::new(3, 2));
   assert_eq!(step.values[0], 5);
@@ -26,9 +26,9 @@ fn check_thermo_candidates_update_hidden_single() {
   assert!(initial_candidates.contains(&7));
   solver.apply_rule(&step);
 
-  let step = solver.find_thermo_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_thermo_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
   solver.apply_rule(&step);
 
   let final_candidates = &solver.candidates[2][3];
@@ -56,9 +56,9 @@ fn check_thermo_candidates_update_locked_candidates() {
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
   for _ in 0..3 {
-    let step = solver.find_thermo_candidate_updates();
-    assert!(step.is_some());
-    let step = step.unwrap();
+    let steps = solver.find_thermo_candidate_updates();
+    assert!(!steps.is_empty());
+    let step = steps.into_iter().next().unwrap();
     solver.apply_rule(&step);
   }
 
@@ -72,9 +72,9 @@ fn check_thermo_candidates_update_locked_candidates() {
   assert!(initial_candidates.contains(&3));
   solver.apply_rule(&step);
 
-  let step = solver.find_thermo_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_thermo_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
   solver.apply_rule(&step);
 
   let final_candidates = &solver.candidates[4][5];

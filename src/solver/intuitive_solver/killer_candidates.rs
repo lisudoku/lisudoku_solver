@@ -4,9 +4,9 @@ use crate::types::{SolutionStep, CellPosition, Rule, Area};
 // X can't be a candidate in this cell because the other empty cells
 // can't be assigned to make the sum Y
 impl Solver {
-  pub fn find_killer_candidate_updates(&self) -> Option<SolutionStep> {
+  pub fn find_killer_candidate_updates(&self) -> Vec<SolutionStep> {
     if !self.candidates_active {
-      return None
+      return vec![]
     }
 
     for (killer_cage_index, killer_cage) in self.constraints.killer_cages.iter().enumerate() {
@@ -28,10 +28,7 @@ impl Solver {
         continue
       }
 
-      // TODO: take all
-      let (cell, invalid_values) = invalid_sum_candidates.into_iter().next().unwrap();
-
-      return Some(
+      return invalid_sum_candidates.into_iter().map(|(cell, invalid_values)| {
         SolutionStep {
           rule: Rule::KillerCandidates,
           cells: vec![],
@@ -40,9 +37,9 @@ impl Solver {
           affected_cells: vec![ cell ],
           candidates: None,
         }
-      )
+      }).collect()
     }
 
-    None
+    vec![]
   }
 }

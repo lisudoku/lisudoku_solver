@@ -23,7 +23,7 @@ const DEBUG: bool = false;
 impl Solver {
   pub fn intuitive_solve(&mut self) -> SudokuIntuitiveSolveResult {
     let mut solution_type = SolutionType::Full;
-    let mut steps: Vec<SolutionStep> = vec![];
+    let mut solution_steps: Vec<SolutionStep> = vec![];
 
     if !self.check_partially_solved() {
       println!("Invalid initial grid");
@@ -45,57 +45,58 @@ impl Solver {
         return SudokuIntuitiveSolveResult::no_solution()
       }
 
-      let step = self.find_next_step();
-      if step.is_none() {
+      // Some rules can find multiple steps at once
+      let steps = self.find_next_steps();
+      if steps.is_empty() {
         solution_type = SolutionType::Partial;
         break
       }
 
-      let mut step = step.unwrap();
+      for mut step in steps.into_iter() {
+        self.apply_rule(&mut step);
 
-      self.apply_rule(&mut step);
+        if [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&step.rule) {
+          empty_cell_count -= 1;
+        }
 
-      if [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&step.rule) {
-        empty_cell_count -= 1;
+        solution_steps.push(step);
       }
-
-      steps.push(step);
     }
 
     let res = SudokuIntuitiveSolveResult {
       solution_type,
       solution: Some(self.grid.to_vec()),
-      steps,
+      steps: solution_steps,
     };
 
     res
   }
 
-  fn find_next_step(&self) -> Option<SolutionStep> {
+  fn find_next_steps(&self) -> Vec<SolutionStep> {
     // This type of rule must be 1st to make sure all candidates are valid
-    let step = self.find_thermo_candidate_updates();
-    if step.is_some() {
-      return step
+    let steps = self.find_thermo_candidate_updates();
+    if !steps.is_empty() {
+      return steps
     }
-    let step = self.find_killer_candidate_updates();
-    if step.is_some() {
-      return step
-    }
-
-    let step = self.find_grid_step();
-    if step.is_some() {
-      return step
+    let steps = self.find_killer_candidate_updates();
+    if !steps.is_empty() {
+      return steps
     }
 
-    let step = self.find_nongrid_step();
-    if step.is_some() {
-      return step
+    let steps = self.find_grid_steps();
+    if !steps.is_empty() {
+      return steps
     }
 
-    None
+    let steps = self.find_nongrid_steps();
+    if !steps.is_empty() {
+      return steps
+    }
+
+    vec![]
   }
 
-  pub fn find_grid_step(&self) -> Option<SolutionStep> {
+  pub fn find_grid_steps(&self) -> Vec<SolutionStep> {
     let mut step = self.find_naked_singles();
 
     if step.is_none() {
@@ -113,78 +114,78 @@ impl Solver {
         let values_set = &HashSet::from([value]);
         mut_step.affected_cells = self.get_affected_by_cell(&cell, values_set);
       }
-      return step
+      return vec![ step.unwrap() ]
     }
 
-    None
+    vec![]
   }
 
-  fn find_nongrid_step(&self) -> Option<SolutionStep> {
+  fn find_nongrid_steps(&self) -> Vec<SolutionStep> {
     let step = self.find_candidates_step();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     // Killer
-    let step = self.find_killer45();
-    if step.is_some() {
-      return step
+    let steps = self.find_killer45();
+    if !steps.is_empty() {
+      return steps
     }
 
     // Pairs
 
     let step = self.find_locked_candidates_pairs();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     let step = self.find_naked_pairs();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     let step = self.find_hidden_pairs();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     // Triples
 
     let step = self.find_locked_candidates_triples();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     let step = self.find_naked_triples();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     let step = self.find_hidden_triples();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     // Other
 
     let step = self.find_x_wing();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     let step = self.find_xy_wing();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     let step = self.find_common_peer_elimination();
     if step.is_some() {
-      return step
+      return vec![ step.unwrap() ]
     }
 
     // TODO: implement other rules
 
-    None
+    vec![]
   }
 
   pub fn apply_rule(&mut self, step: &SolutionStep) {

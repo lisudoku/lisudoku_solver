@@ -5,24 +5,24 @@ use std::collections::HashSet;
 
 // Area A's cells must be 45 and after subtracting killer cages there is Y left.
 impl Solver {
-  pub fn find_killer45(&self) -> Option<SolutionStep> {
+  pub fn find_killer45(&self) -> Vec<SolutionStep> {
     if !self.candidates_active {
       // TODO: could make it work without candidates for cases with 1 candidate left
-      return None
+      return vec![]
     }
 
     for area in &self.get_all_areas(false, false) {
-      let step = self.find_killer45_in_area(area);
-      if step.is_some() {
-        return step
+      let steps = self.find_killer45_in_area(area);
+      if !steps.is_empty() {
+        return steps
       }
     }
 
-    None
+    vec![]
   }
 
   // Note: we assume there are no overlapping cages
-  fn find_killer45_in_area(&self, area: &Area) -> Option<SolutionStep> {
+  fn find_killer45_in_area(&self, area: &Area) -> Vec<SolutionStep> {
     let mut area_cells_set: HashSet<CellPosition> = self.get_area_cells(area).into_iter().collect();
     let mut region_sum_left = self.constraints.grid_size as u32 * (self.constraints.grid_size as u32 + 1) / 2;
 
@@ -44,20 +44,17 @@ impl Solver {
 
     // TODO: think of a more sophisticated way of pruning
     if area_cells_set.len() > 3 {
-      return None
+      return vec![]
     }
 
     let empty_cells = area_cells_set.iter().sorted().copied().collect();
     let invalid_sum_candidates = self.detect_invalid_sum_candidates(&empty_cells, region_sum_left);
 
     if invalid_sum_candidates.is_empty() {
-      return None
+      return vec![]
     }
 
-    // TODO: take all
-    let (cell, invalid_values) = invalid_sum_candidates.into_iter().next().unwrap();
-
-    return Some(
+    invalid_sum_candidates.into_iter().map(|(cell, invalid_values)| {
       SolutionStep {
         rule: Rule::Killer45,
         cells: vec![],
@@ -66,6 +63,6 @@ impl Solver {
         affected_cells: vec![ cell ],
         candidates: None,
       }
-    )
+    }).collect()
   }
 }

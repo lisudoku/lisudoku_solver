@@ -18,9 +18,9 @@ fn check_killer45_row() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer45();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer45();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 5) ]);
@@ -53,9 +53,9 @@ fn check_killer45_region() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer45();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer45();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 4) ]);
@@ -82,9 +82,9 @@ fn check_killer45_col_with_fixed_digits() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer45();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer45();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 1) ]);
@@ -137,9 +137,9 @@ fn check_killer45_col_partial_cages() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer45();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer45();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.areas, vec![ Area::Column(3) ]);

@@ -14,9 +14,9 @@ fn check_killer_candidates_single_unfixed() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(8, 8));
@@ -43,8 +43,8 @@ fn check_killer_candidates_single_fixed() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer_candidate_updates();
-  assert!(step.is_none());
+  let steps = solver.find_killer_candidate_updates();
+  assert!(steps.is_empty());
 }
 
 #[test]
@@ -60,9 +60,9 @@ fn check_killer_candidates_pair_1() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
@@ -74,9 +74,9 @@ fn check_killer_candidates_pair_1() {
   assert_eq!(final_candidates.len(), 2);
   assert!(!final_candidates.contains(&4));
 
-  let step = solver.find_killer_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 1) ]);
   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 4 ]);
@@ -96,9 +96,9 @@ fn check_killer_candidates_pair_2() {
   let mut solver = Solver::new(constraints, None);
 
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let step = solver.find_killer_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
 
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(8, 0) ]);
@@ -110,9 +110,9 @@ fn check_killer_candidates_pair_2() {
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&2));
 
-  let step = solver.find_killer_candidate_updates();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = solver.find_killer_candidate_updates();
+  assert!(!steps.is_empty());
+  let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(8, 1) ]);
   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 3, 4 ]);

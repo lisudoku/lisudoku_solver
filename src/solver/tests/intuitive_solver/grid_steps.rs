@@ -13,9 +13,9 @@ fn check_grid_steps_without_candidates() {
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
 
-  let step = solver.find_grid_step();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = solver.find_grid_steps();
+  assert!(!steps.is_empty());
+  let mut step = steps.into_iter().next().unwrap();
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
@@ -41,9 +41,9 @@ fn check_grid_steps_with_candidates() {
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
-  let step = solver.find_grid_step();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = solver.find_grid_steps();
+  assert!(!steps.is_empty());
+  let mut step = steps.into_iter().next().unwrap();
   assert!(!step.affected_cells.is_empty());
   assert!(step.affected_cells.len() <= 4);
   let CellPosition { row, col } = step.cells[0];
@@ -74,9 +74,9 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   // TODO: will have to fix version without candidates_active
   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
-  let step = solver.find_grid_step();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = solver.find_grid_steps();
+  assert!(!steps.is_empty());
+  let mut step = steps.into_iter().next().unwrap();
   assert_eq!(step.values, vec![4]);
   assert_eq!(step.rule, Rule::NakedSingle);
   assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
