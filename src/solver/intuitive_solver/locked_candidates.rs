@@ -18,7 +18,7 @@ impl Solver {
       return None
     }
 
-    let areas = self.get_all_areas(false, false);
+    let areas = self.get_all_areas(false, false, false);
     for area in areas {
       let value_cells = self.compute_cells_by_value_in_area(&area, &self.candidates);
 

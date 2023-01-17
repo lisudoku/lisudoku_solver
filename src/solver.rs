@@ -1,6 +1,7 @@
-use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage};
+use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage, KropkiDot, KropkiDotType};
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
+use std::ops::BitAnd;
 use itertools::Itertools;
 
 mod checker;
@@ -18,6 +19,13 @@ const KNIGHT_MOVES: [CellDirection; 8] = [
   CellDirection { row: -2, col: -1 },
 ];
 
+const ADJACENT_MOVES: [CellDirection; 4] = [
+  CellDirection { row: 0, col: 1 },
+  CellDirection { row: 0, col: -1 },
+  CellDirection { row: 1, col: 0 },
+  CellDirection { row: -1, col: 0 },
+];
+
 pub struct Solver {
   pub constraints: SudokuConstraints,
   pub grid: Grid,
@@ -25,12 +33,13 @@ pub struct Solver {
   grid_to_region: Vec<Vec<usize>>,
   grid_to_thermo: Vec<Vec<usize>>,
   grid_to_killer_cage: Vec<Vec<usize>>,
+  grid_to_kropki_dots: Vec<Vec<Vec<usize>>>,
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
 }
 
 impl Solver {
-  pub fn new(constraints: SudokuConstraints, input_grid: Option<SudokuGrid>) -> Solver {
+  pub fn new(mut constraints: SudokuConstraints, input_grid: Option<SudokuGrid>) -> Solver {
     let mut grid_to_region = vec![ vec![ usize::MAX; constraints.grid_size ]; constraints.grid_size ];
     for (index, region) in constraints.regions.iter().enumerate() {
       for cell in region {
@@ -49,6 +58,39 @@ impl Solver {
     for (index, killer_cage) in constraints.killer_cages.iter().enumerate() {
       for cell in &killer_cage.region {
         grid_to_killer_cage[cell.row][cell.col] = index;
+      }
+    }
+
+    let mut grid_to_kropki_dots = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
+    for (index, kropki_dot) in constraints.kropki_dots.iter().enumerate() {
+      let KropkiDot { dot_type: _, cell_1, cell_2 } = kropki_dot;
+      grid_to_kropki_dots[cell_1.row][cell_1.col].push(index);
+      grid_to_kropki_dots[cell_2.row][cell_2.col].push(index);
+    }
+    if constraints.kropki_negative {
+      for row in 0..constraints.grid_size {
+        for col in 0..constraints.grid_size {
+          let cell = CellPosition::new(row, col);
+          let adjacent_cells: HashSet<CellPosition> = Self::get_adjacent_cells(cell, constraints.grid_size).into_iter().collect();
+          let dot_cells: HashSet<CellPosition> = grid_to_kropki_dots[row][col].iter()
+            .map(|&kropki_dot_index| {
+              let kropki_dot = &constraints.kropki_dots[kropki_dot_index];
+              let other_cell = kropki_dot.other_cell(&cell);
+              other_cell
+            })
+            .collect();
+          let negative_cells: HashSet<CellPosition> = adjacent_cells.difference(&dot_cells).copied().collect();
+          for negative_cell in negative_cells {
+            let kropki_dot_index = constraints.kropki_dots.len();
+            grid_to_kropki_dots[cell.row][cell.col].push(kropki_dot_index);
+            grid_to_kropki_dots[negative_cell.row][negative_cell.col].push(kropki_dot_index);
+            constraints.kropki_dots.push(KropkiDot {
+              dot_type: KropkiDotType::Negative,
+              cell_1: cell,
+              cell_2: negative_cell,
+            })
+          }
+        }
       }
     }
 
@@ -71,17 +113,39 @@ impl Solver {
       grid_to_region,
       grid_to_thermo,
       grid_to_killer_cage,
+      grid_to_kropki_dots,
       candidates_active: false,
       candidates,
     }
   }
 
+  fn get_adjacent_cells(cell: CellPosition, grid_size: usize) -> Vec<CellPosition> {
+    ADJACENT_MOVES.iter().filter_map(|direction| {
+      let prow = cell.row as isize + direction.row;
+      let pcol = cell.col as isize + direction.col;
+      if prow < 0 || prow >= grid_size as isize ||
+         pcol < 0 || pcol >= grid_size as isize {
+        return None
+      }
+      let peer = CellPosition {
+        row: prow as usize,
+        col: pcol as usize,
+      };
+      Some(peer)
+    }).collect()
+  }
+
   fn compute_area_cell_candidates(&self, area: &Area, cell: &CellPosition) -> HashSet<u32> {
     match area {
+      #[allow(unused_parens)]
+      (
+        &Area::Row(_) | &Area::Column(_) | &Area::Region(_) |
+        &Area::PrimaryDiagonal | &Area::SecondaryDiagonal
+      ) => self.compute_generic_area_cell_candidates(area),
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
       &Area::KillerCage(killer_cage_index) => self.compute_killer_cell_candidates(killer_cage_index),
+      &Area::KropkiDot(kropki_dot_index) => self.compute_kropki_cell_candidates(kropki_dot_index),
       &Area::Grid => unimplemented!(),
-      _ => self.compute_generic_area_cell_candidates(area),
     }
   }
 
@@ -107,6 +171,11 @@ impl Solver {
     }
 
     set
+  }
+
+  fn compute_kropki_cell_candidates(&self, _kropki_dot_index: usize) -> HashSet<u32> {
+    // Do not enforce kropki cell candidates directly, use an explicit rule for that
+    self.compute_all_candidates()
   }
 
   // This could be made more intelligent, but we leave the tricks to intuitive_solver
@@ -199,7 +268,7 @@ impl Solver {
   }
 
   // Note: update when adding new areas
-  fn get_all_areas(&self, include_thermo: bool, include_killer: bool) -> Vec<Area> {
+  fn get_all_areas(&self, include_thermo: bool, include_killer: bool, include_kropki: bool) -> Vec<Area> {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
     areas.extend(self.get_col_areas());
@@ -220,6 +289,11 @@ impl Solver {
     if include_killer {
       for killer_cage_index in 0..self.constraints.killer_cages.len() {
         areas.push(Area::KillerCage(killer_cage_index));
+      }
+    }
+    if include_kropki {
+      for kropki_dot_index in 0..self.constraints.kropki_dots.len() {
+        areas.push(Area::KropkiDot(kropki_dot_index));
       }
     }
 
@@ -244,6 +318,10 @@ impl Solver {
       &Area::KillerCage(killer_cage_index) => {
         self.constraints.killer_cages[killer_cage_index].region.to_vec()
       },
+      &Area::KropkiDot(kropki_dot_index) => {
+        let kropki_dot = &self.constraints.kropki_dots[kropki_dot_index];
+        vec![ kropki_dot.cell_1, kropki_dot.cell_2 ]
+      },
       &Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
       &Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
     }
@@ -257,6 +335,7 @@ impl Solver {
     self.get_empty_area_cells(&Area::Grid)
   }
 
+  #[allow(dead_code)]
   fn get_all_cells_with_candidate(&self, value: u32) -> Vec<CellPosition> {
     self.get_all_empty_cells()
         .into_iter()
@@ -304,11 +383,23 @@ impl Solver {
     self.get_area_cells_with_candidates(area, &HashSet::from([ value ]))
   }
 
-  fn get_area_cells_with_candidates(&self, area: &Area, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.get_empty_area_cells(area)
-        .into_iter()
-        .filter(|cell| !self.compute_cell_candidates(&cell).is_disjoint(values))
+  fn filter_cells_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    cells.iter()
+        .filter(|&cell| !self.compute_cell_candidates(cell).is_disjoint(values))
+        .copied()
         .collect()
+  }
+
+  fn filter_cells_with_subset_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    cells.iter()
+        .filter(|&cell| self.compute_cell_candidates(cell).is_subset(values))
+        .copied()
+        .collect()
+  }
+
+  fn get_area_cells_with_candidates(&self, area: &Area, values: &HashSet<u32>) -> Vec<CellPosition> {
+    let area_cells = self.get_empty_area_cells(area);
+    self.filter_cells_with_any_candidates(&area_cells, values)
   }
 
   fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<HashSet<u32>>>) -> HashMap<u32, Vec<CellPosition>> {
@@ -323,10 +414,8 @@ impl Solver {
   }
 
   fn get_cell_peers_with_candidates(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.get_cell_peers(cell)
-        .into_iter()
-        .filter(|cell| !self.compute_cell_candidates(&cell).is_disjoint(values))
-        .collect()
+    let peers = self.get_cell_peers(cell);
+    self.filter_cells_with_any_candidates(&peers, values)
   }
 
   // Note: update when adding constraints
@@ -382,6 +471,17 @@ impl Solver {
       }
     }).sum();
     killer_cage.sum.unwrap() - killer_cells_sum
+  }
+
+  #[allow(dead_code)]
+  fn bit_mask_to_hash_set(&self, combination_mask: u32) -> HashSet<u32> {
+    (1..self.constraints.grid_size+1).filter_map(|value| {
+      if combination_mask.bitand(1 << value) > 0 {
+        Some(value as u32)
+      } else {
+        None
+      }
+    }).collect()
   }
 }
 

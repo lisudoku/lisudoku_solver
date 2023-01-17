@@ -14,7 +14,7 @@ impl Solver {
       candidates[cell.row][cell.col] = self.compute_cell_candidates(cell);
     }
 
-    for area in self.get_all_areas(false, false) {
+    for area in self.get_all_areas(false, false, false) {
       let hidden_single = self.find_hidden_single_in_area(&area, &candidates);
 
       if hidden_single.is_none() {

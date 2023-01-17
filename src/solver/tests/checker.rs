@@ -3,3 +3,4 @@ mod thermo;
 mod diagonal;
 mod anti_knight;
 mod killer;
+mod kropki;

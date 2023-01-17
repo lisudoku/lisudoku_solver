@@ -1,6 +1,7 @@
-use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{Area, CellPosition};
+use crate::types::{Area, CellPosition, KropkiDotType, KropkiDot};
+use std::collections::HashSet;
+use std::mem::swap;
 
 impl Solver {
   pub fn check_solved(&self) -> bool {
@@ -23,7 +24,7 @@ impl Solver {
       }
     }
 
-    for area in self.get_all_areas(true, true) {
+    for area in self.get_all_areas(true, true, true) {
       if !self.check_area_valid(&area) {
         return false
       }
@@ -42,6 +43,7 @@ impl Solver {
         &Area::PrimaryDiagonal | &Area::SecondaryDiagonal => self.check_area_region_valid(area),
       &Area::KillerCage(killer_cage_index) => self.check_killer_area_valid(area, killer_cage_index),
       &Area::Thermo(_) => self.check_thermo_area_valid(area),
+      &Area::KropkiDot(kropki_dot_index) => self.check_kropki_dot_valid(kropki_dot_index),
       &Area::Grid => unimplemented!(),
     }
   }
@@ -133,5 +135,30 @@ impl Solver {
     }
 
     true
+  }
+
+  fn check_kropki_dot_valid(&self, kropki_dot_index: usize) -> bool {
+    let kropki_dot = &self.constraints.kropki_dots[kropki_dot_index];
+    let KropkiDot { dot_type, cell_1, cell_2 } = kropki_dot;
+    let mut value1 = self.grid[cell_1.row][cell_1.col];
+    let mut value2 = self.grid[cell_2.row][cell_2.col];
+    if value1 > value2 {
+      swap(&mut value1, &mut value2);
+    }
+    if value1 == 0 {
+      return true
+    }
+
+    match dot_type {
+      KropkiDotType::Consecutive => {
+        return value1 + 1 == value2
+      },
+      KropkiDotType::Double => {
+        return value1 * 2 == value2
+      },
+      KropkiDotType::Negative => {
+        return value1 + 1 != value2 && value1 * 2 != value2
+      },
+    }
   }
 }

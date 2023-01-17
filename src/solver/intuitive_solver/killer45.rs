@@ -10,8 +10,11 @@ impl Solver {
       // TODO: could make it work without candidates for cases with 1 candidate left
       return vec![]
     }
+    if self.constraints.killer_cages.is_empty() {
+      return vec![]
+    }
 
-    for area in &self.get_all_areas(false, false) {
+    for area in &self.get_all_areas(false, false, false) {
       let steps = self.find_killer45_in_area(area);
       if !steps.is_empty() {
         return steps

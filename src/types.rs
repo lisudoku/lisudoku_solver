@@ -11,6 +11,8 @@ pub struct SudokuConstraints {
   pub primary_diagonal: bool,
   pub secondary_diagonal: bool,
   pub anti_knight: bool,
+  pub kropki_dots: Vec<KropkiDot>,
+  pub kropki_negative: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -48,6 +50,20 @@ pub type Grid = Vec<Vec<u32>>;
 pub struct KillerCage {
   pub sum: Option<u32>,
   pub region: Region,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct KropkiDot {
+  pub dot_type: KropkiDotType,
+  pub cell_1: CellPosition,
+  pub cell_2: CellPosition,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub enum KropkiDotType {
+  Consecutive,
+  Double,
+  Negative,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -90,14 +106,17 @@ pub enum Rule {
   NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
   Thermo,
+  Kropki,
   Candidates,
   ThermoCandidates,
   KillerCandidates,
   Killer45,
+  KropkiChainCandidates,
   LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   HiddenPairs,
   CommonPeerElimination, // cells = have common peers, affected_cells = would eliminate them
+  CommonPeerEliminationKropki,
   LockedCandidatesTriples,
   NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenTriples,
@@ -115,6 +134,7 @@ pub enum Area {
   Region(usize),
   Thermo(usize),
   KillerCage(usize),
+  KropkiDot(usize),
   PrimaryDiagonal,
   SecondaryDiagonal,
 }
@@ -133,6 +153,8 @@ impl SudokuConstraints {
       primary_diagonal: false,
       secondary_diagonal: false,
       anti_knight: false,
+      kropki_dots: vec![],
+      kropki_negative: false,
     }
   }
 
@@ -180,6 +202,58 @@ impl FixedNumber {
         col,
       },
       value,
+    }
+  }
+}
+
+impl KropkiDot {
+  #[cfg(test)]
+  pub fn consecutive(cell_1: CellPosition, cell_2: CellPosition) -> KropkiDot {
+    KropkiDot {
+      dot_type: KropkiDotType::Consecutive,
+      cell_1,
+      cell_2,
+    }
+  }
+
+  #[cfg(test)]
+  pub fn double(cell_1: CellPosition, cell_2: CellPosition) -> KropkiDot {
+    KropkiDot {
+      dot_type: KropkiDotType::Double,
+      cell_1,
+      cell_2,
+    }
+  }
+
+  pub fn other_cell(&self, cell: &CellPosition) -> CellPosition {
+    if self.cell_1.eq(cell) {
+      self.cell_2
+    } else {
+      self.cell_1
+    }
+  }
+
+  pub fn check_values(&self, value1: u32, value2: u32) -> bool {
+    value1 == 0 ||
+      value2 == 0 ||
+      (
+        self.dot_type != KropkiDotType::Negative && (
+          self.apply_operation(value1) == value2 ||
+          self.apply_operation(value2) == value1
+        )
+      ) ||
+      (
+        self.dot_type == KropkiDotType::Negative &&
+        value1 + 1 != value2 && value2 + 1 != value1 &&
+        value1 * 2 != value2 && value2 * 2 != value1
+      )
+  }
+
+  fn apply_operation(&self, value: u32) -> u32 {
+    match self.dot_type {
+      KropkiDotType::Consecutive => value + 1,
+      KropkiDotType::Double => value * 2,
+      KropkiDotType::Negative => unimplemented!(),
     }
   }
 }

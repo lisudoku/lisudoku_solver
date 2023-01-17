@@ -17,6 +17,8 @@ mod common_peer_elimination;
 mod sum_candidates;
 mod killer_candidates;
 mod killer45;
+mod kropki_chain_candidates;
+mod common_peer_elimination_kropki;
 
 const DEBUG: bool = false;
 
@@ -79,6 +81,14 @@ impl Solver {
       return steps
     }
     let steps = self.find_killer_candidate_updates();
+    if !steps.is_empty() {
+      return steps
+    }
+    let steps = self.find_kropki_chain_candidate_updates();
+    if !steps.is_empty() {
+      return steps
+    }
+    let steps = self.find_kropki_pair_candidate_updates();
     if !steps.is_empty() {
       return steps
     }
@@ -183,6 +193,11 @@ impl Solver {
       return vec![ step.unwrap() ]
     }
 
+    let step = self.find_common_peer_elimination_kropki();
+    if step.is_some() {
+      return vec![ step.unwrap() ]
+    }
+
     // TODO: implement other rules
 
     vec![]
@@ -223,6 +238,12 @@ impl Solver {
         for &CellPosition { row, col } in &step.affected_cells {
           // Remove Z as candidate
           self.candidates[row][col].remove(&step.values[2]);
+        }
+      }
+      Rule::CommonPeerEliminationKropki => {
+        for (index, cell) in step.affected_cells.iter().enumerate() {
+          let value = step.values[index];
+          self.candidates[cell.row][cell.col].remove(&value);
         }
       }
       _ => {
@@ -374,5 +395,26 @@ impl Solver {
         return
       }
     }
+  }
+
+  pub fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<HashSet<u32>>) -> Vec<(CellPosition, Vec<u32>)> {
+    cells.into_iter().enumerate().filter_map(|(cell_index, &cell)| {
+      let cell_candidates = &self.candidates[cell.row][cell.col];
+      let valid_cell_candidates = &valid_candidates[cell_index];
+      if cell_candidates.len() == valid_cell_candidates.len() {
+        return None
+      }
+
+      let invalid_values: Vec<u32> = cell_candidates.difference(valid_cell_candidates)
+                                                    .into_iter()
+                                                    .copied()
+                                                    .collect();
+
+      if invalid_values.is_empty() {
+        return None
+      }
+
+      Some((cell, invalid_values))
+    }).collect()
   }
 }

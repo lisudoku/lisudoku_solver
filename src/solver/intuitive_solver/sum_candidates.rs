@@ -7,24 +7,7 @@ impl Solver {
   pub fn detect_invalid_sum_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
     let valid_candidates = self.mark_valid_candidates(cells, sum);
 
-    cells.into_iter().enumerate().filter_map(|(cell_index, &cell)| {
-      let cell_candidates = &self.candidates[cell.row][cell.col];
-      let valid_cell_candidates = &valid_candidates[cell_index];
-      if cell_candidates.len() == valid_cell_candidates.len() {
-        return None
-      }
-
-      let invalid_values: Vec<u32> = cell_candidates.difference(valid_cell_candidates)
-                                                    .into_iter()
-                                                    .copied()
-                                                    .collect();
-
-      if invalid_values.is_empty() {
-        return None
-      }
-
-      Some((cell, invalid_values))
-    }).collect()
+    self.cell_candidates_diff(cells, valid_candidates)
   }
 
   fn mark_valid_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<HashSet<u32>> {
