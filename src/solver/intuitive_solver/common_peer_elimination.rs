@@ -4,6 +4,9 @@ use std::collections::HashSet;
 use itertools::Itertools;
 
 // Cell can’t be X because it eliminates all X candidates from a region
+// It is a more general version of the Locked Candidates
+// For diagonal puzzles the rule applied on the is called Crossover
+// For antiknight puzzles the rule is called L technique
 impl Solver {
   pub fn find_common_peer_elimination(&self) -> Option<SolutionStep> {
     if !self.candidates_active {
