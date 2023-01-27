@@ -99,3 +99,46 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   assert!(final_value == 4);
   assert_eq!(final_candidates.len(), initial_candidates.len() - 1);
 }
+
+#[test]
+fn check_grid_steps_overlapping_thermos_affected_cells() {
+  let grid_size = 6;
+  let fixed_numbers = vec![
+    FixedNumber::new(5, 0, 1),
+    FixedNumber::new(5, 1, 2),
+    FixedNumber::new(5, 2, 3),
+    FixedNumber::new(4, 0, 4),
+    FixedNumber::new(4, 1, 5),
+  ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.thermos = vec![
+    vec![
+      CellPosition::new(4, 2),
+      CellPosition::new(3, 1),
+    ],
+    vec![
+      CellPosition::new(4, 2),
+      CellPosition::new(3, 3),
+    ],
+  ];
+  let mut solver = Solver::new(constraints, None);
+  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+
+  let steps = solver.find_grid_steps();
+  assert!(!steps.is_empty());
+  let mut step = steps.into_iter().next().unwrap();
+  assert_eq!(step.values, vec![6]);
+  assert_eq!(step.rule, Rule::NakedSingle);
+  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(4, 2),
+  ]);
+  assert_eq!(step.affected_cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 2), CellPosition::new(1, 2), CellPosition::new(2, 2),
+    CellPosition::new(3, 1), CellPosition::new(3, 2), CellPosition::new(3, 3),
+    CellPosition::new(4, 3), CellPosition::new(4, 4), CellPosition::new(4, 5),
+  ]);
+  assert!(solver.candidates[3][1].contains(&6));
+
+  solver.apply_rule(&mut step);
+  assert!(!solver.candidates[3][1].contains(&6));
+}

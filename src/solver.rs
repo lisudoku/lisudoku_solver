@@ -31,7 +31,7 @@ pub struct Solver {
   pub grid: Grid,
   pub solution: Option<Grid>,
   grid_to_region: Vec<Vec<usize>>,
-  grid_to_thermo: Vec<Vec<usize>>,
+  grid_to_thermos: Vec<Vec<Vec<usize>>>,
   grid_to_killer_cage: Vec<Vec<usize>>,
   grid_to_kropki_dots: Vec<Vec<Vec<usize>>>,
   candidates_active: bool,
@@ -47,10 +47,10 @@ impl Solver {
       }
     }
 
-    let mut grid_to_thermo = vec![ vec![ usize::MAX; constraints.grid_size ]; constraints.grid_size ];
+    let mut grid_to_thermos = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
     for (index, thermo) in constraints.thermos.iter().enumerate() {
       for cell in thermo {
-        grid_to_thermo[cell.row][cell.col] = index;
+        grid_to_thermos[cell.row][cell.col].push(index);
       }
     }
 
@@ -111,7 +111,7 @@ impl Solver {
       grid,
       solution: None,
       grid_to_region,
-      grid_to_thermo,
+      grid_to_thermos,
       grid_to_killer_cage,
       grid_to_kropki_dots,
       candidates_active: false,
@@ -258,10 +258,10 @@ impl Solver {
     if killer_cage_index != usize::MAX {
       areas.push(Area::KillerCage(killer_cage_index));
     }
-    let thermo_index = self.grid_to_thermo[row][col];
-    if include_thermo && thermo_index != usize::MAX {
-      areas.push(Area::Thermo(thermo_index));
-      // TODO: handle intersecting thermos
+    if include_thermo {
+      for &thermo_index in &self.grid_to_thermos[row][col] {
+        areas.push(Area::Thermo(thermo_index));
+      }
     }
 
     areas
