@@ -41,7 +41,7 @@ impl Solver {
             return Some(
               SolutionStep {
                 rule: if set_size == 2 { Rule::LockedCandidatesPairs } else { Rule::LockedCandidatesTriples },
-                cells,
+                cells, // set of cells in area with value
                 values: vec![ value ],
                 areas: vec![ area, other_area ],
                 affected_cells,
