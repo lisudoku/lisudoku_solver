@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use serde::{Serialize, Deserialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SudokuConstraints {
   pub grid_size: usize,
   pub fixed_numbers: Vec<FixedNumber>,
@@ -46,20 +46,20 @@ pub type Region = Vec<CellPosition>;
 
 pub type Grid = Vec<Vec<u32>>;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct KillerCage {
   pub sum: Option<u32>,
   pub region: Region,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct KropkiDot {
   pub dot_type: KropkiDotType,
   pub cell_1: CellPosition,
   pub cell_2: CellPosition,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub enum KropkiDotType {
   Consecutive,
   Double,
@@ -265,5 +265,11 @@ impl SudokuIntuitiveSolveResult {
       solution: None,
       steps: vec![],
     }
+  }
+}
+
+impl SolutionStep {
+  pub fn is_grid_step(&self) -> bool {
+    [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&self.rule)
   }
 }

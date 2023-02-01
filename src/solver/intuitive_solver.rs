@@ -48,21 +48,34 @@ impl Solver {
       }
 
       // Some rules can find multiple steps at once
-      let steps = self.find_next_steps();
+      let mut steps = self.find_next_steps();
       if steps.is_empty() {
-        solution_type = SolutionType::Partial;
         break
       }
+      if self.hint_mode {
+        steps.drain(1..);
+      }
 
+      let mut grid_step = false;
       for mut step in steps.into_iter() {
         self.apply_rule(&mut step);
 
-        if [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&step.rule) {
+        if step.is_grid_step() {
           empty_cell_count -= 1;
+          grid_step = true;
         }
 
         solution_steps.push(step);
       }
+
+      if self.hint_mode && grid_step {
+        // Found the first filled digit, it's enough for a hint
+        break
+      }
+    }
+
+    if empty_cell_count > 0 {
+      solution_type = SolutionType::Partial;
     }
 
     let res = SudokuIntuitiveSolveResult {
@@ -75,6 +88,14 @@ impl Solver {
   }
 
   fn find_next_steps(&self) -> Vec<SolutionStep> {
+    if self.hint_mode {
+      // In this context we already know that there is a valid solution
+      let steps = self.find_grid_steps();
+      if !steps.is_empty() {
+        return steps
+      }
+    }
+
     // This type of rule must be 1st to make sure all candidates are valid
     let steps = self.find_thermo_candidate_updates();
     if !steps.is_empty() {

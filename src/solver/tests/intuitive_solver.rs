@@ -1,3 +1,4 @@
+mod hint_mode;
 mod naked_singles;
 mod grid_steps;
 mod locked_candidates_pairs;

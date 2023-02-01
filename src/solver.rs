@@ -36,6 +36,7 @@ pub struct Solver {
   grid_to_kropki_dots: Vec<Vec<Vec<usize>>>,
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
+  hint_mode: bool,
 }
 
 impl Solver {
@@ -116,7 +117,13 @@ impl Solver {
       grid_to_kropki_dots,
       candidates_active: false,
       candidates,
+      hint_mode: false,
     }
+  }
+
+  pub fn with_hint_mode(mut self) -> Self {
+    self.hint_mode = true;
+    self
   }
 
   fn get_adjacent_cells(cell: CellPosition, grid_size: usize) -> Vec<CellPosition> {

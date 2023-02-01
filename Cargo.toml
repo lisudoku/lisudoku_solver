@@ -1,6 +1,6 @@
 [package]
 name = "lisudoku-solver"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["George Marcus <george.marcus922@gmail.com>"]
 description = "Solver for sudoku puzzles used by lisudoku"
 license-file = "LICENSE"
