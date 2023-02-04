@@ -365,10 +365,16 @@ impl Solver {
     if cells.iter().map(|cell| cell.col).all_equal() {
       areas.push(Area::Column(cell1.col));
     }
-    if cells.iter().map(|cell| self.grid_to_region[cell.row][cell.col]).all_equal() {
-      let region_index = self.grid_to_region[cell1.row][cell1.col];
+
+    let mut common_regions: HashSet<&usize> = self.grid_to_regions[cells[0].row][cells[0].col].iter().collect();
+    for cell in cells[1..].iter() {
+      let cell_regions: HashSet<&usize> = self.grid_to_regions[cell.row][cell.col].iter().collect();
+      common_regions = common_regions.intersection(&cell_regions).copied().collect();
+    }
+    for &region_index in common_regions {
       areas.push(Area::Region(region_index));
     }
+
     if cells.iter().map(|cell| self.grid_to_killer_cage[cell.row][cell.col]).all_equal() {
       let killer_cage_index = self.grid_to_killer_cage[cell1.row][cell1.col];
       if killer_cage_index != usize::MAX {

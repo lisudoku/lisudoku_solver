@@ -30,7 +30,7 @@ pub struct Solver {
   pub constraints: SudokuConstraints,
   pub grid: Grid,
   pub solution: Option<Grid>,
-  grid_to_region: Vec<Vec<usize>>,
+  grid_to_regions: Vec<Vec<Vec<usize>>>,
   grid_to_thermos: Vec<Vec<Vec<usize>>>,
   grid_to_killer_cage: Vec<Vec<usize>>,
   grid_to_kropki_dots: Vec<Vec<Vec<usize>>>,
@@ -41,10 +41,13 @@ pub struct Solver {
 
 impl Solver {
   pub fn new(mut constraints: SudokuConstraints, input_grid: Option<SudokuGrid>) -> Solver {
-    let mut grid_to_region = vec![ vec![ usize::MAX; constraints.grid_size ]; constraints.grid_size ];
+    // Assume all extra regions contain grid_size cells
+    constraints.regions.extend(constraints.extra_regions.to_vec());
+
+    let mut grid_to_regions = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
     for (index, region) in constraints.regions.iter().enumerate() {
       for cell in region {
-        grid_to_region[cell.row][cell.col] = index;
+        grid_to_regions[cell.row][cell.col].push(index);
       }
     }
 
@@ -111,7 +114,7 @@ impl Solver {
       constraints,
       grid,
       solution: None,
-      grid_to_region,
+      grid_to_regions,
       grid_to_thermos,
       grid_to_killer_cage,
       grid_to_kropki_dots,
@@ -253,8 +256,10 @@ impl Solver {
   // Note: update when adding new areas
   fn get_cell_areas(&self, cell: &CellPosition, include_thermo: bool) -> Vec<Area> {
     let &CellPosition { row, col } = cell;
-    let region_index = self.grid_to_region[row][col];
-    let mut areas = vec![ Area::Row(row), Area::Column(col), Area::Region(region_index) ];
+    let mut areas = vec![ Area::Row(row), Area::Column(col) ];
+    for &region_index in &self.grid_to_regions[row][col] {
+      areas.push(Area::Region(region_index));
+    }
     if self.constraints.primary_diagonal && row == col {
       areas.push(Area::PrimaryDiagonal);
     }

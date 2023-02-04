@@ -16,3 +16,5 @@ mod kropki_6x6;
 mod kropki_9x9;
 mod mixed_6x6;
 mod mixed_9x9;
+mod extra_regions_6x6;
+mod extra_regions_9x9;
