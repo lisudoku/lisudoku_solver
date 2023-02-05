@@ -34,6 +34,8 @@ pub struct Solver {
   grid_to_thermos: Vec<Vec<Vec<usize>>>,
   grid_to_killer_cage: Vec<Vec<usize>>,
   grid_to_kropki_dots: Vec<Vec<Vec<usize>>>,
+  grid_to_odd_cells: Vec<Vec<bool>>,
+  grid_to_even_cells: Vec<Vec<bool>>,
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
   hint_mode: bool,
@@ -98,6 +100,16 @@ impl Solver {
       }
     }
 
+    let mut grid_to_odd_cells = vec![ vec![ false; constraints.grid_size ]; constraints.grid_size ];
+    for cell in &constraints.odd_cells {
+      grid_to_odd_cells[cell.row][cell.col] = true;
+    }
+
+    let mut grid_to_even_cells = vec![ vec![ false; constraints.grid_size ]; constraints.grid_size ];
+    for cell in &constraints.even_cells {
+      grid_to_even_cells[cell.row][cell.col] = true;
+    }
+
     let grid = if input_grid.is_some() {
       input_grid.unwrap().values
     } else {
@@ -118,6 +130,8 @@ impl Solver {
       grid_to_thermos,
       grid_to_killer_cage,
       grid_to_kropki_dots,
+      grid_to_odd_cells,
+      grid_to_even_cells,
       candidates_active: false,
       candidates,
       hint_mode: false,
@@ -234,6 +248,7 @@ impl Solver {
       let area_set = self.compute_area_cell_candidates(area, cell);
       candidates = candidates.intersection(&area_set).cloned().collect();
     }
+
     if self.constraints.anti_knight {
       let mut knight_set = self.compute_all_candidates();
       for peer in self.get_knight_peers(&cell) {
@@ -244,6 +259,13 @@ impl Solver {
         knight_set.remove(&value);
       }
       candidates = candidates.intersection(&knight_set).cloned().collect();
+    }
+
+    if self.grid_to_odd_cells[cell.row][cell.col] {
+      candidates = candidates.into_iter().filter(|value| value % 2 == 1).collect();
+    }
+    if self.grid_to_even_cells[cell.row][cell.col] {
+      candidates = candidates.into_iter().filter(|value| value % 2 == 0).collect();
     }
 
     candidates

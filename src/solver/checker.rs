@@ -34,6 +34,14 @@ impl Solver {
       return false
     }
 
+    if !self.check_odd_cells() {
+      return false
+    }
+
+    if !self.check_even_cells() {
+      return false
+    }
+
     true
   }
 
@@ -160,5 +168,19 @@ impl Solver {
         return value1 + 1 != value2 && value1 * 2 != value2
       },
     }
+  }
+
+  fn check_odd_cells(&self) -> bool {
+    self.constraints.odd_cells.iter().all(|cell| {
+      let value = self.grid[cell.row][cell.col];
+      value == 0 || value % 2 == 1
+    })
+  }
+
+  fn check_even_cells(&self) -> bool {
+    self.constraints.even_cells.iter().all(|cell| {
+      let value = self.grid[cell.row][cell.col];
+      value == 0 || value % 2 == 0
+    })
   }
 }

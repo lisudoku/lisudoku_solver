@@ -14,6 +14,8 @@ pub struct SudokuConstraints {
   pub anti_knight: bool,
   pub kropki_dots: Vec<KropkiDot>,
   pub kropki_negative: bool,
+  pub odd_cells: Vec<CellPosition>,
+  pub even_cells: Vec<CellPosition>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -157,6 +159,8 @@ impl SudokuConstraints {
       anti_knight: false,
       kropki_dots: vec![],
       kropki_negative: false,
+      odd_cells: vec![],
+      even_cells: vec![],
     }
   }
 
