@@ -26,7 +26,7 @@ impl Solver {
     // currently that case will be caught when candidates_active
 
     // Try to use as few areas as possible to cover all candidates
-    for area_count in 1..candidate_areas.len()+1 {
+    for area_count in 1..=candidate_areas.len() {
       let area_indexes: Vec<usize> = (0..candidate_areas.len()).collect();
       let area_combinations: Vec<_> = if area_count < area_indexes.len() {
         Combinations::new(area_indexes, area_count).collect()

@@ -189,7 +189,7 @@ impl Solver {
 
     let killer_cage = &self.constraints.killer_cages[killer_cage_index];
     if let Some(sum) = killer_cage.sum {
-      for value in (sum+1)..(self.constraints.grid_size as u32 + 1) {
+      for value in (sum+1)..=(self.constraints.grid_size as u32) {
         set.remove(&value);
       }
     }
@@ -227,7 +227,7 @@ impl Solver {
       }
     }
 
-    let set: HashSet<u32> = (max_before+1..min_after).collect();
+    let set: HashSet<u32> = (max_before+1..=min_after-1).collect();
 
     set
   }
@@ -272,7 +272,7 @@ impl Solver {
   }
 
   fn compute_all_candidates(&self) -> HashSet<u32> {
-    (1..self.constraints.grid_size as u32 + 1).collect::<HashSet<u32>>()
+    (1..=self.constraints.grid_size as u32).collect::<HashSet<u32>>()
   }
 
   // Note: update when adding new areas
@@ -509,7 +509,7 @@ impl Solver {
 
   #[allow(dead_code)]
   fn bit_mask_to_hash_set(&self, combination_mask: u32) -> HashSet<u32> {
-    (1..self.constraints.grid_size+1).filter_map(|value| {
+    (1..=self.constraints.grid_size).filter_map(|value| {
       if combination_mask.bitand(1 << value) > 0 {
         Some(value as u32)
       } else {
