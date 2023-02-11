@@ -124,7 +124,6 @@ pub enum Rule {
   NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenTriples,
   XWing,
-  YWing,
   XYWing,
   Swordfish, // ???
 }
