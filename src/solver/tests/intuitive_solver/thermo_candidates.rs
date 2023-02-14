@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates, locked_candidates::LockedCandidates}}};
 
 #[test]
 fn check_thermo_candidates_update_hidden_single() {
@@ -15,7 +15,7 @@ fn check_thermo_candidates_update_hidden_single() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
@@ -26,7 +26,7 @@ fn check_thermo_candidates_update_hidden_single() {
   assert!(initial_candidates.contains(&7));
   solver.apply_rule(&step);
 
-  let steps = solver.find_thermo_candidate_updates();
+  let steps = ThermoCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
   solver.apply_rule(&step);
@@ -54,17 +54,17 @@ fn check_thermo_candidates_update_locked_candidates() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   for _ in 0..3 {
-    let steps = solver.find_thermo_candidate_updates();
+    let steps = ThermoCandidates.run(&solver);
     assert!(!steps.is_empty());
     let step = steps.into_iter().next().unwrap();
     solver.apply_rule(&step);
   }
 
-  let step = solver.find_locked_candidates_pairs();
-  assert!(step.is_some());
-  let step = step.unwrap();
+  let steps = LockedCandidates::new(2).run(&solver);
+  assert!(!steps.is_empty());
+  let step = steps.first().unwrap();
   assert_eq!(step.cells, vec![ CellPosition::new(3, 1), CellPosition::new(3, 2) ]);
   assert_eq!(step.values, vec![ 2 ]);
   let initial_candidates = solver.candidates[4][5].clone();
@@ -72,7 +72,7 @@ fn check_thermo_candidates_update_locked_candidates() {
   assert!(initial_candidates.contains(&3));
   solver.apply_rule(&step);
 
-  let steps = solver.find_thermo_candidate_updates();
+  let steps = ThermoCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
   solver.apply_rule(&step);

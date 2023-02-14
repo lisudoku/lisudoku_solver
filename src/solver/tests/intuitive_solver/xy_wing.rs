@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, xy_wing::XYWing}}};
 
 #[test]
 fn check_xy_wing() {
@@ -25,11 +25,11 @@ fn check_xy_wing() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_xy_wing();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = XYWing.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::XYWing);
   assert_eq!(step.areas, vec![]);
   assert_eq!(step.cells, vec![
@@ -77,10 +77,10 @@ fn check_xy_wing_no_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_xy_wing();
-  assert!(step.is_none());
+  let steps = XYWing.run(&solver);
+  assert!(steps.is_empty());
 }
 
 #[test]
@@ -105,8 +105,8 @@ fn check_xy_wing_on_row_no_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_xy_wing();
-  assert!(step.is_none());
+  let steps = XYWing.run(&solver);
+  assert!(steps.is_empty());
 }

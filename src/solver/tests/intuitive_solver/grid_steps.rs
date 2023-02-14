@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique}}};
 use itertools::Itertools;
 
 #[test]
@@ -39,7 +39,7 @@ fn check_grid_steps_with_candidates() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
@@ -72,7 +72,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   constraints.anti_knight = true;
   let mut solver = Solver::new(constraints, None);
   // TODO: will have to fix version without candidates_active
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
@@ -122,7 +122,7 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
     ],
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());

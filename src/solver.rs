@@ -2,10 +2,27 @@ use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, Cell
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
 use std::ops::BitAnd;
+use std::rc::Rc;
 use itertools::Itertools;
+use self::intuitive_solver::candidates::Candidates;
+use self::intuitive_solver::common_peer_elimination::CommonPeerElimination;
+use self::intuitive_solver::common_peer_elimination_kropki::CommonPeerEliminationKropki;
+use self::intuitive_solver::hidden_set::HiddenSet;
+use self::intuitive_solver::hidden_singles::HiddenSingles;
+use self::intuitive_solver::killer45::Killer45;
+use self::intuitive_solver::killer_candidates::KillerCandidates;
+use self::intuitive_solver::kropki_chain_candidates::KropkiChainCandidates;
+use self::intuitive_solver::locked_candidates::LockedCandidates;
+use self::intuitive_solver::naked_set::NakedSet;
+use self::intuitive_solver::naked_singles::NakedSingle;
+use self::intuitive_solver::technique::Technique;
+use self::intuitive_solver::thermo_candidates::ThermoCandidates;
+use self::intuitive_solver::thermo_steps::Thermo;
+use self::intuitive_solver::x_wing::XWing;
+use self::intuitive_solver::xy_wing::XYWing;
 
 mod checker;
-mod intuitive_solver;
+pub mod intuitive_solver;
 mod brute_solver;
 
 const KNIGHT_MOVES: [CellDirection; 8] = [
@@ -28,6 +45,7 @@ const ADJACENT_MOVES: [CellDirection; 4] = [
 
 pub struct Solver {
   pub constraints: SudokuConstraints,
+  pub techniques: Vec<Rc<dyn Technique>>,
   pub grid: Grid,
   pub solution: Option<Grid>,
   grid_to_regions: Vec<Vec<Vec<usize>>>,
@@ -135,12 +153,37 @@ impl Solver {
       candidates_active: false,
       candidates,
       hint_mode: false,
+      techniques: Self::default_techniques(),
     }
   }
 
   pub fn with_hint_mode(mut self) -> Self {
     self.hint_mode = true;
     self
+  }
+
+  pub fn default_techniques() -> Vec<Rc<dyn Technique>> {
+    vec![
+      Rc::new(ThermoCandidates),
+      Rc::new(KillerCandidates),
+      Rc::new(KropkiChainCandidates::new(false)),
+      Rc::new(KropkiChainCandidates::new(true)),
+      Rc::new(NakedSingle),
+      Rc::new(HiddenSingles),
+      Rc::new(Thermo),
+      Rc::new(Candidates),
+      Rc::new(Killer45),
+      Rc::new(LockedCandidates::new(2)),
+      Rc::new(NakedSet::new(2)),
+      Rc::new(HiddenSet::new(2)),
+      Rc::new(LockedCandidates::new(3)),
+      Rc::new(NakedSet::new(3)),
+      Rc::new(HiddenSet::new(3)),
+      Rc::new(XWing),
+      Rc::new(XYWing),
+      Rc::new(CommonPeerElimination),
+      Rc::new(CommonPeerEliminationKropki),
+    ]
   }
 
   fn get_adjacent_cells(cell: CellPosition, grid_size: usize) -> Vec<CellPosition> {

@@ -1,24 +1,31 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, KropkiDotType, Area};
 use std::collections::HashSet;
+use super::common_peer_elimination::CommonPeerElimination;
+use super::kropki_chain_candidates::KropkiChainCandidates;
+use super::technique::Technique;
 
 // One of the kropki chain combinations would eliminate a cell's candidates, so that combination is invalid
 // Note: this rule also handles naked sets and locked candidates for kropki chains
-impl Solver {
-  pub fn find_common_peer_elimination_kropki(&self) -> Option<SolutionStep> {
-    if !self.candidates_active {
-      return None
+pub struct CommonPeerEliminationKropki;
+
+impl Technique for CommonPeerEliminationKropki {
+  fn get_rule(&self) -> Rule { Rule::CommonPeerEliminationKropki }
+
+  fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
+    if !solver.candidates_active {
+      return vec![]
     }
-    if self.constraints.kropki_dots.is_empty() {
-      return None
+    if solver.constraints.kropki_dots.is_empty() {
+      return vec![]
     }
 
-    for area in &self.get_all_areas(false, false, false) {
+    for area in &solver.get_all_areas(false, false, false) {
       let dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
       for dot_type in dot_types {
-        let kropki_ccs = self.compute_area_kropki_ccs(area, dot_type, false);
+        let kropki_ccs = KropkiChainCandidates::compute_area_kropki_ccs(solver, area, dot_type, false);
         for (cells, kropki_dot_indices) in kropki_ccs {
-          let combinations: Vec<Vec<u32>> = self.find_kropki_ccs_combinations(&cells);
+          let combinations: Vec<Vec<u32>> = KropkiChainCandidates::find_kropki_ccs_combinations(solver, &cells);
           for combination in &combinations {
             // Find the values that are unique to this combination (on their position)
             let unique_indices: Vec<usize> = (0..cells.len()).filter(|&index| {
@@ -30,7 +37,7 @@ impl Solver {
 
             let combination_set: HashSet<u32> = combination.iter().copied().collect();
             let common_peer_cells: Vec<CellPosition> = self.find_common_peers_for_cells_with_subset_values(
-              &cells, &combination_set
+              solver, &cells, &combination_set
             );
 
             if common_peer_cells.is_empty() {
@@ -43,27 +50,36 @@ impl Solver {
             let unique_combination: Vec<u32> = unique_indices.iter().map(|&index| combination[index]).collect();
             let unique_cells: Vec<CellPosition> = unique_indices.iter().map(|&index| cells[index]).collect();
 
-            return Some(
+            return vec![
               SolutionStep {
-                rule: Rule::CommonPeerEliminationKropki,
+                rule: self.get_rule(),
                 cells: common_peer_cells, // cells that have all candidates in the combination
                 values: unique_combination, // values in the same order as affected_cells
                 areas,
                 affected_cells: unique_cells, // cells in the chain
                 candidates: None,
               }
-            )
+            ]
           }
         }
       }
     }
 
-    None
+    vec![]
   }
 
-  fn find_common_peers_for_cells_with_subset_values(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
-    let common_peers = self.find_common_peers_for_cells(cells);
-    let common_peers_with_values: Vec<CellPosition> = self.filter_cells_with_subset_candidates(&common_peers, &values);
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) {
+    for (index, cell) in step.affected_cells.iter().enumerate() {
+      let value = step.values[index];
+      solver.candidates[cell.row][cell.col].remove(&value);
+    }
+  }
+}
+
+impl CommonPeerEliminationKropki {
+  fn find_common_peers_for_cells_with_subset_values(&self, solver: &Solver, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    let common_peers = CommonPeerElimination::find_common_peers_for_cells(solver, cells);
+    let common_peers_with_values: Vec<CellPosition> = solver.filter_cells_with_subset_candidates(&common_peers, &values);
     common_peers_with_values
   }
 }

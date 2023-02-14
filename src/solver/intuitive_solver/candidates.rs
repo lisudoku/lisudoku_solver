@@ -1,30 +1,40 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule};
+use super::technique::Technique;
 
-impl Solver {
-  pub fn find_candidates_step(&self) -> Option<SolutionStep> {
-    if self.candidates_active {
-      return None
+pub struct Candidates;
+
+impl Technique for Candidates {
+  fn get_rule(&self) -> Rule { Rule::Candidates }
+
+  fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
+    if solver.candidates_active {
+      return vec![]
     }
 
     let mut candidates: Vec<Vec<HashSet<u32>>> = vec![
-      vec![ HashSet::new(); self.constraints.grid_size ];
-      self.constraints.grid_size
+      vec![ HashSet::new(); solver.constraints.grid_size ];
+      solver.constraints.grid_size
     ];
-    for cell in &self.get_all_empty_cells() {
-      candidates[cell.row][cell.col] = self.compute_cell_candidates(cell);
+    for cell in &solver.get_all_empty_cells() {
+      candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell);
     }
 
-    return Some(
+    return vec![
       SolutionStep {
-        rule: Rule::Candidates,
+        rule: self.get_rule(),
         cells: vec![],
         values: vec![],
         areas: vec![],
         affected_cells: vec![],
         candidates: Some(candidates),
       }
-    )
+    ]
+  }
+
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) {
+    solver.candidates_active = true;
+    solver.candidates = step.candidates.as_ref().unwrap().to_vec();
   }
 }

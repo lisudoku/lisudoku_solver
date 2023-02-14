@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, x_wing::XWing}}};
 
 #[test]
 fn check_x_wing_on_row() {
@@ -23,11 +23,11 @@ fn check_x_wing_on_row() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_x_wing();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = XWing.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::XWing);
   assert_eq!(step.areas, vec![
     Area::Row(1), Area::Row(6), Area::Column(1), Area::Column(8)
@@ -75,10 +75,10 @@ fn check_x_wing_on_row_3_possible_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_x_wing();
-  assert!(step.is_none());
+  let steps = XWing.run(&solver);
+  assert!(steps.is_empty());
 }
 
 #[test]
@@ -103,11 +103,11 @@ fn check_x_wing_on_col() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_x_wing();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = XWing.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::XWing);
   assert_eq!(step.areas, vec![
     Area::Column(2), Area::Column(6), Area::Row(4), Area::Row(6)
@@ -166,10 +166,10 @@ fn check_x_wing_no_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_x_wing();
-  assert!(step.is_none());
+  let steps = XWing.run(&solver);
+  assert!(steps.is_empty());
 }
 
 #[test]
@@ -183,8 +183,8 @@ fn check_x_wing_same_box() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_x_wing();
-  assert!(step.is_none());
+  let steps = XWing.run(&solver);
+  assert!(steps.is_empty());
 }

@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, locked_candidates::LockedCandidates}}};
 
 #[test]
 fn check_locked_candidates_pairs() {
@@ -12,11 +12,11 @@ fn check_locked_candidates_pairs() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_locked_candidates_pairs();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = LockedCandidates::new(2).run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::LockedCandidatesPairs);
   assert_eq!(step.areas, vec![ Area::Region(0), Area::Row(2) ]);
   assert_eq!(step.cells, vec![ CellPosition::new(2, 1), CellPosition::new(2, 2) ]);
@@ -47,10 +47,10 @@ fn check_locked_candidates_pairs_no_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_locked_candidates_pairs();
-  assert!(step.is_none());
+  let steps = LockedCandidates::new(2).run(&solver);
+  assert!(steps.is_empty());
 }
 
 #[test]
@@ -66,11 +66,11 @@ fn check_locked_candidates_pairs_on_primary_diagonal() {
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.primary_diagonal = true;
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_locked_candidates_pairs();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = LockedCandidates::new(2).run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::LockedCandidatesPairs);
   assert_eq!(step.areas, vec![ Area::Region(0), Area::PrimaryDiagonal ]);
   assert_eq!(step.cells, vec![ CellPosition::new(1, 1), CellPosition::new(2, 2) ]);
@@ -108,11 +108,11 @@ fn check_locked_candidates_pairs_on_secondary_diagonal() {
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.secondary_diagonal = true;
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_locked_candidates_pairs();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = LockedCandidates::new(2).run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::LockedCandidatesPairs);
   assert_eq!(step.areas, vec![ Area::Region(2), Area::SecondaryDiagonal ]);
   assert_eq!(step.cells, vec![ CellPosition::new(1, 7), CellPosition::new(2, 6) ]);

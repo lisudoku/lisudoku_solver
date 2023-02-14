@@ -1,18 +1,24 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, Area, Thermo};
+use super::technique::Technique;
 
-impl Solver {
-  pub fn find_thermo_candidate_updates(&self) -> Vec<SolutionStep> {
-    if !self.candidates_active {
+pub struct ThermoCandidates;
+
+impl Technique for ThermoCandidates {
+  fn is_candidate_validity_update_step(&self) -> bool { true }
+  fn get_rule(&self) -> Rule { Rule::ThermoCandidates }
+
+  fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
+    if !solver.candidates_active {
       return vec![]
     }
 
-    for (thermo_index, thermo) in self.constraints.thermos.iter().enumerate() {
-      let lower_bounds = self.find_thermo_lower_bounds(&thermo);
-      let upper_bounds = self.find_thermo_upper_bounds(&thermo);
+    for (thermo_index, thermo) in solver.constraints.thermos.iter().enumerate() {
+      let lower_bounds = Self::find_thermo_lower_bounds(solver, &thermo);
+      let upper_bounds = Self::find_thermo_upper_bounds(solver, &thermo);
 
       for (cell_index, cell) in thermo.iter().enumerate() {
-        let invalid_values: Vec<u32> = self.candidates[cell.row][cell.col]
+        let invalid_values: Vec<u32> = solver.candidates[cell.row][cell.col]
           .iter()
           .copied()
           .filter(|&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
@@ -21,7 +27,7 @@ impl Solver {
         if !invalid_values.is_empty() {
           return vec![
             SolutionStep {
-              rule: Rule::ThermoCandidates,
+              rule: self.get_rule(),
               cells: vec![],
               values: invalid_values,
               areas: vec![ Area::Thermo(thermo_index) ],
@@ -35,15 +41,17 @@ impl Solver {
 
     vec![]
   }
+}
 
-  pub fn find_thermo_lower_bounds(&self, thermo: &Thermo) -> Vec<u32> {
-    let max_value: u32 = self.constraints.grid_size as u32 + 1;
+impl ThermoCandidates {
+  pub fn find_thermo_lower_bounds(solver: &Solver, thermo: &Thermo) -> Vec<u32> {
+    let max_value: u32 = solver.constraints.grid_size as u32 + 1;
     let mut current_min = 0;
     thermo.iter().map(|cell| {
-      if self.grid[cell.row][cell.col] != 0 {
-        current_min = self.grid[cell.row][cell.col];
+      if solver.grid[cell.row][cell.col] != 0 {
+        current_min = solver.grid[cell.row][cell.col];
       } else {
-        let cell_candidates = self.compute_cell_candidates(cell);
+        let cell_candidates = solver.compute_cell_candidates(cell);
 
         // If it reaches grid_sze it should result in a cell with no candidates
         if current_min < max_value {
@@ -59,13 +67,13 @@ impl Solver {
     }).collect()
   }
 
-  pub fn find_thermo_upper_bounds(&self, thermo: &Thermo) -> Vec<u32> {
-    let mut current_max = self.constraints.grid_size as u32 + 1;
+  pub fn find_thermo_upper_bounds(solver: &Solver, thermo: &Thermo) -> Vec<u32> {
+    let mut current_max = solver.constraints.grid_size as u32 + 1;
     thermo.iter().rev().map(|cell| {
-      if self.grid[cell.row][cell.col] != 0 {
-        current_max = self.grid[cell.row][cell.col];
+      if solver.grid[cell.row][cell.col] != 0 {
+        current_max = solver.grid[cell.row][cell.col];
       } else {
-        let cell_candidates = self.compute_cell_candidates(cell);
+        let cell_candidates = solver.compute_cell_candidates(cell);
 
         // If it reaches 0 it should result in a cell with no candidates
         if current_max > 0 {

@@ -3,30 +3,29 @@ use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, CellPosition};
 use combinations::Combinations;
 use itertools::Itertools;
+use super::technique::Technique;
 
 // Within a house, X and Y are candidates in only 2 cells, so you can remove any other
 // candidate from those 2 cells.
-impl Solver {
-  pub fn find_hidden_pairs(&self) -> Option<SolutionStep> {
-    self.find_hidden_set(2)
-  }
+pub struct HiddenSet {
+  set_size: usize,
+}
 
-  pub fn find_hidden_triples(&self) -> Option<SolutionStep> {
-    self.find_hidden_set(3)
-  }
+impl Technique for HiddenSet {
+  fn get_rule(&self) -> Rule { if self.set_size == 2 { Rule::HiddenPairs } else { Rule::HiddenTriples } }
 
-  pub fn find_hidden_set(&self, set_size: usize) -> Option<SolutionStep> {
-    if !self.candidates_active {
-      return None
+  fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
+    if !solver.candidates_active {
+      return vec![]
     }
 
-    let areas = self.get_all_areas(false, false, false);
+    let areas = solver.get_all_areas(false, false, false);
     for area in areas {
-      let value_cells = self.compute_cells_by_value_in_area(&area, &self.candidates);
+      let value_cells = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
 
-      let area_values: Vec<u32> = self.compute_area_candidates_union(&area).into_iter().sorted().collect();
-      let value_combinations: Vec<_> = if set_size < area_values.len() {
-        Combinations::new(area_values, set_size).collect()
+      let area_values: Vec<u32> = solver.compute_area_candidates_union(&area).into_iter().sorted().collect();
+      let value_combinations: Vec<_> = if self.set_size < area_values.len() {
+        Combinations::new(area_values, self.set_size).collect()
       } else {
         // Has to be handled separately because of stupid crate
         vec![area_values]
@@ -37,34 +36,47 @@ impl Solver {
         for value in &values {
           let cells: HashSet<CellPosition> = value_cells[value].iter().copied().collect();
           combined_cells = combined_cells.union(&cells).cloned().collect();
-          if combined_cells.len() > set_size {
+          if combined_cells.len() > self.set_size {
             break
           }
         }
 
-        if combined_cells.len() != set_size {
+        if combined_cells.len() != self.set_size {
           continue
         }
 
         let cells_array: Vec<CellPosition> = combined_cells.into_iter().sorted().collect();
         let values_set: HashSet<u32> = values.iter().copied().collect();
-        if !self.any_cells_with_other_candidates(&cells_array, &values_set) {
+        if !solver.any_cells_with_other_candidates(&cells_array, &values_set) {
           continue
         }
 
-        return Some(
+        return vec![
           SolutionStep {
-            rule: if set_size == 2 { Rule::HiddenPairs } else { Rule::HiddenTriples },
+            rule: self.get_rule(),
             cells: cells_array,
             values,
             areas: vec![area],
             affected_cells: vec![],
             candidates: None,
           }
-        )
+        ]
       }
     }
 
-    None
+    vec![]
+  }
+
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) {
+    for &CellPosition { row, col } in &step.cells {
+      let value_set: HashSet<u32> = step.values.iter().copied().collect();
+      solver.candidates[row][col] = solver.candidates[row][col].intersection(&value_set).copied().collect();
+    }
+  }
+}
+
+impl HiddenSet {
+  pub fn new(set_size: usize) -> HiddenSet {
+    HiddenSet { set_size }
   }
 }

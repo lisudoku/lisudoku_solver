@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::{Solver, intuitive_solver::{naked_singles::NakedSingle, technique::Technique, candidates::Candidates}}};
 
 #[test]
 fn check_naked_single_without_candidates() {
@@ -12,9 +12,9 @@ fn check_naked_single_without_candidates() {
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
 
-  let step = solver.find_naked_singles();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = NakedSingle.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
@@ -37,11 +37,11 @@ fn check_naked_single_with_candidates() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_naked_singles();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = NakedSingle.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
   let initial_value = solver.grid[row][col];

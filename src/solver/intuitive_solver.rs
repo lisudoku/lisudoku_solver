@@ -1,24 +1,27 @@
 use std::collections::HashSet;
-use crate::types::{SudokuIntuitiveSolveResult, CellPosition, SolutionStep, Rule, Area, SolutionType};
+use std::rc::Rc;
+use crate::types::{SudokuIntuitiveSolveResult, CellPosition, SolutionStep, Area, SolutionType};
 use crate::solver::Solver;
+use self::technique::Technique;
 use itertools::Itertools;
 
-mod naked_singles;
-mod hidden_singles;
-mod thermo_steps;
-mod candidates;
-mod locked_candidates;
-mod naked_set;
-mod thermo_candidates;
-mod hidden_set;
-mod x_wing;
-mod xy_wing;
-mod common_peer_elimination;
-mod sum_candidates;
-mod killer_candidates;
-mod killer45;
-mod kropki_chain_candidates;
-mod common_peer_elimination_kropki;
+pub mod technique;
+pub mod naked_singles;
+pub mod hidden_singles;
+pub mod thermo_steps;
+pub mod candidates;
+pub mod locked_candidates;
+pub mod naked_set;
+pub mod thermo_candidates;
+pub mod hidden_set;
+pub mod x_wing;
+pub mod xy_wing;
+pub mod common_peer_elimination;
+pub mod sum_candidates;
+pub mod killer_candidates;
+pub mod killer45;
+pub mod kropki_chain_candidates;
+pub mod common_peer_elimination_kropki;
 
 const DEBUG: bool = false;
 
@@ -97,19 +100,8 @@ impl Solver {
     }
 
     // This type of rule must be 1st to make sure all candidates are valid
-    let steps = self.find_thermo_candidate_updates();
-    if !steps.is_empty() {
-      return steps
-    }
-    let steps = self.find_killer_candidate_updates();
-    if !steps.is_empty() {
-      return steps
-    }
-    let steps = self.find_kropki_chain_candidate_updates();
-    if !steps.is_empty() {
-      return steps
-    }
-    let steps = self.find_kropki_pair_candidate_updates();
+    // before applying other techniques
+    let steps = self.find_candidate_validity_update_steps();
     if !steps.is_empty() {
       return steps
     }
@@ -127,101 +119,73 @@ impl Solver {
     vec![]
   }
 
-  pub fn find_grid_steps(&self) -> Vec<SolutionStep> {
-    let mut step = self.find_naked_singles();
+  pub fn find_candidate_validity_update_steps(&self) -> Vec<SolutionStep> {
+    let candidate_validity_techniques: Vec<&Rc<dyn Technique>> = self.techniques
+      .iter()
+      .filter(|technique| technique.is_candidate_validity_update_step())
+      .collect();
 
-    if step.is_none() {
-      step = self.find_hidden_singles();
+    let steps = self.run_techniques(candidate_validity_techniques);
+
+    if steps.is_none() {
+      return vec![]
     }
 
-    if step.is_none() {
-      step = self.find_thermo_steps();
-    }
-
-    if let Some(mut_step) = &mut step {
-      if self.candidates_active {
-        let cell = mut_step.cells[0];
-        let value = mut_step.values[0];
-        let values_set = &HashSet::from([value]);
-        mut_step.affected_cells = self.get_affected_by_cell(&cell, values_set);
-      }
-      return vec![ step.unwrap() ]
-    }
-
-    vec![]
+    steps.unwrap()
   }
 
-  fn find_nongrid_steps(&self) -> Vec<SolutionStep> {
-    let step = self.find_candidates_step();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
+  pub fn find_grid_steps(&self) -> Vec<SolutionStep> {
+    let grid_techniques: Vec<&Rc<dyn Technique>> = self.techniques
+      .iter()
+      .filter(|technique| technique.is_grid_step())
+      .collect();
+
+    let steps = self.run_techniques(grid_techniques);
+
+    if steps.is_none() {
+      return vec![]
     }
 
-    // Killer
-    let steps = self.find_killer45();
-    if !steps.is_empty() {
+    let mut steps = steps.unwrap();
+    if !self.candidates_active {
       return steps
     }
 
-    // Pairs
-
-    let step = self.find_locked_candidates_pairs();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
+    for step in &mut steps {
+      let cell = step.cells[0];
+      let value = step.values[0];
+      let values_set = &HashSet::from([value]);
+      step.affected_cells = self.get_affected_by_cell(&cell, values_set);
     }
 
-    let step = self.find_naked_pairs();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
+    return steps
+  }
+
+  fn find_nongrid_steps(&self) -> Vec<SolutionStep> {
+    let nongrid_techniques: Vec<&Rc<dyn Technique>> = self.techniques
+      .iter()
+      .filter(|technique| !technique.is_grid_step() &&
+                          !technique.is_candidate_validity_update_step())
+      .collect();
+
+    let steps = self.run_techniques(nongrid_techniques);
+
+    if steps.is_none() {
+      return vec![]
     }
 
-    let step = self.find_hidden_pairs();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
+    steps.unwrap()
+  }
 
-    // Triples
-
-    let step = self.find_locked_candidates_triples();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    let step = self.find_naked_triples();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    let step = self.find_hidden_triples();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    // Other
-
-    let step = self.find_x_wing();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    let step = self.find_xy_wing();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    let step = self.find_common_peer_elimination();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    let step = self.find_common_peer_elimination_kropki();
-    if step.is_some() {
-      return vec![ step.unwrap() ]
-    }
-
-    // TODO: implement other rules
-
-    vec![]
+  fn run_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Option<Vec<SolutionStep>> {
+    techniques.into_iter().find_map(|technique| {
+      let steps = technique.run(&self);
+      if steps.is_empty() {
+        None
+      } else {
+        Some(steps)
+      }
+    })
   }
 
   pub fn apply_rule(&mut self, step: &SolutionStep) {
@@ -233,48 +197,14 @@ impl Solver {
       step.values.iter().map(|x| format!("{}", x)).join(", "),
       step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
     );
-    match &step.rule {
-      Rule::NakedSingle | Rule::HiddenSingle | Rule::Thermo => {
-        let CellPosition { row, col } = step.cells[0];
-        let value = step.values[0];
 
-        self.grid[row][col] = value;
+    let technique = self.techniques
+      .iter()
+      .find(|technique| technique.get_rule() == step.rule)
+      .cloned()
+      .unwrap();
 
-        if self.candidates_active {
-          self.candidates[row][col].clear();
-          self.update_candidates(&step.affected_cells, value);
-        }
-      }
-      Rule::Candidates => {
-        self.candidates_active = true;
-        self.candidates = step.candidates.as_ref().unwrap().to_vec();
-      }
-      Rule::HiddenPairs | Rule::HiddenTriples => {
-        for &CellPosition { row, col } in &step.cells {
-          let value_set: HashSet<u32> = step.values.iter().copied().collect();
-          self.candidates[row][col] = self.candidates[row][col].intersection(&value_set).copied().collect();
-        }
-      }
-      Rule::XYWing => {
-        for &CellPosition { row, col } in &step.affected_cells {
-          // Remove Z as candidate
-          self.candidates[row][col].remove(&step.values[2]);
-        }
-      }
-      Rule::CommonPeerEliminationKropki => {
-        for (index, cell) in step.affected_cells.iter().enumerate() {
-          let value = step.values[index];
-          self.candidates[cell.row][cell.col].remove(&value);
-        }
-      }
-      _ => {
-        for &CellPosition { row, col } in &step.affected_cells {
-          for value in &step.values {
-            self.candidates[row][col].remove(value);
-          }
-        }
-      }
-    }
+    technique.apply(&step, self);
 
     if DEBUG {
       // only after cell changes

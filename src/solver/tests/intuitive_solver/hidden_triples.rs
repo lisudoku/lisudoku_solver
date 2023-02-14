@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, hidden_set::HiddenSet}}};
 
 #[test]
 fn check_hidden_triples() {
@@ -14,11 +14,11 @@ fn check_hidden_triples() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_hidden_triples();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = HiddenSet::new(3).run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::HiddenTriples);
   assert_eq!(step.cells, vec![ CellPosition::new(0, 0), CellPosition::new(1, 0), CellPosition::new(2, 0) ]);
   assert_eq!(step.values, vec![ 1, 2, 3 ]);
@@ -63,9 +63,8 @@ fn check_hidden_triples_no_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_hidden_triples();
-  dbg!(&step);
-  assert!(step.is_none());
+  let steps = HiddenSet::new(3).run(&solver);
+  assert!(steps.is_empty());
 }

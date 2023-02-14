@@ -1,26 +1,34 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
+use super::technique::Technique;
 use combinations::Combinations;
 
-impl Solver {
-  pub fn find_naked_singles(&self) -> Option<SolutionStep> {
-    for cell in self.get_all_empty_cells() {
-      let step = self.find_naked_single_in_cell(cell);
+pub struct NakedSingle;
+
+impl Technique for NakedSingle {
+  fn is_grid_step(&self) -> bool { true }
+  fn get_rule(&self) -> Rule { Rule::NakedSingle }
+
+  fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
+    for cell in solver.get_all_empty_cells() {
+      let step = self.find_naked_single_in_cell(solver, cell);
       if step.is_some() {
-        return step
+        return vec![ step.unwrap() ]
       }
     }
 
-    None
+    vec![]
   }
+}
 
-  fn find_naked_single_in_cell(&self, cell: CellPosition) -> Option<SolutionStep> {
+impl NakedSingle {
+  fn find_naked_single_in_cell(&self, solver: &Solver, cell: CellPosition) -> Option<SolutionStep> {
     let CellPosition { row, col } = cell;
-    if self.candidates_active {
-      return self.find_naked_single_with_candidates(row, col);
+    if solver.candidates_active {
+      return self.find_naked_single_with_candidates(solver, row, col);
     }
 
-    let candidate_areas = self.get_cell_areas(&cell, false);
+    let candidate_areas = solver.get_cell_areas(&cell, false);
 
     // TODO: we may want to also consider anti knight cells
     // currently that case will be caught when candidates_active
@@ -37,7 +45,7 @@ impl Solver {
 
       for area_combination in area_combinations {
         let selected_areas = area_combination.into_iter().map(|index| &candidate_areas[index]).collect();
-        let step = self.find_naked_single_in_cell_and_areas(&cell, selected_areas);
+        let step = self.find_naked_single_in_cell_and_areas(solver, &cell, selected_areas);
         if step.is_some() {
           return step
         }
@@ -47,10 +55,10 @@ impl Solver {
     None
   }
 
-  fn find_naked_single_in_cell_and_areas(&self, cell: &CellPosition, areas: Vec<&Area>) -> Option<SolutionStep> {
-    let mut areas_set = self.compute_all_candidates();
+  fn find_naked_single_in_cell_and_areas(&self, solver: &Solver, cell: &CellPosition, areas: Vec<&Area>) -> Option<SolutionStep> {
+    let mut areas_set = solver.compute_all_candidates();
     for area in &areas {
-      let area_set = self.compute_area_cell_candidates(area, cell);
+      let area_set = solver.compute_area_cell_candidates(area, cell);
       areas_set = areas_set.intersection(&area_set).cloned().collect();
     }
     if areas_set.len() == 1 {
@@ -70,15 +78,15 @@ impl Solver {
     None
   }
 
-  fn find_naked_single_with_candidates(&self, row: usize, col: usize) -> Option<SolutionStep> {
-    if self.candidates[row][col].len() != 1 {
+  fn find_naked_single_with_candidates(&self, solver: &Solver, row: usize, col: usize) -> Option<SolutionStep> {
+    if solver.candidates[row][col].len() != 1 {
       return None
     }
 
-    let value = *self.candidates[row][col].iter().next().unwrap();
+    let value = *solver.candidates[row][col].iter().next().unwrap();
     Some(
       SolutionStep {
-        rule: Rule::NakedSingle,
+        rule: self.get_rule(),
         cells: vec![ CellPosition { row, col } ],
         values: vec![ value ],
         areas: vec![],

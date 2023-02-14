@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, common_peer_elimination::CommonPeerElimination}}};
 
 #[test]
 fn check_anti_knight_common_peer_elimination_1() {
@@ -12,11 +12,11 @@ fn check_anti_knight_common_peer_elimination_1() {
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.anti_knight = true;
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_common_peer_elimination();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = CommonPeerElimination.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerElimination);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
   assert_eq!(step.cells, vec![
@@ -48,11 +48,11 @@ fn check_anti_knight_common_peer_elimination_2() {
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.anti_knight = true;
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_common_peer_elimination();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = CommonPeerElimination.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerElimination);
   assert_eq!(step.values, vec![8]);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
@@ -90,11 +90,11 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
     ],
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_common_peer_elimination();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = CommonPeerElimination.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerElimination);
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![ Area::Row(4) ]);

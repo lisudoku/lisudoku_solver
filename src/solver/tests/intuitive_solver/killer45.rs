@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, KillerCage, Area, FixedNumber}, solver::Solver};
+use crate::{types::{SudokuConstraints, CellPosition, Rule, KillerCage, Area, FixedNumber}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, killer45::Killer45}}};
 use itertools::Itertools;
 
 #[test]
@@ -17,8 +17,8 @@ fn check_killer45_row() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer45();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
@@ -52,8 +52,8 @@ fn check_killer45_region() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer45();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
@@ -81,8 +81,8 @@ fn check_killer45_col_with_fixed_digits() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer45();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
@@ -136,8 +136,8 @@ fn check_killer45_col_partial_cages() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer45();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 

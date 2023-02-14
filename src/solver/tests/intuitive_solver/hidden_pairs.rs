@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, hidden_set::HiddenSet}}};
 
 #[test]
 fn check_hidden_pairs_with_affected_cells() {
@@ -13,11 +13,11 @@ fn check_hidden_pairs_with_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_hidden_pairs();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = HiddenSet::new(2).run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::HiddenPairs);
   assert_eq!(step.cells, vec![ CellPosition::new(1, 0), CellPosition::new(2, 0) ]);
   assert_eq!(step.values, vec![ 1, 2 ]);
@@ -49,8 +49,8 @@ fn check_hidden_pairs_no_affected_cells() {
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let step = solver.find_naked_pairs();
-  assert!(step.is_none());
+  let steps = HiddenSet::new(2).run(&solver);
+  assert!(steps.is_empty());
 }

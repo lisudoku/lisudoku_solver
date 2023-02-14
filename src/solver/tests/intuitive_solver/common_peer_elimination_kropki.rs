@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, KropkiDot}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, KropkiDot}, solver::{Solver, intuitive_solver::{kropki_chain_candidates::KropkiChainCandidates, technique::Technique, candidates::Candidates, common_peer_elimination_kropki::CommonPeerEliminationKropki}}};
 
 #[test]
 fn check_kropki_common_peer_elimination_1() {
@@ -24,16 +24,17 @@ fn check_kropki_common_peer_elimination_1() {
     KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   for mut step in steps {
     solver.apply_rule(&mut step);
   }
 
-  let step = solver.find_common_peer_elimination_kropki();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+
+  let steps = CommonPeerEliminationKropki.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
   assert_eq!(step.values, vec![ 1, 2, 3 ]);
   assert_eq!(step.areas, vec![ Area::Column(0), Area::KropkiDot(0), Area::KropkiDot(1) ]);
@@ -71,16 +72,16 @@ fn check_kropki_common_peer_elimination_2() {
     KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   for mut step in steps {
     solver.apply_rule(&mut step);
   }
 
-  let step = solver.find_common_peer_elimination_kropki();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = CommonPeerEliminationKropki.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
   assert_eq!(step.values, vec![ 9, 8, 7 ]);
   assert_eq!(step.areas, vec![ Area::Column(0), Area::KropkiDot(0), Area::KropkiDot(1) ]);
@@ -115,16 +116,16 @@ fn check_kropki_common_peer_elimination_3() {
     KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   for mut step in steps {
     solver.apply_rule(&mut step);
   }
 
-  let step = solver.find_common_peer_elimination_kropki();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = CommonPeerEliminationKropki.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
   assert_eq!(step.values, vec![ 2, 3, 4 ]);
   assert_eq!(step.areas, vec![ Area::Column(0), Area::KropkiDot(0), Area::KropkiDot(1) ]);
@@ -160,16 +161,16 @@ fn check_kropki_common_peer_elimination_4() {
     KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   for mut step in steps {
     solver.apply_rule(&mut step);
   }
 
-  let step = solver.find_common_peer_elimination_kropki();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = CommonPeerEliminationKropki.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
   assert_eq!(step.values, vec![ 4 ]);
   assert_eq!(step.areas, vec![ Area::Column(0), Area::KropkiDot(0), Area::KropkiDot(1) ]);

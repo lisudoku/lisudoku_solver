@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, Area, FixedNumber, KropkiDot}, solver::Solver};
+use crate::{types::{SudokuConstraints, CellPosition, Rule, Area, FixedNumber, KropkiDot}, solver::{Solver, intuitive_solver::{kropki_chain_candidates::KropkiChainCandidates, technique::Technique, candidates::Candidates}}};
 use itertools::Itertools;
 
 #[test]
@@ -11,9 +11,9 @@ fn check_kropki_chain_row_consecutive_unfixed() {
     KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   assert_eq!(steps.len(), 4);
 
   let step = &steps[0];
@@ -62,9 +62,9 @@ fn check_kropki_chain_region_double_unfixed() {
     KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(5, 7)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   assert_eq!(steps.len(), 4);
 
   let step = &steps[0];
@@ -113,9 +113,9 @@ fn check_kropki_chain_row_consecutive_fixed() {
     KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
   ];
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_chain_candidate_updates();
+  let steps = KropkiChainCandidates::new(false).run(&solver);
   assert_eq!(steps.len(), 2);
 
   let step = &steps[0];

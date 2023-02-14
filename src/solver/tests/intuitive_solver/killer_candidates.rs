@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, KillerCage, FixedNumber, Area}, solver::Solver};
+use crate::{types::{SudokuConstraints, CellPosition, Rule, KillerCage, FixedNumber, Area}, solver::{Solver, intuitive_solver::{candidates::Candidates, technique::Technique, killer_candidates::KillerCandidates}}};
 use itertools::Itertools;
 
 #[test]
@@ -13,8 +13,8 @@ fn check_killer_candidates_single_unfixed() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer_candidate_updates();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = KillerCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
@@ -42,8 +42,8 @@ fn check_killer_candidates_single_fixed() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer_candidate_updates();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = KillerCandidates.run(&solver);
   assert!(steps.is_empty());
 }
 
@@ -59,8 +59,8 @@ fn check_killer_candidates_pair_1() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer_candidate_updates();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = KillerCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
@@ -74,7 +74,7 @@ fn check_killer_candidates_pair_1() {
   assert_eq!(final_candidates.len(), 2);
   assert!(!final_candidates.contains(&4));
 
-  let steps = solver.find_killer_candidate_updates();
+  let steps = KillerCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::KillerCandidates);
@@ -95,8 +95,8 @@ fn check_killer_candidates_pair_2() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
-  let steps = solver.find_killer_candidate_updates();
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  let steps = KillerCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
@@ -110,7 +110,7 @@ fn check_killer_candidates_pair_2() {
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&2));
 
-  let steps = solver.find_killer_candidate_updates();
+  let steps = KillerCandidates.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::KillerCandidates);

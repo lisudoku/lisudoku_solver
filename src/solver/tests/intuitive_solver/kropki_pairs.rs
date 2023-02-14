@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, Area, FixedNumber, KropkiDot}, solver::Solver};
+use crate::{types::{SudokuConstraints, CellPosition, Rule, Area, FixedNumber, KropkiDot}, solver::{Solver, intuitive_solver::{kropki_chain_candidates::KropkiChainCandidates, technique::Technique, candidates::Candidates}}};
 use itertools::Itertools;
 
 #[test]
@@ -16,9 +16,9 @@ fn check_kropki_negative_row_consecutive() {
   ];
   constraints.kropki_negative = true;
   let mut solver = Solver::new(constraints, None);
-  solver.apply_rule(&mut solver.find_candidates_step().unwrap());
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
-  let steps = solver.find_kropki_pair_candidate_updates();
+  let steps = KropkiChainCandidates::new(true).run(&solver);
   assert_eq!(steps.len(), 8);
   let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::Kropki);

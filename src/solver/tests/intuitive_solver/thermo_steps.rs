@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::Solver};
+use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::{Solver, intuitive_solver::{thermo_steps::Thermo, technique::Technique}}};
 
 #[test]
 fn check_thermo_steps() {
@@ -21,9 +21,9 @@ fn check_thermo_steps() {
   ];
   let mut solver = Solver::new(constraints, None);
 
-  let step = solver.find_thermo_steps();
-  assert!(step.is_some());
-  let mut step = step.unwrap();
+  let steps = Thermo.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
   assert_eq!(step.cells, vec![ CellPosition::new(6, 0) ]);
   assert_eq!(step.values, vec![4]);
   let CellPosition { row, col } = step.cells[0];
@@ -57,6 +57,6 @@ fn check_full_thermo() {
   ];
   let solver = Solver::new(constraints, None);
 
-  let step = solver.find_thermo_steps();
-  assert!(step.is_none());
+  let steps = Thermo.run(&solver);
+  assert!(steps.is_empty());
 }
