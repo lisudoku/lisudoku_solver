@@ -4,25 +4,25 @@ use std::cmp::{min, max};
 use std::ops::BitAnd;
 use std::rc::Rc;
 use itertools::Itertools;
-use self::intuitive_solver::candidates::Candidates;
-use self::intuitive_solver::common_peer_elimination::CommonPeerElimination;
-use self::intuitive_solver::common_peer_elimination_kropki::CommonPeerEliminationKropki;
-use self::intuitive_solver::hidden_set::HiddenSet;
-use self::intuitive_solver::hidden_singles::HiddenSingles;
-use self::intuitive_solver::killer45::Killer45;
-use self::intuitive_solver::killer_candidates::KillerCandidates;
-use self::intuitive_solver::kropki_chain_candidates::KropkiChainCandidates;
-use self::intuitive_solver::locked_candidates::LockedCandidates;
-use self::intuitive_solver::naked_set::NakedSet;
-use self::intuitive_solver::naked_singles::NakedSingle;
-use self::intuitive_solver::technique::Technique;
-use self::intuitive_solver::thermo_candidates::ThermoCandidates;
-use self::intuitive_solver::thermo_steps::Thermo;
-use self::intuitive_solver::x_wing::XWing;
-use self::intuitive_solver::xy_wing::XYWing;
+use self::logical_solver::candidates::Candidates;
+use self::logical_solver::common_peer_elimination::CommonPeerElimination;
+use self::logical_solver::common_peer_elimination_kropki::CommonPeerEliminationKropki;
+use self::logical_solver::hidden_set::HiddenSet;
+use self::logical_solver::hidden_singles::HiddenSingles;
+use self::logical_solver::killer45::Killer45;
+use self::logical_solver::killer_candidates::KillerCandidates;
+use self::logical_solver::kropki_chain_candidates::KropkiChainCandidates;
+use self::logical_solver::locked_candidates::LockedCandidates;
+use self::logical_solver::naked_set::NakedSet;
+use self::logical_solver::naked_singles::NakedSingle;
+use self::logical_solver::technique::Technique;
+use self::logical_solver::thermo_candidates::ThermoCandidates;
+use self::logical_solver::thermo_steps::Thermo;
+use self::logical_solver::x_wing::XWing;
+use self::logical_solver::xy_wing::XYWing;
 
 mod checker;
-pub mod intuitive_solver;
+pub mod logical_solver;
 mod brute_solver;
 
 const KNIGHT_MOVES: [CellDirection; 8] = [
@@ -245,7 +245,7 @@ impl Solver {
     self.compute_all_candidates()
   }
 
-  // This could be made more intelligent, but we leave the tricks to intuitive_solver
+  // This could be made more intelligent, but we leave the tricks to logical_solver
   fn compute_thermo_cell_candidates(&self, thermo_index: usize, area_cell: &CellPosition) -> HashSet<u32> {
     let thermo = &self.constraints.thermos[thermo_index];
 

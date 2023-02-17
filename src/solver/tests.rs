@@ -1,3 +1,3 @@
 mod checker;
-mod intuitive_solver;
+mod logical_solver;
 mod brute_solver;

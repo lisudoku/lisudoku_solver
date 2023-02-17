@@ -3,12 +3,12 @@ use crate::solver::Solver;
 use crate::types::{SudokuBruteSolveResult, Grid, SolutionType, CellPosition};
 
 impl Solver {
-  pub fn brute_solve(&mut self, use_intuition: bool) -> SudokuBruteSolveResult {
-    // Not sure if there is value in running it without intuition
-    assert!(use_intuition);
+  pub fn brute_solve(&mut self, use_logical: bool) -> SudokuBruteSolveResult {
+    // Not sure if there is value in running it without logical
+    assert!(use_logical);
 
     let mut solution_count = 0;
-    self.recursive_check(&mut solution_count, use_intuition, 1);
+    self.recursive_check(&mut solution_count, use_logical, 1);
 
     let res = SudokuBruteSolveResult {
       solution_count,
@@ -17,17 +17,17 @@ impl Solver {
     res
   }
 
-  pub fn recursive_check(&mut self, solution_count: &mut u32, use_intuition: bool, depth: u32) {
+  pub fn recursive_check(&mut self, solution_count: &mut u32, use_logical: bool, depth: u32) {
     let mut best_cell: Option<CellPosition> = None;
     let mut best_candidates: HashSet<u32> = HashSet::new();
 
     let mut original_grid: Option<Grid> = None;
-    if use_intuition {
+    if use_logical {
       original_grid = Some(self.grid.to_vec());
       // No need to store candidates, we will recompute
       // Storing would complicate things and we need to do it for each candidate at each depth
       self.candidates_active = false;
-      let result = self.intuitive_solve();
+      let result = self.logical_solve();
       if result.solution_type == SolutionType::None {
         self.grid = original_grid.unwrap();
         return
@@ -50,9 +50,9 @@ impl Solver {
         let CellPosition { row: best_row, col: best_col } = best_cell.unwrap();
         self.grid[best_row][best_col] = value;
 
-        // Currently we only run the solver with intuition and because of
+        // Currently we only run the solver with logical and because of
         // rules that restrict candidates to valid ones we know <value> is valid
-        self.recursive_check(solution_count, use_intuition, depth + 1);
+        self.recursive_check(solution_count, use_logical, depth + 1);
 
         self.grid[best_row][best_col] = 0;
         if *solution_count > 1 {
@@ -61,7 +61,7 @@ impl Solver {
       }
     }
 
-    if use_intuition {
+    if use_logical {
       self.grid = original_grid.unwrap();
     }
   }

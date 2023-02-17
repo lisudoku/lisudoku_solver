@@ -75,7 +75,7 @@ pub struct SudokuGrid {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct SudokuIntuitiveSolveResult {
+pub struct SudokulogicalSolveResult {
   pub solution_type: SolutionType,
   pub solution: Option<Grid>,
   pub steps: Vec<SolutionStep>,
@@ -263,9 +263,9 @@ impl KropkiDot {
   }
 }
 
-impl SudokuIntuitiveSolveResult {
-  pub fn no_solution() -> SudokuIntuitiveSolveResult {
-    SudokuIntuitiveSolveResult {
+impl SudokulogicalSolveResult {
+  pub fn no_solution() -> SudokulogicalSolveResult {
+    SudokulogicalSolveResult {
       solution_type: SolutionType::None,
       solution: None,
       steps: vec![],
