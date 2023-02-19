@@ -126,9 +126,10 @@ pub enum Rule {
   XWing,
   XYWing,
   Swordfish, // ???
+  TurbotFish,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub enum Area {
   Grid,
   Row(usize),

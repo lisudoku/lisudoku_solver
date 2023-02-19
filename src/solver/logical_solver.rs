@@ -22,6 +22,7 @@ pub mod killer_candidates;
 pub mod killer45;
 pub mod kropki_chain_candidates;
 pub mod common_peer_elimination_kropki;
+pub mod turbot_fish;
 
 const DEBUG: bool = false;
 

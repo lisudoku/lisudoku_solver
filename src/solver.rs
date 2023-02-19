@@ -20,6 +20,7 @@ use self::logical_solver::thermo_candidates::ThermoCandidates;
 use self::logical_solver::thermo_steps::Thermo;
 use self::logical_solver::x_wing::XWing;
 use self::logical_solver::xy_wing::XYWing;
+use self::logical_solver::turbot_fish::TurbotFish;
 
 mod checker;
 pub mod logical_solver;
@@ -183,6 +184,7 @@ impl Solver {
       Rc::new(XYWing),
       Rc::new(CommonPeerElimination),
       Rc::new(CommonPeerEliminationKropki),
+      Rc::new(TurbotFish),
     ]
   }
 
@@ -488,6 +490,11 @@ impl Solver {
       }
     }
     value_cells
+  }
+
+  fn get_cell_peers_with_candidate(&self, cell: &CellPosition, value: u32) -> Vec<CellPosition> {
+    let candidates: HashSet<u32> = HashSet::from([ value ]);
+    self.get_cell_peers_with_candidates(cell, &candidates)
   }
 
   fn get_cell_peers_with_candidates(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
