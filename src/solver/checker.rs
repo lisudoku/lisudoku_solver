@@ -2,6 +2,7 @@ use crate::solver::Solver;
 use crate::types::{Area, CellPosition, KropkiDotType, KropkiDot};
 use std::collections::HashSet;
 use std::mem::swap;
+use super::logical_solver::{technique::Technique, top_bottom_candidates::TopBottomCandidates};
 
 impl Solver {
   pub fn check_solved(&self) -> bool {
@@ -39,6 +40,10 @@ impl Solver {
     }
 
     if !self.check_even_cells() {
+      return false
+    }
+
+    if self.constraints.top_bottom && !self.check_top_bottom_valid() {
       return false
     }
 
@@ -182,5 +187,9 @@ impl Solver {
       let value = self.grid[cell.row][cell.col];
       value == 0 || value % 2 == 0
     })
+  }
+
+  fn check_top_bottom_valid(&self) -> bool {
+    TopBottomCandidates::new(true).run(&self).is_empty()
   }
 }

@@ -18,6 +18,7 @@ use self::logical_solver::naked_singles::NakedSingle;
 use self::logical_solver::technique::Technique;
 use self::logical_solver::thermo_candidates::ThermoCandidates;
 use self::logical_solver::thermo_steps::Thermo;
+use self::logical_solver::top_bottom_candidates::TopBottomCandidates;
 use self::logical_solver::x_wing::XWing;
 use self::logical_solver::xy_wing::XYWing;
 use self::logical_solver::turbot_fish::TurbotFish;
@@ -169,6 +170,7 @@ impl Solver {
       Rc::new(KillerCandidates),
       Rc::new(KropkiChainCandidates::new(false)),
       Rc::new(KropkiChainCandidates::new(true)),
+      Rc::new(TopBottomCandidates::new(false)),
       Rc::new(NakedSingle),
       Rc::new(HiddenSingles),
       Rc::new(Thermo),
