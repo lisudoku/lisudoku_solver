@@ -12,6 +12,7 @@ pub struct SudokuConstraints {
   pub primary_diagonal: bool,
   pub secondary_diagonal: bool,
   pub anti_knight: bool,
+  pub anti_king: bool,
   pub kropki_dots: Vec<KropkiDot>,
   pub kropki_negative: bool,
   pub odd_cells: Vec<CellPosition>,
@@ -159,6 +160,7 @@ impl SudokuConstraints {
       primary_diagonal: false,
       secondary_diagonal: false,
       anti_knight: false,
+      anti_king: false,
       kropki_dots: vec![],
       kropki_negative: false,
       odd_cells: vec![],
@@ -204,6 +206,12 @@ impl SudokuConstraints {
   #[cfg(test)]
   pub fn with_top_bottom(mut self) -> Self {
     self.top_bottom = true;
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_anti_king(mut self) -> Self {
+    self.anti_king = true;
     self
   }
 }

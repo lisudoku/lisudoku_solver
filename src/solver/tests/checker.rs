@@ -2,6 +2,7 @@ mod classic;
 mod thermo;
 mod diagonal;
 mod anti_knight;
+mod anti_king;
 mod killer;
 mod kropki;
 mod extra_regions;

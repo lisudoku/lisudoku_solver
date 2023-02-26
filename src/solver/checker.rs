@@ -35,6 +35,10 @@ impl Solver {
       return false
     }
 
+    if self.constraints.anti_king && !self.check_anti_king_valid() {
+      return false
+    }
+
     if !self.check_odd_cells() {
       return false
     }
@@ -112,6 +116,27 @@ impl Solver {
       }
 
       for peer in self.get_knight_peers(&cell) {
+        let peer_value = self.grid[peer.row][peer.col];
+        if peer_value == 0 {
+          continue
+        }
+        if value == peer_value {
+          return false
+        }
+      }
+    }
+
+    true
+  }
+
+  fn check_anti_king_valid(&self) -> bool {
+    for cell in self.get_area_cells(&Area::Grid) {
+      let value = self.grid[cell.row][cell.col];
+      if value == 0 {
+        continue
+      }
+
+      for peer in self.get_king_peers(&cell) {
         let peer_value = self.grid[peer.row][peer.col];
         if peer_value == 0 {
           continue

@@ -9,6 +9,7 @@ mod diagonal_9x9;
 mod anti_knight_4x4;
 mod anti_knight_6x6;
 mod anti_knight_9x9;
+mod anti_king_6x6;
 mod killer_6x6;
 mod killer_9x9;
 mod kropki_4x4;

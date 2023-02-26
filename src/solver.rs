@@ -38,6 +38,17 @@ const KNIGHT_MOVES: [CellDirection; 8] = [
   CellDirection { row: -2, col: -1 },
 ];
 
+const KING_MOVES: [CellDirection; 8] = [
+  CellDirection { row: -1, col: -1 },
+  CellDirection { row: -1, col: 0 },
+  CellDirection { row: -1, col: 1 },
+  CellDirection { row: 0, col: -1 },
+  CellDirection { row: 0, col: 1 },
+  CellDirection { row: 1, col: -1 },
+  CellDirection { row: 1, col: 0 },
+  CellDirection { row: 1, col: 1 },
+];
+
 const ADJACENT_MOVES: [CellDirection; 4] = [
   CellDirection { row: 0, col: 1 },
   CellDirection { row: 0, col: -1 },
@@ -287,25 +298,21 @@ impl Solver {
     self.recompute_cell_candidates(cell)
   }
 
+  // Note: update when adding constraints
   fn recompute_cell_candidates(&self, cell: &CellPosition) -> HashSet<u32> {
     // Note: we don't restrict thermo candidates at this level
-    let areas = self.get_cell_areas(cell, false);
     let mut candidates = self.compute_all_candidates();
-    for area in &areas {
-      let area_set = self.compute_area_cell_candidates(area, cell);
-      candidates = candidates.intersection(&area_set).cloned().collect();
-    }
-
-    if self.constraints.anti_knight {
-      let mut knight_set = self.compute_all_candidates();
-      for peer in self.get_knight_peers(&cell) {
-        let value = self.grid[peer.row][peer.col];
+    for peer in self.get_cell_peers(cell, false) {
+      let value = self.grid[peer.row][peer.col];
         if value == 0 {
           continue
         }
-        knight_set.remove(&value);
-      }
-      candidates = candidates.intersection(&knight_set).cloned().collect();
+        candidates.remove(&value);
+    }
+
+    for area in &self.get_cell_areas(cell, false) {
+      let area_set = self.compute_area_cell_candidates(area, cell);
+      candidates = candidates.intersection(&area_set).cloned().collect();
     }
 
     if self.grid_to_odd_cells[cell.row][cell.col] {
@@ -500,19 +507,23 @@ impl Solver {
   }
 
   fn get_cell_peers_with_candidates(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
-    let peers = self.get_cell_peers(cell);
+    let peers = self.get_cell_peers(cell, true);
     self.filter_cells_with_any_candidates(&peers, values)
   }
 
   // Note: update when adding constraints
-  fn get_cell_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
-    let mut peers: Vec<CellPosition> = self.get_cell_areas(cell, true)
+  fn get_cell_peers(&self, cell: &CellPosition, include_thermo: bool) -> Vec<CellPosition> {
+    let mut peers: Vec<CellPosition> = self.get_cell_areas(cell, include_thermo)
       .iter()
       .flat_map(|area| self.get_area_cells(area))
       .collect();
 
     if self.constraints.anti_knight {
       peers.extend(self.get_knight_peers(cell));
+    }
+
+    if self.constraints.anti_king {
+      peers.extend(self.get_king_peers(cell));
     }
 
     peers.into_iter()
@@ -523,6 +534,22 @@ impl Solver {
 
   fn get_knight_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
     KNIGHT_MOVES.iter().filter_map(|direction| {
+      let prow = cell.row as isize + direction.row;
+      let pcol = cell.col as isize + direction.col;
+      if prow < 0 || prow >= self.constraints.grid_size as isize ||
+         pcol < 0 || pcol >= self.constraints.grid_size as isize {
+        return None
+      }
+      let peer = CellPosition {
+        row: prow as usize,
+        col: pcol as usize,
+      };
+      Some(peer)
+    }).collect()
+  }
+
+  fn get_king_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
+    KING_MOVES.iter().filter_map(|direction| {
       let prow = cell.row as isize + direction.row;
       let pcol = cell.col as isize + direction.col;
       if prow < 0 || prow >= self.constraints.grid_size as isize ||

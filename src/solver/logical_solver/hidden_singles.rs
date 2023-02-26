@@ -18,6 +18,7 @@ impl Technique for HiddenSingles {
     for cell in &solver.get_all_empty_cells() {
       candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell);
     }
+    // dbg!(&candidates);
 
     for area in solver.get_all_areas(false, false, false) {
       let hidden_single = self.find_hidden_single_in_area(solver, &area, &candidates);
@@ -70,13 +71,13 @@ impl HiddenSingles {
         continue
       }
 
-      for peer in solver.get_cell_peers(cell) {
+      for peer in solver.get_cell_peers(cell, true) {
         let peer_value = solver.grid[peer.row][peer.col];
         if peer_value != value {
           continue
         }
 
-        for CellPosition { row, col } in solver.get_cell_peers(&peer) {
+        for CellPosition { row, col } in solver.get_cell_peers(&peer, true) {
           covered_cells[row][col] = true;
         }
         cells.push(peer);

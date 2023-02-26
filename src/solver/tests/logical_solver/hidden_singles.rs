@@ -184,3 +184,25 @@ fn check_hidden_single_using_anti_knight_2() {
   let final_value = solver.grid[row][col];
   assert!(final_value == 5);
 }
+
+#[test]
+fn check_hidden_single_anti_king() {
+  let grid_size = 6;
+  let fixed_numbers = vec![ FixedNumber::new(3, 1, 2), FixedNumber::new(5, 0, 3) ];
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_king();
+  let mut solver = Solver::new(constraints, None);
+
+  let steps = HiddenSingles.run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
+  assert_eq!(step.values, vec![2]);
+  assert_eq!(step.cells, vec![ CellPosition::new(5, 2), CellPosition::new(3, 1) ]);
+  assert!(step.affected_cells.is_empty());
+  let CellPosition { row, col } = step.cells[0];
+  let initial_value = solver.grid[row][col];
+  assert!(initial_value == 0);
+
+  solver.apply_rule(&mut step);
+  let final_value = solver.grid[row][col];
+  assert!(final_value == 2);
+}

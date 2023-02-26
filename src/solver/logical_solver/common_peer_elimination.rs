@@ -64,7 +64,7 @@ impl CommonPeerElimination {
   pub fn find_common_peers_for_cells(solver: &Solver, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
     let mut peer_counts = vec![ vec![ 0; solver.constraints.grid_size ]; solver.constraints.grid_size ];
     for cell in cells {
-      for CellPosition { row, col } in solver.get_cell_peers(cell) {
+      for CellPosition { row, col } in solver.get_cell_peers(cell, true) {
         peer_counts[row][col] += 1;
       }
     }
