@@ -16,6 +16,7 @@ pub struct SudokuConstraints {
   pub kropki_negative: bool,
   pub odd_cells: Vec<CellPosition>,
   pub even_cells: Vec<CellPosition>,
+  pub top_bottom: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -115,6 +116,7 @@ pub enum Rule {
   KillerCandidates,
   Killer45,
   KropkiChainCandidates,
+  TopBottomCandidates,
   LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   HiddenPairs,
@@ -161,6 +163,7 @@ impl SudokuConstraints {
       kropki_negative: false,
       odd_cells: vec![],
       even_cells: vec![],
+      top_bottom: false,
     }
   }
 
@@ -196,6 +199,12 @@ impl SudokuConstraints {
     } else {
       (3, 3)
     }
+  }
+
+  #[cfg(test)]
+  pub fn with_top_bottom(mut self) -> Self {
+    self.top_bottom = true;
+    self
   }
 }
 

@@ -20,3 +20,5 @@ mod extra_regions_6x6;
 mod extra_regions_9x9;
 mod odd_even_6x6;
 mod odd_even_9x9;
+mod topbot_4x4;
+mod topbot_9x9;

@@ -19,4 +19,5 @@ mod killer45;
 mod kropki_pairs;
 mod kropki_chains;
 mod turbot_fish;
+mod top_bottom_candidates;
 mod puzzles;
