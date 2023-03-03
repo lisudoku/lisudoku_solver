@@ -38,7 +38,6 @@ impl Solver {
     }
 
     let mut empty_cell_count = self.compute_empty_cell_count();
-    println!("Empty cell count: {}", empty_cell_count);
 
     while empty_cell_count > 0 {
       if let Some(cell) = self.get_cell_with_no_candidates() {

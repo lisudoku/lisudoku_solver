@@ -1,6 +1,6 @@
 [package]
 name = "lisudoku-solver"
-version = "0.1.14"
+version = "0.1.15"
 authors = ["George Marcus <george.marcus922@gmail.com>"]
 description = "Solver for sudoku puzzles used by lisudoku"
 license-file = "LICENSE"
@@ -8,7 +8,7 @@ repository = "https://github.com/lisudoku/lisudoku_solver"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "lib"]
 
 [package.metadata.scripts]
 build = "wasm-pack build --target bundler"

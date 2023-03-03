@@ -5,8 +5,8 @@ use types::SolutionType;
 use wasm_bindgen::prelude::*;
 use gloo_utils::format::JsValueSerdeExt;
 
-mod solver;
-mod types;
+pub mod solver;
+pub mod types;
 
 #[wasm_bindgen]
 pub fn wasm_check_solved(js_constraints: JsValue, js_grid: JsValue) -> JsValue {

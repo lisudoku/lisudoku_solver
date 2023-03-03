@@ -148,7 +148,6 @@ pub enum Area {
 pub type Thermo = Vec<CellPosition>;
 
 impl SudokuConstraints {
-  #[cfg(test)]
   pub fn new(grid_size: usize, fixed_numbers: Vec<FixedNumber>) -> SudokuConstraints {
     SudokuConstraints {
       grid_size,
@@ -217,7 +216,6 @@ impl SudokuConstraints {
 }
 
 impl FixedNumber {
-  #[cfg(test)]
   pub fn new(row: usize, col: usize, value: u32) -> FixedNumber {
     FixedNumber {
       position: CellPosition {
@@ -294,5 +292,25 @@ impl SudokulogicalSolveResult {
 impl SolutionStep {
   pub fn is_grid_step(&self) -> bool {
     [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&self.rule)
+  }
+}
+
+impl SudokuGrid {
+  pub fn new(grid: Grid) -> SudokuGrid {
+    SudokuGrid {
+      values: grid,
+    }
+  }
+
+  pub fn to_fixed_numbers(&self) -> Vec<FixedNumber> {
+    let mut fixed_numbers = vec![];
+    for (row_index, row) in self.values.iter().enumerate() {
+      for (col_index, &value) in row.iter().enumerate() {
+        if value != 0 {
+          fixed_numbers.push(FixedNumber::new(row_index, col_index, value));
+        }
+      }
+    }
+    fixed_numbers
   }
 }
