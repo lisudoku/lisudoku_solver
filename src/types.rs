@@ -39,6 +39,10 @@ impl CellPosition {
       col,
     }
   }
+
+  pub fn to_string(&self) -> String {
+    format!("R{}C{}", self.row + 1, self.col + 1)
+  }
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
@@ -106,7 +110,7 @@ pub struct SolutionStep {
   pub candidates: Option<Vec<Vec<HashSet<u32>>>>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone)]
 pub enum Rule {
   NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
@@ -213,6 +217,12 @@ impl SudokuConstraints {
     self.anti_king = true;
     self
   }
+
+  pub fn to_lz_string(&self) -> String {
+    let json = serde_json::to_string(&self).unwrap();
+    let lz_string = lz_str::compress_to_base64(&json);
+    lz_string
+  }
 }
 
 impl FixedNumber {
@@ -296,10 +306,19 @@ impl SolutionStep {
 }
 
 impl SudokuGrid {
-  pub fn new(grid: Grid) -> SudokuGrid {
+  pub fn new(grid: Grid) -> Self {
     SudokuGrid {
       values: grid,
     }
+  }
+
+  pub fn from_fixed_numbers(grid_size: usize, fixed_numbers: &Vec<FixedNumber>) -> Self {
+    let mut grid: Grid = vec![ vec![ 0; grid_size ]; grid_size ];
+    for fixed_number in fixed_numbers {
+      let cell = fixed_number.position;
+      grid[cell.row][cell.col] = fixed_number.value;
+    }
+    SudokuGrid::new(grid)
   }
 
   pub fn to_fixed_numbers(&self) -> Vec<FixedNumber> {
@@ -312,5 +331,30 @@ impl SudokuGrid {
       }
     }
     fixed_numbers
+  }
+
+  pub fn to_string(&self) -> String {
+    self.values
+      .iter()
+      .map(|row| {
+        row.iter()
+          .map(|digit| digit.to_string() )
+          .collect::<Vec<String>>()
+          .join("")
+      })
+      .collect::<Vec<String>>()
+      .join("  \n")
+  }
+}
+
+impl Area {
+  pub fn to_string(&self) -> String {
+    match self {
+      Area::Row(row) => format!("row {}", row + 1),
+      Area::Column(col) => format!("column {}", col + 1),
+      Area::Region(region) => format!("box {}", region + 1),
+      Area::Grid | Area::Thermo(_) | Area::KillerCage(_) | Area::KropkiDot(_) |
+        Area::PrimaryDiagonal | Area::SecondaryDiagonal => unimplemented!(),
+    }
   }
 }

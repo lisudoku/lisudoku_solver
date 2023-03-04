@@ -57,6 +57,7 @@ impl Solver {
         break
       }
       if self.hint_mode {
+        // In hint mode apply 1 step at a time
         steps.drain(1..);
       }
 

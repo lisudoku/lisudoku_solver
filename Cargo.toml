@@ -1,6 +1,6 @@
 [package]
 name = "lisudoku-solver"
-version = "0.1.15"
+version = "0.1.16"
 authors = ["George Marcus <george.marcus922@gmail.com>"]
 description = "Solver for sudoku puzzles used by lisudoku"
 license-file = "LICENSE"
@@ -21,3 +21,5 @@ gloo-utils = { version = "0.1", features = ["serde"] }
 console_error_panic_hook = "0.1.7"
 combinations = "0.1.0"
 itertools = "0.10.5"
+serde_json = "1.0.93"
+lz-str = "0.2.1"
