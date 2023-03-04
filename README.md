@@ -2,15 +2,7 @@
 
 Used by https://lisudoku.xyz to solve sudoku variant puzzles.
 
-Supported variants
-1. Classic
-2. Killer
-3. Thermo
-4. Kropki
-5. Diagonal
-6. Anti Knight
-7. Irregular
-8. Any combination of the above.
+11 supported sudoku variants.
 
 ## Contribute
 
