@@ -223,6 +223,10 @@ impl SudokuConstraints {
     let lz_string = lz_str::compress_to_base64(&json);
     lz_string
   }
+
+  pub fn to_grid_string(&self) -> String {
+    SudokuGrid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string()
+  }
 }
 
 impl FixedNumber {
@@ -343,7 +347,7 @@ impl SudokuGrid {
           .join("")
       })
       .collect::<Vec<String>>()
-      .join("  \n")
+      .join("\n")
   }
 }
 
