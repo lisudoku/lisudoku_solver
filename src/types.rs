@@ -227,6 +227,10 @@ impl SudokuConstraints {
   pub fn to_grid_string(&self) -> String {
     SudokuGrid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string()
   }
+
+  pub fn to_import_string(&self) -> String {
+    self.to_grid_string().replace("\n", "")
+  }
 }
 
 impl FixedNumber {
@@ -361,4 +365,24 @@ impl Area {
         Area::PrimaryDiagonal | Area::SecondaryDiagonal => unimplemented!(),
     }
   }
+}
+
+// https://www.reddit.com/r/sudoku/comments/11kpwbt/fun_puzzle_link_in_comment/
+#[test]
+fn check_sudoku_constraints_import_string() {
+  let fixed_numbers = SudokuGrid::new(vec![
+    vec![ 2, 0, 3, 0, 0, 0, 1, 0, 7 ],
+    vec![ 9, 1, 0, 0, 4, 0, 0, 2, 6 ],
+    vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    vec![ 3, 0, 8, 0, 1, 0, 7, 0, 9 ],
+    vec![ 1, 0, 0, 0, 0, 0, 0, 0, 2 ],
+    vec![ 0, 0, 2, 0, 0, 0, 8, 0, 0 ],
+    vec![ 0, 0, 4, 1, 6, 7, 2, 0, 0 ],
+    vec![ 7, 0, 0, 0, 8, 0, 0, 0, 1 ],
+    vec![ 8, 0, 0, 2, 0, 9, 0, 0, 3 ],
+  ]).to_fixed_numbers();
+  let constraints = SudokuConstraints::new(9, fixed_numbers);
+  assert_eq!(constraints.to_import_string(), String::from(
+    "203000107910040026000000000308010709100000002002000800004167200700080001800209003"
+  ))
 }
