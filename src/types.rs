@@ -134,6 +134,7 @@ pub enum Rule {
   XYWing,
   Swordfish, // ???
   TurbotFish,
+  EmptyRectangles,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]

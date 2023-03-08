@@ -22,6 +22,7 @@ use self::logical_solver::top_bottom_candidates::TopBottomCandidates;
 use self::logical_solver::x_wing::XWing;
 use self::logical_solver::xy_wing::XYWing;
 use self::logical_solver::turbot_fish::TurbotFish;
+use self::logical_solver::empty_reclanges::EmptyRectangles;
 
 mod checker;
 pub mod logical_solver;
@@ -198,6 +199,7 @@ impl Solver {
       Rc::new(CommonPeerElimination),
       Rc::new(CommonPeerEliminationKropki),
       Rc::new(TurbotFish),
+      Rc::new(EmptyRectangles),
     ]
   }
 
@@ -360,9 +362,7 @@ impl Solver {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
     areas.extend(self.get_col_areas());
-    for region_index in 0..self.constraints.regions.len() {
-      areas.push(Area::Region(region_index));
-    }
+    areas.extend(self.get_region_areas());
     if self.constraints.primary_diagonal {
       areas.push(Area::PrimaryDiagonal);
     }
@@ -394,6 +394,12 @@ impl Solver {
 
   fn get_col_areas(&self) -> Vec<Area> {
     (0..self.constraints.grid_size).map(|col| Area::Column(col)).collect()
+  }
+
+  fn get_region_areas(&self) -> Vec<Area> {
+    (0..self.constraints.regions.len()).map(|region_index| {
+      Area::Region(region_index)
+    }).collect()
   }
 
   fn get_area_cells(&self, area: &Area) -> Vec<CellPosition> {

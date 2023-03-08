@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 use std::rc::Rc;
 use crate::types::{SudokulogicalSolveResult, CellPosition, SolutionStep, Area, SolutionType};
 use crate::solver::Solver;
@@ -24,6 +24,7 @@ pub mod kropki_chain_candidates;
 pub mod common_peer_elimination_kropki;
 pub mod turbot_fish;
 pub mod top_bottom_candidates;
+pub mod empty_reclanges;
 
 const DEBUG: bool = false;
 
@@ -375,5 +376,31 @@ impl Solver {
 
       Some((cell, invalid_values))
     }).collect()
+  }
+
+  fn get_all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
+    self.get_all_areas(false, false, false).iter().flat_map(|area| {
+      let value_cells = self.compute_cells_by_value_in_area(area, &self.candidates);
+
+      value_cells.into_iter().filter_map(|(value, cells)| {
+        if cells.len() != 2 {
+          return None
+        }
+        return Some(
+          (*area, value, cells[0], cells[1])
+        )
+      })
+    }).collect()
+  }
+
+  fn get_all_strong_links_by_value(&self) -> HashMap<u32, Vec<(Area, u32, CellPosition, CellPosition)>> {
+    self.get_all_strong_links()
+      .iter()
+      .cloned()
+      .sorted_by_key(|link| (link.1, link.0, link.2, link.3))
+      .group_by(|link| link.1)
+      .into_iter()
+      .map(|(value, group)| (value, group.collect()))
+      .collect()
   }
 }

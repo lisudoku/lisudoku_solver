@@ -1,8 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 use std::mem::swap;
-use itertools::Itertools;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule, Area, CellPosition};
+use crate::types::{SolutionStep, Rule, CellPosition};
 use super::technique::Technique;
 
 pub struct TurbotFish;
@@ -16,27 +15,8 @@ impl Technique for TurbotFish {
       return vec![]
     }
 
-    let strong_links: Vec<(Area, u32, CellPosition, CellPosition)> = solver.get_all_areas(false, false, false).iter().flat_map(|area| {
-      let value_cells = solver.compute_cells_by_value_in_area(area, &solver.candidates);
-
-      value_cells.into_iter().filter_map(|(value, cells)| {
-        if cells.len() != 2 {
-          return None
-        }
-        return Some(
-          (*area, value, cells[0], cells[1])
-        )
-      })
-    }).collect();
-
-    let strong_links_by_value: HashMap<u32, Vec<(Area, u32, CellPosition, CellPosition)>> = strong_links
-      .iter()
-      .cloned()
-      .sorted_by_key(|link| (link.1, link.0, link.2, link.3))
-      .group_by(|link| link.1)
-      .into_iter()
-      .map(|(value, group)| (value, group.collect()))
-      .collect();
+    let strong_links = solver.get_all_strong_links();
+    let strong_links_by_value = solver.get_all_strong_links_by_value();
 
     for (area1, value, a1, a2) in &strong_links {
       for (area2, _, b1, b2) in &strong_links_by_value[value] {

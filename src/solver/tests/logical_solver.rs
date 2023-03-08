@@ -20,4 +20,5 @@ mod kropki_pairs;
 mod kropki_chains;
 mod turbot_fish;
 mod top_bottom_candidates;
+mod empty_rectangles;
 mod puzzles;

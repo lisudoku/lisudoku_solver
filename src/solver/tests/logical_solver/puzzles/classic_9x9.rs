@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType}, solver::Solver};
+use crate::{types::{FixedNumber, SudokuConstraints, SolutionType, SudokuGrid}, solver::Solver};
 
 #[test]
 fn check_classic_9x9_easy_solve() {
@@ -380,4 +380,37 @@ fn check_classic_9x9_2_conflicts_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::None);
+}
+
+#[test]
+fn check_classic_9x9_hard_empty_rectangles_solve() {
+  let grid_size = 9;
+  let fixed_numbers = SudokuGrid::new(vec![
+    vec![ 0, 0, 0, 9, 0, 0, 6, 0, 0 ],
+    vec![ 4, 0, 9, 0, 0, 0, 8, 0, 0 ],
+    vec![ 2, 0, 7, 6, 0, 0, 5, 0, 4 ],
+    vec![ 1, 0, 8, 7, 0, 0, 3, 0, 0 ],
+    vec![ 0, 0, 0, 0, 0, 3, 0, 0, 0 ],
+    vec![ 0, 0, 0, 0, 0, 0, 0, 4, 0 ],
+    vec![ 0, 9, 0, 0, 0, 7, 0, 0, 1 ],
+    vec![ 0, 0, 5, 0, 0, 2, 0, 0, 0 ],
+    vec![ 0, 3, 0, 5, 0, 6, 0, 0, 0 ],
+  ]).to_fixed_numbers();
+  let empty_cells = grid_size * grid_size - fixed_numbers.len();
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let mut solver = Solver::new(constraints, None);
+  let result = solver.logical_solve();
+  assert_eq!(result.solution_type, SolutionType::Full);
+  assert_eq!(result.solution.unwrap(), vec![
+    vec![ 3, 5, 1, 9, 4, 8, 6, 2, 7 ],
+    vec![ 4, 6, 9, 2, 7, 5, 8, 1, 3 ],
+    vec![ 2, 8, 7, 6, 3, 1, 5, 9, 4 ],
+    vec![ 1, 2, 8, 7, 5, 4, 3, 6, 9 ],
+    vec![ 9, 4, 6, 8, 2, 3, 1, 7, 5 ],
+    vec![ 5, 7, 3, 1, 6, 9, 2, 4, 8 ],
+    vec![ 6, 9, 2, 3, 8, 7, 4, 5, 1 ],
+    vec![ 8, 1, 5, 4, 9, 2, 7, 3, 6 ],
+    vec![ 7, 3, 4, 5, 1, 6, 9, 8, 2 ],
+  ]);
+  assert!(result.steps.len() >= empty_cells);
 }
