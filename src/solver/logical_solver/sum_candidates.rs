@@ -6,26 +6,32 @@ use super::combinations::cell_combinations_runner::{CellCombinationsRunner, Stat
 impl Solver {
   pub fn detect_invalid_sum_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
     let mut combinations_runner = CellCombinationsRunner::new(
-      cells, &self, Box::new(SumCombinationsLogic::new(sum))
+      &self, Box::new(SumCombinationsLogic::new(cells, sum))
     );
     let (valid_candidates, _) = combinations_runner.run();
     self.cell_candidates_diff(cells, valid_candidates)
   }
 }
 
-struct SumCombinationsLogic {
+struct SumCombinationsLogic<'a> {
   sum_left: u32,
+  cells: &'a Vec<CellPosition>,
 }
 
-impl SumCombinationsLogic {
-  pub fn new(sum: u32) -> SumCombinationsLogic {
+impl SumCombinationsLogic<'_> {
+  pub fn new<'a>(cells: &'a Vec<CellPosition>, sum: u32) -> SumCombinationsLogic {
     SumCombinationsLogic {
+      cells,
       sum_left: sum,
     }
   }
 }
 
-impl CellCombinationLogic for SumCombinationsLogic {
+impl CellCombinationLogic for SumCombinationsLogic<'_> {
+  fn cells(&self) -> Vec<CellPosition> {
+    self.cells.to_owned()
+  }
+
   fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool {
     // TODO: adapt to grid_size
     // 9 + 8 + 7 + ... + (9 - x + 1) = x * (19 - x) / 2

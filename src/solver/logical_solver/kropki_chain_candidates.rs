@@ -120,7 +120,7 @@ impl KropkiChainCandidates {
 
   pub fn mark_kropki_valid_candidates(solver: &Solver, cells: &Vec<CellPosition>) -> (Vec<HashSet<u32>>, Vec<Vec<u32>>) {
     let mut combinations_runner = CellCombinationsRunner::new(
-      cells, solver, Box::new(KropkiChainCombinationsLogic)
+      solver, Box::new(KropkiChainCombinationsLogic::new(&cells))
     );
 
     combinations_runner.run()
@@ -214,9 +214,23 @@ impl KropkiComponents<'_> {
   }
 }
 
-struct KropkiChainCombinationsLogic;
+struct KropkiChainCombinationsLogic<'a> {
+  cells: &'a Vec<CellPosition>,
+}
 
-impl CellCombinationLogic for KropkiChainCombinationsLogic {
+impl KropkiChainCombinationsLogic<'_> {
+  fn new<'a>(cells: &'a Vec<CellPosition>) -> KropkiChainCombinationsLogic<'a> {
+    KropkiChainCombinationsLogic {
+      cells,
+    }
+  }
+}
+
+impl CellCombinationLogic for KropkiChainCombinationsLogic<'_> {
+  fn cells(&self) -> Vec<CellPosition> {
+      self.cells.to_owned()
+  }
+
   fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool {
     let cell = &runner.cells[index];
     for &kropki_dot_index in &runner.solver.grid_to_kropki_dots[cell.row][cell.col] {

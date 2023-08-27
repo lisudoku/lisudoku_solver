@@ -1,9 +1,10 @@
 use crate::solver::Solver;
 use crate::solver::logical_solver::combinations::cell_combinations_runner::CellCombinationsRunner;
 use crate::types::{SolutionStep, Rule, Area, Arrow, CellPosition};
-use super::combinations::cell_combination_logic::CellCombinationLogic;
-use super::combinations::cell_combinations_runner::State;
+use super::combinations::cell_combination_logic::{CellCombinationLogic, CellsCacheKey};
+use super::combinations::cell_combinations_runner::{State, CellCombinationsRunnerResult};
 use super::technique::Technique;
+use std::collections::HashMap;
 
 // X can't be a candidate in this cell because it violates the arrow sum
 pub struct ArrowCandidates;
@@ -26,8 +27,9 @@ impl Technique for ArrowCandidates {
         return vec![]
       }
 
-      let combination_logic = ArrowCombinationLogic::new(arrow, solver);
-      let mut runner = CellCombinationsRunner::new(&cells, solver, Box::new(combination_logic));
+      let mut arrow_combinatons_logic_factory = solver.arrow_combinatons_logic_factory.borrow_mut();
+      let combination_logic = arrow_combinatons_logic_factory.create(arrow, solver);
+      let mut runner = CellCombinationsRunner::new(solver, Box::new(combination_logic));
       let (valid_candidates, _) = runner.run();
       let invalid_candidates = solver.cell_candidates_diff(&cells, valid_candidates);
 
@@ -45,14 +47,17 @@ impl Technique for ArrowCandidates {
   }
 }
 
-pub struct ArrowCombinationLogic {
+pub struct ArrowCombinationLogic<'a> {
+  arrow: &'a Arrow,
+  cache: &'a mut HashMap<CellsCacheKey, CellCombinationsRunnerResult>,
+  solver: &'a Solver,
   arrow_cells_count: usize,
   arrow_cells_sum: u32,
   circle_sum_min: u32,
   circle_sum_max: u32,
 }
 
-impl ArrowCombinationLogic {
+impl<'a> ArrowCombinationLogic<'_> {
   fn min_max_circle_sum(cells: &Vec<CellPosition>, solver: &Solver) -> (u32, u32) {
     let mut circle_sum_min: u32 = 0;
     let mut circle_sum_max: u32 = 0;
@@ -69,19 +74,30 @@ impl ArrowCombinationLogic {
     (circle_sum_min, circle_sum_max)
   }
 
-  pub fn new(arrow: &Arrow, solver: &Solver) -> ArrowCombinationLogic {
+  fn new(arrow: &'a Arrow, solver: &'a Solver, cache: &'a mut ArrowCombinationLogicCache) -> ArrowCombinationLogic<'a> {
     let (circle_sum_min, circle_sum_max) = Self::min_max_circle_sum(&arrow.circle_cells, solver);
 
     ArrowCombinationLogic {
+      arrow,
+      cache,
+      solver,
       arrow_cells_count: arrow.arrow_cells.len(),
       arrow_cells_sum: 0,
       circle_sum_min,
       circle_sum_max,
     }
   }
+
+  fn cache_key(&self) -> CellsCacheKey {
+    self.solver.cells_to_cache_key(&self.cells())
+  }
 }
 
-impl CellCombinationLogic for ArrowCombinationLogic {
+impl CellCombinationLogic for ArrowCombinationLogic<'_> {
+  fn cells(&self) -> Vec<CellPosition> {
+    self.arrow.all_cells()
+  }
+
   fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool {
     if index >= self.arrow_cells_count {
       // We are placing circle cells, so we only allow cells that match we correct sum
@@ -122,5 +138,31 @@ impl CellCombinationLogic for ArrowCombinationLogic {
     if index < self.arrow_cells_count {
       self.arrow_cells_sum -= value;
     }
+  }
+
+  fn cached_result(&self) -> Option<&CellCombinationsRunnerResult> {
+    self.cache.get(&self.cache_key())
+  }
+
+  fn cache_result(&mut self, result: &CellCombinationsRunnerResult) {
+    self.cache.insert(self.cache_key(), result.to_owned());
+  }
+}
+
+type ArrowCombinationLogicCache = HashMap<CellsCacheKey, CellCombinationsRunnerResult>;
+
+pub struct ArrowCombinationLogicFactory {
+  cache: ArrowCombinationLogicCache,
+}
+
+impl<'a> ArrowCombinationLogicFactory {
+  pub fn new() -> ArrowCombinationLogicFactory {
+    ArrowCombinationLogicFactory {
+      cache: HashMap::new(),
+    }
+  }
+
+  pub fn create(&'a mut self, arrow: &'a Arrow, solver: &'a Solver) -> ArrowCombinationLogic<'a> {
+    ArrowCombinationLogic::new(arrow, solver, &mut self.cache)
   }
 }

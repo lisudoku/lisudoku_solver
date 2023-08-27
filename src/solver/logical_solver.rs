@@ -1,7 +1,9 @@
 use std::collections::{HashSet, HashMap};
+use std::ops::BitOr;
 use std::rc::Rc;
 use crate::types::{SudokulogicalSolveResult, CellPosition, SolutionStep, Area, SolutionType};
 use crate::solver::Solver;
+use self::combinations::cell_combination_logic::CellsCacheKey;
 use self::technique::Technique;
 use itertools::Itertools;
 
@@ -413,5 +415,21 @@ impl Solver {
       .into_iter()
       .map(|(value, group)| (value, group.collect()))
       .collect()
+  }
+
+  fn candidates_to_set(&self, cell: CellPosition) -> u32 {
+    self.candidates[cell.row][cell.col].iter().fold(0, |acc, e| {
+      acc.bitor(1 << e)
+    })
+  }
+
+  fn cells_to_cache_key(&self, cells: &Vec<CellPosition>) -> CellsCacheKey {
+    cells.into_iter().map(|cell| {
+      (
+        cell.row as u32 * (self.constraints.grid_size as u32 + 1) + cell.col as u32,
+        self.grid[cell.row][cell.col],
+        self.candidates_to_set(*cell),
+      )
+    }).collect()
   }
 }

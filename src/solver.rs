@@ -1,12 +1,16 @@
 use crate::solver::logical_solver::arrow_advanced_candidates::ArrowAdvancedCandidates;
 use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerEliminationArrow;
 use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage, KropkiDot, KropkiDotType, Arrow};
+use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
 use std::ops::BitAnd;
 use std::rc::Rc;
 use itertools::Itertools;
+use self::logical_solver::advanced_candidates::CellEliminationsResult;
+use self::logical_solver::arrow_candidates::ArrowCombinationLogicFactory;
 use self::logical_solver::candidates::Candidates;
+use self::logical_solver::combinations::cell_combination_logic::CellsCacheKey;
 use self::logical_solver::common_peer_elimination::CommonPeerElimination;
 use self::logical_solver::common_peer_elimination_kropki::CommonPeerEliminationKropki;
 use self::logical_solver::hidden_set::HiddenSet;
@@ -74,6 +78,8 @@ pub struct Solver {
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
   hint_mode: bool,
+  arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
+  cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
 }
 
 impl Solver {
@@ -171,6 +177,8 @@ impl Solver {
       candidates,
       hint_mode: false,
       techniques: Self::default_techniques(),
+      arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
+      cell_eliminations_cache: RefCell::new(HashMap::new()),
     }
   }
 

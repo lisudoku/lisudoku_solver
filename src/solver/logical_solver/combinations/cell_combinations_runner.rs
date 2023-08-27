@@ -4,10 +4,9 @@ use super::cell_combination_logic::CellCombinationLogic;
 
 pub struct CellCombinationsRunner<'a> {
   // Input
-  pub cells: &'a Vec<CellPosition>,
+  pub cells: Vec<CellPosition>,
   pub solver: &'a Solver,
-  // combinations_logic: &'a dyn CombinationLogic,
-  combinations_logic: Box<dyn CellCombinationLogic>,
+  combinations_logic: Box<dyn CellCombinationLogic + 'a>,
   // State
   pub state: State,
   // Output
@@ -24,10 +23,13 @@ pub struct State {
   pub used_candidates_at: Vec<u32>,
 }
 
-type CellCombinationsRunnerResult = (Vec<HashSet<u32>>, Vec<Vec<u32>>);
+pub type CellCombinationsRunnerResult = (Vec<HashSet<u32>>, Vec<Vec<u32>>);
 
 impl<'a> CellCombinationsRunner<'a> {
-  pub fn new(cells: &'a Vec<CellPosition>, solver: &'a Solver, combinations_logic: Box<dyn CellCombinationLogic>) -> CellCombinationsRunner<'a> {
+  pub fn new(solver: &'a Solver, combinations_logic: Box<dyn CellCombinationLogic + 'a>) -> CellCombinationsRunner<'a> {
+    let cells = combinations_logic.cells();
+    let cell_count = cells.len();
+
     let affected_by: Vec<u32> = cells.iter().enumerate().map(|(cell_index, cell)| {
       let mut mask = 0;
       for (prev_cell_index, prev_cell) in cells[0..cell_index].iter().enumerate() {
@@ -43,22 +45,28 @@ impl<'a> CellCombinationsRunner<'a> {
       solver,
       combinations_logic,
       state: State {
-        used_candidates: vec![ 0; cells.len() ],
+        used_candidates: vec![ 0; cell_count ],
         temp_grid: solver.grid.to_vec(),
         affected_by,
         used_candidates_at: vec![ 0; solver.constraints.grid_size + 1 ],
       },
-      valid_candidates: vec![ HashSet::new(); cells.len() ],
+      valid_candidates: vec![ HashSet::new(); cell_count ],
       combinations_list: vec![],
     }
   }
 
   pub fn run(&mut self) -> CellCombinationsRunnerResult {
-    // TODO: cache result based on combination_logic
+    if let Some(cached_result) = self.combinations_logic.cached_result() {
+      return cached_result.to_owned()
+    }
 
     self.run_recursive(0);
 
-    (self.valid_candidates.to_vec(), self.combinations_list.to_vec())
+    let result = (self.valid_candidates.to_vec(), self.combinations_list.to_vec());
+
+    self.combinations_logic.cache_result(&result);
+
+    result
   }
 
   fn run_recursive(&mut self, index: usize) {
@@ -71,7 +79,7 @@ impl<'a> CellCombinationsRunner<'a> {
       return
     }
 
-    let cell = &self.cells[index];
+    let cell = self.cells[index].to_owned();
     let cell_prev_value = self.state.temp_grid[cell.row][cell.col];
     
     let mut prev_value_candidate = HashSet::new();

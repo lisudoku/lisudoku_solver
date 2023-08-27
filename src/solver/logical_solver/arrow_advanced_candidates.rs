@@ -1,5 +1,4 @@
 use crate::solver::Solver;
-use crate::solver::logical_solver::arrow_candidates::ArrowCombinationLogic;
 use crate::solver::logical_solver::combinations::cell_combinations_runner::CellCombinationsRunner;
 use crate::types::{SolutionStep, Rule, Area};
 use super::technique::Technique;
@@ -25,8 +24,9 @@ impl Technique for ArrowAdvancedCandidates {
         return vec![]
       }
 
-      let combination_logic = ArrowCombinationLogic::new(arrow, solver);
-      let mut runner = CellCombinationsRunner::new(&cells, solver, Box::new(combination_logic));
+      let mut arrow_combinatons_logic_factory = solver.arrow_combinatons_logic_factory.borrow_mut();
+      let combination_logic = arrow_combinatons_logic_factory.create(arrow, solver);
+      let mut runner = CellCombinationsRunner::new(solver, Box::new(combination_logic));
       let (_, combinations) = runner.run();
 
       let invalid_candidates = solver.eliminate_combinations(&combinations, &cells);
