@@ -1,5 +1,6 @@
 mod classic;
 mod thermo;
+mod arrow;
 mod diagonal;
 mod anti_knight;
 mod anti_king;

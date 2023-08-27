@@ -36,7 +36,7 @@ impl Technique for CommonPeerEliminationKropki {
             }
 
             let combination_set: HashSet<u32> = combination.iter().copied().collect();
-            let common_peer_cells: Vec<CellPosition> = self.find_common_peers_for_cells_with_subset_values(
+            let common_peer_cells: Vec<CellPosition> = CommonPeerElimination::find_common_peers_for_cells_with_subset_values(
               solver, &cells, &combination_set
             );
 
@@ -50,6 +50,7 @@ impl Technique for CommonPeerEliminationKropki {
             let unique_combination: Vec<u32> = unique_indices.iter().map(|&index| combination[index]).collect();
             let unique_cells: Vec<CellPosition> = unique_indices.iter().map(|&index| cells[index]).collect();
 
+            // TODO: may eliminate same candidate twice?
             return vec![
               SolutionStep {
                 rule: self.get_rule(),
@@ -68,18 +69,5 @@ impl Technique for CommonPeerEliminationKropki {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut Solver) {
-    for (index, cell) in step.affected_cells.iter().enumerate() {
-      let value = step.values[index];
-      solver.candidates[cell.row][cell.col].remove(&value);
-    }
-  }
-}
-
-impl CommonPeerEliminationKropki {
-  fn find_common_peers_for_cells_with_subset_values(&self, solver: &Solver, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
-    let common_peers = CommonPeerElimination::find_common_peers_for_cells(solver, cells);
-    let common_peers_with_values: Vec<CellPosition> = solver.filter_cells_with_subset_candidates(&common_peers, &values);
-    common_peers_with_values
-  }
+  fn apply_corresponding_indices(&self) -> bool { true }
 }

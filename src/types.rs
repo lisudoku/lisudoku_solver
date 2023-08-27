@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use itertools::Itertools;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -9,6 +10,7 @@ pub struct SudokuConstraints {
   pub extra_regions: Vec<Region>,
   pub killer_cages: Vec<KillerCage>,
   pub thermos: Vec<Thermo>,
+  pub arrows: Vec<Arrow>,
   pub primary_diagonal: bool,
   pub secondary_diagonal: bool,
   pub anti_knight: bool,
@@ -117,8 +119,12 @@ pub enum Rule {
   Thermo,
   Kropki,
   Candidates,
+  AdvancedCandidates,
   ThermoCandidates,
   KillerCandidates,
+  ArrowCandidates,
+  ArrowAdvancedCandidates,
+  CommonPeerEliminationArrow,
   Killer45,
   KropkiChainCandidates,
   TopBottomCandidates,
@@ -144,6 +150,7 @@ pub enum Area {
   Column(usize),
   Region(usize),
   Thermo(usize),
+  Arrow(usize),
   KillerCage(usize),
   KropkiDot(usize),
   PrimaryDiagonal,
@@ -151,6 +158,21 @@ pub enum Area {
 }
 
 pub type Thermo = Vec<CellPosition>;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Arrow {
+  pub circle_cells: Vec<CellPosition>,
+  pub arrow_cells: Vec<CellPosition>,
+}
+
+impl Arrow {
+  pub fn all_cells(&self) -> Vec<CellPosition> {
+    [
+      self.arrow_cells.to_vec(),
+      self.circle_cells.iter().sorted().copied().collect()
+    ].concat()
+  }
+}
 
 impl SudokuConstraints {
   pub fn new(grid_size: usize, fixed_numbers: Vec<FixedNumber>) -> SudokuConstraints {
@@ -161,6 +183,7 @@ impl SudokuConstraints {
       extra_regions: vec![],
       killer_cages: vec![],
       thermos: vec![],
+      arrows: vec![],
       primary_diagonal: false,
       secondary_diagonal: false,
       anti_knight: false,
@@ -362,7 +385,7 @@ impl Area {
       Area::Row(row) => format!("row {}", row + 1),
       Area::Column(col) => format!("column {}", col + 1),
       Area::Region(region) => format!("box {}", region + 1),
-      Area::Grid | Area::Thermo(_) | Area::KillerCage(_) | Area::KropkiDot(_) |
+      Area::Grid | Area::Thermo(_) | Area::Arrow(_) | Area::KillerCage(_) | Area::KropkiDot(_) |
         Area::PrimaryDiagonal | Area::SecondaryDiagonal => unimplemented!(),
     }
   }

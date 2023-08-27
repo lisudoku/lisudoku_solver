@@ -21,4 +21,7 @@ mod kropki_chains;
 mod turbot_fish;
 mod top_bottom_candidates;
 mod empty_rectangles;
+mod arrow_candidates;
+mod arrow_advanced_candidates;
+mod common_peer_elimination_arrow;
 mod puzzles;

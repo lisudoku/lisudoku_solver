@@ -1,5 +1,5 @@
 use crate::solver::Solver;
-use crate::types::{Area, CellPosition, KropkiDotType, KropkiDot};
+use crate::types::{Area, CellPosition, KropkiDotType, KropkiDot, Arrow};
 use std::collections::HashSet;
 use std::mem::swap;
 use super::logical_solver::{technique::Technique, top_bottom_candidates::TopBottomCandidates};
@@ -27,6 +27,12 @@ impl Solver {
 
     for area in self.get_all_areas(true, true, true) {
       if !self.check_area_valid(&area) {
+        return false
+      }
+    }
+
+    for arrow in &self.constraints.arrows {
+      if !self.check_arrow_valid(arrow) {
         return false
       }
     }
@@ -61,7 +67,7 @@ impl Solver {
       &Area::KillerCage(killer_cage_index) => self.check_killer_area_valid(area, killer_cage_index),
       &Area::Thermo(_) => self.check_thermo_area_valid(area),
       &Area::KropkiDot(kropki_dot_index) => self.check_kropki_dot_valid(kropki_dot_index),
-      &Area::Grid => unimplemented!(),
+      &Area::Grid | &Area::Arrow(_) => unimplemented!(),
     }
   }
 
@@ -103,6 +109,21 @@ impl Solver {
         return false
       }
       crt_max_value = value
+    }
+
+    true
+  }
+
+  fn check_arrow_valid(&self, arrow: &Arrow) -> bool {
+    let (arrow_sum, arrow_full) = self.arrow_arrow_sum(arrow);
+    let (circle_number, circle_full) = self.arrow_circle_number(arrow);
+
+    if arrow_full && circle_full {
+      return arrow_sum == circle_number
+    }
+
+    if circle_full {
+      return arrow_sum <= circle_number
     }
 
     true

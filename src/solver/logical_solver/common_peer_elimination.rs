@@ -78,4 +78,11 @@ impl CommonPeerElimination {
 
     common_peers
   }
+
+  // TODO: remove after refactoring kropki
+  pub fn find_common_peers_for_cells_with_subset_values(solver: &Solver, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    let common_peers = Self::find_common_peers_for_cells(solver, cells);
+    let common_peers_with_values: Vec<CellPosition> = solver.filter_cells_with_subset_candidates(&common_peers, &values);
+    common_peers_with_values
+  }
 }

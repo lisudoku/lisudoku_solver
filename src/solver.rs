@@ -1,4 +1,6 @@
-use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage, KropkiDot, KropkiDotType};
+use crate::solver::logical_solver::arrow_advanced_candidates::ArrowAdvancedCandidates;
+use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerEliminationArrow;
+use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage, KropkiDot, KropkiDotType, Arrow};
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
 use std::ops::BitAnd;
@@ -23,6 +25,7 @@ use self::logical_solver::x_wing::XWing;
 use self::logical_solver::xy_wing::XYWing;
 use self::logical_solver::turbot_fish::TurbotFish;
 use self::logical_solver::empty_reclanges::EmptyRectangles;
+use crate::solver::logical_solver::arrow_candidates::ArrowCandidates;
 
 mod checker;
 pub mod logical_solver;
@@ -183,6 +186,7 @@ impl Solver {
       Rc::new(KropkiChainCandidates::new(false)),
       Rc::new(KropkiChainCandidates::new(true)),
       Rc::new(TopBottomCandidates::new(false)),
+      Rc::new(ArrowCandidates),
       Rc::new(NakedSingle),
       Rc::new(HiddenSingles),
       Rc::new(Thermo),
@@ -198,6 +202,8 @@ impl Solver {
       Rc::new(XYWing),
       Rc::new(CommonPeerElimination),
       Rc::new(CommonPeerEliminationKropki),
+      Rc::new(ArrowAdvancedCandidates),
+      Rc::new(CommonPeerEliminationArrow),
       Rc::new(TurbotFish),
       Rc::new(EmptyRectangles),
     ]
@@ -229,7 +235,7 @@ impl Solver {
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
       &Area::KillerCage(killer_cage_index) => self.compute_killer_cell_candidates(killer_cage_index),
       &Area::KropkiDot(kropki_dot_index) => self.compute_kropki_cell_candidates(kropki_dot_index),
-      &Area::Grid => unimplemented!(),
+      &Area::Grid | &Area::Arrow(_) => unimplemented!(),
     }
   }
 
@@ -418,6 +424,7 @@ impl Solver {
       },
       &Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
       &Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
+      &Area::Arrow(_) => unimplemented!(),
     }
   }
 
@@ -601,6 +608,39 @@ impl Solver {
         None
       }
     }).collect()
+  }
+
+  fn arrow_circle_number(&self, arrow: &Arrow) -> (u32, bool) {
+    let mut value: u32 = 0;
+    let sorted_circle_cells: Vec<CellPosition> = arrow.circle_cells
+      .iter()
+      .cloned()
+      .sorted_by_key(|cell| *cell)
+      .collect();
+    let mut full = true;
+    for &CellPosition { row, col } in &sorted_circle_cells {
+      value = 10 * value + self.grid[row][col];
+      if self.grid[row][col] == 0 {
+        full = false;
+      }
+    }
+    (value, full)
+  }
+
+  fn arrow_arrow_sum(&self, arrow: &Arrow) -> (u32, bool) {
+    let mut sum: u32 = 0;
+    let mut full = true;
+    for &CellPosition { row, col } in &arrow.arrow_cells {
+      sum += self.grid[row][col];
+      if self.grid[row][col] == 0 {
+        full = false;
+      }
+    }
+    (sum, full)
+  }
+
+  fn count_empty_cells_in_list(&self, cells: &Vec<CellPosition>) -> usize {
+    cells.into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).count()
   }
 }
 

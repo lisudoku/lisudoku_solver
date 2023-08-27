@@ -25,6 +25,11 @@ pub mod common_peer_elimination_kropki;
 pub mod turbot_fish;
 pub mod top_bottom_candidates;
 pub mod empty_reclanges;
+pub mod combinations;
+pub mod arrow_candidates;
+pub mod advanced_candidates;
+pub mod arrow_advanced_candidates;
+pub mod common_peer_elimination_arrow;
 
 const DEBUG: bool = false;
 
@@ -212,6 +217,12 @@ impl Solver {
     if DEBUG {
       // only after cell changes
       self.validate_candidates();
+    }
+  }
+
+  pub fn apply_rules(&mut self, steps: &Vec<SolutionStep>) {
+    for mut step in steps {
+      self.apply_rule(&mut step);
     }
   }
 

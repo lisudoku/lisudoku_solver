@@ -1,9 +1,10 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, KropkiDot, Rule, Area, KropkiDotType};
+use super::combinations::cell_combination_logic::CellCombinationLogic;
+use super::combinations::cell_combinations_runner::CellCombinationsRunner;
 use super::technique::Technique;
 use itertools::Itertools;
 use std::collections::{HashSet, VecDeque, HashMap};
-use std::ops::{BitAnd, BitXorAssign};
 
 // X can't be a candidate in this cell because it violates the dot chain
 pub struct KropkiChainCandidates {
@@ -118,19 +119,11 @@ impl KropkiChainCandidates {
   }
 
   pub fn mark_kropki_valid_candidates(solver: &Solver, cells: &Vec<CellPosition>) -> (Vec<HashSet<u32>>, Vec<Vec<u32>>) {
-    let mut combinations_runner = KropkiCandidateCombinations {
-      used_candidates: vec![ 0; cells.len() ],
-      used_candidates_set: 0,
-      temp_grid: solver.grid.to_vec(),
-      cells,
-      valid_candidates: vec![ HashSet::new(); cells.len() ],
-      combinations_list: vec![],
-      solver,
-    };
+    let mut combinations_runner = CellCombinationsRunner::new(
+      cells, solver, Box::new(KropkiChainCombinationsLogic)
+    );
 
-    combinations_runner.run(0);
-
-    (combinations_runner.valid_candidates, combinations_runner.combinations_list)
+    combinations_runner.run()
   }
 }
 
@@ -221,65 +214,22 @@ impl KropkiComponents<'_> {
   }
 }
 
-struct KropkiCandidateCombinations<'a> {
-  used_candidates: Vec<u32>,
-  used_candidates_set: u32,
-  temp_grid: Vec<Vec<u32>>,
-  valid_candidates: Vec<HashSet<u32>>,
-  combinations_list: Vec<Vec<u32>>,
-  cells: &'a Vec<CellPosition>,
-  solver: &'a Solver,
-}
+struct KropkiChainCombinationsLogic;
 
-impl KropkiCandidateCombinations<'_> {
-  fn run(&mut self, index: usize) {
-    if index == self.cells.len() {
-      for (cell_index, &candidate) in self.used_candidates.iter().enumerate() {
-        self.valid_candidates[cell_index].insert(candidate);
-      }
-      self.combinations_list.push(self.used_candidates.to_vec());
-
-      return
-    }
-
-    let cell = self.cells[index];
-    if self.solver.grid[cell.row][cell.col] != 0 {
-      self.run(index + 1);
-      return
-    }
-
-    for &value in &self.solver.candidates[cell.row][cell.col] {
-      if self.used_candidates_set.bitand(1 << value) > 0 {
-        continue
-      }
-      if !self.cells.contains(&cell) {
-        continue
-      }
-      if !self.check_kropki_value(&cell, value) {
-        continue
-      }
-
-      self.temp_grid[cell.row][cell.col] = value;
-      self.used_candidates[index] = value;
-      self.used_candidates_set.bitxor_assign(1 << value);
-
-      self.run(index + 1);
-
-      self.temp_grid[cell.row][cell.col] = 0;
-      self.used_candidates_set.bitxor_assign(1 << value);
-    }
-  }
-
-  fn check_kropki_value(&self, cell: &CellPosition, value: u32) -> bool {
-    for &kropki_dot_index in &self.solver.grid_to_kropki_dots[cell.row][cell.col] {
-      let kropki_dot = &self.solver.constraints.kropki_dots[kropki_dot_index];
+impl CellCombinationLogic for KropkiChainCombinationsLogic {
+  fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool {
+    let cell = &runner.cells[index];
+    for &kropki_dot_index in &runner.solver.grid_to_kropki_dots[cell.row][cell.col] {
+      let kropki_dot = &runner.solver.constraints.kropki_dots[kropki_dot_index];
       let other_cell = kropki_dot.other_cell(cell);
 
-      let other_value = self.temp_grid[other_cell.row][other_cell.col];
+      let other_value = runner.state.temp_grid[other_cell.row][other_cell.col];
       if !kropki_dot.check_values(value, other_value) {
         return false
       }
     }
     true
   }
+
+  fn should_check_all_cells_in_set(&self) -> bool { true }
 }

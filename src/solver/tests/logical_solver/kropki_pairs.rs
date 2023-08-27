@@ -12,7 +12,9 @@ fn check_kropki_negative_row_consecutive() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.kropki_dots = vec![
-    KropkiDot::double(CellPosition::new(0, 1), CellPosition::new(0, 2)),
+    KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
+    KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(1, 1)),
+    KropkiDot::double(CellPosition::new(1, 1), CellPosition::new(1, 2)),
   ];
   constraints.kropki_negative = true;
   let mut solver = Solver::new(constraints, None);
@@ -24,7 +26,7 @@ fn check_kropki_negative_row_consecutive() {
   assert_eq!(step.rule, Rule::Kropki);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 2) ]);
   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 5 ]);
-  assert_eq!(step.areas, vec![ Area::KropkiDot(4) ]);
+  assert_eq!(step.areas, vec![ Area::KropkiDot(6) ]);
   assert!(solver.candidates[0][2].contains(&5));
   solver.apply_rule(&step);
   assert!(!solver.candidates[0][2].contains(&5));

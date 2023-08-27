@@ -31,7 +31,6 @@ fn check_kropki_common_peer_elimination_1() {
     solver.apply_rule(&mut step);
   }
 
-
   let steps = CommonPeerEliminationKropki.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
