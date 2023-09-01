@@ -1,6 +1,6 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
 use itertools::Itertools;
 use super::technique::Technique;
 
@@ -84,5 +84,38 @@ impl CommonPeerElimination {
     let common_peers = Self::find_common_peers_for_cells(solver, cells);
     let common_peers_with_values: Vec<CellPosition> = solver.filter_cells_with_subset_candidates(&common_peers, &values);
     common_peers_with_values
+  }
+
+  pub fn find_cell_eliminations(cells: Vec<CellPosition>, combinations: Vec<Vec<u32>>, solver: &Solver) -> Vec<(CellPosition, u32)> {
+    let cell_peers: Vec<Vec<CellPosition>> = cells.iter().map(|cell| {
+      solver.get_cell_peers(cell, true)
+    }).collect();
+
+    let mut cell_eliminations: HashSet<(CellPosition, u32)> = HashSet::new();
+
+    for (idx, combination) in combinations.iter().enumerate() {
+      let mut changed_cells: HashMap<CellPosition, HashSet<u32>> = HashMap::new();
+      for cell_index in 0..cells.len() {
+        let cell_value = combination[cell_index];
+        for peer_cell in &cell_peers[cell_index] {
+          if solver.candidates[peer_cell.row][peer_cell.col].contains(&cell_value) {
+            let entry = changed_cells.entry(*peer_cell).or_insert(HashSet::new());
+            entry.insert(cell_value);
+          }
+        }
+      }
+
+      let updates: HashSet<(CellPosition, u32)> = changed_cells.into_iter().flat_map(|(cell, candidates)| {
+        candidates.into_iter().map(|c| (cell, c)).collect::<Vec<_>>()
+      }).collect();
+
+      if idx == 0 {
+        cell_eliminations = updates;
+      } else {
+        cell_eliminations = cell_eliminations.intersection(&updates).copied().collect();
+      }
+    }
+
+    cell_eliminations.into_iter().collect_vec()
   }
 }

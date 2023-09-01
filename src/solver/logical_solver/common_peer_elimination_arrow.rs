@@ -1,6 +1,7 @@
 use crate::solver::Solver;
 use crate::solver::logical_solver::combinations::cell_combinations_runner::CellCombinationsRunner;
 use crate::types::{SolutionStep, CellPosition, Rule, Area};
+use super::common_peer_elimination::CommonPeerElimination;
 use super::technique::Technique;
 use std::collections::{HashMap, HashSet};
 
@@ -27,34 +28,7 @@ impl Technique for CommonPeerEliminationArrow {
       let mut runner = CellCombinationsRunner::new(solver, Box::new(combination_logic));
       let (_, combinations) = runner.run();
 
-      let cell_peers: Vec<Vec<CellPosition>> = cells.iter().map(|cell| {
-        solver.get_cell_peers(cell, true)
-      }).collect();
-  
-      let mut cell_eliminations: HashSet<(CellPosition, u32)> = HashSet::new();
-
-      for (idx, combination) in combinations.iter().enumerate() {
-        let mut changed_cells: HashMap<CellPosition, HashSet<u32>> = HashMap::new();
-        for cell_index in 0..cells.len() {
-          let cell_value = combination[cell_index];
-          for peer_cell in &cell_peers[cell_index] {
-            if solver.candidates[peer_cell.row][peer_cell.col].contains(&cell_value) {
-              let entry = changed_cells.entry(*peer_cell).or_insert(HashSet::new());
-              entry.insert(cell_value);
-            }
-          }
-        }
-        
-        let updates: HashSet<(CellPosition, u32)> = changed_cells.into_iter().flat_map(|(cell, candidates)| {
-          candidates.into_iter().map(|c| (cell, c)).collect::<Vec<_>>()
-        }).collect();
-
-        if idx == 0 {
-          cell_eliminations = updates;
-        } else {
-          cell_eliminations = cell_eliminations.intersection(&updates).copied().collect();
-        }
-      }
+      let cell_eliminations = CommonPeerElimination::find_cell_eliminations(cells, combinations, solver);
 
       if cell_eliminations.is_empty() {
         return None

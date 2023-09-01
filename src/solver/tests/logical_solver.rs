@@ -14,6 +14,7 @@ mod x_wing;
 mod xy_wing;
 mod common_peer_elimination;
 mod common_peer_elimination_kropki;
+mod kropki_advanced_candidates;
 mod killer_candidates;
 mod killer45;
 mod kropki_pairs;

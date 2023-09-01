@@ -1,5 +1,6 @@
 use crate::solver::logical_solver::arrow_advanced_candidates::ArrowAdvancedCandidates;
 use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerEliminationArrow;
+use crate::solver::logical_solver::kropki_advanced_candidates::KropkiAdvancedCandidates;
 use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage, KropkiDot, KropkiDotType, Arrow};
 use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
@@ -210,6 +211,7 @@ impl Solver {
       Rc::new(XYWing),
       Rc::new(CommonPeerElimination),
       Rc::new(CommonPeerEliminationKropki),
+      Rc::new(KropkiAdvancedCandidates),
       Rc::new(ArrowAdvancedCandidates),
       Rc::new(CommonPeerEliminationArrow),
       Rc::new(TurbotFish),

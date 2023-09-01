@@ -127,6 +127,7 @@ pub enum Rule {
   CommonPeerEliminationArrow,
   Killer45,
   KropkiChainCandidates,
+  KropkiAdvancedCandidates,
   TopBottomCandidates,
   LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
