@@ -1,9 +1,8 @@
 use crate::solver::Solver;
 use crate::solver::logical_solver::combinations::cell_combinations_runner::CellCombinationsRunner;
-use crate::types::{SolutionStep, CellPosition, Rule, Area};
+use crate::types::{SolutionStep, Rule, Area};
 use super::common_peer_elimination::CommonPeerElimination;
 use super::technique::Technique;
-use std::collections::{HashMap, HashSet};
 
 // Eliminate 1 candidate from a cell because all arrow combinations would eliminate it
 // Normal locked candidates don't pick this up because they think ALL candidate combinations are possible
