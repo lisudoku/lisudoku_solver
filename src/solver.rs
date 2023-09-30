@@ -79,6 +79,7 @@ pub struct Solver {
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
   hint_mode: bool,
+  single_step_mode: bool,
   arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
   cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
 }
@@ -177,6 +178,7 @@ impl Solver {
       candidates_active: false,
       candidates,
       hint_mode: false,
+      single_step_mode: false,
       techniques: Self::default_techniques(),
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: RefCell::new(HashMap::new()),
@@ -185,6 +187,11 @@ impl Solver {
 
   pub fn with_hint_mode(mut self) -> Self {
     self.hint_mode = true;
+    self
+  }
+
+  pub fn with_single_step_mode(mut self) -> Self {
+    self.single_step_mode = true;
     self
   }
 
@@ -217,6 +224,11 @@ impl Solver {
       Rc::new(TurbotFish),
       Rc::new(EmptyRectangles),
     ]
+  }
+
+  pub fn with_techniques(mut self, techniques: Vec<Rc<dyn Technique>>) -> Self {
+    self.techniques = techniques;
+    self
   }
 
   fn get_adjacent_cells(cell: CellPosition, grid_size: usize) -> Vec<CellPosition> {

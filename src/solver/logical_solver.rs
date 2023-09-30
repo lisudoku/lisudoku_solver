@@ -35,6 +35,7 @@ pub mod arrow_advanced_candidates;
 pub mod common_peer_elimination_arrow;
 
 const DEBUG: bool = false;
+const DISPLAY_STEPS: bool = false;
 
 impl Solver {
   pub fn logical_solve(&mut self) -> SudokulogicalSolveResult {
@@ -86,6 +87,10 @@ impl Solver {
         // Found the first filled digit, it's enough for a hint
         break
       }
+      if self.single_step_mode {
+        // Found all steps from initial grid, stop
+        break
+      }
     }
 
     if empty_cell_count > 0 {
@@ -112,22 +117,23 @@ impl Solver {
 
     // This type of rule must be 1st to make sure all candidates are valid
     // before applying other techniques
-    let steps = self.find_candidate_validity_update_steps();
-    if !steps.is_empty() {
-      return steps
+    let validity_update_steps = self.find_candidate_validity_update_steps();
+    // TODO: might want to tweak single_step_mode for validity_update_steps and nongrid_steps
+    if !validity_update_steps.is_empty() && !self.single_step_mode {
+      return validity_update_steps
     }
 
-    let steps = self.find_grid_steps();
-    if !steps.is_empty() {
-      return steps
+    let grid_steps = self.find_grid_steps();
+    if !grid_steps.is_empty() && !self.single_step_mode {
+      return grid_steps
     }
 
-    let steps = self.find_nongrid_steps();
-    if !steps.is_empty() {
-      return steps
+    let nongrid_steps = self.find_nongrid_steps();
+    if !nongrid_steps.is_empty() && !self.single_step_mode {
+      return nongrid_steps
     }
 
-    vec![]
+    vec![ validity_update_steps, grid_steps, nongrid_steps ].concat()
   }
 
   pub fn find_candidate_validity_update_steps(&self) -> Vec<SolutionStep> {
@@ -138,11 +144,7 @@ impl Solver {
 
     let steps = self.run_techniques(candidate_validity_techniques);
 
-    if steps.is_none() {
-      return vec![]
-    }
-
-    steps.unwrap()
+    steps
   }
 
   pub fn find_grid_steps(&self) -> Vec<SolutionStep> {
@@ -151,13 +153,12 @@ impl Solver {
       .filter(|technique| technique.is_grid_step())
       .collect();
 
-    let steps = self.run_techniques(grid_techniques);
+    let mut steps = self.run_techniques(grid_techniques);
 
-    if steps.is_none() {
+    if steps.is_empty() {
       return vec![]
     }
 
-    let mut steps = steps.unwrap();
     if !self.candidates_active {
       return steps
     }
@@ -181,33 +182,32 @@ impl Solver {
 
     let steps = self.run_techniques(nongrid_techniques);
 
-    if steps.is_none() {
-      return vec![]
-    }
-
-    steps.unwrap()
+    steps
   }
 
-  fn run_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Option<Vec<SolutionStep>> {
-    techniques.into_iter().find_map(|technique| {
-      let steps = technique.run(&self);
-      if steps.is_empty() {
-        None
-      } else {
-        Some(steps)
+  fn run_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
+    techniques.into_iter().fold(vec![], |mut all_steps, technique| {
+      if !all_steps.is_empty() && !self.single_step_mode {
+        return all_steps
       }
+      let steps = technique.run(&self);
+      all_steps.extend(steps);
+
+      all_steps
     })
   }
 
   pub fn apply_rule(&mut self, step: &SolutionStep) {
-    println!(
-      "{:?} ({}) ({}) ({}): {}",
-      step.rule,
-      step.areas.iter().map(|x| format!("{:?}", x)).join(", "),
-      step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
-      step.values.iter().map(|x| format!("{}", x)).join(", "),
-      step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
-    );
+    if DISPLAY_STEPS {
+      println!(
+        "{:?} ({}) ({}) ({}): {}",
+        step.rule,
+        step.areas.iter().map(|x| format!("{:?}", x)).join(", "),
+        step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
+        step.values.iter().map(|x| format!("{}", x)).join(", "),
+        step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
+      );
+    }
 
     let technique = self.techniques
       .iter()

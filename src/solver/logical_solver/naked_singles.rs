@@ -10,14 +10,9 @@ impl Technique for NakedSingle {
   fn get_rule(&self) -> Rule { Rule::NakedSingle }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
-    for cell in solver.get_all_empty_cells() {
-      let step = self.find_naked_single_in_cell(solver, cell);
-      if step.is_some() {
-        return vec![ step.unwrap() ]
-      }
-    }
-
-    vec![]
+    solver.get_all_empty_cells().into_iter().filter_map(|cell| {
+      self.find_naked_single_in_cell(solver, cell)
+    }).collect()
   }
 }
 

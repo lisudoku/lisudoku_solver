@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::{self, Display, Debug}};
 use itertools::Itertools;
 use serde::{Serialize, Deserialize};
 
@@ -102,7 +102,7 @@ pub struct SudokuBruteSolveResult {
   pub solution: Option<Grid>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SolutionStep {
   pub rule: Rule,
   pub cells: Vec<CellPosition>,
@@ -112,7 +112,7 @@ pub struct SolutionStep {
   pub candidates: Option<Vec<Vec<HashSet<u32>>>>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash)]
 pub enum Rule {
   NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
@@ -164,6 +164,12 @@ pub type Thermo = Vec<CellPosition>;
 pub struct Arrow {
   pub circle_cells: Vec<CellPosition>,
   pub arrow_cells: Vec<CellPosition>,
+}
+
+impl Display for Rule {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+      Debug::fmt(self, f)
+  }
 }
 
 impl Arrow {
@@ -250,7 +256,7 @@ impl SudokuConstraints {
   }
 
   pub fn to_grid_string(&self) -> String {
-    SudokuGrid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string()
+    SudokuGrid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string(Some("\n"))
   }
 
   pub fn to_import_string(&self) -> String {
@@ -345,6 +351,21 @@ impl SudokuGrid {
     }
   }
 
+  pub fn from_string(grid_str: String) -> Self {
+    let grid_size = f32::sqrt(grid_str.len() as f32) as usize;
+    assert_eq!(grid_size * grid_size, grid_str.len(), "Invalid grid passed");
+    let grid_chars = grid_str.chars().collect_vec();
+    let grid: Grid = (0..grid_size).map(|row| {
+      (0..grid_size).map(|col| {
+        let index = row * grid_size + col;
+        grid_chars[index].to_digit(10).unwrap()
+      }).collect()
+    }).collect();
+    Self {
+      values: grid,
+    }
+  }
+
   pub fn from_fixed_numbers(grid_size: usize, fixed_numbers: &Vec<FixedNumber>) -> Self {
     let mut grid: Grid = vec![ vec![ 0; grid_size ]; grid_size ];
     for fixed_number in fixed_numbers {
@@ -366,7 +387,7 @@ impl SudokuGrid {
     fixed_numbers
   }
 
-  pub fn to_string(&self) -> String {
+  pub fn to_string(&self, separator: Option<&str>) -> String {
     self.values
       .iter()
       .map(|row| {
@@ -376,7 +397,7 @@ impl SudokuGrid {
           .join("")
       })
       .collect::<Vec<String>>()
-      .join("\n")
+      .join(separator.unwrap_or(""))
   }
 }
 
@@ -410,4 +431,22 @@ fn check_sudoku_constraints_import_string() {
   assert_eq!(constraints.to_import_string(), String::from(
     "203000107910040026000000000308010709100000002002000800004167200700080001800209003"
   ))
+}
+
+#[test]
+fn check_sudoku_grid_from_string() {
+  let grid_str = String::from("203000107910040026000000000308010709100000002002000800004167200700080001800209003");
+  let grid = SudokuGrid::from_string(grid_str).values;
+  let expected_grid = vec![
+    vec![ 2, 0, 3, 0, 0, 0, 1, 0, 7 ],
+    vec![ 9, 1, 0, 0, 4, 0, 0, 2, 6 ],
+    vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    vec![ 3, 0, 8, 0, 1, 0, 7, 0, 9 ],
+    vec![ 1, 0, 0, 0, 0, 0, 0, 0, 2 ],
+    vec![ 0, 0, 2, 0, 0, 0, 8, 0, 0 ],
+    vec![ 0, 0, 4, 1, 6, 7, 2, 0, 0 ],
+    vec![ 7, 0, 0, 0, 8, 0, 0, 0, 1 ],
+    vec![ 8, 0, 0, 2, 0, 9, 0, 0, 3 ],
+  ];
+  assert_eq!(grid, expected_grid);
 }

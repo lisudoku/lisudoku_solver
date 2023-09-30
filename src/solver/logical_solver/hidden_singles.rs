@@ -18,26 +18,19 @@ impl Technique for HiddenSingles {
     for cell in &solver.get_all_empty_cells() {
       candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell);
     }
-    // dbg!(&candidates);
 
-    for area in solver.get_all_areas(false, false, false) {
-      let hidden_single = self.find_hidden_single_in_area(solver, &area, &candidates);
+    solver.get_all_areas(false, false, false).into_iter().flat_map(|area| {
+      let hidden_singles = self.find_hidden_singles_in_area(solver, &area, &candidates);
 
-      if hidden_single.is_none() {
-        continue
-      }
+      hidden_singles.into_iter().map(move |(found_cell, value)| {
+        let mut cells: Vec<CellPosition> = vec![ found_cell ];
 
-      let (found_cell, value) = hidden_single.unwrap();
+        if !solver.candidates_active {
+          let other_cells = self.find_hidden_single_covering_cells(solver, &area, &found_cell, value);
+          cells.extend(other_cells.into_iter());
+        }
 
-      let mut cells: Vec<CellPosition> = vec![ found_cell ];
-
-      if !solver.candidates_active {
-        let other_cells = self.find_hidden_single_covering_cells(solver, &area, &found_cell, value);
-        cells.extend(other_cells.into_iter());
-      }
-
-      return vec![
-        SolutionStep {
+        return SolutionStep {
           rule: self.get_rule(),
           cells,
           values: vec![ value ],
@@ -45,22 +38,15 @@ impl Technique for HiddenSingles {
           affected_cells: vec![],
           candidates: None,
         }
-      ]
-    }
-
-    vec![]
+      })
+    }).unique_by(|step| step.cells[0]).collect()
   }
 }
 
 impl HiddenSingles {
-  fn find_hidden_single_in_area(&self, solver: &Solver, area: &Area, candidates: &Vec<Vec<HashSet<u32>>>) -> Option<(CellPosition, u32)> {
+  fn find_hidden_singles_in_area(&self, solver: &Solver, area: &Area, candidates: &Vec<Vec<HashSet<u32>>>) -> Vec<(CellPosition, u32)> {
     let value_cells = solver.compute_cells_by_value_in_area(area, candidates);
-    let hidden_single = value_cells.iter().find(|(_value, cells)| cells.len() == 1);
-    if let Some((&value, cells)) = hidden_single {
-      return Some((cells[0], value));
-    }
-
-    None
+    value_cells.iter().filter(|(_value, cells)| cells.len() == 1).map(|(&value, cells)| (cells[0], value)).collect()
   }
 
   fn find_hidden_single_covering_cells(&self, solver: &Solver, area: &Area, found_cell: &CellPosition, value: u32) -> Vec<CellPosition> {

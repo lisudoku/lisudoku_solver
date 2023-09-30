@@ -2,7 +2,7 @@
 
 Used by https://lisudoku.xyz to solve sudoku variant puzzles.
 
-11 supported sudoku variants.
+12 supported sudoku variants.
 
 ## Contribute
 

@@ -16,6 +16,7 @@ pub trait Technique {
       let CellPosition { row, col } = step.cells[0];
         let value = step.values[0];
 
+        assert_eq!(solver.grid[row][col], 0, "Attempted to overwrite cell");
         solver.grid[row][col] = value;
 
         if solver.candidates_active {
