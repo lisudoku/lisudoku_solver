@@ -43,7 +43,9 @@ impl Solver {
     let mut solution_steps: Vec<SolutionStep> = vec![];
 
     if !self.check_partially_solved() {
-      println!("Invalid initial grid");
+      if DEBUG {
+        println!("Invalid initial grid");
+      }
       return SudokulogicalSolveResult::no_solution()
     }
 
@@ -51,13 +53,17 @@ impl Solver {
 
     while empty_cell_count > 0 {
       if let Some(cell) = self.get_cell_with_no_candidates() {
-        println!("Cell with no candidates {:?}", cell);
+        if DEBUG {
+          println!("Cell with no candidates {:?}", cell);
+        }
         return SudokulogicalSolveResult::no_solution()
       }
 
       // TODO: only check cells impacted by latest change
       if !self.check_partially_solved() {
-        println!("Reached invalid state");
+        if DEBUG {
+          println!("Reached invalid state");
+        }
         return SudokulogicalSolveResult::no_solution()
       }
 
@@ -69,6 +75,11 @@ impl Solver {
       if self.hint_mode {
         // In hint mode apply 1 step at a time
         steps.drain(1..);
+      }
+      if self.single_step_mode {
+        solution_steps.extend(steps);
+        // Found all steps from initial grid, stop
+        break
       }
 
       let mut grid_step = false;
@@ -85,10 +96,6 @@ impl Solver {
 
       if self.hint_mode && grid_step {
         // Found the first filled digit, it's enough for a hint
-        break
-      }
-      if self.single_step_mode {
-        // Found all steps from initial grid, stop
         break
       }
     }
