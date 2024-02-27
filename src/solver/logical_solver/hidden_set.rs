@@ -52,14 +52,12 @@ impl Technique for HiddenSet {
         }
 
         return vec![
-          SolutionStep {
-            rule: self.get_rule(),
-            cells: cells_array,
+          self.build_solution_step(
+            cells_array,
             values,
-            areas: vec![area],
-            affected_cells: vec![],
-            candidates: None,
-          }
+            vec![area],
+            vec![],
+          )
         ]
       }
     }

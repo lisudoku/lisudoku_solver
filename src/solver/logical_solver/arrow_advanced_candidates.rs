@@ -33,14 +33,11 @@ impl Technique for ArrowAdvancedCandidates {
 
       // TODO: may eliminate same candidate twice?
       invalid_candidates.into_iter().map(|(cell, invalid_values)| {
-        SolutionStep {
-          rule: self.get_rule(),
-          cells: vec![],
-          values: invalid_values,
-          areas: vec![ Area::Arrow(arrow_index) ],
-          affected_cells: vec![ cell ],
-          candidates: None,
-        }
+        self.build_simple_solution_step(
+          invalid_values,
+          vec![ Area::Arrow(arrow_index) ],
+          vec![ cell ]
+        )
       }).collect::<Vec<_>>()
     }).collect()
   }

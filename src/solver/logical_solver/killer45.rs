@@ -65,14 +65,11 @@ impl Killer45 {
     }
 
     invalid_sum_candidates.into_iter().map(|(cell, invalid_values)| {
-      SolutionStep {
-        rule: self.get_rule(),
-        cells: vec![],
-        values: invalid_values,
-        areas: vec![ *area ],
-        affected_cells: vec![ cell ],
-        candidates: None,
-      }
+      self.build_simple_solution_step(
+        invalid_values,
+        vec![ *area ],
+        vec![ cell ],
+      )
     }).collect()
   }
 }

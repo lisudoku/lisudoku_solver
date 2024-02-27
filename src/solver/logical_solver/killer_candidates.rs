@@ -40,14 +40,11 @@ impl Technique for KillerCandidates {
       }
 
       return invalid_sum_candidates.into_iter().map(|(cell, invalid_values)| {
-        SolutionStep {
-          rule: self.get_rule(),
-          cells: vec![],
-          values: invalid_values,
-          areas: vec![ Area::KillerCage(killer_cage_index) ],
-          affected_cells: vec![ cell ],
-          candidates: None,
-        }
+        self.build_simple_solution_step(
+          invalid_values,
+          vec![ Area::KillerCage(killer_cage_index) ],
+          vec![ cell ],
+        )
       }).collect()
     }
 

@@ -61,14 +61,12 @@ impl Technique for EmptyRectangles {
                solver.candidates[common_cell.row][common_cell.col].contains(&value) &&
                !region_cells.contains(&common_cell) {
               return vec![
-                SolutionStep {
-                  rule: self.get_rule(),
-                  cells: vec![ c1, c2 ], // the strong link
-                  values: vec![ value ],
-                  areas: vec![ region_area, Area::Row(selected_row), Area::Column(selected_col) ],
-                  affected_cells: vec![ common_cell ],
-                  candidates: None,
-                }
+                self.build_solution_step(
+                  vec![ c1, c2 ], // the strong link
+                  vec![ value ],
+                  vec![ region_area, Area::Row(selected_row), Area::Column(selected_col) ],
+                  vec![ common_cell ],
+                )
               ]
             }
           }
@@ -95,14 +93,12 @@ impl Technique for EmptyRectangles {
                solver.candidates[common_cell.row][common_cell.col].contains(&value) &&
                !region_cells.contains(&common_cell) {
               return vec![
-                SolutionStep {
-                  rule: self.get_rule(),
-                  cells: vec![ c1, c2 ], // the strong link
-                  values: vec![ value ],
-                  areas: vec![ region_area, Area::Row(selected_row), Area::Column(selected_col) ],
-                  affected_cells: vec![ common_cell ],
-                  candidates: None,
-                }
+                self.build_solution_step(
+                  vec![ c1, c2 ], // the strong link
+                  vec![ value ],
+                  vec![ region_area, Area::Row(selected_row), Area::Column(selected_col) ],
+                  vec![ common_cell ],
+                )
               ]
             }
           }

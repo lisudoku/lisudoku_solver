@@ -83,14 +83,11 @@ impl TopBottomCandidates {
 
   fn map_extra_cells_to_step(&self, extra_cells: Vec<CellPosition>, row: usize, value: u32, other_row: usize) -> Vec<SolutionStep> {
     vec![
-      SolutionStep {
-        rule: self.get_rule(),
-        cells: vec![],
-        values: vec![ value ],
-        areas: vec![ Area::Row(row), Area::Row(other_row) ],
-        affected_cells: extra_cells,
-        candidates: None,
-      }
+      self.build_simple_solution_step(
+        vec![ value ],
+        vec![ Area::Row(row), Area::Row(other_row) ],
+        extra_cells,
+      )
     ]
   }
 }

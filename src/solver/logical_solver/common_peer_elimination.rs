@@ -42,14 +42,12 @@ impl CommonPeerElimination {
     }
 
     Some(
-      SolutionStep {
-        rule: self.get_rule(),
+      self.build_solution_step(
         cells,
-        values: vec![ value ],
-        areas: vec![ *area ],
+        vec![ value ],
+        vec![ *area ],
         affected_cells,
-        candidates: None,
-      }
+      )
     )
   }
 

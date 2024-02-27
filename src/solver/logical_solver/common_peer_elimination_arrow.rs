@@ -35,14 +35,11 @@ impl Technique for CommonPeerEliminationArrow {
 
       // TODO: may eliminate same candidate twice?
       Some(
-        SolutionStep {
-          rule: self.get_rule(),
-          cells: vec![],
-          values: cell_eliminations.iter().map(|(_, c)| c).copied().collect(), // values in the same order as affected_cells
-          areas: vec![ Area::Arrow(arrow_index) ],
-          affected_cells: cell_eliminations.iter().map(|(cell, _)| cell).copied().collect(),
-          candidates: None,
-        }
+        self.build_simple_solution_step(
+          cell_eliminations.iter().map(|(_, c)| c).copied().collect(), // values in the same order as affected_cells
+          vec![ Area::Arrow(arrow_index) ],
+          cell_eliminations.iter().map(|(cell, _)| cell).copied().collect(),
+        )
       )
     }).collect()
   }

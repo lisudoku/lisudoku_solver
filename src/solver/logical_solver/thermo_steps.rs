@@ -22,14 +22,12 @@ impl Technique for Thermo {
 
         if valid_values.len() == 1 {
           return vec![
-            SolutionStep {
-              rule: self.get_rule(),
-              cells: vec![ *cell ],
-              values: valid_values,
-              areas: vec![ Area::Thermo(thermo_index) ],
-              affected_cells: vec![],
-              candidates: None,
-            }
+            self.build_solution_step(
+              vec![ *cell ],
+              valid_values,
+              vec![ Area::Thermo(thermo_index) ],
+              vec![],
+            )
           ]
         }
       }

@@ -39,14 +39,12 @@ impl Technique for LockedCandidates {
             .collect();
           if !affected_cells.is_empty() {
             return vec![
-              SolutionStep {
-                rule: self.get_rule(),
+              self.build_solution_step(
                 cells, // set of cells in area with value
-                values: vec![ value ],
-                areas: vec![ area, other_area ],
-                affected_cells,
-                candidates: None,
-              }
+                vec![ value ],
+                vec![ area, other_area ],
+                affected_cells
+              )
             ]
           }
         }

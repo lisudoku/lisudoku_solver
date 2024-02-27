@@ -339,6 +339,19 @@ impl SudokulogicalSolveResult {
 }
 
 impl SolutionStep {
+  pub fn new(
+    rule: Rule, cells: Vec<CellPosition>, values: Vec<u32>, areas: Vec<Area>, affected_cells: Vec<CellPosition>
+  ) -> SolutionStep {
+    SolutionStep {
+      rule,
+      cells,
+      values,
+      areas,
+      affected_cells,
+      candidates: None,
+    }
+  }
+
   pub fn is_grid_step(&self) -> bool {
     [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&self.rule)
   }

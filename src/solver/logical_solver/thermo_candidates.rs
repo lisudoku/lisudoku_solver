@@ -26,14 +26,11 @@ impl Technique for ThermoCandidates {
 
         if !invalid_values.is_empty() {
           return vec![
-            SolutionStep {
-              rule: self.get_rule(),
-              cells: vec![],
-              values: invalid_values,
-              areas: vec![ Area::Thermo(thermo_index) ],
-              affected_cells: vec![ *cell ],
-              candidates: None,
-            }
+            self.build_simple_solution_step(
+              invalid_values,
+              vec![ Area::Thermo(thermo_index) ],
+              vec![ *cell ],
+            )
           ]
         }
       }

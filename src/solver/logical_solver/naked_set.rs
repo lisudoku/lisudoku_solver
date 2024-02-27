@@ -48,14 +48,12 @@ impl Technique for NakedSet {
         }
 
         return vec![
-          SolutionStep {
-            rule: self.get_rule(),
+          self.build_solution_step(
             cells,
-            values: combined_candidates.into_iter().collect(),
-            areas: vec![area],
+            combined_candidates.into_iter().collect(),
+            vec![area],
             affected_cells,
-            candidates: None,
-          }
+          )
         ]
       }
     }

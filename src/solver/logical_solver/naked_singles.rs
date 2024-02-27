@@ -59,14 +59,12 @@ impl NakedSingle {
     if areas_set.len() == 1 {
       let value = *areas_set.iter().next().unwrap();
       return Some(
-        SolutionStep {
-          rule: Rule::NakedSingle,
-          cells: vec![ *cell ],
-          values: vec![ value ],
-          areas: areas.into_iter().map(|x| *x).collect(),
-          affected_cells: vec![],
-          candidates: None,
-        }
+        self.build_solution_step(
+          vec![ *cell ],
+          vec![ value ],
+          areas.into_iter().map(|x| *x).collect(),
+          vec![],
+        )
       )
     }
 
@@ -80,14 +78,12 @@ impl NakedSingle {
 
     let value = *solver.candidates[row][col].iter().next().unwrap();
     Some(
-      SolutionStep {
-        rule: self.get_rule(),
-        cells: vec![ CellPosition { row, col } ],
-        values: vec![ value ],
-        areas: vec![],
-        affected_cells: vec![],
-        candidates: None,
-      }
+      self.build_solution_step(
+        vec![ CellPosition { row, col } ],
+        vec![ value ],
+        vec![],
+        vec![],
+      )
     )
   }
 }

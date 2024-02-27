@@ -46,14 +46,12 @@ impl Technique for XYWing {
 
           if !affected_cells.is_empty() {
             return vec![
-              SolutionStep {
-                rule: self.get_rule(),
-                cells: vec![ xy_cell, *xz_cell, *yz_cell ],
-                values: vec![ x, y, z ],
-                areas: vec![],
+              self.build_solution_step(
+                vec![ xy_cell, *xz_cell, *yz_cell ],
+                vec![ x, y, z ],
+                vec![],
                 affected_cells,
-                candidates: None,
-              }
+              )
             ]
           }
         }

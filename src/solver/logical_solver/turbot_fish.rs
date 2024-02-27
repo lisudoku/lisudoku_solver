@@ -54,14 +54,12 @@ impl Technique for TurbotFish {
         }
 
         return vec![
-          SolutionStep {
-            rule: self.get_rule(),
-            cells: vec![ a1, a2, b1, b2 ],
-            values: vec![ *value ],
-            areas: vec![ *area1, *area2 ],
-            affected_cells: common_peers,
-            candidates: None,
-          }
+          self.build_solution_step(
+            vec![ a1, a2, b1, b2 ],
+            vec![ *value ],
+            vec![ *area1, *area2 ],
+            common_peers,
+          )
         ]
       }
     }

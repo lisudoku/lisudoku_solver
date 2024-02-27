@@ -74,14 +74,12 @@ impl XWing {
           }
 
           return Some(
-            SolutionStep {
-              rule: self.get_rule(),
-              cells: vec![ cell1, cell2, cell3, cell4 ],
-              values: vec![ value ],
-              areas: vec![ *area1, *area2, area3, area4 ],
+            self.build_solution_step(
+              vec![ cell1, cell2, cell3, cell4 ],
+              vec![ value ],
+              vec![ *area1, *area2, area3, area4 ],
               affected_cells,
-              candidates: None,
-            }
+            )
           )
         }
       }

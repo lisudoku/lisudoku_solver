@@ -1,4 +1,4 @@
-use crate::{types::{SolutionStep, Rule, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{Area, CellPosition, Rule, SolutionStep}};
 
 pub trait Technique {
   fn is_grid_step(&self) -> bool { false }
@@ -7,6 +7,20 @@ pub trait Technique {
   fn is_candidate_validity_update_step(&self) -> bool { false }
 
   fn get_rule(&self) -> Rule;
+
+  fn build_solution_step(
+    &self,
+    cells: Vec<CellPosition>, values: Vec<u32>, areas: Vec<Area>, affected_cells: Vec<CellPosition>
+  ) -> SolutionStep {
+    SolutionStep::new(self.get_rule(), cells, values, areas, affected_cells)
+  }
+
+  fn build_simple_solution_step(
+    &self,
+    values: Vec<u32>, areas: Vec<Area>, affected_cells: Vec<CellPosition>
+  ) -> SolutionStep {
+    SolutionStep::new(self.get_rule(), vec![], values, areas, affected_cells)
+  }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep>;
 

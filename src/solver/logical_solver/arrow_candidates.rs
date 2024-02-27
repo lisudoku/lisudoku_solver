@@ -34,14 +34,11 @@ impl Technique for ArrowCandidates {
       let invalid_candidates = solver.cell_candidates_diff(&cells, valid_candidates);
 
       invalid_candidates.into_iter().map(|(cell, invalid_values)| {
-        SolutionStep {
-          rule: self.get_rule(),
-          cells: vec![],
-          values: invalid_values,
-          areas: vec![ Area::Arrow(arrow_index) ],
-          affected_cells: vec![ cell ],
-          candidates: None,
-        }
+        self.build_simple_solution_step(
+          invalid_values,
+          vec![ Area::Arrow(arrow_index) ],
+          vec![ cell ]
+        )
       }).collect::<Vec<_>>()
     }).collect()
   }

@@ -31,14 +31,11 @@ impl Technique for KropkiAdvancedCandidates {
 
           // TODO: may eliminate same candidate twice?
           let current_steps = invalid_candidates.into_iter().map(|(cell, invalid_values)| {
-            SolutionStep {
-              rule: self.get_rule(),
-              cells: vec![],
-              values: invalid_values,
-              areas: kropki_dot_indices.iter().map(|&index| Area::KropkiDot(index)).collect(),
-              affected_cells: vec![ cell ],
-              candidates: None,
-            }
+            self.build_simple_solution_step(
+              invalid_values,
+              kropki_dot_indices.iter().map(|&index| Area::KropkiDot(index)).collect(),
+              vec![ cell ],
+            )
           }).collect::<Vec<_>>();
 
           steps.extend(current_steps);

@@ -30,14 +30,12 @@ impl Technique for HiddenSingles {
           cells.extend(other_cells.into_iter());
         }
 
-        return SolutionStep {
-          rule: self.get_rule(),
+        return self.build_solution_step(
           cells,
-          values: vec![ value ],
-          areas: vec![ area ],
-          affected_cells: vec![],
-          candidates: None,
-        }
+          vec![ value ],
+          vec![ area ],
+          vec![],
+        )
       })
     }).unique_by(|step| step.cells[0]).collect()
   }

@@ -35,14 +35,11 @@ impl Technique for CommonPeerEliminationKropki {
 
           // TODO: may eliminate same candidate twice?
           steps.push(
-            SolutionStep {
-              rule: self.get_rule(),
-              cells: vec![],
-              values: cell_eliminations.iter().map(|(_, c)| c).copied().collect(), // values in the same order as affected_cells
-              areas: kropki_dot_indices.into_iter().map(|index| Area::KropkiDot(index)).collect::<Vec<Area>>(),
-              affected_cells: cell_eliminations.iter().map(|(cell, _)| cell).copied().collect(),
-              candidates: None,
-            }
+            self.build_simple_solution_step(
+              cell_eliminations.iter().map(|(_, c)| c).copied().collect(), // values in the same order as affected_cells
+              kropki_dot_indices.into_iter().map(|index| Area::KropkiDot(index)).collect::<Vec<Area>>(),
+              cell_eliminations.iter().map(|(cell, _)| cell).copied().collect(),
+            )
           );
         }
       }

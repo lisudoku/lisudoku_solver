@@ -86,14 +86,11 @@ impl KropkiChainCandidates {
         let mut areas = vec![ *area ];
         areas.extend(&indices.iter().map(|&idx| Area::KropkiDot(idx)).collect::<Vec<Area>>());
 
-        SolutionStep {
-          rule: self.get_rule(),
-          cells: vec![],
-          values: invalid_values,
+        self.build_simple_solution_step(
+          invalid_values,
           areas,
-          affected_cells: vec![ cell ],
-          candidates: None,
-        }
+          vec![ cell ],
+        )
       }).collect();
 
       current_steps
