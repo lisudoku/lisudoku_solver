@@ -223,6 +223,7 @@ impl Solver {
       Rc::new(CommonPeerEliminationArrow),
       Rc::new(TurbotFish),
       Rc::new(EmptyRectangles),
+      // Rc::new(PhistomefelRing), // disabled for now...
     ]
   }
 

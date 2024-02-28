@@ -33,6 +33,7 @@ pub mod arrow_candidates;
 pub mod advanced_candidates;
 pub mod arrow_advanced_candidates;
 pub mod common_peer_elimination_arrow;
+pub mod phistomefel_ring;
 
 const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;

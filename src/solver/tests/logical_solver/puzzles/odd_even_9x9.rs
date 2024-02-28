@@ -1,6 +1,6 @@
 use crate::{types::{FixedNumber, SudokuConstraints, SolutionType, CellPosition}, solver::Solver};
 
-// TODO: uncomment after implementing graphical techniques
+// TODO: uncomment after implementing graphical techniques... or something else :)
 // https://logicmastersindia.com/live/?contest=SM202301
 // #[test]
 // fn check_odd_even_9x9_1_solve() {

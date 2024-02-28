@@ -26,4 +26,5 @@ mod empty_rectangles;
 mod arrow_candidates;
 mod arrow_advanced_candidates;
 mod common_peer_elimination_arrow;
+mod phistomefel_ring;
 mod puzzles;
