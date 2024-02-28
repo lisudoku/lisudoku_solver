@@ -63,3 +63,25 @@ fn check_solved_grid() {
   let solved = solver.check_solved();
   assert_eq!(solved, true);
 }
+
+#[test]
+fn check_partially_solved_no_solution_grid() {
+  let constraints = SudokuConstraints::new(9, vec![]);
+  let grid = SudokuGrid {
+    values: vec![
+      vec![ 0, 0, 0, 0, 0, 0, 0, 1, 2 ],
+      vec![ 0, 0, 0, 0, 1, 2, 0, 0, 0 ],
+      vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      vec![ 0, 2, 0, 0, 0, 0, 0, 0, 0 ],
+      vec![ 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+      vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      vec![ 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      vec![ 2, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    ]
+  };
+  let solver = Solver::new(constraints, Some(grid));
+  let solved = solver.check_partially_solved();
+  // 1 and 2 both can only be put into the same cell
+  assert_eq!(solved, false);
+}

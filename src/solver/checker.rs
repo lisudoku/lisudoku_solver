@@ -1,6 +1,7 @@
 use crate::solver::Solver;
 use crate::types::{Area, CellPosition, KropkiDotType, KropkiDot, Arrow};
-use std::collections::HashSet;
+use itertools::Itertools;
+use std::collections::{HashMap, HashSet};
 use std::mem::swap;
 use super::logical_solver::{technique::Technique, top_bottom_candidates::TopBottomCandidates};
 
@@ -92,6 +93,26 @@ impl Solver {
     // Can't place some value in this area so there is no solution
     if candidates.len() < area_cells.len() {
       return false
+    }
+
+    if area_cells.len() == self.constraints.grid_size {
+      // Check if all remaining candidate subsets fit into the remaining cells
+
+      let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
+      for cell in self.get_empty_area_cells(area) {
+        for value in self.compute_cell_candidates(&cell) {
+          let entry = value_cells.entry(value).or_insert(vec![]);
+          entry.push(cell);
+        }
+      }
+
+      let mut used_cells_set: HashSet<CellPosition> = HashSet::new();
+      for (value_index, value_cells) in value_cells.into_values().sorted_by_key(|e| e.len()).enumerate() {
+        used_cells_set.extend(value_cells);
+        if value_index + 1 > used_cells_set.len() {
+          return false
+        }
+      }
     }
 
     true
