@@ -139,7 +139,7 @@ impl Solver {
     // Can't place some value in this area so there is no solution
     if candidates.len() < area_cells.len() {
       let values = if area_cells.len() == self.constraints.grid_size {
-        self.compute_all_candidates().difference(&candidates).copied().collect()
+        self.compute_all_candidates().difference(&candidates).copied().sorted().collect()
       } else {
         vec![]
       };
@@ -167,7 +167,7 @@ impl Solver {
 
       let mut used_cells_set: HashSet<CellPosition> = HashSet::new();
       let mut values = vec![];
-      for (value_index, (value, value_cells)) in value_cells.into_iter().sorted_by_key(|e| e.1.len()).enumerate() {
+      for (value_index, (value, value_cells)) in value_cells.into_iter().sorted_by_key(|e| (e.1.len(), e.0)).enumerate() {
         used_cells_set.extend(value_cells);
         values.push(value);
         if value_index + 1 > used_cells_set.len() {

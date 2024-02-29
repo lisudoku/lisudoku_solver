@@ -42,7 +42,8 @@ const DISPLAY_STEPS: bool = false;
 impl Solver {
   pub fn logical_solve(&mut self) -> SudokulogicalSolveResult {
     let mut solution_type = SolutionType::Full;
-    self.solution_steps = vec![];
+    let mut solution_steps = vec![];
+    let mut solution_steps_group_count = 0;
 
     let check = self.check_partially_solved();
     if !check.0 {
@@ -69,13 +70,16 @@ impl Solver {
       if steps.is_empty() {
         break
       }
+
+      solution_steps_group_count += 1;
+
       if self.hint_mode {
         // In hint mode apply 1 step at a time
         steps.drain(1..);
       }
       if let Some(limit) = self.step_count_limit {
-        if self.solution_steps.len() + steps.len() >= limit {
-          self.solution_steps.extend(steps);
+        if solution_steps_group_count >= limit {
+          solution_steps.extend(steps);
           // Found all steps from initial grid, stop
           break
         }
@@ -86,12 +90,13 @@ impl Solver {
         self.apply_rule(&mut step);
 
         if step.is_grid_step() {
-          empty_cell_count -= 1;
           grid_step = true;
         }
 
-        self.solution_steps.push(step);
+        solution_steps.push(step);
       }
+
+      empty_cell_count = self.compute_empty_cell_count();
 
       if self.hint_mode && grid_step {
         // Found the first filled digit, it's enough for a hint
@@ -106,7 +111,7 @@ impl Solver {
     let res = SudokulogicalSolveResult {
       solution_type,
       solution: Some(self.grid.to_vec()),
-      steps: self.solution_steps.clone(),
+      steps: solution_steps.clone(),
       invalid_state_reason: None,
     };
 
@@ -214,6 +219,9 @@ impl Solver {
         step.values.iter().map(|x| format!("{}", x)).join(", "),
         step.affected_cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" ")
       );
+      if let Some(reason) = &step.invalid_state_reason {
+        println!("{:?}", reason);
+      }
     }
 
     let technique = self.techniques

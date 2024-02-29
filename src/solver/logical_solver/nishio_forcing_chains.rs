@@ -34,7 +34,9 @@ impl Technique for NishioForcingChains {
         let mut temp_solver: Solver = solver
           .clone()
           .with_techniques(temp_techniques.clone())
-          .with_step_count_limit(solver.constraints.grid_size * 2);
+          // the limit might need some tweaking to account for some techniques
+          // that return individual steps per step group
+          .with_step_count_limit(solver.constraints.grid_size);
 
         temp_solver.grid[cell.row][cell.col] = *value;
         temp_solver.candidates_active = false; // force to recalculate all candidates

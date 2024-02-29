@@ -65,7 +65,7 @@ fn check_anti_knight_invalid_region() {
       Some(InvalidStateReason {
         state_type: InvalidStateType::AreaCandidates,
         area: Area::Row(1),
-        values: vec![],
+        values: vec![1],
       }),
     )
   );

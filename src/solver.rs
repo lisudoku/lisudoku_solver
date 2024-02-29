@@ -2,7 +2,7 @@ use crate::solver::logical_solver::arrow_advanced_candidates::ArrowAdvancedCandi
 use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerEliminationArrow;
 use crate::solver::logical_solver::kropki_advanced_candidates::KropkiAdvancedCandidates;
 use crate::solver::logical_solver::nishio_forcing_chains::NishioForcingChains;
-use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SolutionStep, SudokuConstraints, SudokuGrid};
+use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SudokuConstraints, SudokuGrid};
 use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
@@ -80,7 +80,6 @@ pub struct Solver {
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
   hint_mode: bool,
-  solution_steps: Vec<SolutionStep>,
   step_count_limit: Option<usize>,
   arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
   cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
@@ -102,7 +101,6 @@ impl Clone for Solver {
       candidates_active: self.candidates_active.clone(),
       candidates: self.candidates.clone(),
       hint_mode: self.hint_mode.clone(),
-      solution_steps: vec![],
       step_count_limit: self.step_count_limit.clone(),
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: self.cell_eliminations_cache.clone(),
@@ -204,7 +202,6 @@ impl Solver {
       candidates_active: false,
       candidates,
       hint_mode: false,
-      solution_steps: vec![],
       step_count_limit: None,
       techniques: Self::default_techniques(),
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
