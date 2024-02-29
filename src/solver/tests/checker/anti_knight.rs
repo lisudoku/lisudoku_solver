@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid}, solver::Solver};
+use crate::{solver::Solver, types::{Area, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_anti_knight_correct() {
@@ -14,7 +14,7 @@ fn check_anti_knight_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -31,7 +31,17 @@ fn check_anti_knight_wrong() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::CellInvalidValue,
+        area: Area::Cell(0, 0),
+        values: vec![2],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -48,5 +58,15 @@ fn check_anti_knight_invalid_region() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaCandidates,
+        area: Area::Row(1),
+        values: vec![],
+      }),
+    )
+  );
 }

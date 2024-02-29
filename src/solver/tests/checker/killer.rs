@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid, CellPosition, KillerCage}, solver::Solver};
+use crate::{solver::Solver, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, KillerCage, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_killer_low_sum() {
@@ -23,7 +23,17 @@ fn check_killer_low_sum() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KillerCage(0),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -50,7 +60,17 @@ fn check_killer_high_sum() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KillerCage(0),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -77,7 +97,17 @@ fn check_killer_unique_digits() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaValueConflict,
+        area: Area::KillerCage(0),
+        values: vec![2],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -104,7 +134,7 @@ fn check_killer_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -131,7 +161,7 @@ fn check_killer_partially_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -158,7 +188,7 @@ fn check_killer_partially_correct_exact_sum() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -185,5 +215,15 @@ fn check_killer_partially_incorrect_high_sum() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KillerCage(0),
+        values: vec![],
+      }),
+    )
+  );
 }

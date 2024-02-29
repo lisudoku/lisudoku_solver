@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_wrong_thermo() {
@@ -20,5 +20,15 @@ fn check_wrong_thermo() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Thermo(0),
+        values: vec![3, 1],
+      }),
+    )
+  );
 }

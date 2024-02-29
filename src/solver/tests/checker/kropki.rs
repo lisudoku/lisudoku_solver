@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid, CellPosition, KropkiDot}, solver::Solver};
+use crate::{solver::Solver, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, KropkiDot, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_kropki_fully_correct() {
@@ -30,7 +30,7 @@ fn check_kropki_fully_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -63,7 +63,7 @@ fn check_kropki_partially_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -82,7 +82,17 @@ fn check_kropki_consecutive_incorrect() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KropkiDot(0),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -101,7 +111,17 @@ fn check_kropki_double_incorrect() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KropkiDot(0),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -121,7 +141,17 @@ fn check_kropki_negative_condition_incorrect() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KropkiDot(1),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -156,5 +186,5 @@ fn check_kropki_negative_condition_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }

@@ -1,78 +1,117 @@
 use crate::solver::Solver;
-use crate::types::{Area, CellPosition, KropkiDotType, KropkiDot, Arrow};
+use crate::types::{Area, CellPosition, InvalidStateReason, InvalidStateType, KropkiDot, KropkiDotType};
 use itertools::Itertools;
 use std::collections::{HashMap, HashSet};
 use std::mem::swap;
 use super::logical_solver::{technique::Technique, top_bottom_candidates::TopBottomCandidates};
 
 impl Solver {
-  pub fn check_solved(&self) -> bool {
+  pub fn check_solved(&self) -> (bool, Option<InvalidStateReason>) {
     self.check_grid_valid(false)
   }
 
-  pub fn check_partially_solved(&self) -> bool {
+  pub fn check_partially_solved(&self) -> (bool, Option<InvalidStateReason>) {
     self.check_grid_valid(true)
   }
 
-  fn check_grid_valid(&self, allow_empty: bool) -> bool {
-    for CellPosition { row, col } in self.get_area_cells(&Area::Grid) {
-      let value = self.grid[row][col];
+  fn check_grid_valid(&self, allow_empty: bool) -> (bool, Option<InvalidStateReason>) {
+    for cell in self.get_area_cells(&Area::Grid) {
+      let value = self.grid[cell.row][cell.col];
       if value == 0 {
         if !allow_empty {
-          return false
+          return (
+            false,
+            Some(InvalidStateReason {
+              state_type: InvalidStateType::CellEmpty,
+              area: Area::Cell(cell.row, cell.col),
+              values: vec![],
+            }),
+          )
+        }
+
+        let cell_candidates = self.compute_cell_candidates(&cell);
+        if cell_candidates.is_empty() {
+          return (
+            false,
+            Some(InvalidStateReason {
+              state_type: InvalidStateType::CellNoCandidates,
+              area: Area::Cell(cell.row, cell.col),
+              values: vec![],
+            }),
+          )
         }
       } else if value < 1 || value > self.constraints.grid_size as u32 {
-        return false
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::CellInvalidValue,
+            area: Area::Cell(cell.row, cell.col),
+            values: vec![],
+          }),
+        )
       }
     }
 
     for area in self.get_all_areas(true, true, true) {
-      if !self.check_area_valid(&area) {
-        return false
+      let check = self.check_area_valid(&area);
+      if !check.0 {
+        return check
       }
     }
 
-    for arrow in &self.constraints.arrows {
-      if !self.check_arrow_valid(arrow) {
-        return false
+    for arrow_index in 0..self.constraints.arrows.len() {
+      let check = self.check_arrow_valid(arrow_index);
+      if !check.0 {
+        return check
       }
     }
 
-    if self.constraints.anti_knight && !self.check_anti_knight_valid() {
-      return false
+    if self.constraints.anti_knight {
+      let check = self.check_anti_knight_valid();
+      if !check.0 {
+        return check
+      }
     }
 
-    if self.constraints.anti_king && !self.check_anti_king_valid() {
-      return false
+    if self.constraints.anti_king {
+      let check = self.check_anti_king_valid();
+      if !check.0 {
+        return check
+      }
     }
 
-    if !self.check_odd_cells() {
-      return false
+    let check = self.check_odd_cells();
+    if !check.0 {
+      return check
     }
 
-    if !self.check_even_cells() {
-      return false
+    let check = self.check_even_cells();
+    if !check.0 {
+      return check
     }
 
-    if self.constraints.top_bottom && !self.check_top_bottom_valid() {
-      return false
+    if self.constraints.top_bottom {
+      let check = self.check_top_bottom_valid();
+      if !check.0 {
+        return check
+      }
     }
 
-    true
+    (true, None)
   }
 
-  fn check_area_valid(&self, area: &Area) -> bool {
+  fn check_area_valid(&self, area: &Area) -> (bool, Option<InvalidStateReason>) {
     match area {
       &Area::Row(_) | &Area::Column(_) | &Area::Region(_) |
         &Area::PrimaryDiagonal | &Area::SecondaryDiagonal => self.check_area_region_valid(area),
       &Area::KillerCage(killer_cage_index) => self.check_killer_area_valid(area, killer_cage_index),
       &Area::Thermo(_) => self.check_thermo_area_valid(area),
       &Area::KropkiDot(kropki_dot_index) => self.check_kropki_dot_valid(kropki_dot_index),
-      &Area::Grid | &Area::Arrow(_) => unimplemented!(),
+      &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
     }
   }
 
-  fn check_area_region_valid(&self, area: &Area) -> bool {
+  fn check_area_region_valid(&self, area: &Area) -> (bool, Option<InvalidStateReason>) {
     let mut values = HashSet::new();
     let mut candidates = HashSet::new();
 
@@ -84,7 +123,14 @@ impl Solver {
         continue
       }
       if values.contains(&value) {
-        return false
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::AreaValueConflict,
+            area: *area,
+            values: vec![value],
+          }),
+        )
       }
       values.insert(value);
     }
@@ -92,7 +138,14 @@ impl Solver {
     candidates.extend(values);
     // Can't place some value in this area so there is no solution
     if candidates.len() < area_cells.len() {
-      return false
+      return (
+        false,
+        Some(InvalidStateReason {
+          state_type: InvalidStateType::AreaCandidates,
+          area: *area,
+          values: vec![],
+        }),
+      )
     }
 
     if area_cells.len() == self.constraints.grid_size {
@@ -107,18 +160,27 @@ impl Solver {
       }
 
       let mut used_cells_set: HashSet<CellPosition> = HashSet::new();
-      for (value_index, value_cells) in value_cells.into_values().sorted_by_key(|e| e.len()).enumerate() {
+      let mut values = vec![];
+      for (value_index, (value, value_cells)) in value_cells.into_iter().sorted_by_key(|e| e.1.len()).enumerate() {
         used_cells_set.extend(value_cells);
+        values.push(value);
         if value_index + 1 > used_cells_set.len() {
-          return false
+          return (
+            false,
+            Some(InvalidStateReason {
+              state_type: InvalidStateType::AreaCandidates,
+              area: *area,
+              values,
+            }),
+          )
         }
       }
     }
 
-    true
+    (true, None)
   }
 
-  fn check_thermo_area_valid(&self, area: &Area) -> bool {
+  fn check_thermo_area_valid(&self, area: &Area) -> (bool, Option<InvalidStateReason>) {
     let mut crt_max_value: u32 = 0;
 
     for CellPosition { row, col } in self.get_area_cells(area) {
@@ -127,30 +189,59 @@ impl Solver {
         continue
       }
       if value <= crt_max_value {
-        return false
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::AreaConstraint,
+            area: *area,
+            values: vec![crt_max_value, value],
+          }),
+        )
       }
       crt_max_value = value
     }
 
-    true
+    (true, None)
   }
 
-  fn check_arrow_valid(&self, arrow: &Arrow) -> bool {
+  fn check_arrow_valid(&self, arrow_index: usize) -> (bool, Option<InvalidStateReason>) {
+    let arrow = &self.constraints.arrows[arrow_index];
     let (arrow_sum, arrow_full) = self.arrow_arrow_sum(arrow);
     let (circle_number, circle_full) = self.arrow_circle_number(arrow);
 
     if arrow_full && circle_full {
-      return arrow_sum == circle_number
+      if arrow_sum == circle_number {
+        return (true, None)
+      }
+      return (
+        false,
+        Some(InvalidStateReason {
+          state_type: InvalidStateType::AreaConstraint,
+          area: Area::Arrow(arrow_index),
+          values: vec![],
+        }),
+      )
     }
 
     if circle_full {
-      return arrow_sum <= circle_number
+      if arrow_sum <= circle_number {
+        return (true, None)
+      }
+
+      return (
+        false,
+        Some(InvalidStateReason {
+          state_type: InvalidStateType::AreaConstraint,
+          area: Area::Arrow(arrow_index),
+          values: vec![],
+        }),
+      )
     }
 
-    true
+    (true, None)
   }
 
-  fn check_anti_knight_valid(&self) -> bool {
+  fn check_anti_knight_valid(&self) -> (bool, Option<InvalidStateReason>) {
     for cell in self.get_area_cells(&Area::Grid) {
       let value = self.grid[cell.row][cell.col];
       if value == 0 {
@@ -163,15 +254,22 @@ impl Solver {
           continue
         }
         if value == peer_value {
-          return false
+          return (
+            false,
+            Some(InvalidStateReason {
+              state_type: InvalidStateType::CellInvalidValue,
+              area: Area::Cell(cell.row, cell.col),
+              values: vec![value],
+            }),
+          )
         }
       }
     }
 
-    true
+    (true, None)
   }
 
-  fn check_anti_king_valid(&self) -> bool {
+  fn check_anti_king_valid(&self) -> (bool, Option<InvalidStateReason>) {
     for cell in self.get_area_cells(&Area::Grid) {
       let value = self.grid[cell.row][cell.col];
       if value == 0 {
@@ -184,17 +282,25 @@ impl Solver {
           continue
         }
         if value == peer_value {
-          return false
+          return (
+            false,
+            Some(InvalidStateReason {
+              state_type: InvalidStateType::CellInvalidValue,
+              area: Area::Cell(cell.row, cell.col),
+              values: vec![value],
+            }),
+          )
         }
       }
     }
 
-    true
+    (true, None)
   }
 
-  fn check_killer_area_valid(&self, area: &Area, killer_cage_index: usize) -> bool {
-    if !self.check_area_region_valid(area) {
-      return false
+  fn check_killer_area_valid(&self, area: &Area, killer_cage_index: usize) -> (bool, Option<InvalidStateReason>) {
+    let check = self.check_area_region_valid(area);
+    if !check.0 {
+      return check
     }
 
     let mut sum: u32 = 0;
@@ -210,14 +316,21 @@ impl Solver {
     let killer_cage = &self.constraints.killer_cages[killer_cage_index];
     if let Some(killer_sum) = killer_cage.sum {
       if sum != killer_sum && !any_zero || sum > killer_sum {
-        return false
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::AreaConstraint,
+            area: *area,
+            values: vec![],
+          }),
+        )
       }
     }
 
-    true
+    (true, None)
   }
 
-  fn check_kropki_dot_valid(&self, kropki_dot_index: usize) -> bool {
+  fn check_kropki_dot_valid(&self, kropki_dot_index: usize) -> (bool, Option<InvalidStateReason>) {
     let kropki_dot = &self.constraints.kropki_dots[kropki_dot_index];
     let KropkiDot { dot_type, cell_1, cell_2 } = kropki_dot;
     let mut value1 = self.grid[cell_1.row][cell_1.col];
@@ -226,37 +339,83 @@ impl Solver {
       swap(&mut value1, &mut value2);
     }
     if value1 == 0 {
-      return true
+      return (true, None)
     }
 
-    match dot_type {
+    let valid = match dot_type {
       KropkiDotType::Consecutive => {
-        return value1 + 1 == value2
+        value1 + 1 == value2
       },
       KropkiDotType::Double => {
-        return value1 * 2 == value2
+        value1 * 2 == value2
       },
       KropkiDotType::Negative => {
-        return value1 + 1 != value2 && value1 * 2 != value2
+        value1 + 1 != value2 && value1 * 2 != value2
       },
+    };
+
+    if valid {
+      return (true, None)
     }
+
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::KropkiDot(kropki_dot_index),
+        values: vec![],
+      }),
+    )
   }
 
-  fn check_odd_cells(&self) -> bool {
-    self.constraints.odd_cells.iter().all(|cell| {
+  fn check_odd_cells(&self) -> (bool, Option<InvalidStateReason>) {
+    for cell in &self.constraints.odd_cells {
       let value = self.grid[cell.row][cell.col];
-      value == 0 || value % 2 == 1
-    })
+      if value != 0 && value % 2 == 0 {
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::CellInvalidValue,
+            area: Area::Cell(cell.row, cell.col),
+            values: vec![value],
+          }),
+        )
+      }
+    }
+    (true, None)
   }
 
-  fn check_even_cells(&self) -> bool {
-    self.constraints.even_cells.iter().all(|cell| {
+  fn check_even_cells(&self) -> (bool, Option<InvalidStateReason>) {
+    for cell in &self.constraints.even_cells {
       let value = self.grid[cell.row][cell.col];
-      value == 0 || value % 2 == 0
-    })
+      if value != 0 && value % 2 == 1 {
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::CellInvalidValue,
+            area: Area::Cell(cell.row, cell.col),
+            values: vec![value],
+          }),
+        )
+      }
+    }
+    (true, None)
   }
 
-  fn check_top_bottom_valid(&self) -> bool {
-    TopBottomCandidates::new(true).run(&self).is_empty()
+  fn check_top_bottom_valid(&self) -> (bool, Option<InvalidStateReason>) {
+    let valid = TopBottomCandidates::new(true).run(&self).is_empty();
+
+    if valid {
+      return (true, None)
+    }
+
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Grid,
+        values: vec![],
+      }),
+    )
   }
 }

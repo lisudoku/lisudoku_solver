@@ -292,7 +292,7 @@ impl Solver {
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
       &Area::KillerCage(killer_cage_index) => self.compute_killer_cell_candidates(killer_cage_index),
       &Area::KropkiDot(kropki_dot_index) => self.compute_kropki_cell_candidates(kropki_dot_index),
-      &Area::Grid | &Area::Arrow(_) => unimplemented!(),
+      &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
     }
   }
 
@@ -468,6 +468,7 @@ impl Solver {
   fn get_area_cells(&self, area: &Area) -> Vec<CellPosition> {
     match area {
       &Area::Grid => self.get_grid_cells(),
+      &Area::Cell(row, col) => vec![CellPosition::new(row, col)],
       &Area::Row(row) => self.get_row_cells(row),
       &Area::Column(col) => self.get_col_cells(col),
       &Area::Region(region_index) => self.constraints.regions[region_index].to_vec(),

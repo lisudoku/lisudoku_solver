@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid, CellPosition, Arrow}, solver::Solver};
+use crate::{solver::Solver, types::{Area, Arrow, CellPosition, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_wrong_arrow() {
@@ -21,7 +21,17 @@ fn check_wrong_arrow() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Arrow(0),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -45,7 +55,7 @@ fn check_correct_arrow() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -72,7 +82,17 @@ fn check_wrong_oval_arrow() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Arrow(0),
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -99,7 +119,7 @@ fn check_correct_oval_arrow() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -123,5 +143,5 @@ fn check_partial_arrow() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }

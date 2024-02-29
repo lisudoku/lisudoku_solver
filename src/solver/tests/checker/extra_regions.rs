@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_wrong_region() {
@@ -19,7 +19,17 @@ fn check_wrong_region() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaValueConflict,
+        area: Area::Region(4),
+        values: vec![3],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -41,5 +51,5 @@ fn check_solved_grid() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }

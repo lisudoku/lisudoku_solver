@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid}, solver::Solver};
+use crate::{solver::Solver, types::{Area, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_anti_king_correct() {
@@ -15,7 +15,7 @@ fn check_anti_king_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -31,7 +31,17 @@ fn check_anti_king_wrong_1() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::CellInvalidValue,
+        area: Area::Cell(0, 1),
+        values: vec![2],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -46,6 +56,16 @@ fn check_anti_king_wrong_2() {
     ]
   };
   let solver = Solver::new(constraints, Some(grid));
-  let partilly_solved = solver.check_partially_solved();
-  assert_eq!(partilly_solved, false);
+  let partially_solved = solver.check_partially_solved();
+  assert_eq!(
+    partially_solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::CellNoCandidates,
+        area: Area::Cell(1, 1),
+        values: vec![],
+      }),
+    )
+  );
 }

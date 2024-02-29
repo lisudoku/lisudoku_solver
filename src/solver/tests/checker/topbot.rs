@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid}, solver::Solver};
+use crate::{solver::Solver, types::{Area, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_topbot_solved() {
@@ -13,7 +13,7 @@ fn check_topbot_solved() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }
 
 #[test]
@@ -29,7 +29,17 @@ fn check_topbot_wrong_one_sequence() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Grid,
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -45,7 +55,17 @@ fn check_topbot_wrong_both() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Grid,
+        values: vec![],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -61,7 +81,7 @@ fn check_topbot_empty_correct() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let partially_solved = solver.check_partially_solved();
-  assert_eq!(partially_solved, true);
+  assert_eq!(partially_solved, (true, None));
 }
 
 #[test]
@@ -77,5 +97,15 @@ fn check_topbot_empty_wrong() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let partially_solved = solver.check_partially_solved();
-  assert_eq!(partially_solved, false);
+  assert_eq!(
+    partially_solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaConstraint,
+        area: Area::Grid,
+        values: vec![],
+      }),
+    )
+  );
 }

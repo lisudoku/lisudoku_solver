@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_wrong_odd() {
@@ -19,7 +19,17 @@ fn check_wrong_odd() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::CellInvalidValue,
+        area: Area::Cell(3, 0),
+        values: vec![4],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -41,7 +51,17 @@ fn check_wrong_even() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::CellInvalidValue,
+        area: Area::Cell(3, 3),
+        values: vec![1],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -63,5 +83,5 @@ fn check_solved_grid() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }

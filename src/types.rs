@@ -87,6 +87,7 @@ pub struct SudokulogicalSolveResult {
   pub solution_type: SolutionType,
   pub solution: Option<Grid>,
   pub steps: Vec<SolutionStep>,
+  pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
@@ -94,6 +95,23 @@ pub enum SolutionType {
   Full,
   Partial,
   None,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub struct InvalidStateReason {
+  pub state_type: InvalidStateType,
+  pub area: Area,
+  pub values: Vec<u32>,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub enum InvalidStateType {
+  CellNoCandidates,
+  CellEmpty,
+  CellInvalidValue,
+  AreaValueConflict,
+  AreaCandidates,
+  AreaConstraint,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -149,6 +167,7 @@ pub enum Rule {
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub enum Area {
   Grid,
+  Cell(usize, usize),
   Row(usize),
   Column(usize),
   Region(usize),
@@ -331,11 +350,12 @@ impl KropkiDot {
 }
 
 impl SudokulogicalSolveResult {
-  pub fn no_solution() -> SudokulogicalSolveResult {
+  pub fn no_solution(invalid_state_reason: InvalidStateReason) -> SudokulogicalSolveResult {
     SudokulogicalSolveResult {
       solution_type: SolutionType::None,
       solution: None,
       steps: vec![],
+      invalid_state_reason: Some(invalid_state_reason),
     }
   }
 }
@@ -422,7 +442,7 @@ impl Area {
       Area::Row(row) => format!("row {}", row + 1),
       Area::Column(col) => format!("column {}", col + 1),
       Area::Region(region) => format!("box {}", region + 1),
-      Area::Grid | Area::Thermo(_) | Area::Arrow(_) | Area::KillerCage(_) | Area::KropkiDot(_) |
+      Area::Grid | Area::Cell(_, _) | Area::Thermo(_) | Area::Arrow(_) | Area::KillerCage(_) | Area::KropkiDot(_) |
         Area::PrimaryDiagonal | Area::SecondaryDiagonal => unimplemented!(),
     }
   }

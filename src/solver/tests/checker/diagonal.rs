@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SudokuGrid}, solver::Solver};
+use crate::{solver::Solver, types::{Area, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
 
 #[test]
 fn check_wrong_primary_diagonal() {
@@ -14,7 +14,17 @@ fn check_wrong_primary_diagonal() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaValueConflict,
+        area: Area::PrimaryDiagonal,
+        values: vec![2],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -31,7 +41,17 @@ fn check_wrong_secondary_diagonal() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, false);
+  assert_eq!(
+    solved,
+    (
+      false,
+      Some(InvalidStateReason {
+        state_type: InvalidStateType::AreaValueConflict,
+        area: Area::SecondaryDiagonal,
+        values: vec![4],
+      }),
+    )
+  );
 }
 
 #[test]
@@ -49,5 +69,5 @@ fn check_correct_both_diagonals() {
   };
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, true);
+  assert_eq!(solved, (true, None));
 }

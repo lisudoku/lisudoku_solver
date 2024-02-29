@@ -44,29 +44,24 @@ impl Solver {
     let mut solution_type = SolutionType::Full;
     self.solution_steps = vec![];
 
-    if !self.check_partially_solved() {
+    let check = self.check_partially_solved();
+    if !check.0 {
       if DEBUG {
         println!("Invalid initial grid");
       }
-      return SudokulogicalSolveResult::no_solution()
+      return SudokulogicalSolveResult::no_solution(check.1.unwrap())
     }
 
     let mut empty_cell_count = self.compute_empty_cell_count();
 
     while empty_cell_count > 0 {
-      if let Some(cell) = self.get_cell_with_no_candidates() {
-        if DEBUG {
-          println!("Cell with no candidates {:?}", cell);
-        }
-        return SudokulogicalSolveResult::no_solution()
-      }
-
       // TODO: only check cells impacted by latest change
-      if !self.check_partially_solved() {
+      let check = self.check_partially_solved();
+      if !check.0 {
         if DEBUG {
           println!("Reached invalid state");
         }
-        return SudokulogicalSolveResult::no_solution()
+        return SudokulogicalSolveResult::no_solution(check.1.unwrap())
       }
 
       // Some rules can find multiple steps at once
@@ -112,6 +107,7 @@ impl Solver {
       solution_type,
       solution: Some(self.grid.to_vec()),
       steps: self.solution_steps.clone(),
+      invalid_state_reason: None,
     };
 
     res
@@ -238,17 +234,6 @@ impl Solver {
     for mut step in steps {
       self.apply_rule(&mut step);
     }
-  }
-
-  fn get_cell_with_no_candidates(&self) -> Option<CellPosition> {
-    for cell in self.get_all_empty_cells() {
-      let cell_candidates = self.compute_cell_candidates(&cell);
-      if cell_candidates.is_empty() {
-        return Some(cell)
-      }
-    }
-
-    None
   }
 
   // This method is used after placing a digit into the grid
