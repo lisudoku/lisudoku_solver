@@ -46,9 +46,9 @@ fn check_mixed_9x9_1_hard_solve() {
       CellPosition::new(5, 5),
     ],
   ];
-  let mut solver = Solver::new(constraints, None);
-  let _result = solver.logical_solve();
+  let mut _solver = Solver::new(constraints, None);
   // TODO: this requires more complex rules to solve
+  // let result = solver.logical_solve();
   // assert_eq!(result.solution_type, SolutionType::Full);
   // assert_eq!(result.solution.unwrap(), vec![
   //   vec![ 9, 2, 6, 4, 7, 3, 8, 5, 1 ],

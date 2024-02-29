@@ -1,4 +1,5 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType, SudokuGrid}, solver::Solver};
+use crate::{solver::{logical_solver::nishio_forcing_chains::NishioForcingChains, Solver}, types::{FixedNumber, SolutionType, SudokuConstraints, SudokuGrid}};
+use std::rc::Rc;
 
 #[test]
 fn check_classic_9x9_easy_solve() {
@@ -279,7 +280,7 @@ fn check_classic_9x9_hard_solve_with_solution() {
     FixedNumber::new(8, 7, 2),
   ];
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None).without_techniques(vec![Rc::new(NishioForcingChains)]);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   // TODO: why no full?
@@ -322,7 +323,7 @@ fn check_classic_9x9_1_solve() {
   ];
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers.iter().copied().collect());
-  let mut solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None).without_techniques(vec![Rc::new(NishioForcingChains)]);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(result.solution.unwrap(), vec![
@@ -340,7 +341,7 @@ fn check_classic_9x9_1_solve() {
 
   let fixed_numbers: Vec<FixedNumber> = fixed_numbers.iter().copied().filter(|fixed_number| *fixed_number != FixedNumber::new(4, 1, 5)).collect();
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints, None).without_techniques(vec![Rc::new(NishioForcingChains)]);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
 }

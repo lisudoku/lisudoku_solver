@@ -34,6 +34,7 @@ pub mod advanced_candidates;
 pub mod arrow_advanced_candidates;
 pub mod common_peer_elimination_arrow;
 pub mod phistomefel_ring;
+pub mod nishio_forcing_chains;
 
 const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;
@@ -41,7 +42,7 @@ const DISPLAY_STEPS: bool = false;
 impl Solver {
   pub fn logical_solve(&mut self) -> SudokulogicalSolveResult {
     let mut solution_type = SolutionType::Full;
-    let mut solution_steps: Vec<SolutionStep> = vec![];
+    self.solution_steps = vec![];
 
     if !self.check_partially_solved() {
       if DEBUG {
@@ -77,10 +78,12 @@ impl Solver {
         // In hint mode apply 1 step at a time
         steps.drain(1..);
       }
-      if self.single_step_mode {
-        solution_steps.extend(steps);
-        // Found all steps from initial grid, stop
-        break
+      if let Some(limit) = self.step_count_limit {
+        if self.solution_steps.len() + steps.len() >= limit {
+          self.solution_steps.extend(steps);
+          // Found all steps from initial grid, stop
+          break
+        }
       }
 
       let mut grid_step = false;
@@ -92,7 +95,7 @@ impl Solver {
           grid_step = true;
         }
 
-        solution_steps.push(step);
+        self.solution_steps.push(step);
       }
 
       if self.hint_mode && grid_step {
@@ -108,7 +111,7 @@ impl Solver {
     let res = SudokulogicalSolveResult {
       solution_type,
       solution: Some(self.grid.to_vec()),
-      steps: solution_steps,
+      steps: self.solution_steps.clone(),
     };
 
     res
@@ -127,17 +130,17 @@ impl Solver {
     // before applying other techniques
     let validity_update_steps = self.find_candidate_validity_update_steps();
     // TODO: might want to tweak single_step_mode for validity_update_steps and nongrid_steps
-    if !validity_update_steps.is_empty() && !self.single_step_mode {
+    if !validity_update_steps.is_empty() && self.step_count_limit.is_none() {
       return validity_update_steps
     }
 
     let grid_steps = self.find_grid_steps();
-    if !grid_steps.is_empty() && !self.single_step_mode {
+    if !grid_steps.is_empty() && self.step_count_limit.is_none() {
       return grid_steps
     }
 
     let nongrid_steps = self.find_nongrid_steps();
-    if !nongrid_steps.is_empty() && !self.single_step_mode {
+    if !nongrid_steps.is_empty() && self.step_count_limit.is_none() {
       return nongrid_steps
     }
 
@@ -195,7 +198,7 @@ impl Solver {
 
   fn run_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
     techniques.into_iter().fold(vec![], |mut all_steps, technique| {
-      if !all_steps.is_empty() && !self.single_step_mode {
+      if !all_steps.is_empty() && self.step_count_limit.is_none() {
         return all_steps
       }
       let steps = technique.run(&self);
@@ -221,7 +224,7 @@ impl Solver {
       .iter()
       .find(|technique| technique.get_rule() == step.rule)
       .cloned()
-      .unwrap();
+      .unwrap_or_else(|| panic!("Can't find technique for rule {}", step.rule));
 
     technique.apply(&step, self);
 

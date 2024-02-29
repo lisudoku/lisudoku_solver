@@ -12,7 +12,7 @@ fn check_single_step_mode_all_techniques() {
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle), Rc::new(HiddenSingles) ];
-  let mut solver = Solver::new(constraints, None).with_single_step_mode().with_techniques(techniques);
+  let mut solver = Solver::new(constraints, None).with_step_count_limit(1).with_techniques(techniques);
   let result = solver.logical_solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
@@ -32,7 +32,7 @@ fn check_single_step_mode_hidden_singles() {
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(HiddenSingles) ];
-  let mut solver = Solver::new(constraints, None).with_single_step_mode().with_techniques(techniques);
+  let mut solver = Solver::new(constraints, None).with_step_count_limit(1).with_techniques(techniques);
   let result = solver.logical_solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
@@ -50,7 +50,7 @@ fn check_single_step_mode_naked_singles() {
   let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle) ];
-  let mut solver = Solver::new(constraints, None).with_single_step_mode().with_techniques(techniques);
+  let mut solver = Solver::new(constraints, None).with_step_count_limit(1).with_techniques(techniques);
   let result = solver.logical_solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);

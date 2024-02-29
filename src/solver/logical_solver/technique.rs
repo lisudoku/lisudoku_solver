@@ -30,12 +30,24 @@ pub trait Technique {
       let CellPosition { row, col } = step.cells[0];
         let value = step.values[0];
 
-        assert_eq!(solver.grid[row][col], 0, "Attempted to overwrite cell");
-        solver.grid[row][col] = value;
+        if solver.step_count_limit.is_some() {
+          // In this mode we can apply multiple steps at once and
+          // we could find naked and hidden single for the same cell
+          assert!(
+            solver.grid[row][col] == 0 || solver.grid[row][col] == value,
+            "Attempted to overwrite cell with different value"
+          );
+        } else {
+          assert_eq!(solver.grid[row][col], 0, "Attempted to overwrite cell");
+        }
 
-        if solver.candidates_active {
-          solver.candidates[row][col].clear();
-          solver.update_candidates(&step.affected_cells, value);
+        if solver.grid[row][col] == 0 {
+          solver.grid[row][col] = value;
+
+          if solver.candidates_active {
+            solver.candidates[row][col].clear();
+            solver.update_candidates(&step.affected_cells, value);
+          }
         }
     } else if self.apply_corresponding_indices() {
       for (index, cell) in step.affected_cells.iter().enumerate() {

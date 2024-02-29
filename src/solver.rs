@@ -1,7 +1,8 @@
 use crate::solver::logical_solver::arrow_advanced_candidates::ArrowAdvancedCandidates;
 use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerEliminationArrow;
 use crate::solver::logical_solver::kropki_advanced_candidates::KropkiAdvancedCandidates;
-use crate::types::{SudokuConstraints, SudokuGrid, Grid, Area, CellPosition, CellDirection, KillerCage, KropkiDot, KropkiDotType, Arrow};
+use crate::solver::logical_solver::nishio_forcing_chains::NishioForcingChains;
+use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SolutionStep, SudokuConstraints, SudokuGrid};
 use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
@@ -79,9 +80,34 @@ pub struct Solver {
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
   hint_mode: bool,
-  single_step_mode: bool,
+  solution_steps: Vec<SolutionStep>,
+  step_count_limit: Option<usize>,
   arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
   cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
+}
+
+impl Clone for Solver {
+  fn clone(&self) -> Self {
+    Self {
+      constraints: self.constraints.clone(),
+      techniques: self.techniques.clone(),
+      grid: self.grid.clone(),
+      solution: self.solution.clone(),
+      grid_to_regions: self.grid_to_regions.clone(),
+      grid_to_thermos: self.grid_to_thermos.clone(),
+      grid_to_killer_cage: self.grid_to_killer_cage.clone(),
+      grid_to_kropki_dots: self.grid_to_kropki_dots.clone(),
+      grid_to_odd_cells: self.grid_to_odd_cells.clone(),
+      grid_to_even_cells: self.grid_to_even_cells.clone(),
+      candidates_active: self.candidates_active.clone(),
+      candidates: self.candidates.clone(),
+      hint_mode: self.hint_mode.clone(),
+      solution_steps: vec![],
+      step_count_limit: self.step_count_limit.clone(),
+      arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
+      cell_eliminations_cache: self.cell_eliminations_cache.clone(),
+    }
+  }
 }
 
 impl Solver {
@@ -178,7 +204,8 @@ impl Solver {
       candidates_active: false,
       candidates,
       hint_mode: false,
-      single_step_mode: false,
+      solution_steps: vec![],
+      step_count_limit: None,
       techniques: Self::default_techniques(),
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: RefCell::new(HashMap::new()),
@@ -190,8 +217,8 @@ impl Solver {
     self
   }
 
-  pub fn with_single_step_mode(mut self) -> Self {
-    self.single_step_mode = true;
+  pub fn with_step_count_limit(mut self, step_count_limit: usize) -> Self {
+    self.step_count_limit = Some(step_count_limit);
     self
   }
 
@@ -224,6 +251,7 @@ impl Solver {
       Rc::new(TurbotFish),
       Rc::new(EmptyRectangles),
       // Rc::new(PhistomefelRing), // disabled for now...
+      Rc::new(NishioForcingChains),
     ]
   }
 
@@ -232,6 +260,12 @@ impl Solver {
     self
   }
 
+  pub fn without_techniques(mut self, techniques: Vec<Rc<dyn Technique>>) -> Self {
+    let rules: Vec<Rule> = techniques.into_iter().map(|t| t.get_rule()).collect();
+    self.techniques = self.techniques.into_iter().filter(|t| !rules.contains(&t.get_rule())).collect();
+    self
+  }
+ 
   fn get_adjacent_cells(cell: CellPosition, grid_size: usize) -> Vec<CellPosition> {
     ADJACENT_MOVES.iter().filter_map(|direction| {
       let prow = cell.row as isize + direction.row;

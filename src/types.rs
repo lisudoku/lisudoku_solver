@@ -143,6 +143,7 @@ pub enum Rule {
   TurbotFish,
   EmptyRectangles,
   PhistomefelRing,
+  NishioForcingChains,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
