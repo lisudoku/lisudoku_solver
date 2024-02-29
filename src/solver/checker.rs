@@ -138,12 +138,18 @@ impl Solver {
     candidates.extend(values);
     // Can't place some value in this area so there is no solution
     if candidates.len() < area_cells.len() {
+      let values = if area_cells.len() == self.constraints.grid_size {
+        self.compute_all_candidates().difference(&candidates).copied().collect()
+      } else {
+        vec![]
+      };
+
       return (
         false,
         Some(InvalidStateReason {
           state_type: InvalidStateType::AreaCandidates,
           area: *area,
-          values: vec![],
+          values,
         }),
       )
     }

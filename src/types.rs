@@ -97,14 +97,14 @@ pub enum SolutionType {
   None,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct InvalidStateReason {
   pub state_type: InvalidStateType,
   pub area: Area,
   pub values: Vec<u32>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub enum InvalidStateType {
   CellNoCandidates,
   CellEmpty,
@@ -128,6 +128,7 @@ pub struct SolutionStep {
   pub areas: Vec<Area>,
   pub affected_cells: Vec<CellPosition>,
   pub candidates: Option<Vec<Vec<HashSet<u32>>>>,
+  pub invalid_state_reason: Option<InvalidStateReason>, // Nishio
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash)]
@@ -362,7 +363,8 @@ impl SudokulogicalSolveResult {
 
 impl SolutionStep {
   pub fn new(
-    rule: Rule, cells: Vec<CellPosition>, values: Vec<u32>, areas: Vec<Area>, affected_cells: Vec<CellPosition>
+    rule: Rule, cells: Vec<CellPosition>, values: Vec<u32>,
+    areas: Vec<Area>, affected_cells: Vec<CellPosition>,
   ) -> SolutionStep {
     SolutionStep {
       rule,
@@ -371,6 +373,7 @@ impl SolutionStep {
       areas,
       affected_cells,
       candidates: None,
+      invalid_state_reason: None,
     }
   }
 

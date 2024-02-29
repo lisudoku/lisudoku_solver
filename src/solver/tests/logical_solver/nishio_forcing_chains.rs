@@ -1,4 +1,4 @@
-use crate::{solver::{logical_solver::{candidates::Candidates, nishio_forcing_chains::NishioForcingChains, technique::Technique, thermo_candidates::ThermoCandidates}, Solver}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints}};
+use crate::{solver::{logical_solver::{candidates::Candidates, nishio_forcing_chains::NishioForcingChains, technique::Technique, thermo_candidates::ThermoCandidates}, Solver}, types::{Area, CellPosition, FixedNumber, InvalidStateType, Rule, SudokuConstraints}};
 
 #[test]
 fn check_nishio_forcing_chain() {
@@ -17,21 +17,29 @@ fn check_nishio_forcing_chain() {
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
-  solver.apply_rule(&mut ThermoCandidates.run(&solver).first().unwrap());
+  solver.apply_rules(&ThermoCandidates.run(&solver));
 
-  let steps = NishioForcingChains.run(&solver);
-  assert_eq!(steps.len(), 1);
+  let mut steps = NishioForcingChains.run(&solver);
+  assert_eq!(steps.len(), 3);
 
-  let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::NishioForcingChains);
-  assert_eq!(step.affected_cells, vec![
-    CellPosition::new(0, 6),
-  ]);
-  assert_eq!(step.values, vec![2, 3, 4]);
   let initial_candidates = solver.candidates[0][6].clone();
   assert!(initial_candidates.contains(&2));
   assert_eq!(initial_candidates.len(), 4);
-  solver.apply_rule(&mut step);
+
+  for step in &mut steps {
+    assert_eq!(step.rule, Rule::NishioForcingChains);
+    let reason = step.invalid_state_reason.as_ref().unwrap();
+    assert_eq!(reason.state_type, InvalidStateType::AreaCandidates);
+    assert_eq!(reason.area, Area::Region(2));
+    assert!(reason.values.contains(&1));
+    assert_eq!(step.affected_cells, vec![
+      CellPosition::new(0, 6),
+    ]);
+    solver.apply_rule(step);
+  }
+
+  assert_eq!(steps.iter().flat_map(|step| step.values.to_vec()).collect::<Vec<_>>(), vec![2, 3, 4]);
+
   let final_candidates = &solver.candidates[0][6];
   assert!(!final_candidates.contains(&2));
   assert_eq!(final_candidates.len(), 1);

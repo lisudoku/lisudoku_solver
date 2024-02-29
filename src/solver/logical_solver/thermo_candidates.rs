@@ -17,22 +17,26 @@ impl Technique for ThermoCandidates {
       let lower_bounds = Self::find_thermo_lower_bounds(solver, &thermo);
       let upper_bounds = Self::find_thermo_upper_bounds(solver, &thermo);
 
-      for (cell_index, cell) in thermo.iter().enumerate() {
+      let steps: Vec<SolutionStep> = thermo.iter().enumerate().filter_map(|(cell_index, cell)| {
         let invalid_values: Vec<u32> = solver.candidates[cell.row][cell.col]
           .iter()
           .copied()
           .filter(|&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
           .collect();
 
-        if !invalid_values.is_empty() {
-          return vec![
-            self.build_simple_solution_step(
-              invalid_values,
-              vec![ Area::Thermo(thermo_index) ],
-              vec![ *cell ],
-            )
-          ]
+        if invalid_values.is_empty() {
+          return None
         }
+
+        Some(self.build_simple_solution_step(
+          invalid_values,
+          vec![ Area::Thermo(thermo_index) ],
+          vec![ *cell ],
+        ))
+      }).collect();
+
+      if !steps.is_empty() {
+        return steps
       }
     }
 

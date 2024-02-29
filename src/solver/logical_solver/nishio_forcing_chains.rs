@@ -1,9 +1,8 @@
 use std::rc::Rc;
 use itertools::Itertools;
-
 use crate::solver::logical_solver::candidates::Candidates;
 use crate::solver::Solver;
-use crate::types::{CellPosition, Rule, SolutionStep, SolutionType};
+use crate::types::{CellPosition, InvalidStateReason, Rule, SolutionStep, SolutionType};
 use super::technique::Technique;
 
 // Check if a cell candidate leads to an invalid grid state
@@ -23,7 +22,7 @@ impl Technique for NishioForcingChains {
       .filter(|t| t.get_rule() == Rule::Candidates || t.is_grid_step() || t.is_candidate_validity_update_step())
       .cloned()
       .collect();
-    
+
     let cells: Vec<CellPosition> = solver
       .get_all_empty_cells()
       .into_iter()
@@ -31,7 +30,7 @@ impl Technique for NishioForcingChains {
       .collect();
 
     for cell in cells {
-      let invalid_values: Vec<u32> = solver.candidates[cell.row][cell.col].iter().sorted().filter(|&value| {
+      let invalid_values: Vec<(u32, InvalidStateReason)> = solver.candidates[cell.row][cell.col].iter().sorted().filter_map(|value| {
         let mut temp_solver: Solver = solver
           .clone()
           .with_techniques(temp_techniques.clone())
@@ -42,16 +41,25 @@ impl Technique for NishioForcingChains {
         temp_solver.apply_rule(&mut Candidates.run(&temp_solver).first().unwrap());
 
         let result = temp_solver.logical_solve();
-        result.solution_type == SolutionType::None
-      }).copied().collect();
+        if result.solution_type != SolutionType::None {
+          return None
+        }
+
+        Some((*value, result.invalid_state_reason.unwrap()))
+      }).collect();
 
       if !invalid_values.is_empty() {
-        return vec![self.build_solution_step(
-          vec![], // find out where it got stuck?
-          invalid_values,
-          vec![],
-          vec![ cell ],
-        )]
+        return invalid_values.into_iter().map(|(invalid_value, invalid_state_reason)| {
+          SolutionStep {
+            rule: self.get_rule(),
+            cells: vec![],
+            values: vec![ invalid_value ],
+            areas: vec![],
+            affected_cells: vec![ cell ],
+            candidates: None,
+            invalid_state_reason: Some(invalid_state_reason),
+          }
+        }).collect()
       }
     }
 
