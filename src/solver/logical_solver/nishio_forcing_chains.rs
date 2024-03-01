@@ -36,7 +36,9 @@ impl Technique for NishioForcingChains {
           .with_techniques(temp_techniques.clone())
           // the limit might need some tweaking to account for some techniques
           // that return individual steps per step group
-          .with_step_count_limit(solver.constraints.grid_size);
+          .with_step_count_limit(solver.constraints.grid_size)
+          // parent solve might have hint mode, but we want it off here
+          .with_hint_mode(false);
 
         temp_solver.grid[cell.row][cell.col] = *value;
         temp_solver.candidates_active = false; // force to recalculate all candidates

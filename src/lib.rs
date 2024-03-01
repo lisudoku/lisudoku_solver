@@ -50,7 +50,7 @@ pub fn wasm_logical_hint(js_constraints: JsValue) -> JsValue {
 
   // Get the first relevant steps
   let mut solver = solver::Solver::new(constraints.clone(), None)
-    .with_hint_mode();
+    .with_hint_mode(true);
   let result = solver.logical_solve();
 
   JsValue::from_serde(&result).unwrap()

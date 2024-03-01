@@ -209,8 +209,8 @@ impl Solver {
     }
   }
 
-  pub fn with_hint_mode(mut self) -> Self {
-    self.hint_mode = true;
+  pub fn with_hint_mode(mut self, flag: bool) -> Self {
+    self.hint_mode = flag;
     self
   }
 
