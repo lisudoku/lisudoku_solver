@@ -20,6 +20,7 @@ pub struct SudokuConstraints {
   pub odd_cells: Vec<CellPosition>,
   pub even_cells: Vec<CellPosition>,
   pub top_bottom: bool,
+  pub renbans: Vec<Renban>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -144,6 +145,7 @@ pub enum Rule {
   ArrowCandidates,
   ArrowAdvancedCandidates,
   CommonPeerEliminationArrow,
+  RenbanCandidates,
   Killer45,
   KropkiChainCandidates,
   KropkiAdvancedCandidates,
@@ -178,6 +180,7 @@ pub enum Area {
   KropkiDot(usize),
   PrimaryDiagonal,
   SecondaryDiagonal,
+  Renban(usize),
 }
 
 pub type Thermo = Vec<CellPosition>;
@@ -187,6 +190,8 @@ pub struct Arrow {
   pub circle_cells: Vec<CellPosition>,
   pub arrow_cells: Vec<CellPosition>,
 }
+
+pub type Renban = Vec<CellPosition>;
 
 impl Display for Rule {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -222,6 +227,7 @@ impl SudokuConstraints {
       odd_cells: vec![],
       even_cells: vec![],
       top_bottom: false,
+      renbans: vec![],
     }
   }
 
@@ -445,8 +451,10 @@ impl Area {
       Area::Row(row) => format!("row {}", row + 1),
       Area::Column(col) => format!("column {}", col + 1),
       Area::Region(region) => format!("box {}", region + 1),
-      Area::Grid | Area::Cell(_, _) | Area::Thermo(_) | Area::Arrow(_) | Area::KillerCage(_) | Area::KropkiDot(_) |
-        Area::PrimaryDiagonal | Area::SecondaryDiagonal => unimplemented!(),
+      Area::Grid | Area::Cell(_, _) | Area::Thermo(_) | Area::Arrow(_) |
+        Area::KillerCage(_) | Area::KropkiDot(_) |
+        Area::PrimaryDiagonal | Area::SecondaryDiagonal |
+        Area::Renban(_) => unimplemented!(),
     }
   }
 }

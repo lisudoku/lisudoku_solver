@@ -44,6 +44,9 @@ impl Technique for ArrowCandidates {
   }
 }
 
+// A little confusing since the below logic doesn't strictly apply to arrow_candidates, but also advanced candidates...
+// basically everything that uses arrow_combinatons_logic_factory
+
 pub struct ArrowCombinationLogic<'a> {
   arrow: &'a Arrow,
   cache: &'a mut HashMap<CellsCacheKey, CellCombinationsRunnerResult>,

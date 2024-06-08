@@ -25,3 +25,5 @@ mod topbot_4x4;
 mod topbot_9x9;
 mod arrow_4x4;
 mod arrow_9x9;
+mod renban_6x6;
+mod renban_9x9;

@@ -56,6 +56,8 @@ impl<'a> CellCombinationsRunner<'a> {
   }
 
   pub fn run(&mut self) -> CellCombinationsRunnerResult {
+    // The cache is never cleared, so the results could become outdated.
+    // However, it doesn't cause issues because the invalid combinations can be later ignored.
     if let Some(cached_result) = self.combinations_logic.cached_result() {
       return cached_result.to_owned()
     }

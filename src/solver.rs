@@ -2,6 +2,7 @@ use crate::solver::logical_solver::arrow_advanced_candidates::ArrowAdvancedCandi
 use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerEliminationArrow;
 use crate::solver::logical_solver::kropki_advanced_candidates::KropkiAdvancedCandidates;
 use crate::solver::logical_solver::nishio_forcing_chains::NishioForcingChains;
+use crate::solver::logical_solver::renban_candidates::RenbanCandidates;
 use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SudokuConstraints, SudokuGrid};
 use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
@@ -77,6 +78,7 @@ pub struct Solver {
   grid_to_kropki_dots: Vec<Vec<Vec<usize>>>,
   grid_to_odd_cells: Vec<Vec<bool>>,
   grid_to_even_cells: Vec<Vec<bool>>,
+  grid_to_renbans: Vec<Vec<Vec<usize>>>,
   candidates_active: bool,
   candidates: Vec<Vec<HashSet<u32>>>,
   hint_mode: bool,
@@ -98,6 +100,7 @@ impl Clone for Solver {
       grid_to_kropki_dots: self.grid_to_kropki_dots.clone(),
       grid_to_odd_cells: self.grid_to_odd_cells.clone(),
       grid_to_even_cells: self.grid_to_even_cells.clone(),
+      grid_to_renbans: self.grid_to_renbans.clone(),
       candidates_active: self.candidates_active.clone(),
       candidates: self.candidates.clone(),
       hint_mode: self.hint_mode.clone(),
@@ -177,6 +180,13 @@ impl Solver {
       grid_to_even_cells[cell.row][cell.col] = true;
     }
 
+    let mut grid_to_renbans = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
+    for (index, renban) in constraints.renbans.iter().enumerate() {
+      for cell in renban {
+        grid_to_renbans[cell.row][cell.col].push(index);
+      }
+    }
+
     let grid = if input_grid.is_some() {
       input_grid.unwrap().values
     } else {
@@ -199,6 +209,7 @@ impl Solver {
       grid_to_kropki_dots,
       grid_to_odd_cells,
       grid_to_even_cells,
+      grid_to_renbans,
       candidates_active: false,
       candidates,
       hint_mode: false,
@@ -227,6 +238,7 @@ impl Solver {
       Rc::new(KropkiChainCandidates::new(true)),
       Rc::new(TopBottomCandidates::new(false)),
       Rc::new(ArrowCandidates),
+      Rc::new(RenbanCandidates),
       Rc::new(NakedSingle),
       Rc::new(HiddenSingles),
       Rc::new(Thermo),
@@ -283,7 +295,7 @@ impl Solver {
     match area {
       #[allow(unused_parens)]
       (
-        &Area::Row(_) | &Area::Column(_) | &Area::Region(_) |
+        &Area::Row(_) | &Area::Column(_) | &Area::Region(_) | &Area::Renban(_) |
         &Area::PrimaryDiagonal | &Area::SecondaryDiagonal
       ) => self.compute_generic_area_cell_candidates(area),
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
@@ -392,6 +404,7 @@ impl Solver {
   }
 
   // Note: update when adding new areas
+  // Note: we're mostly interested in areas with uniqueness constraints
   fn get_cell_areas(&self, cell: &CellPosition, include_thermo: bool) -> Vec<Area> {
     let &CellPosition { row, col } = cell;
     let mut areas = vec![ Area::Row(row), Area::Column(col) ];
@@ -413,12 +426,18 @@ impl Solver {
         areas.push(Area::Thermo(thermo_index));
       }
     }
+    for &renban_index in &self.grid_to_renbans[row][col] {
+      areas.push(Area::Renban(renban_index));
+    }
 
     areas
   }
 
   // Note: update when adding new areas
-  fn get_all_areas(&self, include_thermo: bool, include_killer: bool, include_kropki: bool) -> Vec<Area> {
+  // Note: a lot of the time we don't want area that don't need all <grid_size> and unique values
+  fn get_all_areas(
+    &self, include_thermo: bool, include_killer: bool, include_kropki: bool, include_renban: bool
+  ) -> Vec<Area> {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
     areas.extend(self.get_col_areas());
@@ -442,6 +461,11 @@ impl Solver {
     if include_kropki {
       for kropki_dot_index in 0..self.constraints.kropki_dots.len() {
         areas.push(Area::KropkiDot(kropki_dot_index));
+      }
+    }
+    if include_renban {
+      for renban_index in 0..self.constraints.renbans.len() {
+        areas.push(Area::Renban(renban_index));
       }
     }
 
@@ -479,8 +503,16 @@ impl Solver {
       },
       &Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
       &Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
+      &Area::Renban(renban_index) => self.constraints.renbans[renban_index].to_vec(),
       &Area::Arrow(_) => unimplemented!(),
     }
+  }
+
+  fn get_area_values(&self, area: &Area) -> Vec<u32> {
+    self.get_area_cells(&area).into_iter().map(|cell| {
+      let value = self.grid[cell.row][cell.col];
+      value
+    }).collect()
   }
 
   fn get_empty_area_cells(&self, area: &Area) -> Vec<CellPosition> {

@@ -35,6 +35,7 @@ pub mod arrow_advanced_candidates;
 pub mod common_peer_elimination_arrow;
 pub mod phistomefel_ring;
 pub mod nishio_forcing_chains;
+pub mod renban_candidates;
 
 const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;
@@ -304,6 +305,8 @@ impl Solver {
   }
 
   // Note: update when adding new areas
+  // Returns all areas that contain all <cells>
+  // Used to see which areas are affected by all <cells>
   fn find_common_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
     assert!(cells.len() >= 2);
 
@@ -337,6 +340,15 @@ impl Solver {
     }
     if self.constraints.secondary_diagonal && cells.iter().all(|cell| cell.row + cell.col == self.constraints.grid_size - 1) {
       areas.push(Area::SecondaryDiagonal);
+    }
+
+    let mut common_renbans: HashSet<&usize> = self.grid_to_renbans[cells[0].row][cells[0].col].iter().collect();
+    for cell in cells[1..].iter() {
+      let cell_renbans: HashSet<&usize> = self.grid_to_renbans[cell.row][cell.col].iter().collect();
+      common_renbans = common_renbans.intersection(&cell_renbans).copied().collect();
+    }
+    for &renban_index in common_renbans {
+      areas.push(Area::Renban(renban_index));
     }
 
     areas
@@ -397,7 +409,7 @@ impl Solver {
   }
 
   fn get_all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
-    self.get_all_areas(false, false, false).iter().flat_map(|area| {
+    self.get_all_areas(false, false, false, false).iter().flat_map(|area| {
       let value_cells = self.compute_cells_by_value_in_area(area, &self.candidates);
 
       value_cells.into_iter().filter_map(|(value, cells)| {

@@ -20,7 +20,7 @@ impl Technique for KropkiAdvancedCandidates {
 
     let mut steps: Vec<SolutionStep> = vec![];
 
-    for area in &solver.get_all_areas(false, false, false) {
+    for area in &solver.get_all_areas(false, false, false, false) {
       let dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
       for dot_type in dot_types {
         let kropki_ccs = KropkiChainCandidates::compute_area_kropki_ccs(solver, area, dot_type, false);

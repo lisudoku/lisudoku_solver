@@ -52,7 +52,7 @@ impl Solver {
       }
     }
 
-    for area in self.get_all_areas(true, true, true) {
+    for area in self.get_all_areas(true, true, true, true) {
       let check = self.check_area_valid(&area);
       if !check.0 {
         return check
@@ -107,6 +107,7 @@ impl Solver {
       &Area::KillerCage(killer_cage_index) => self.check_killer_area_valid(area, killer_cage_index),
       &Area::Thermo(_) => self.check_thermo_area_valid(area),
       &Area::KropkiDot(kropki_dot_index) => self.check_kropki_dot_valid(kropki_dot_index),
+      &Area::Renban(_) => self.check_renban_valid(area),
       &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
     }
   }
@@ -136,7 +137,8 @@ impl Solver {
     }
 
     candidates.extend(values);
-    // Can't place some value in this area so there is no solution
+
+    // There's less candidate values than area cells so there is no solution
     if candidates.len() < area_cells.len() {
       let values = if area_cells.len() == self.constraints.grid_size {
         self.compute_all_candidates().difference(&candidates).copied().sorted().collect()
@@ -155,6 +157,7 @@ impl Solver {
     }
 
     if area_cells.len() == self.constraints.grid_size {
+      // It's a full area, so we need to place all values
       // Check if all remaining candidate subsets fit into the remaining cells
 
       let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
@@ -239,6 +242,48 @@ impl Solver {
         Some(InvalidStateReason {
           state_type: InvalidStateType::AreaConstraint,
           area: Area::Arrow(arrow_index),
+          values: vec![],
+        }),
+      )
+    }
+
+    (true, None)
+  }
+
+  fn check_renban_valid(&self, area: &Area) -> (bool, Option<InvalidStateReason>) {
+    let check = self.check_area_region_valid(area);
+    if !check.0 {
+      return check
+    }
+
+    let mut min_value: u32 = self.constraints.grid_size as u32 + 1;
+    let mut max_value: u32 = 0;
+    let mut any_zero = false;
+    let values = self.get_area_values(area);
+    for &value in &values {
+      if value == 0 {
+        any_zero = true;
+      }
+      if value > 0 && value < min_value {
+        min_value = value;
+      }
+      if value > max_value {
+        max_value = value;
+      }
+    }
+
+    if max_value == 0 {
+      // All zeroes is valid (well, not necessarily, but it's not the checker's job)
+      return (true, None)
+    }
+
+    if (!any_zero && max_value - min_value + 1 != values.len() as u32) ||
+       (any_zero && max_value - min_value + 1 > values.len() as u32) {
+      return (
+        false,
+        Some(InvalidStateReason {
+          state_type: InvalidStateType::AreaConstraint,
+          area: *area,
           values: vec![],
         }),
       )

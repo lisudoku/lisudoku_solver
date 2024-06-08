@@ -19,7 +19,7 @@ impl Technique for HiddenSingles {
       candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell);
     }
 
-    solver.get_all_areas(false, false, false).into_iter().flat_map(|area| {
+    solver.get_all_areas(false, false, false, false).into_iter().flat_map(|area| {
       let hidden_singles = self.find_hidden_singles_in_area(solver, &area, &candidates);
 
       hidden_singles.into_iter().map(move |(found_cell, value)| {
