@@ -1,5 +1,4 @@
 extern crate console_error_panic_hook;
-use std::panic;
 
 use types::SolutionType;
 use wasm_bindgen::prelude::*;
@@ -10,7 +9,10 @@ pub mod types;
 
 #[wasm_bindgen]
 pub fn wasm_check_solved(js_constraints: JsValue, js_grid: JsValue) -> JsValue {
-  panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // Try this instead
+  console_error_panic_hook::set_once();
+
   let constraints: types::SudokuConstraints = js_constraints.into_serde().unwrap();
   let grid: types::SudokuGrid = js_grid.into_serde().unwrap();
   let solver = solver::Solver::new(constraints, Some(grid));
@@ -20,7 +22,10 @@ pub fn wasm_check_solved(js_constraints: JsValue, js_grid: JsValue) -> JsValue {
 
 #[wasm_bindgen]
 pub fn wasm_logical_solve(js_constraints: JsValue) -> JsValue {
-  panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // Try this instead
+  console_error_panic_hook::set_once();
+
   let constraints: types::SudokuConstraints = js_constraints.into_serde().unwrap();
   let mut solver = solver::Solver::new(constraints, None);
   let result = solver.logical_solve();
@@ -29,7 +34,10 @@ pub fn wasm_logical_solve(js_constraints: JsValue) -> JsValue {
 
 #[wasm_bindgen]
 pub fn wasm_brute_solve(js_constraints: JsValue) -> JsValue {
-  panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // Try this instead
+  console_error_panic_hook::set_once();
+
   let constraints: types::SudokuConstraints = js_constraints.into_serde().unwrap();
   let mut solver = solver::Solver::new(constraints, None);
   let result = solver.brute_solve(true);
@@ -38,7 +46,10 @@ pub fn wasm_brute_solve(js_constraints: JsValue) -> JsValue {
 
 #[wasm_bindgen]
 pub fn wasm_logical_hint(js_constraints: JsValue) -> JsValue {
-  panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // panic::set_hook(Box::new(console_error_panic_hook::hook));
+  // Try this instead
+  console_error_panic_hook::set_once();
+
   let constraints: types::SudokuConstraints = js_constraints.into_serde().unwrap();
   let mut solver = solver::Solver::new(constraints.clone(), None);
   let result = solver.logical_solve();
