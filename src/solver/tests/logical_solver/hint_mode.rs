@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, KropkiDot, SolutionType, SudokuConstraints}};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, KropkiDot, Rule, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_hint_mode_kropki() {
@@ -27,6 +27,28 @@ fn check_hint_mode_kropki() {
 
   let previous_step = &result.steps[result.steps.len() - 2];
   assert!(previous_step.affected_cells.contains(&cell));
+}
+
+#[test]
+fn check_hint_mode_palindrome() {
+  let grid_size = 4;
+  let fixed_numbers = vec![ FixedNumber::new(1, 2, 3) ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.palindromes = vec![
+    vec![
+      CellPosition::new(1, 2), CellPosition::new(2, 2),
+      CellPosition::new(3, 1), CellPosition::new(2, 0),
+    ],
+  ];
+
+  let mut solver = Solver::new(constraints, None).with_hint_mode(true);
+  let result = solver.logical_solve();
+
+  assert_eq!(result.solution_type, SolutionType::Partial);
+  assert_eq!(result.steps.len(), 1); // because palindrome values is a grid step
+  let last_step = result.steps.last().unwrap();
+  assert_eq!(last_step.rule, Rule::PalindromeValues);
+  assert_eq!(last_step.cells[0], CellPosition::new(2, 0));
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/68

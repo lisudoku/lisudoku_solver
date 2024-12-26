@@ -17,7 +17,7 @@ impl Technique for LockedCandidates {
       return vec![]
     }
 
-    let areas = solver.get_all_areas(false, false, false, false);
+    let areas = solver.get_all_proper_areas();
     for area in areas {
       let value_cells = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
 

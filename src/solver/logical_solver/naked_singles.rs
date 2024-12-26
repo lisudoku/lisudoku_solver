@@ -59,11 +59,11 @@ impl NakedSingle {
     if areas_set.len() == 1 {
       let value = *areas_set.iter().next().unwrap();
       return Some(
-        self.build_solution_step(
+        self.build_grid_solution_step(
           vec![ *cell ],
           vec![ value ],
           areas.into_iter().map(|x| *x).collect(),
-          vec![],
+          &solver,
         )
       )
     }
@@ -78,11 +78,11 @@ impl NakedSingle {
 
     let value = *solver.candidates[row][col].iter().next().unwrap();
     Some(
-      self.build_solution_step(
+      self.build_grid_solution_step(
         vec![ CellPosition { row, col } ],
         vec![ value ],
         vec![],
-        vec![],
+        &solver,
       )
     )
   }

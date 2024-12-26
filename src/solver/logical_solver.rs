@@ -1,7 +1,7 @@
 use std::collections::{HashSet, HashMap};
 use std::ops::BitOr;
 use std::rc::Rc;
-use crate::types::{SudokulogicalSolveResult, CellPosition, SolutionStep, Area, SolutionType};
+use crate::types::{Area, CellPosition, InvalidStateReason, SolutionStep, SolutionType, SudokulogicalSolveResult};
 use crate::solver::Solver;
 use self::combinations::cell_combination_logic::CellsCacheKey;
 use self::technique::Technique;
@@ -36,6 +36,8 @@ pub mod common_peer_elimination_arrow;
 pub mod phistomefel_ring;
 pub mod nishio_forcing_chains;
 pub mod renban_candidates;
+pub mod palindrome_values;
+pub mod palindrome_candidates;
 
 const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;
@@ -88,7 +90,10 @@ impl Solver {
 
       let mut grid_step = false;
       for mut step in steps.into_iter() {
-        self.apply_rule(&mut step);
+        let rule_check = self.apply_rule(&mut step);
+        if !rule_check.0 {
+          return SudokulogicalSolveResult::no_solution(rule_check.1.unwrap())
+        }
 
         if step.is_grid_step() {
           grid_step = true;
@@ -97,12 +102,12 @@ impl Solver {
         solution_steps.push(step);
       }
 
-      empty_cell_count = self.compute_empty_cell_count();
-
       if self.hint_mode && grid_step {
         // Found the first filled digit, it's enough for a hint
         break
       }
+
+      empty_cell_count = self.compute_empty_cell_count();
     }
 
     if empty_cell_count > 0 {
@@ -166,24 +171,7 @@ impl Solver {
       .filter(|technique| technique.is_grid_step())
       .collect();
 
-    let mut steps = self.run_techniques(grid_techniques);
-
-    if steps.is_empty() {
-      return vec![]
-    }
-
-    if !self.candidates_active {
-      return steps
-    }
-
-    for step in &mut steps {
-      let cell = step.cells[0];
-      let value = step.values[0];
-      let values_set = &HashSet::from([value]);
-      step.affected_cells = self.get_affected_by_cell(&cell, values_set);
-    }
-
-    return steps
+    self.run_techniques(grid_techniques)
   }
 
   fn find_nongrid_steps(&self) -> Vec<SolutionStep> {
@@ -210,7 +198,7 @@ impl Solver {
     })
   }
 
-  pub fn apply_rule(&mut self, step: &SolutionStep) {
+  pub fn apply_rule(&mut self, step: &SolutionStep) -> (bool, Option<InvalidStateReason>) {
     if DISPLAY_STEPS {
       println!(
         "{:?} ({}) ({}) ({}): {}",
@@ -231,12 +219,14 @@ impl Solver {
       .cloned()
       .unwrap_or_else(|| panic!("Can't find technique for rule {}", step.rule));
 
-    technique.apply(&step, self);
+    let rule_check = technique.apply(&step, self);
 
     if DEBUG {
       // only after cell changes
       self.validate_candidates();
     }
+
+    rule_check
   }
 
   pub fn apply_rules(&mut self, steps: &Vec<SolutionStep>) {
@@ -307,6 +297,7 @@ impl Solver {
   // Note: update when adding new areas
   // Returns all areas that contain all <cells>
   // Used to see which areas are affected by all <cells>
+  // Note: we want areas that need all <grid_size> and unique values
   fn find_common_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
     assert!(cells.len() >= 2);
 
@@ -377,12 +368,12 @@ impl Solver {
     }
     for cell in &self.get_all_empty_cells() {
       let &CellPosition { row, col } = cell;
-      let cell_candidates = self.recompute_cell_candidates(cell);
-      if self.candidates[row][col] != cell_candidates {
+      let recomputed_cell_candidates = self.recompute_cell_candidates(cell);
+      if !self.candidates[row][col].is_subset(&recomputed_cell_candidates) {
         println!("==> Invalid candidates for ({},{})!", row, col);
         println!("Saved candidates: {:?}", self.candidates[row][col]);
-        println!("Real candidates: {:?}", cell_candidates);
-        return
+        println!("Real candidates: {:?}", recomputed_cell_candidates);
+        panic!();
       }
     }
   }
@@ -409,7 +400,7 @@ impl Solver {
   }
 
   fn get_all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
-    self.get_all_areas(false, false, false, false).iter().flat_map(|area| {
+    self.get_all_proper_areas().iter().flat_map(|area| {
       let value_cells = self.compute_cells_by_value_in_area(area, &self.candidates);
 
       value_cells.into_iter().filter_map(|(value, cells)| {

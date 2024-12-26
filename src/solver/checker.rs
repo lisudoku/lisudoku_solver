@@ -52,7 +52,7 @@ impl Solver {
       }
     }
 
-    for area in self.get_all_areas(true, true, true, true) {
+    for area in self.get_all_areas(true, true, true, true, true) {
       let check = self.check_area_valid(&area);
       if !check.0 {
         return check
@@ -108,6 +108,7 @@ impl Solver {
       &Area::Thermo(_) => self.check_thermo_area_valid(area),
       &Area::KropkiDot(kropki_dot_index) => self.check_kropki_dot_valid(kropki_dot_index),
       &Area::Renban(_) => self.check_renban_valid(area),
+      &Area::Palindrome(_) => self.check_palindrome_valid(area),
       &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
     }
   }
@@ -287,6 +288,28 @@ impl Solver {
           values: vec![],
         }),
       )
+    }
+
+    (true, None)
+  }
+
+  fn check_palindrome_valid(&self, area: &Area) -> (bool, Option<InvalidStateReason>) {
+    let values = self.get_area_values(area);
+    let mut left = 0;
+    let mut right = values.len() - 1;
+    while left < right {
+      if values[left] != 0 && values[right] != 0 && values[left] != values[right] {
+        return (
+          false,
+          Some(InvalidStateReason {
+            state_type: InvalidStateType::AreaConstraint,
+            area: *area,
+            values: vec![left as u32, right as u32],
+          }),
+        )
+      }
+      left += 1;
+      right -= 1;
     }
 
     (true, None)

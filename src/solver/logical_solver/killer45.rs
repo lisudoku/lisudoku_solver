@@ -19,7 +19,7 @@ impl Technique for Killer45 {
       return vec![]
     }
 
-    for area in &solver.get_all_areas(false, false, false, false) {
+    for area in &solver.get_all_proper_areas() {
       let steps = self.find_killer45_in_area(solver, area);
       if !steps.is_empty() {
         return steps

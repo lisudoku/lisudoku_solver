@@ -21,6 +21,7 @@ pub struct SudokuConstraints {
   pub even_cells: Vec<CellPosition>,
   pub top_bottom: bool,
   pub renbans: Vec<Renban>,
+  pub palindromes: Vec<Palindrome>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
@@ -134,6 +135,7 @@ pub struct SolutionStep {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash)]
 pub enum Rule {
+  // Easy
   NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
   HiddenSingle, // 1 Cell Position, 1 value, the row/col/region + who it is constrained by
   Thermo,
@@ -143,9 +145,11 @@ pub enum Rule {
   ThermoCandidates,
   KillerCandidates,
   ArrowCandidates,
-  ArrowAdvancedCandidates,
-  CommonPeerEliminationArrow,
   RenbanCandidates,
+  PalindromeValues,
+  PalindromeCandidates,
+  // Medium
+  ArrowAdvancedCandidates,
   Killer45,
   KropkiChainCandidates,
   KropkiAdvancedCandidates,
@@ -153,8 +157,10 @@ pub enum Rule {
   LockedCandidatesPairs, // 2 CellPositions + what they affect
   NakedPairs, // 2 Cell Positions, 2 values + what they affect
   HiddenPairs,
+  // Hard
   CommonPeerElimination, // cells = have common peers, affected_cells = would eliminate them
   CommonPeerEliminationKropki,
+  CommonPeerEliminationArrow,
   LockedCandidatesTriples,
   NakedTriples, // 2 Cell Positions, 2 values + what they affect
   HiddenTriples,
@@ -181,6 +187,7 @@ pub enum Area {
   PrimaryDiagonal,
   SecondaryDiagonal,
   Renban(usize),
+  Palindrome(usize),
 }
 
 pub type Thermo = Vec<CellPosition>;
@@ -192,6 +199,8 @@ pub struct Arrow {
 }
 
 pub type Renban = Vec<CellPosition>;
+
+pub type Palindrome = Vec<CellPosition>;
 
 impl Display for Rule {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -228,6 +237,7 @@ impl SudokuConstraints {
       even_cells: vec![],
       top_bottom: false,
       renbans: vec![],
+      palindromes: vec![],
     }
   }
 
@@ -384,7 +394,7 @@ impl SolutionStep {
   }
 
   pub fn is_grid_step(&self) -> bool {
-    [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo ].contains(&self.rule)
+    [ Rule::NakedSingle, Rule::HiddenSingle, Rule::Thermo, Rule::PalindromeValues ].contains(&self.rule)
   }
 }
 
@@ -454,7 +464,7 @@ impl Area {
       Area::Grid | Area::Cell(_, _) | Area::Thermo(_) | Area::Arrow(_) |
         Area::KillerCage(_) | Area::KropkiDot(_) |
         Area::PrimaryDiagonal | Area::SecondaryDiagonal |
-        Area::Renban(_) => unimplemented!(),
+        Area::Renban(_) | Area::Palindrome(_) => unimplemented!(),
     }
   }
 }

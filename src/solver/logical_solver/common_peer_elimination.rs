@@ -18,7 +18,7 @@ impl Technique for CommonPeerElimination {
       return vec![]
     }
 
-    for area in solver.get_all_areas(false, false, false, false) {
+    for area in solver.get_all_proper_areas() {
       let cells_by_value = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
       for (value, cells) in cells_by_value.into_iter().sorted() {
         let step = self.find_common_peer_elimination_cells_with_value(solver, &area, cells, value);

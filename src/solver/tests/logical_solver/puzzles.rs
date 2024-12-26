@@ -27,3 +27,5 @@ mod arrow_4x4;
 mod arrow_9x9;
 mod renban_6x6;
 mod renban_9x9;
+mod palindrome_4x4;
+mod palindrome_9x9;

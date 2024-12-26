@@ -42,6 +42,7 @@ fn check_naked_single_with_candidates() {
   let steps = NakedSingle.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
+  assert!(!step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
   let initial_value = solver.grid[row][col];

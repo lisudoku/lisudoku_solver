@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule};
+use crate::types::{InvalidStateReason, Rule, SolutionStep};
 use super::technique::Technique;
 
 pub struct Candidates;
@@ -34,8 +34,9 @@ impl Technique for Candidates {
     ]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut Solver) {
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> (bool, Option<InvalidStateReason>) {
     solver.candidates_active = true;
     solver.candidates = step.candidates.as_ref().unwrap().to_vec();
+    (true, None)
   }
 }

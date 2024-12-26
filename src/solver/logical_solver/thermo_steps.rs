@@ -22,11 +22,11 @@ impl Technique for Thermo {
 
         if valid_values.len() == 1 {
           return vec![
-            self.build_solution_step(
+            self.build_grid_solution_step(
               vec![ *cell ],
               valid_values,
               vec![ Area::Thermo(thermo_index) ],
-              vec![],
+              &solver,
             )
           ]
         }

@@ -10,6 +10,8 @@ use std::cmp::{min, max};
 use std::ops::BitAnd;
 use std::rc::Rc;
 use itertools::Itertools;
+use logical_solver::palindrome_candidates::PalindromeCandidates;
+use logical_solver::palindrome_values::PalindromeValues;
 use self::logical_solver::advanced_candidates::CellEliminationsResult;
 use self::logical_solver::arrow_candidates::ArrowCombinationLogicFactory;
 use self::logical_solver::candidates::Candidates;
@@ -239,6 +241,8 @@ impl Solver {
       Rc::new(TopBottomCandidates::new(false)),
       Rc::new(ArrowCandidates),
       Rc::new(RenbanCandidates),
+      Rc::new(PalindromeValues),
+      Rc::new(PalindromeCandidates),
       Rc::new(NakedSingle),
       Rc::new(HiddenSingles),
       Rc::new(Thermo),
@@ -300,8 +304,11 @@ impl Solver {
       ) => self.compute_generic_area_cell_candidates(area),
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
       &Area::KillerCage(killer_cage_index) => self.compute_killer_cell_candidates(killer_cage_index),
-      &Area::KropkiDot(kropki_dot_index) => self.compute_kropki_cell_candidates(kropki_dot_index),
-      &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
+      &Area::KropkiDot(_) => {
+        // Do not enforce candidates directly, use an explicit rule for that
+        self.compute_all_candidates()
+      },
+      &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) | &Area::Palindrome(_) => unimplemented!(),
     }
   }
 
@@ -327,11 +334,6 @@ impl Solver {
     }
 
     set
-  }
-
-  fn compute_kropki_cell_candidates(&self, _kropki_dot_index: usize) -> HashSet<u32> {
-    // Do not enforce kropki cell candidates directly, use an explicit rule for that
-    self.compute_all_candidates()
   }
 
   // This could be made more intelligent, but we leave the tricks to logical_solver
@@ -365,6 +367,10 @@ impl Solver {
   }
 
   fn compute_cell_candidates(&self, cell: &CellPosition) -> HashSet<u32> {
+    if self.grid[cell.row][cell.col] != 0 {
+      return HashSet::new()
+    }
+
     if self.candidates_active {
       return self.candidates[cell.row][cell.col].clone();
     }
@@ -373,8 +379,8 @@ impl Solver {
   }
 
   // Note: update when adding constraints
+  // We don't apply all restrictions at this level (e.g. thermo, palindrome)
   fn recompute_cell_candidates(&self, cell: &CellPosition) -> HashSet<u32> {
-    // Note: we don't restrict thermo candidates at this level
     let mut candidates = self.compute_all_candidates();
     for peer in self.get_cell_peers(cell, false) {
       let value = self.grid[peer.row][peer.col];
@@ -436,7 +442,8 @@ impl Solver {
   // Note: update when adding new areas
   // Note: a lot of the time we don't want area that don't need all <grid_size> and unique values
   fn get_all_areas(
-    &self, include_thermo: bool, include_killer: bool, include_kropki: bool, include_renban: bool
+    &self, include_thermo: bool, include_killer: bool, include_kropki: bool, include_renban: bool,
+    include_palindrome: bool,
   ) -> Vec<Area> {
     let mut areas = vec![];
     areas.extend(self.get_row_areas());
@@ -468,8 +475,17 @@ impl Solver {
         areas.push(Area::Renban(renban_index));
       }
     }
+    if include_palindrome {
+      for palindrome_index in 0..self.constraints.palindromes.len() {
+        areas.push(Area::Palindrome(palindrome_index));
+      }
+    }
 
     areas
+  }
+
+  fn get_all_proper_areas(&self) -> Vec<Area> {
+    self.get_all_areas(false, false, false, false, false)
   }
 
   fn get_row_areas(&self) -> Vec<Area> {
@@ -504,6 +520,7 @@ impl Solver {
       &Area::PrimaryDiagonal => self.get_primary_diagonal_cells(),
       &Area::SecondaryDiagonal => self.get_secondary_diagonal_cells(),
       &Area::Renban(renban_index) => self.constraints.renbans[renban_index].to_vec(),
+      &Area::Palindrome(palindrome_index) => self.constraints.palindromes[palindrome_index].to_vec(),
       &Area::Arrow(_) => unimplemented!(),
     }
   }
@@ -612,6 +629,8 @@ impl Solver {
   }
 
   // Note: update when adding constraints
+  // What it considers as a "peer" is subjective, it doesn't consider
+  // all restrictions at this level (e.g. thermo, palindrome)
   fn get_cell_peers(&self, cell: &CellPosition, include_thermo: bool) -> Vec<CellPosition> {
     let mut peers: Vec<CellPosition> = self.get_cell_areas(cell, include_thermo)
       .iter()

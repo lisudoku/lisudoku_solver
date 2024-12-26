@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule, CellPosition};
+use crate::types::{CellPosition, InvalidStateReason, Rule, SolutionStep};
 use combinations::Combinations;
 use itertools::Itertools;
 use super::technique::Technique;
@@ -19,7 +19,7 @@ impl Technique for HiddenSet {
       return vec![]
     }
 
-    let areas = solver.get_all_areas(false, false, false, false);
+    let areas = solver.get_all_proper_areas();
     for area in areas {
       let value_cells = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
 
@@ -65,11 +65,12 @@ impl Technique for HiddenSet {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut Solver) {
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> (bool, Option<InvalidStateReason>) {
     for &CellPosition { row, col } in &step.cells {
       let value_set: HashSet<u32> = step.values.iter().copied().collect();
       solver.candidates[row][col] = solver.candidates[row][col].intersection(&value_set).copied().collect();
     }
+    (true, None)
   }
 }
 

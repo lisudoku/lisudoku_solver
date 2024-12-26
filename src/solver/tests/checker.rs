@@ -10,3 +10,4 @@ mod extra_regions;
 mod odd_even;
 mod topbot;
 mod renban;
+mod palindrome;

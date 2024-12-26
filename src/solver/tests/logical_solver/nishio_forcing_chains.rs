@@ -1,7 +1,7 @@
 use crate::{solver::{logical_solver::{candidates::Candidates, nishio_forcing_chains::NishioForcingChains, technique::Technique, thermo_candidates::ThermoCandidates}, Solver}, types::{Area, CellPosition, FixedNumber, InvalidStateType, Rule, SudokuConstraints}};
 
 #[test]
-fn check_nishio_forcing_chain() {
+fn check_nishio_forcing_chain_valid() {
   let grid_size = 9;
   let fixed_numbers = vec![
     FixedNumber::new(2, 0, 1),
@@ -43,4 +43,26 @@ fn check_nishio_forcing_chain() {
   let final_candidates = &solver.candidates[0][6];
   assert!(!final_candidates.contains(&2));
   assert_eq!(final_candidates.len(), 1);
+}
+
+#[test]
+fn check_nishio_forcing_chain_contradiction() {
+  let grid_size = 4;
+  let fixed_numbers = vec![
+    FixedNumber::new(0, 1, 2), FixedNumber::new(0, 2, 3), FixedNumber::new(2, 0, 4),
+  ];
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  constraints.palindromes = vec![
+    vec![
+      CellPosition::new(0, 0), CellPosition::new(1, 1), CellPosition::new(1, 2),
+      CellPosition::new(0, 3),
+    ],
+  ];
+  let mut solver = Solver::new(constraints, None);
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+
+  let steps = NishioForcingChains.run(&solver);
+  assert!(!steps.is_empty());
+
+  // should not panic because of finding a grid step that each sets a different cell value
 }

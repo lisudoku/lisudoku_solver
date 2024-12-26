@@ -27,6 +27,8 @@ mod arrow_candidates;
 mod arrow_advanced_candidates;
 mod common_peer_elimination_arrow;
 mod renban_candidates;
+mod palindrome_values;
+mod palindrome_candidates;
 mod phistomefel_ring;
 mod nishio_forcing_chains;
 mod puzzles;

@@ -18,7 +18,7 @@ impl Technique for NakedSet {
       return vec![]
     }
 
-    let areas = solver.get_all_areas(false, true, false, true);
+    let areas = solver.get_all_areas(false, true, false, true, false);
     for area in areas {
       let area_cells = solver.get_empty_area_cells(&area);
       let cell_combinations: Vec<_> = if self.set_size < area_cells.len() {
