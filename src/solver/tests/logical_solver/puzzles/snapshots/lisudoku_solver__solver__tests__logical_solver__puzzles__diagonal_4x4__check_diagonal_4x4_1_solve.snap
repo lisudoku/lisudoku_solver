@@ -1,0 +1,155 @@
+---
+source: src/solver/tests/logical_solver/puzzles/diagonal_4x4.rs
+expression: result.steps
+snapshot_kind: text
+---
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas:
+    - Row: 1
+    - Column: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 1
+  values:
+    - 4
+  areas:
+    - Row: 1
+    - Region: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 0
+  values:
+    - 1
+  areas:
+    - Column: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 1
+  values:
+    - 1
+  areas:
+    - Region: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 3
+  values:
+    - 2
+  areas:
+    - Row: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 2
+  values:
+    - 3
+  areas:
+    - Row: 2
+    - PrimaryDiagonal
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 2
+  values:
+    - 4
+  areas:
+    - Row: 0
+    - Column: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 1
+  values:
+    - 2
+  areas:
+    - Row: 2
+    - Column: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 3
+  values:
+    - 4
+  areas:
+    - Row: 2
+    - Column: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 2
+  values:
+    - 2
+  areas:
+    - Row: 3
+    - Column: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 3
+  values:
+    - 1
+  areas:
+    - PrimaryDiagonal
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 3
+  values:
+    - 3
+  areas:
+    - Row: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 1
+  values:
+    - 3
+  areas:
+    - Row: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~

@@ -48,6 +48,7 @@ fn check_palindrome_9x9_1_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::PalindromeValues));
   assert!(rules.contains(&Rule::PalindromeCandidates));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issuecomment-1928514241
@@ -92,6 +93,7 @@ fn check_palindrome_9x9_2_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::PalindromeValues));
   assert!(rules.contains(&Rule::PalindromeCandidates));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issuecomment-2016619325
@@ -139,6 +141,7 @@ fn check_palindrome_9x9_3_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::PalindromeValues));
   assert!(rules.contains(&Rule::PalindromeCandidates));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issuecomment-2021598373
@@ -185,6 +188,7 @@ fn check_palindrome_9x9_4_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::PalindromeValues));
   assert!(rules.contains(&Rule::PalindromeCandidates));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issuecomment-2171772917
@@ -231,6 +235,7 @@ fn check_palindrome_9x9_5_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::PalindromeValues));
   assert!(rules.contains(&Rule::PalindromeCandidates));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issuecomment-2171781242
@@ -277,4 +282,5 @@ fn check_palindrome_9x9_6_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::PalindromeValues));
   assert!(rules.contains(&Rule::PalindromeCandidates));
+  insta::assert_yaml_snapshot!(result.steps);
 }

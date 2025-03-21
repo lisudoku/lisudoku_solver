@@ -1,7 +1,8 @@
-use std::collections::HashSet;
 use crate::solver::Solver;
 use crate::types::{InvalidStateReason, Rule, SolutionStep};
 use super::technique::Technique;
+use std::collections::HashSet;
+use itertools::Itertools;
 
 pub struct Candidates;
 
@@ -13,12 +14,12 @@ impl Technique for Candidates {
       return vec![]
     }
 
-    let mut candidates: Vec<Vec<HashSet<u32>>> = vec![
-      vec![ HashSet::new(); solver.constraints.grid_size ];
+    let mut candidates: Vec<Vec<Vec<u32>>> = vec![
+      vec![ vec![]; solver.constraints.grid_size ];
       solver.constraints.grid_size
     ];
     for cell in &solver.get_all_empty_cells() {
-      candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell);
+      candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell).into_iter().sorted().collect();
     }
 
     return vec![
@@ -36,7 +37,11 @@ impl Technique for Candidates {
 
   fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> (bool, Option<InvalidStateReason>) {
     solver.candidates_active = true;
-    solver.candidates = step.candidates.as_ref().unwrap().to_vec();
+    solver.candidates = step.candidates.as_ref().unwrap().into_iter()
+      .map(|row| row.into_iter().map(|col|
+        HashSet::from_iter(col.iter().copied())
+      ).collect())
+      .collect();
     (true, None)
   }
 }

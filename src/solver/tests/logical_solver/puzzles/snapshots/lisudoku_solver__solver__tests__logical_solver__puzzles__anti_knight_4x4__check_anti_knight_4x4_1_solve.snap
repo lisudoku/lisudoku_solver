@@ -1,0 +1,170 @@
+---
+source: src/solver/tests/logical_solver/puzzles/anti_knight_4x4.rs
+assertion_line: 24
+expression: result.steps
+---
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 1
+  values:
+    - 4
+  areas:
+    - Region: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 3
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas:
+    - Row: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 2
+    - row: 1
+      col: 1
+  values:
+    - 4
+  areas:
+    - Row: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 3
+    - row: 0
+      col: 0
+  values:
+    - 1
+  areas:
+    - Row: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 2
+    - row: 0
+      col: 1
+  values:
+    - 2
+  areas:
+    - Row: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 3
+    - row: 0
+      col: 1
+  values:
+    - 2
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 3
+    - row: 1
+      col: 1
+  values:
+    - 4
+  areas:
+    - Row: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 0
+    - row: 0
+      col: 1
+  values:
+    - 2
+  areas:
+    - Column: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 0
+    - row: 1
+      col: 1
+  values:
+    - 4
+  areas:
+    - Column: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 1
+    - row: 0
+      col: 0
+  values:
+    - 1
+  areas:
+    - Column: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 1
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas:
+    - Column: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 2
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas:
+    - Column: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 2
+  values:
+    - 1
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~

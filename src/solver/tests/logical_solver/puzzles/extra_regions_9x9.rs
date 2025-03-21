@@ -66,4 +66,5 @@ fn check_extra_regions_9x9_1_solve() {
     vec![ 7, 8, 5, 4, 3, 9, 6, 1, 2 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

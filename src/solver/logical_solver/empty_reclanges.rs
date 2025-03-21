@@ -1,5 +1,7 @@
 use std::mem::swap;
 use std::collections::HashMap;
+use itertools::Itertools;
+
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, Area, CellPosition};
 use super::technique::Technique;
@@ -20,7 +22,7 @@ impl Technique for EmptyRectangles {
     for region_area in solver.get_region_areas() {
       let value_cells = solver.compute_cells_by_value_in_area(&region_area, &solver.candidates);
 
-      for (value, region_cells) in value_cells {
+      for (value, region_cells) in value_cells.into_iter().sorted() {
         if region_cells.len() < 3 {
           continue
         }

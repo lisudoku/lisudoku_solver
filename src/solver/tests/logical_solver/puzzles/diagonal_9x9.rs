@@ -91,6 +91,7 @@ fn check_diagonal_9x9_2_medium_solve() {
     vec![ 6, 1, 7, 2, 8, 3, 9, 4, 5 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // TODO: uncomment after implementing more rules

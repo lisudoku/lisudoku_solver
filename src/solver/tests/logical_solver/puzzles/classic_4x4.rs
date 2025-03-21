@@ -21,4 +21,5 @@ fn check_classic_4x4_1_solve() {
     vec![ 4, 3, 2, 1 ],
   ]);
   assert_eq!(result.steps.len(), empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

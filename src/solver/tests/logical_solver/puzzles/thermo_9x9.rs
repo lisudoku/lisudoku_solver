@@ -87,6 +87,7 @@ fn check_9x9_thermo_medium_solve() {
     vec![ 8, 4, 1, 2, 3, 5, 6, 7, 9 ],
   ]);
   assert!(result.steps.len() > empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -173,4 +174,5 @@ fn check_9x9_thermo_hard_solve() {
     vec![ 8, 5, 2, 3, 9, 6, 4, 1, 7 ],
     vec![ 4, 1, 9, 7, 8, 2, 3, 5, 6 ],
   ]);
+  insta::assert_yaml_snapshot!(result.steps);
 }

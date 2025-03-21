@@ -20,7 +20,7 @@ fn check_killer_candidates_single_unfixed() {
 
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(8, 8));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 1, 2, 3, 4, 5, 6 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 2, 3, 4, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
   assert!(solver.candidates[8][8].contains(&1));
   solver.apply_rule(&step);
@@ -66,7 +66,7 @@ fn check_killer_candidates_pair_1() {
 
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 4 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
   assert!(solver.candidates[0][0].contains(&4));
   solver.apply_rule(&step);
@@ -79,7 +79,7 @@ fn check_killer_candidates_pair_1() {
   let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 1) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 4 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4 ]);
 }
 
 #[test]
@@ -102,7 +102,7 @@ fn check_killer_candidates_pair_2() {
 
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(8, 0) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 4 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
   assert!(solver.candidates[8][0].contains(&2));
   solver.apply_rule(&step);
@@ -115,6 +115,6 @@ fn check_killer_candidates_pair_2() {
   let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::KillerCandidates);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(8, 1) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 3, 4 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 3, 4 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
 }

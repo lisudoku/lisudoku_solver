@@ -33,7 +33,7 @@ impl Technique for HiddenSingles {
         return self.build_grid_solution_step(
           cells,
           vec![ value ],
-          vec![ area ],
+          vec![ area.clone() ],
           &solver,
         )
       })
@@ -44,7 +44,7 @@ impl Technique for HiddenSingles {
 impl HiddenSingles {
   fn find_hidden_singles_in_area(&self, solver: &Solver, area: &Area, candidates: &Vec<Vec<HashSet<u32>>>) -> Vec<(CellPosition, u32)> {
     let value_cells = solver.compute_cells_by_value_in_area(area, candidates);
-    value_cells.iter().filter(|(_value, cells)| cells.len() == 1).map(|(&value, cells)| (cells[0], value)).collect()
+    value_cells.iter().filter(|(_value, cells)| cells.len() == 1).sorted().map(|(&value, cells)| (cells[0], value)).collect()
   }
 
   fn find_hidden_single_covering_cells(&self, solver: &Solver, area: &Area, found_cell: &CellPosition, value: u32) -> Vec<CellPosition> {

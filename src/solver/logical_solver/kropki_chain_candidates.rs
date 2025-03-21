@@ -83,8 +83,8 @@ impl KropkiChainCandidates {
       let invalid_candidates = self.find_kropki_ccs_invalid_candidate(solver, cells);
 
       let current_steps: Vec<SolutionStep> = invalid_candidates.into_iter().map(|(cell, invalid_values)| {
-        let mut areas = vec![ *area ];
-        areas.extend(&indices.iter().map(|&idx| Area::KropkiDot(idx)).collect::<Vec<Area>>());
+        let mut areas = vec![ area.clone() ];
+        areas.extend(indices.iter().map(|&idx| Area::KropkiDot(idx)).collect::<Vec<Area>>());
 
         self.build_simple_solution_step(
           invalid_values,
@@ -129,7 +129,7 @@ struct KropkiComponents<'a> {
 }
 
 impl KropkiComponents<'_> {
-  fn run_area(&self, area: &Area, dot_type: KropkiDotType, chain_limit: bool) -> Vec<(Vec<CellPosition>,Vec<usize>)> {
+  fn run_area(&self, area: &Area, dot_type: KropkiDotType, chain_limit: bool) -> Vec<(Vec<CellPosition>, Vec<usize>)> {
     let area_cells = self.solver.get_area_cells(area);
 
     // Separate case when we are only interested in pairs

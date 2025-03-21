@@ -2,7 +2,7 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, Kr
 use itertools::Itertools;
 
 #[test]
-fn check_common_peer_elimination_1() {
+fn check_common_peer_elimination_kropki_1() {
   let grid_size = 9;
   let fixed_numbers = vec![
     FixedNumber::new(4, 2, 7), FixedNumber::new(5, 2, 5),
@@ -33,10 +33,10 @@ fn check_common_peer_elimination_1() {
 
   let mut step = &steps[1];
   assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 3, 3 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 3, 3 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
-  assert_eq!(step.affected_cells.iter().sorted().copied().collect_vec(), vec![
-    CellPosition::new(3, 2), CellPosition::new(3, 2), CellPosition::new(4, 1), 
+  assert_eq!(step.affected_cells.iter().copied().collect_vec(), vec![
+    CellPosition::new(3, 2), CellPosition::new(3, 2), CellPosition::new(4, 1),
   ]);
   assert!(solver.candidates[4][1].contains(&3));
   solver.apply_rule(&mut step);

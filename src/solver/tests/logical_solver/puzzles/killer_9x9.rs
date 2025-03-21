@@ -182,6 +182,7 @@ fn check_killer_9x9_1_solve() {
     vec![ 2, 5, 7, 9, 8, 6, 4, 3, 1 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://www.killersudokuonline.com/tips.html
@@ -334,4 +335,5 @@ fn check_killer_9x9_2_solve() {
     vec![ 5, 9, 8, 6, 7, 4, 2, 3, 1 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

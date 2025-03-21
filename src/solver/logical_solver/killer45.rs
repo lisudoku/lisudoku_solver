@@ -67,7 +67,7 @@ impl Killer45 {
     invalid_sum_candidates.into_iter().map(|(cell, invalid_values)| {
       self.build_simple_solution_step(
         invalid_values,
-        vec![ *area ],
+        vec![ area.clone() ],
         vec![ cell ],
       )
     }).collect()

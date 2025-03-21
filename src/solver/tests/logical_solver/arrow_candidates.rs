@@ -20,7 +20,7 @@ fn check_arrow_candidates_simple() {
   let step = &steps[0];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 0));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[0][0].contains(&9));
   solver.apply_rule(&step);
@@ -30,7 +30,7 @@ fn check_arrow_candidates_simple() {
   let step = &steps[1];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 1));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[0][1].contains(&9));
   solver.apply_rule(&step);
@@ -40,7 +40,7 @@ fn check_arrow_candidates_simple() {
   let step = &steps[2];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 2));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![1, 2]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 2]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[0][2].contains(&1));
   solver.apply_rule(&step);
@@ -68,7 +68,7 @@ fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
   let step = &steps[0];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(1, 2));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![3, 4, 5, 6]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![3, 4, 5, 6]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[1][2].contains(&3));
   solver.apply_rule(&step);
@@ -78,7 +78,7 @@ fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
   let step = &steps[1];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(2, 3));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![2, 3, 4, 5, 6]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![2, 3, 4, 5, 6]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[2][3].contains(&2));
   solver.apply_rule(&step);
@@ -109,7 +109,7 @@ fn check_arrow_candidates_2_digit_circle_horizontal() {
   let step = &steps[0];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(1, 0));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![1, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[1][0].contains(&5));
   solver.apply_rule(&step);
@@ -140,7 +140,7 @@ fn check_arrow_candidates_2_digit_circle_vertical() {
   let step = &steps[0];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(3, 2));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[3][2].contains(&4));
   solver.apply_rule(&step);
@@ -171,7 +171,7 @@ fn check_arrow_candidates_long() {
   let step = &steps[0];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(1, 1));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![3, 4, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![3, 4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[1][1].contains(&3));
   solver.apply_rule(&step);
@@ -181,7 +181,7 @@ fn check_arrow_candidates_long() {
   let step = &steps[1];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(2, 2));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![3, 4, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![3, 4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[2][2].contains(&3));
   solver.apply_rule(&step);
@@ -191,7 +191,7 @@ fn check_arrow_candidates_long() {
   let step = &steps[2];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(3, 3));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[3][3].contains(&4));
   solver.apply_rule(&step);
@@ -201,7 +201,7 @@ fn check_arrow_candidates_long() {
   let step = &steps[3];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(4, 4));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![2, 3, 4, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![2, 3, 4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[4][4].contains(&2));
   solver.apply_rule(&step);
@@ -211,7 +211,7 @@ fn check_arrow_candidates_long() {
   let step = &steps[4];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(5, 5));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[5][5].contains(&4));
   solver.apply_rule(&step);
@@ -221,7 +221,7 @@ fn check_arrow_candidates_long() {
   let step = &steps[5];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 0));
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![2, 3, 4, 5, 6, 7, 8]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![2, 3, 4, 5, 6, 7, 8]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert!(solver.candidates[0][0].contains(&8));
   solver.apply_rule(&step);

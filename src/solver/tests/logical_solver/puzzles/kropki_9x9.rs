@@ -68,6 +68,7 @@ fn check_kropki_9x9_1_solve() {
     vec![ 9, 4, 3, 8, 1, 7, 2, 6, 5 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
@@ -124,6 +125,7 @@ fn check_kropki_9x9_2_solve() {
     vec![ 3, 7, 4, 8, 6, 5, 2, 1, 9 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // 2023 Sudoku GP Round 1
@@ -192,4 +194,5 @@ fn check_kropki_9x9_3_solve() {
     vec![ 9, 2, 3, 4, 5, 1, 7, 6, 8 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

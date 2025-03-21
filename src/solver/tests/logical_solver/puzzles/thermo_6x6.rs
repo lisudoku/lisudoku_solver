@@ -57,6 +57,7 @@ fn check_thermo_6x6_1_solve() {
     vec![ 6, 1, 2, 5, 4, 3 ],
   ]);
   assert_eq!(result.steps.len(), empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/4
@@ -249,6 +250,7 @@ fn check_thermo_6x6_6_solve() {
     vec![ 5, 4, 6, 3, 1, 2 ],
     vec![ 3, 2, 1, 4, 6, 5 ],
   ]);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/10
@@ -296,4 +298,5 @@ fn check_thermo_6x6_7_solve() {
     vec![ 4, 5, 3, 2, 1, 6 ],
     vec![ 2, 6, 1, 3, 4, 5 ],
   ]);
+  insta::assert_yaml_snapshot!(result.steps);
 }

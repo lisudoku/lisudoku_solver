@@ -76,4 +76,5 @@ fn check_mixed_6x6_irregular_kropki_solve() {
     vec![ 5, 4, 1, 2, 6, 3 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

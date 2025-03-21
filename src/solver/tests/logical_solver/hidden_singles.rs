@@ -16,8 +16,8 @@ fn check_hidden_single_in_region() {
   let mut step = steps.first().unwrap();
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.cells[0], CellPosition::new(0, 0));
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 0), CellPosition::new(1, 3), CellPosition::new(3, 1),
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 0), CellPosition::new(3, 1), CellPosition::new(1, 3),
   ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
@@ -49,8 +49,8 @@ fn check_hidden_single_on_row() {
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![Area::Row(0)]);
   assert_eq!(step.cells[0], CellPosition::new(0, 0));
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 0), CellPosition::new(2, 8), CellPosition::new(5, 2), CellPosition::new(6, 1),
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 0), CellPosition::new(6, 1), CellPosition::new(5, 2), CellPosition::new(2, 8),
   ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
@@ -80,8 +80,8 @@ fn check_hidden_single_on_col() {
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![Area::Column(3)]);
   assert_eq!(step.cells[0], CellPosition::new(5, 3));
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 5), CellPosition::new(4, 0), CellPosition::new(5, 3),
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(5, 3), CellPosition::new(0, 5), CellPosition::new(4, 0),
   ]);
   assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
@@ -139,8 +139,9 @@ fn check_hidden_single_using_anti_knight_1() {
   assert_eq!(step.areas, vec![Area::Row(2)]);
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.cells[0], CellPosition::new(2, 4));
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 8), CellPosition::new(2, 4), CellPosition::new(3, 3), CellPosition::new(5, 0), CellPosition::new(6, 2),
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(2, 4), CellPosition::new(5, 0), CellPosition::new(3, 3),
+    CellPosition::new(6, 2), CellPosition::new(0, 8),
   ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
@@ -172,7 +173,7 @@ fn check_hidden_single_using_anti_knight_2() {
   assert_eq!(step.areas, vec![Area::Row(1)]);
   assert_eq!(step.values, vec![5]);
   assert_eq!(step.cells[0], CellPosition::new(1, 5));
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
     CellPosition::new(1, 5), CellPosition::new(3, 2),
   ]);
   assert!(step.affected_cells.is_empty());

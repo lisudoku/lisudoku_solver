@@ -1,6 +1,7 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, Area, CellPosition};
 use super::technique::Technique;
+use itertools::Itertools;
 
 pub struct XWing;
 
@@ -31,7 +32,8 @@ impl Technique for XWing {
 impl XWing {
   fn find_x_wing_in_areas(&self, solver: &Solver, areas: &Vec<Area>) -> Option<SolutionStep> {
     for area1 in areas {
-      for (value, area1_cells) in solver.compute_cells_by_value_in_area(area1, &solver.candidates) {
+      let value_cells = solver.compute_cells_by_value_in_area(area1, &solver.candidates);
+      for (value, area1_cells) in value_cells.into_iter().sorted() {
         if area1_cells.len() != 2 {
           continue
         }
@@ -60,8 +62,8 @@ impl XWing {
           assert!(solver.candidates[cell3.row][cell3.col].contains(&value));
           assert!(solver.candidates[cell4.row][cell4.col].contains(&value));
 
-          let area3 = *solver.find_common_areas(&vec![ cell1, cell3 ]).first().unwrap();
-          let area4 = *solver.find_common_areas(&vec![ cell2, cell4 ]).first().unwrap();
+          let area3 = solver.find_common_areas(&vec![ cell1, cell3 ]).first().unwrap().clone();
+          let area4 = solver.find_common_areas(&vec![ cell2, cell4 ]).first().unwrap().clone();
           let affected_cells: Vec<CellPosition> = vec![
             solver.get_area_cells_with_candidate(&area3, value),
             solver.get_area_cells_with_candidate(&area4, value),
@@ -77,7 +79,7 @@ impl XWing {
             self.build_solution_step(
               vec![ cell1, cell2, cell3, cell4 ],
               vec![ value ],
-              vec![ *area1, *area2, area3, area4 ],
+              vec![ area1.clone(), area2.clone(), area3, area4 ],
               affected_cells,
             )
           )

@@ -1,0 +1,2803 @@
+---
+source: src/solver/tests/logical_solver/puzzles/kropki_9x9.rs
+expression: result.steps
+snapshot_kind: text
+---
+- rule: Candidates
+  cells: []
+  values: []
+  areas: []
+  affected_cells: []
+  candidates:
+    - - - 1
+        - 2
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - []
+      - []
+      - - 1
+        - 2
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 1
+        - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 1
+        - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 2
+        - 7
+        - 8
+        - 9
+      - []
+      - - 2
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - []
+    - - []
+      - - 1
+        - 2
+        - 5
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 7
+        - 9
+      - []
+      - - 1
+        - 2
+        - 7
+        - 9
+      - []
+      - - 2
+        - 5
+        - 7
+        - 9
+      - - 2
+        - 5
+        - 7
+        - 9
+      - []
+    - - []
+      - - 1
+        - 2
+        - 3
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 7
+        - 8
+        - 9
+      - []
+      - - 1
+        - 2
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 1
+        - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 4
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 1
+        - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 4
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 1
+        - 2
+        - 3
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 7
+        - 8
+        - 9
+      - []
+      - []
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 3
+        - 7
+        - 8
+        - 9
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 9
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 6
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+    - 8
+  areas:
+    - Column: 5
+    - KropkiDot: 2
+    - KropkiDot: 3
+  affected_cells:
+    - row: 1
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 9
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 1
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+    - 6
+    - 9
+  areas:
+    - Column: 5
+    - KropkiDot: 2
+    - KropkiDot: 3
+  affected_cells:
+    - row: 2
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 3
+    - 7
+    - 9
+  areas:
+    - Row: 3
+    - KropkiDot: 6
+    - KropkiDot: 7
+  affected_cells:
+    - row: 3
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 3
+    - 5
+    - 9
+  areas:
+    - Row: 3
+    - KropkiDot: 6
+    - KropkiDot: 7
+  affected_cells:
+    - row: 3
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 9
+  areas:
+    - Row: 3
+    - KropkiDot: 6
+    - KropkiDot: 7
+  affected_cells:
+    - row: 3
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Column: 5
+    - KropkiDot: 2
+    - KropkiDot: 3
+  affected_cells:
+    - row: 3
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 8
+  areas:
+    - Column: 3
+    - KropkiDot: 8
+    - KropkiDot: 9
+  affected_cells:
+    - row: 5
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+    - 6
+    - 9
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 8
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Column: 1
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+    - 7
+    - 9
+  areas:
+    - Column: 3
+    - KropkiDot: 8
+    - KropkiDot: 9
+  affected_cells:
+    - row: 6
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 9
+  areas:
+    - Column: 1
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+    - 8
+  areas:
+    - Column: 3
+    - KropkiDot: 8
+    - KropkiDot: 9
+  affected_cells:
+    - row: 7
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+    - 9
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 5
+    - 6
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+    - 9
+  areas:
+    - KropkiDot: 8
+    - KropkiDot: 9
+  affected_cells:
+    - row: 5
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - KropkiDot: 8
+    - KropkiDot: 9
+  affected_cells:
+    - row: 6
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+    - 9
+  areas:
+    - KropkiDot: 8
+    - KropkiDot: 9
+  affected_cells:
+    - row: 7
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 5
+    - 6
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - KropkiDot: 9
+  affected_cells:
+    - row: 7
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 8
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 8
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 3
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 5
+      col: 1
+    - row: 5
+      col: 2
+    - row: 5
+      col: 5
+    - row: 1
+      col: 3
+    - row: 2
+      col: 3
+    - row: 8
+      col: 3
+    - row: 4
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 3
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 6
+      col: 0
+    - row: 6
+      col: 2
+    - row: 6
+      col: 4
+    - row: 6
+      col: 5
+    - row: 6
+      col: 6
+    - row: 6
+      col: 7
+    - row: 6
+      col: 8
+    - row: 1
+      col: 3
+    - row: 2
+      col: 3
+    - row: 8
+      col: 3
+    - row: 7
+      col: 4
+    - row: 7
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 3
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+    - row: 7
+      col: 2
+    - row: 7
+      col: 6
+    - row: 7
+      col: 7
+    - row: 7
+      col: 8
+    - row: 8
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 5
+  values:
+    - 2
+  areas:
+    - Column: 5
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 0
+      col: 1
+    - row: 0
+      col: 2
+    - row: 0
+      col: 6
+    - row: 0
+      col: 7
+    - row: 0
+      col: 8
+    - row: 1
+      col: 4
+    - row: 2
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 4
+  values:
+    - 2
+  areas:
+    - Region: 4
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 4
+      col: 2
+    - row: 4
+      col: 6
+    - row: 4
+      col: 7
+    - row: 1
+      col: 4
+    - row: 2
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 1
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 5
+  values:
+    - 6
+  areas:
+    - Column: 5
+  affected_cells:
+    - row: 1
+      col: 0
+    - row: 1
+      col: 1
+    - row: 1
+      col: 6
+    - row: 1
+      col: 7
+    - row: 1
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+    - 7
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Column: 5
+    - KropkiDot: 2
+    - KropkiDot: 3
+  affected_cells:
+    - row: 2
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 7
+    - 9
+  areas:
+    - Column: 5
+    - KropkiDot: 2
+    - KropkiDot: 3
+  affected_cells:
+    - row: 3
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 0
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 0
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 5
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 0
+    - row: 2
+      col: 1
+    - row: 2
+      col: 2
+    - row: 2
+      col: 3
+    - row: 2
+      col: 4
+    - row: 2
+      col: 6
+    - row: 2
+      col: 8
+    - row: 5
+      col: 5
+    - row: 6
+      col: 5
+    - row: 7
+      col: 5
+    - row: 1
+      col: 3
+    - row: 1
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 5
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 3
+    - row: 3
+      col: 6
+    - row: 3
+      col: 7
+    - row: 5
+      col: 5
+    - row: 6
+      col: 5
+    - row: 7
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Row: 3
+    - KropkiDot: 6
+    - KropkiDot: 7
+  affected_cells:
+    - row: 3
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Row: 3
+    - KropkiDot: 6
+    - KropkiDot: 7
+  affected_cells:
+    - row: 3
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+    - 9
+  areas:
+    - Row: 5
+    - KropkiDot: 10
+    - KropkiDot: 11
+  affected_cells:
+    - row: 5
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 1
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 0
+    - row: 3
+      col: 6
+    - row: 3
+      col: 7
+    - row: 0
+      col: 1
+    - row: 2
+      col: 1
+    - row: 4
+      col: 1
+    - row: 6
+      col: 1
+    - row: 4
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 2
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 0
+    - row: 3
+      col: 6
+    - row: 3
+      col: 7
+    - row: 0
+      col: 2
+    - row: 2
+      col: 2
+    - row: 5
+      col: 2
+    - row: 6
+      col: 2
+    - row: 7
+      col: 2
+    - row: 5
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 3
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 0
+    - row: 3
+      col: 6
+    - row: 3
+      col: 7
+    - row: 8
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 5
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 5
+      col: 1
+    - row: 5
+      col: 2
+    - row: 5
+      col: 8
+    - row: 6
+      col: 5
+    - row: 7
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 6
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 5
+      col: 8
+    - row: 0
+      col: 6
+    - row: 1
+      col: 6
+    - row: 2
+      col: 6
+    - row: 6
+      col: 6
+    - row: 7
+      col: 6
+    - row: 8
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 7
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 5
+      col: 1
+    - row: 5
+      col: 2
+    - row: 5
+      col: 8
+    - row: 0
+      col: 7
+    - row: 1
+      col: 7
+    - row: 3
+      col: 7
+    - row: 4
+      col: 7
+    - row: 6
+      col: 7
+    - row: 7
+      col: 7
+    - row: 8
+      col: 7
+    - row: 3
+      col: 6
+    - row: 4
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 0
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 1
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+    - 8
+    - 9
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Column: 1
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 8
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 7
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+  areas:
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 8
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 8
+  values:
+    - 6
+  areas:
+    - Row: 5
+  affected_cells:
+    - row: 0
+      col: 8
+    - row: 2
+      col: 8
+    - row: 6
+      col: 8
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 7
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+    - row: 0
+      col: 7
+    - row: 6
+      col: 7
+    - row: 6
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 1
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 7
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 0
+    - row: 2
+      col: 1
+    - row: 2
+      col: 2
+    - row: 2
+      col: 6
+    - row: 2
+      col: 8
+    - row: 3
+      col: 7
+    - row: 6
+      col: 7
+    - row: 8
+      col: 7
+    - row: 1
+      col: 6
+    - row: 1
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 6
+  values:
+    - 3
+  areas:
+    - Region: 5
+  affected_cells:
+    - row: 3
+      col: 0
+    - row: 6
+      col: 6
+    - row: 8
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 7
+  values:
+    - 2
+  areas:
+    - Region: 5
+  affected_cells:
+    - row: 3
+      col: 0
+    - row: 1
+      col: 7
+    - row: 8
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - Column: 7
+    - KropkiDot: 4
+    - KropkiDot: 5
+  affected_cells:
+    - row: 0
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 7
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 0
+      col: 2
+    - row: 0
+      col: 6
+    - row: 0
+      col: 8
+    - row: 4
+      col: 7
+    - row: 6
+      col: 7
+    - row: 1
+      col: 6
+    - row: 1
+      col: 8
+    - row: 2
+      col: 6
+    - row: 2
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 7
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 1
+    - row: 1
+      col: 2
+    - row: 1
+      col: 6
+    - row: 6
+      col: 7
+    - row: 8
+      col: 7
+    - row: 2
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 0
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 1
+      col: 0
+    - row: 2
+      col: 0
+    - row: 6
+      col: 0
+    - row: 7
+      col: 0
+    - row: 8
+      col: 0
+    - row: 4
+      col: 1
+    - row: 4
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 5
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+    - 7
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 7
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 6
+    - row: 6
+      col: 7
+    - row: 8
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 6
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 6
+      col: 6
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Row: 7
+    - KropkiDot: 14
+    - KropkiDot: 15
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 6
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+    - row: 7
+      col: 1
+    - row: 7
+      col: 2
+    - row: 7
+      col: 4
+    - row: 0
+      col: 6
+    - row: 1
+      col: 6
+    - row: 6
+      col: 6
+    - row: 8
+      col: 6
+    - row: 6
+      col: 8
+    - row: 8
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 8
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+    - row: 7
+      col: 2
+    - row: 6
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Column: 1
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Column: 1
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 8
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 1
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 2
+    - row: 7
+      col: 4
+    - row: 0
+      col: 1
+    - row: 1
+      col: 1
+    - row: 2
+      col: 1
+    - row: 6
+      col: 2
+    - row: 8
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 1
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 6
+    - row: 1
+      col: 8
+    - row: 2
+      col: 1
+    - row: 5
+      col: 1
+    - row: 2
+      col: 0
+    - row: 2
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 1
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 5
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 2
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 2
+    - row: 8
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 3
+  values:
+    - 5
+  areas:
+    - Row: 1
+  affected_cells:
+    - row: 2
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 8
+  values:
+    - 7
+  areas:
+    - Row: 1
+  affected_cells:
+    - row: 0
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 0
+  values:
+    - 6
+  areas:
+    - Row: 6
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 2
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 7
+      col: 0
+  values:
+    - 2
+  areas:
+    - Row: 7
+  affected_cells:
+    - row: 8
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 1
+  values:
+    - 4
+  areas:
+    - Column: 1
+  affected_cells:
+    - row: 2
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 4
+  values:
+    - 7
+  areas:
+    - Column: 4
+  affected_cells:
+    - row: 6
+      col: 0
+    - row: 6
+      col: 1
+    - row: 6
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - Column: 1
+    - KropkiDot: 12
+    - KropkiDot: 13
+  affected_cells:
+    - row: 8
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 1
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 6
+      col: 2
+    - row: 6
+      col: 6
+    - row: 6
+      col: 8
+    - row: 0
+      col: 1
+    - row: 7
+      col: 2
+    - row: 8
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 1
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 0
+    - row: 8
+      col: 2
+    - row: 0
+      col: 1
+    - row: 4
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 1
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 2
+    - row: 0
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 1
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 2
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 0
+  values:
+    - 7
+  areas:
+    - Row: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 4
+  values:
+    - 8
+  areas:
+    - Row: 1
+  affected_cells:
+    - row: 2
+      col: 4
+    - row: 2
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 6
+  values:
+    - 6
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 2
+  values:
+    - 5
+  areas:
+    - Row: 6
+  affected_cells:
+    - row: 2
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 7
+      col: 4
+  values:
+    - 9
+  areas:
+    - Row: 7
+  affected_cells:
+    - row: 1
+      col: 4
+    - row: 2
+      col: 4
+    - row: 8
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 0
+  values:
+    - 5
+  areas:
+    - Column: 0
+  affected_cells:
+    - row: 2
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 8
+      col: 3
+  values:
+    - 8
+  areas:
+    - Region: 7
+  affected_cells:
+    - row: 8
+      col: 7
+    - row: 8
+      col: 8
+    - row: 2
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 3
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 2
+    - row: 2
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 4
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 7
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 0
+    - row: 8
+      col: 2
+    - row: 8
+      col: 6
+    - row: 6
+      col: 7
+    - row: 6
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 2
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 8
+    - row: 0
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 6
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 6
+      col: 5
+    - row: 8
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 7
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 6
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 0
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 2
+    - row: 8
+      col: 8
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - Row: 1
+    - KropkiDot: 0
+    - KropkiDot: 1
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 0
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 6
+    - row: 0
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 2
+  values:
+    - 3
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 8
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 5
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 8
+  values:
+    - 3
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 2
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 2
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 6
+    - row: 0
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 6
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 6
+    - row: 8
+      col: 6
+    - row: 0
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 2
+  values:
+    - 1
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 5
+  values:
+    - 4
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 8
+  values:
+    - 9
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 6
+    - row: 0
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 6
+  values:
+    - 1
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 8
+  values:
+    - 8
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 6
+  values:
+    - 2
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~

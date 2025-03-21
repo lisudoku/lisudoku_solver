@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, Area, Thermo};
 use super::technique::Technique;
@@ -20,8 +22,9 @@ impl Technique for ThermoCandidates {
       let steps: Vec<SolutionStep> = thermo.iter().enumerate().filter_map(|(cell_index, cell)| {
         let invalid_values: Vec<u32> = solver.candidates[cell.row][cell.col]
           .iter()
+          .filter(|&&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
           .copied()
-          .filter(|&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
+          .sorted()
           .collect();
 
         if invalid_values.is_empty() {

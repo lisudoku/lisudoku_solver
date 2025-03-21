@@ -24,7 +24,7 @@ fn check_killer45_row() {
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 5) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 1, 3, 4, 5, 6 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 4, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::Row(0) ]);
   assert!(solver.candidates[0][5].contains(&1));
   solver.apply_rule(&step);
@@ -59,7 +59,7 @@ fn check_killer45_region() {
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 4) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 2, 4, 5, 6, 7, 8, 9 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4, 5, 6, 7, 8, 9 ]);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
   assert!(solver.candidates[4][4].contains(&2));
   solver.apply_rule(&step);
@@ -88,7 +88,7 @@ fn check_killer45_col_with_fixed_digits() {
 
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 1) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 1, 5, 6 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::Column(1) ]);
   assert!(solver.candidates[4][1].contains(&1));
   solver.apply_rule(&step);
@@ -144,7 +144,7 @@ fn check_killer45_col_partial_cages() {
   assert_eq!(step.rule, Rule::Killer45);
   assert_eq!(step.areas, vec![ Area::Column(3) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(1, 3) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 1, 3, 4, 8, 9 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 4, 8, 9 ]);
   assert!(solver.candidates[1][3].contains(&1));
   solver.apply_rule(&step);
   let final_candidates = &solver.candidates[1][3];

@@ -1,5 +1,7 @@
 use std::collections::HashSet;
 use std::mem::swap;
+use itertools::Itertools;
+
 use crate::solver::Solver;
 use crate::types::{SolutionStep, Rule, CellPosition};
 use super::technique::Technique;
@@ -47,7 +49,7 @@ impl Technique for TurbotFish {
 
         let a_peers: HashSet<CellPosition> = solver.get_cell_peers_with_candidate(&a2, *value).into_iter().collect();
         let b_peers: HashSet<CellPosition> = solver.get_cell_peers_with_candidate(&b2, *value).into_iter().collect();
-        let common_peers: Vec<CellPosition> = a_peers.intersection(&b_peers).cloned().collect();
+        let common_peers: Vec<CellPosition> = a_peers.intersection(&b_peers).sorted().cloned().collect();
 
         if common_peers.is_empty() {
           continue
@@ -57,7 +59,7 @@ impl Technique for TurbotFish {
           self.build_solution_step(
             vec![ a1, a2, b1, b2 ],
             vec![ *value ],
-            vec![ *area1, *area2 ],
+            vec![ area1.clone(), area2.clone() ],
             common_peers,
           )
         ]

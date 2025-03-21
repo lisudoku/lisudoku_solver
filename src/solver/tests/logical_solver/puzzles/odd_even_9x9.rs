@@ -47,6 +47,7 @@ fn check_odd_even_9x9_1_solve() {
     vec![ 5, 8, 4, 9, 2, 1, 3, 6, 7 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1.pdf
@@ -98,4 +99,5 @@ fn check_odd_even_9x9_2_solve() {
     vec![ 3, 2, 7, 1, 5, 6, 9, 8, 4 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

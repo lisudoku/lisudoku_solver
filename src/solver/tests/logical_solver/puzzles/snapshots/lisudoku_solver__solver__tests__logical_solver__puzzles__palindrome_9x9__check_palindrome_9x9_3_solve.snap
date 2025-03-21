@@ -1,0 +1,1861 @@
+---
+source: src/solver/tests/logical_solver/puzzles/palindrome_9x9.rs
+expression: result.steps
+snapshot_kind: text
+---
+- rule: Candidates
+  cells: []
+  values: []
+  areas: []
+  affected_cells: []
+  candidates:
+    - - - 1
+        - 2
+        - 4
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 4
+        - 6
+        - 7
+      - - 1
+        - 2
+        - 4
+        - 6
+        - 9
+      - - 2
+        - 6
+        - 9
+      - - 2
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 2
+        - 6
+        - 7
+        - 8
+        - 9
+      - []
+      - - 1
+        - 6
+        - 7
+        - 8
+        - 9
+      - []
+    - - - 1
+        - 2
+        - 3
+        - 5
+        - 7
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 5
+        - 6
+        - 7
+      - - 1
+        - 2
+        - 3
+        - 5
+        - 6
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - []
+      - - 1
+        - 2
+        - 6
+        - 7
+        - 8
+      - - 1
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 2
+        - 3
+        - 5
+        - 7
+        - 9
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 7
+      - []
+      - - 2
+        - 3
+        - 5
+        - 6
+        - 9
+      - []
+      - - 2
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 2
+        - 6
+        - 7
+      - - 6
+        - 7
+        - 9
+      - []
+    - - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 7
+      - []
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+      - []
+      - - 2
+        - 4
+        - 5
+        - 6
+        - 7
+      - - 2
+        - 5
+        - 6
+        - 7
+      - - 1
+        - 4
+        - 5
+        - 6
+        - 7
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+      - - 1
+        - 3
+        - 6
+        - 7
+    - - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 7
+        - 8
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+      - - 2
+        - 4
+        - 5
+        - 6
+        - 9
+      - - 2
+        - 4
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 2
+        - 5
+        - 6
+        - 7
+        - 9
+      - - 1
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      - - 1
+        - 3
+        - 6
+        - 7
+        - 8
+        - 9
+    - - - 4
+        - 5
+        - 7
+        - 8
+      - - 4
+        - 5
+        - 6
+        - 7
+        - 8
+      - - 4
+        - 5
+        - 6
+      - []
+      - - 4
+        - 5
+        - 6
+        - 7
+        - 9
+      - []
+      - - 4
+        - 5
+        - 6
+        - 7
+        - 8
+      - []
+      - - 6
+        - 7
+        - 8
+        - 9
+    - - []
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 8
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 9
+      - - 3
+        - 4
+        - 5
+        - 9
+      - - 3
+        - 4
+        - 5
+        - 8
+        - 9
+      - - 1
+        - 5
+        - 8
+        - 9
+      - - 1
+        - 4
+        - 5
+        - 7
+        - 8
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 7
+        - 8
+      - []
+    - - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 8
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 9
+      - []
+      - - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 8
+        - 9
+      - - 1
+        - 2
+        - 5
+        - 6
+        - 8
+        - 9
+      - - 1
+        - 4
+        - 5
+        - 6
+        - 8
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 6
+        - 8
+      - - 1
+        - 3
+        - 6
+        - 8
+    - - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 8
+      - - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 8
+      - []
+      - - 2
+        - 3
+        - 4
+        - 5
+        - 6
+      - - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 8
+      - - 1
+        - 2
+        - 5
+        - 6
+        - 8
+      - []
+      - - 1
+        - 3
+        - 4
+        - 5
+        - 6
+        - 8
+      - - 1
+        - 3
+        - 6
+        - 8
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 4
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 4
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 8
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 3
+    - 4
+    - 8
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 8
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 8
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 4
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 7
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 6
+    - 7
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 5
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+    - 8
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 6
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 1
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 6
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 4
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 5
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+    - 3
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 4
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 6
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 6
+    - 8
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 5
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+    - 3
+    - 5
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 2
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 8
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 4
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+    - 5
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 3
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 0
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 2
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 0
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 1
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 0
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 8
+  values:
+    - 9
+  areas:
+    - Row: 5
+  affected_cells:
+    - row: 1
+      col: 8
+    - row: 4
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeValues
+  cells:
+    - row: 2
+      col: 0
+  values:
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 2
+      col: 3
+    - row: 2
+      col: 5
+    - row: 2
+      col: 7
+    - row: 0
+      col: 0
+    - row: 1
+      col: 0
+    - row: 7
+      col: 0
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 0
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 3
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 1
+    - row: 0
+      col: 2
+    - row: 0
+      col: 4
+    - row: 0
+      col: 5
+    - row: 0
+      col: 7
+    - row: 1
+      col: 3
+    - row: 2
+      col: 3
+    - row: 8
+      col: 3
+    - row: 1
+      col: 4
+    - row: 2
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 7
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 1
+    - row: 2
+      col: 3
+    - row: 2
+      col: 5
+    - row: 2
+      col: 6
+    - row: 0
+      col: 7
+    - row: 1
+      col: 7
+    - row: 3
+      col: 7
+    - row: 4
+      col: 7
+    - row: 7
+      col: 7
+    - row: 8
+      col: 7
+    - row: 1
+      col: 6
+    - row: 1
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 2
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 0
+      col: 1
+    - row: 0
+      col: 7
+    - row: 1
+      col: 2
+    - row: 3
+      col: 2
+    - row: 4
+      col: 2
+    - row: 6
+      col: 2
+    - row: 1
+      col: 0
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 8
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 0
+    - row: 3
+      col: 2
+    - row: 3
+      col: 6
+    - row: 3
+      col: 7
+    - row: 1
+      col: 8
+    - row: 4
+      col: 8
+    - row: 7
+      col: 8
+    - row: 8
+      col: 8
+    - row: 4
+      col: 6
+    - row: 4
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 8
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 6
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 7
+  values:
+    - 1
+  areas:
+    - Row: 1
+  affected_cells:
+    - row: 7
+      col: 7
+    - row: 8
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 6
+  values:
+    - 1
+  areas:
+    - Row: 6
+  affected_cells:
+    - row: 7
+      col: 6
+    - row: 7
+      col: 7
+    - row: 8
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 7
+      col: 5
+  values:
+    - 1
+  areas:
+    - Column: 5
+  affected_cells:
+    - row: 7
+      col: 0
+    - row: 7
+      col: 1
+    - row: 7
+      col: 6
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeValues
+  cells:
+    - row: 4
+      col: 0
+  values:
+    - 1
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 8
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 7
+  values:
+    - 7
+  areas:
+    - Row: 6
+  affected_cells:
+    - row: 0
+      col: 7
+    - row: 3
+      col: 7
+    - row: 4
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 8
+      col: 1
+  values:
+    - 1
+  areas:
+    - Row: 8
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 7
+  values:
+    - 9
+  areas:
+    - Column: 7
+  affected_cells:
+    - row: 0
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeValues
+  cells:
+    - row: 3
+      col: 0
+  values:
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 6
+    - row: 0
+      col: 0
+    - row: 1
+      col: 0
+    - row: 4
+      col: 1
+    - row: 5
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 6
+  values:
+    - 7
+  areas:
+    - Row: 5
+  affected_cells:
+    - row: 1
+      col: 6
+    - row: 2
+      col: 6
+    - row: 4
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 5
+  values:
+    - 9
+  areas:
+    - Column: 5
+  affected_cells:
+    - row: 4
+      col: 3
+    - row: 4
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 9
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 7
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 0
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 6
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 1
+    - row: 2
+      col: 3
+    - row: 2
+      col: 5
+    - row: 1
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 0
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 4
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 5
+    - row: 1
+      col: 4
+    - row: 6
+      col: 4
+    - row: 7
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 6
+  values:
+    - 8
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 4
+    - row: 1
+      col: 8
+    - row: 4
+      col: 6
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 8
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 8
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 4
+  values:
+    - 7
+  areas:
+    - Row: 4
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 5
+  values:
+    - 8
+  areas:
+    - Row: 6
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 7
+      col: 4
+  values:
+    - 9
+  areas:
+    - Row: 7
+  affected_cells:
+    - row: 1
+      col: 4
+    - row: 6
+      col: 4
+    - row: 6
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 6
+      col: 2
+  values:
+    - 9
+  areas:
+    - Column: 2
+  affected_cells:
+    - row: 6
+      col: 3
+    - row: 6
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 7
+  values:
+    - 8
+  areas:
+    - Region: 5
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 7
+      col: 7
+    - row: 8
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeValues
+  cells:
+    - row: 5
+      col: 0
+  values:
+    - 8
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 5
+      col: 1
+    - row: 7
+      col: 0
+    - row: 8
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 3
+  values:
+    - 9
+  areas:
+    - Row: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 8
+      col: 8
+  values:
+    - 8
+  areas:
+    - Row: 8
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 7
+      col: 1
+  values:
+    - 8
+  areas:
+    - Column: 1
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 8
+      col: 4
+  values:
+    - 6
+  areas:
+    - Column: 4
+  affected_cells:
+    - row: 8
+      col: 5
+    - row: 8
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 5
+  values:
+    - 6
+  areas:
+    - Region: 4
+  affected_cells:
+    - row: 3
+      col: 2
+    - row: 3
+      col: 6
+    - row: 8
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 4
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 6
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 4
+      col: 2
+    - row: 4
+      col: 3
+    - row: 3
+      col: 6
+    - row: 7
+      col: 6
+    - row: 3
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 5
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 0
+    - row: 8
+      col: 3
+    - row: 8
+      col: 7
+    - row: 2
+      col: 5
+    - row: 6
+      col: 3
+    - row: 6
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 3
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 7
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 5
+  values:
+    - 7
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 1
+    - row: 0
+      col: 5
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 6
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 2
+    - row: 3
+      col: 4
+    - row: 3
+      col: 7
+    - row: 7
+      col: 6
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 8
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 5
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 0
+      col: 1
+    - row: 1
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 4
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 2
+    - row: 1
+      col: 4
+    - row: 4
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 7
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 3
+      col: 2
+    - row: 7
+      col: 7
+    - row: 8
+      col: 7
+    - row: 4
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 6
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 8
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 3
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 0
+    - row: 4
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 7
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: PalindromeCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - Palindrome: 0
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 0
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 1
+    - row: 7
+      col: 0
+    - row: 8
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 1
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 2
+    - row: 4
+      col: 1
+    - row: 5
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 2
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 2
+    - row: 5
+      col: 2
+    - row: 5
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 3
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 4
+      col: 2
+    - row: 6
+      col: 3
+    - row: 5
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 8
+  values:
+    - 6
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 4
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 2
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+    - row: 7
+      col: 7
+    - row: 4
+      col: 2
+    - row: 5
+      col: 2
+    - row: 6
+      col: 1
+    - row: 8
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 8
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 7
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 8
+      col: 0
+    - row: 7
+      col: 7
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 1
+  values:
+    - 7
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 1
+  values:
+    - 4
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 2
+  values:
+    - 6
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 5
+      col: 4
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 4
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 1
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 1
+    - row: 7
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 3
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 6
+      col: 4
+    - row: 2
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 7
+  values:
+    - 5
+  areas: []
+  affected_cells:
+    - row: 7
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 8
+      col: 0
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 4
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 1
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 1
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 3
+  values:
+    - 5
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 6
+      col: 4
+  values:
+    - 4
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 7
+      col: 0
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 0
+  values:
+    - 5
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 2
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 1
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 4
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 4
+      col: 2
+  values:
+    - 3
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~

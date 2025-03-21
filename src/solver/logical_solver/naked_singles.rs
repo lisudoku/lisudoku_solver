@@ -62,7 +62,7 @@ impl NakedSingle {
         self.build_grid_solution_step(
           vec![ *cell ],
           vec![ value ],
-          areas.into_iter().map(|x| *x).collect(),
+          areas.into_iter().map(|area| area.clone()).collect(),
           &solver,
         )
       )

@@ -1,6 +1,7 @@
 use crate::solver::Solver;
 use crate::types::{SolutionStep, CellPosition, Rule};
 use super::technique::Technique;
+use itertools::Itertools;
 
 // In an area A, X candidate cells are all included in area B, so remove X from all other cells in B.
 // Example: In column C3, digit 3 must be in square S1. Therefore, 3 cannot be a candidate of any
@@ -21,12 +22,12 @@ impl Technique for LockedCandidates {
     for area in areas {
       let value_cells = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
 
-      for (value, cells) in value_cells {
+      for (value, cells) in value_cells.into_iter().sorted() {
         if cells.len() != self.set_size {
           continue
         }
 
-        let other_areas = solver.find_common_areas_except(&cells, area);
+        let other_areas = solver.find_common_areas_except(&cells, area.clone());
         if other_areas.is_empty() {
           continue
         }

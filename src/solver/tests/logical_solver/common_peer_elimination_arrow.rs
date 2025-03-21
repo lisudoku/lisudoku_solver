@@ -1,5 +1,4 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, Arrow}, solver::{Solver, logical_solver::{technique::Technique, candidates::Candidates, arrow_candidates::ArrowCandidates, common_peer_elimination_arrow::CommonPeerEliminationArrow}}};
-use itertools::Itertools;
 
 #[test]
 fn check_arrow_common_peer_elimination() {
@@ -28,7 +27,7 @@ fn check_arrow_common_peer_elimination() {
   let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::CommonPeerEliminationArrow);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert_eq!(step.affected_cells.iter().sorted().copied().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.affected_cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
     CellPosition::new(1, 6), CellPosition::new(1, 8), CellPosition::new(2, 2),
   ]);
   assert_eq!(step.values, vec![ 1, 1, 1 ]);

@@ -45,7 +45,7 @@ impl CommonPeerElimination {
       self.build_solution_step(
         cells,
         vec![ value ],
-        vec![ *area ],
+        vec![ area.clone() ],
         affected_cells,
       )
     )
@@ -114,6 +114,6 @@ impl CommonPeerElimination {
       }
     }
 
-    cell_eliminations.into_iter().collect_vec()
+    cell_eliminations.into_iter().sorted().collect_vec()
   }
 }

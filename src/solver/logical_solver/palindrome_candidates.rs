@@ -1,6 +1,7 @@
 use crate::solver::Solver;
 use crate::types::{Area, Rule, SolutionStep};
 use super::technique::Technique;
+use itertools::Itertools;
 
 // We must keep in sync candidates for corresponding cells in a palindrome
 pub struct PalindromeCandidates;
@@ -28,24 +29,24 @@ impl Technique for PalindromeCandidates {
            solver.grid[cell_right.row][cell_right.col] == 0 {
           let candidates_left = &solver.candidates[cell_left.row][cell_left.col];
           let candidates_right = &solver.candidates[cell_right.row][cell_right.col];
-          
-          let extra_candidates: Vec<u32> = candidates_left.difference(&candidates_right).copied().collect();
+
+          let extra_candidates: Vec<u32> = candidates_left.difference(&candidates_right).sorted().copied().collect();
           if !extra_candidates.is_empty() {
             steps.push(
               self.build_simple_solution_step(
                 extra_candidates,
-                vec![area],
+                vec![area.clone()],
                 vec![cell_left],
               )
             );
           }
 
-          let extra_candidates: Vec<u32> = candidates_right.difference(&candidates_left).copied().collect();
+          let extra_candidates: Vec<u32> = candidates_right.difference(&candidates_left).sorted().copied().collect();
           if !extra_candidates.is_empty() {
             steps.push(
               self.build_simple_solution_step(
                 extra_candidates,
-                vec![area],
+                vec![area.clone()],
                 vec![cell_right],
               )
             );

@@ -14,6 +14,8 @@ All tests `cargo test -- --nocapture`
 
 Individual test `cargo test check_6x6_solve -- --nocapture`
 
+Manage test snapshots through `cargo insta review`
+
 ## Build wasm
 
 `cargo run-script build`

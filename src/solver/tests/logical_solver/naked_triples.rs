@@ -1,5 +1,4 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, naked_set::NakedSet}}};
-use itertools::Itertools;
 
 #[test]
 fn check_naked_triples() {
@@ -31,7 +30,7 @@ fn check_naked_triples() {
   let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::NakedTriples);
   assert_eq!(step.cells, vec![ CellPosition::new(0, 2), CellPosition::new(0, 3), CellPosition::new(0, 4) ]);
-  assert_eq!(step.values.iter().cloned().sorted().collect::<Vec<u32>>(), vec![ 1, 2, 3 ]);
+  assert_eq!(step.values.iter().cloned().collect::<Vec<u32>>(), vec![ 1, 2, 3 ]);
   assert!(step.affected_cells.len() == 6);
   let initial_candidates = solver.candidates[0][8].clone();
 

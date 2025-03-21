@@ -21,7 +21,7 @@ fn check_renban_candidates_in_area() {
     assert_eq!(step.rule, Rule::RenbanCandidates);
     let cell = renban[index];
     assert_eq!(step.affected_cells, vec![cell]);
-    assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![1, 2, 3]);
+    assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 2, 3]);
     assert_eq!(step.areas, vec![ Area::Renban(0) ]);
     assert!(solver.candidates[cell.row][cell.col].contains(&3));
     solver.apply_rule(&step);
@@ -50,7 +50,7 @@ fn check_renban_candidates_fixed_value() {
     assert_eq!(step.rule, Rule::RenbanCandidates);
     let cell = renban[index + 1];
     assert_eq!(step.affected_cells, vec![cell]);
-    assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![1, 9]);
+    assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 9]);
     assert_eq!(step.areas, vec![ Area::Renban(0) ]);
     assert!(solver.candidates[cell.row][cell.col].contains(&9));
     solver.apply_rule(&step);

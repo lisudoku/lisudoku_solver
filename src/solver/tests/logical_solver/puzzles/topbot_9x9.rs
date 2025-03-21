@@ -28,6 +28,7 @@ fn check_topbot_9x9_1() {
     vec![ 2, 3, 1, 7, 6, 8, 5, 4, 9 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // WSC 2022 https://www.worldpuzzle.org/wpf-archive/2022/wsc-2022/
@@ -61,4 +62,5 @@ fn check_topbot_9x9_2() {
     vec![8, 7, 9, 4, 5, 2, 3, 1, 6],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

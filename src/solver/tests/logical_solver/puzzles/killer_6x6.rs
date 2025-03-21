@@ -96,4 +96,5 @@ fn check_killer_6x6_1_solve() {
     vec![ 6, 1, 5, 3, 4, 2 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

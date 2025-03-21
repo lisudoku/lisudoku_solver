@@ -80,6 +80,7 @@ fn check_renban_9x9_1_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::RenbanCandidates));
   assert!(!rules.contains(&Rule::NishioForcingChains));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://logicmastersindia.com/live/main?contest=SM202403 IB puzzle 16
@@ -134,6 +135,7 @@ fn check_renban_9x9_2_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::RenbanCandidates));
   assert!(!rules.contains(&Rule::NishioForcingChains));
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2024/2024_SudokuRound4.pdf
@@ -207,4 +209,5 @@ fn check_renban_9x9_3_solve() {
   let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
   assert!(rules.contains(&Rule::RenbanCandidates));
   assert!(!rules.contains(&Rule::NishioForcingChains));
+  insta::assert_yaml_snapshot!(result.steps);
 }

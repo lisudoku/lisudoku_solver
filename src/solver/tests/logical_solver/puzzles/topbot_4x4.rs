@@ -19,6 +19,7 @@ fn check_topbot_4x4_1() {
     vec![ 1, 3, 2, 4 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]

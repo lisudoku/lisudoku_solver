@@ -28,4 +28,5 @@ fn check_anti_knight_6x6_1_solve() {
     vec![ 2, 1, 5, 6, 3, 4 ],
   ]);
   assert_eq!(result.steps.len(), empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

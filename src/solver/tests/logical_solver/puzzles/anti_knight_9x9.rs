@@ -44,6 +44,7 @@ fn check_anti_knight_9x9_1_solve() {
     vec![ 7, 2, 8, 6, 1, 9, 3, 4, 5 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://www.funwithpuzzles.com/2018/02/no-knight-step-sudoku-puzzles.html
@@ -95,4 +96,5 @@ fn check_anti_knight_9x9_2_solve() {
     vec![ 4, 7, 6, 3, 1, 2, 8, 5, 9 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

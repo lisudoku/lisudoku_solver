@@ -51,6 +51,7 @@ fn check_kropki_6x6_1_solve() {
     vec![ 5, 4, 1, 2, 6, 3 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -93,4 +94,5 @@ fn check_kropki_6x6_negative_condition_solve() {
     vec![ 2, 6, 1, 4, 5, 3 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
+  insta::assert_yaml_snapshot!(result.steps);
 }

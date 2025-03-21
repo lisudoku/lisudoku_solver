@@ -1,0 +1,353 @@
+---
+source: src/solver/tests/logical_solver/puzzles/arrow_4x4.rs
+expression: result.steps
+snapshot_kind: text
+---
+- rule: Candidates
+  cells: []
+  values: []
+  areas: []
+  affected_cells: []
+  candidates:
+    - - - 2
+        - 4
+      - - 1
+        - 2
+        - 4
+      - - 1
+        - 2
+        - 4
+      - []
+    - - - 2
+        - 3
+        - 4
+      - - 1
+        - 2
+        - 3
+        - 4
+      - - 1
+        - 2
+        - 4
+      - - 1
+        - 2
+        - 4
+    - - []
+      - - 2
+        - 3
+        - 4
+      - - 2
+        - 3
+        - 4
+      - - 2
+        - 4
+    - - - 2
+        - 3
+        - 4
+      - - 2
+        - 3
+        - 4
+      - - 1
+        - 2
+        - 3
+        - 4
+      - - 1
+        - 2
+        - 4
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 3
+    - 4
+  areas:
+    - Arrow: 0
+  affected_cells:
+    - row: 2
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - Arrow: 0
+  affected_cells:
+    - row: 1
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - Arrow: 0
+  affected_cells:
+    - row: 0
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 2
+    - 3
+  areas:
+    - Arrow: 0
+  affected_cells:
+    - row: 3
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Arrow: 1
+  affected_cells:
+    - row: 3
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Arrow: 1
+  affected_cells:
+    - row: 3
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Arrow: 1
+  affected_cells:
+    - row: 3
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 3
+  areas:
+    - Arrow: 1
+  affected_cells:
+    - row: 3
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - Arrow: 1
+  affected_cells:
+    - row: 3
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: ArrowAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - Arrow: 1
+  affected_cells:
+    - row: 3
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 1
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 2
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 2
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 1
+    - row: 1
+      col: 3
+    - row: 0
+      col: 2
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 1
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 2
+    - row: 2
+      col: 3
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 0
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 0
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 1
+  values:
+    - 3
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 1
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 2
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 0
+      col: 2
+    - row: 2
+      col: 2
+    - row: 2
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 3
+  values:
+    - 1
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 0
+  values:
+    - 2
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 0
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 2
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 2
+    - row: 1
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 1
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 1
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 3
+  values:
+    - 4
+  areas: []
+  affected_cells:
+    - row: 2
+      col: 2
+    - row: 1
+      col: 3
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 3
+  values:
+    - 2
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 2
+      col: 2
+  values:
+    - 3
+  areas: []
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~

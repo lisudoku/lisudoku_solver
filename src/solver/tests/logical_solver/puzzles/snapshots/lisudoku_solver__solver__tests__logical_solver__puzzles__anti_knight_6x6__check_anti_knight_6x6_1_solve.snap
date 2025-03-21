@@ -1,0 +1,411 @@
+---
+source: src/solver/tests/logical_solver/puzzles/anti_knight_6x6.rs
+expression: result.steps
+snapshot_kind: text
+---
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 0
+  values:
+    - 4
+  areas:
+    - Row: 0
+    - Column: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 0
+      col: 5
+  values:
+    - 2
+  areas:
+    - Row: 0
+    - Column: 5
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 5
+    - row: 0
+      col: 2
+  values:
+    - 1
+  areas:
+    - Row: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 0
+    - row: 0
+      col: 3
+  values:
+    - 3
+  areas:
+    - Row: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 4
+    - row: 5
+      col: 0
+    - row: 1
+      col: 2
+    - row: 0
+      col: 5
+  values:
+    - 2
+  areas:
+    - Row: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 1
+    - row: 0
+      col: 0
+    - row: 1
+      col: 3
+    - row: 5
+      col: 5
+  values:
+    - 4
+  areas:
+    - Row: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 1
+    - row: 1
+      col: 2
+    - row: 5
+      col: 0
+  values:
+    - 2
+  areas:
+    - Column: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 4
+    - row: 1
+      col: 3
+    - row: 5
+      col: 5
+  values:
+    - 4
+  areas:
+    - Column: 4
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 1
+  values:
+    - 6
+  areas:
+    - Region: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: NakedSingle
+  cells:
+    - row: 1
+      col: 4
+  values:
+    - 5
+  areas:
+    - Region: 1
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 0
+    - row: 0
+      col: 2
+    - row: 1
+      col: 5
+  values:
+    - 1
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 5
+    - row: 1
+      col: 0
+    - row: 0
+      col: 3
+  values:
+    - 3
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 3
+    - row: 5
+      col: 0
+    - row: 2
+      col: 1
+    - row: 3
+      col: 4
+    - row: 0
+      col: 5
+  values:
+    - 2
+  areas:
+    - Row: 4
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 2
+    - row: 0
+      col: 0
+    - row: 3
+      col: 1
+    - row: 2
+      col: 4
+    - row: 5
+      col: 5
+  values:
+    - 4
+  areas:
+    - Row: 4
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 2
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas:
+    - Region: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 3
+    - row: 1
+      col: 5
+    - row: 0
+      col: 2
+  values:
+    - 1
+  areas:
+    - Region: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 3
+    - row: 1
+      col: 4
+    - row: 0
+      col: 1
+  values:
+    - 5
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 2
+    - row: 1
+      col: 1
+    - row: 0
+      col: 4
+  values:
+    - 6
+  areas:
+    - Row: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 0
+    - row: 1
+      col: 4
+  values:
+    - 5
+  areas:
+    - Row: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 5
+    - row: 1
+      col: 1
+  values:
+    - 6
+  areas:
+    - Row: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 4
+    - row: 2
+      col: 0
+    - row: 1
+      col: 5
+    - row: 3
+      col: 3
+  values:
+    - 1
+  areas:
+    - Row: 4
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 1
+    - row: 1
+      col: 0
+    - row: 3
+      col: 2
+    - row: 2
+      col: 5
+  values:
+    - 3
+  areas:
+    - Row: 4
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 1
+    - row: 0
+      col: 2
+    - row: 3
+      col: 3
+  values:
+    - 1
+  areas:
+    - Row: 5
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 4
+    - row: 3
+      col: 2
+  values:
+    - 3
+  areas:
+    - Row: 5
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 0
+    - row: 1
+      col: 1
+  values:
+    - 6
+  areas:
+    - Column: 0
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 2
+    - row: 1
+      col: 4
+    - row: 0
+      col: 1
+  values:
+    - 5
+  areas:
+    - Column: 2
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 3
+    - row: 1
+      col: 1
+    - row: 0
+      col: 4
+  values:
+    - 6
+  areas:
+    - Column: 3
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 5
+    - row: 1
+      col: 4
+  values:
+    - 5
+  areas:
+    - Column: 5
+  affected_cells: []
+  candidates: ~
+  invalid_state_reason: ~

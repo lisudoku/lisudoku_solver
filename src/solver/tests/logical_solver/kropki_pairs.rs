@@ -25,7 +25,7 @@ fn check_kropki_negative_row_consecutive() {
   let step = steps.into_iter().next().unwrap();
   assert_eq!(step.rule, Rule::Kropki);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 2) ]);
-  assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 5 ]);
+  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 5 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(6) ]);
   assert!(solver.candidates[0][2].contains(&5));
   solver.apply_rule(&step);
@@ -51,7 +51,7 @@ fn check_kropki_negative_row_consecutive() {
 
 //   assert_eq!(step.rule, Rule::Kropki);
 //   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
-//   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 5, 7, 9 ]);
+//   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 5, 7, 9 ]);
 //   assert_eq!(step.areas, vec![ Area::KropkiDot(0) ]);
 //   assert!(solver.candidates[0][0].contains(&5));
 //   solver.apply_rule(&step);
@@ -77,7 +77,7 @@ fn check_kropki_negative_row_consecutive() {
 
 //   assert_eq!(step.rule, Rule::Kropki);
 //   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
-//   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 1, 3, 5, 6, 7, 9 ]);
+//   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 5, 6, 7, 9 ]);
 //   assert_eq!(step.areas, vec![ Area::KropkiDot(0) ]);
 //   assert!(solver.candidates[0][0].contains(&3));
 //   solver.apply_rule(&step);
@@ -117,7 +117,7 @@ fn check_kropki_negative_row_consecutive() {
 
 //   assert_eq!(step.rule, Rule::Kropki);
 //   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
-//   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 1, 2, 6, 7, 8, 9 ]);
+//   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 2, 6, 7, 8, 9 ]);
 //   assert_eq!(step.areas, vec![ Area::KropkiDot(0) ]);
 //   assert!(solver.candidates[0][0].contains(&2));
 //   solver.apply_rule(&step);
@@ -143,7 +143,7 @@ fn check_kropki_negative_row_consecutive() {
 //   let step = &steps[0];
 //   assert_eq!(step.rule, Rule::Kropki);
 //   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
-//   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 5, 7, 9 ]);
+//   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 5, 7, 9 ]);
 //   assert_eq!(step.areas, vec![ Area::KropkiDot(0) ]);
 //   assert!(solver.candidates[0][0].contains(&5));
 //   solver.apply_rule(&step);
@@ -154,7 +154,7 @@ fn check_kropki_negative_row_consecutive() {
 //   let step = &steps[1];
 //   assert_eq!(step.rule, Rule::Kropki);
 //   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 1) ]);
-//   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 5, 7, 9 ]);
+//   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 5, 7, 9 ]);
 //   assert_eq!(step.areas, vec![ Area::KropkiDot(0) ]);
 //   solver.apply_rule(&step);
 //   assert_eq!(solver.candidates[0][1].len(), 9 - 3);
@@ -162,7 +162,7 @@ fn check_kropki_negative_row_consecutive() {
 //   let step = &steps[2];
 //   assert_eq!(step.rule, Rule::Kropki);
 //   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 2) ]);
-//   assert_eq!(step.values.iter().sorted().copied().collect_vec(), vec![ 5, 7, 9 ]);
+//   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 5, 7, 9 ]);
 //   assert_eq!(step.areas, vec![ Area::KropkiDot(1) ]);
 //   solver.apply_rule(&step);
 //   assert_eq!(solver.candidates[0][2].len(), 9 - 3);

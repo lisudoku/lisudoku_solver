@@ -1,5 +1,4 @@
 use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique}}};
-use itertools::Itertools;
 
 #[test]
 fn check_grid_steps_without_candidates() {
@@ -79,13 +78,12 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   let mut step = steps.into_iter().next().unwrap();
   assert_eq!(step.values, vec![4]);
   assert_eq!(step.rule, Rule::NakedSingle);
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
     CellPosition::new(0, 2),
   ]);
-  assert_eq!(step.affected_cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 3), CellPosition::new(1, 2), CellPosition::new(1, 3),
-    CellPosition::new(2, 1), CellPosition::new(2, 2), CellPosition::new(2, 3),
-    CellPosition::new(3, 2),
+  assert_eq!(step.affected_cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+    CellPosition::new(0, 3), CellPosition::new(1, 2), CellPosition::new(2, 2), CellPosition::new(3, 2),
+    CellPosition::new(1, 3), CellPosition::new(2, 3), CellPosition::new(2, 1),
   ]);
   let CellPosition { row, col } = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
@@ -129,13 +127,13 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
   let mut step = steps.into_iter().next().unwrap();
   assert_eq!(step.values, vec![6]);
   assert_eq!(step.rule, Rule::NakedSingle);
-  assert_eq!(step.cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
     CellPosition::new(4, 2),
   ]);
-  assert_eq!(step.affected_cells.iter().copied().sorted().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 2), CellPosition::new(1, 2), CellPosition::new(2, 2),
-    CellPosition::new(3, 1), CellPosition::new(3, 2), CellPosition::new(3, 3),
+  assert_eq!(step.affected_cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
     CellPosition::new(4, 3), CellPosition::new(4, 4), CellPosition::new(4, 5),
+    CellPosition::new(0, 2), CellPosition::new(1, 2), CellPosition::new(2, 2),
+    CellPosition::new(3, 2), CellPosition::new(3, 1), CellPosition::new(3, 3),
   ]);
   assert!(solver.candidates[3][1].contains(&6));
 
