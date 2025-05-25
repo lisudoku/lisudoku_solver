@@ -9,8 +9,7 @@ fn check_anti_knight_common_peer_elimination_1() {
     FixedNumber::new(5, 5, 3),
     FixedNumber::new(6, 1, 5),
   ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
@@ -45,8 +44,7 @@ fn check_anti_knight_common_peer_elimination_2() {
     FixedNumber::new(5, 3, 6),
     FixedNumber::new(5, 5, 7),
   ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 

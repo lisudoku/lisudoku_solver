@@ -56,9 +56,7 @@ fn check_wrong_secondary_diagonal() {
 
 #[test]
 fn check_correct_both_diagonals() {
-  let mut constraints = SudokuConstraints::new(4, vec![]);
-  constraints.primary_diagonal = true;
-  constraints.secondary_diagonal = true;
+  let constraints = SudokuConstraints::new(4, vec![]).with_diagonals();
   let grid = SudokuGrid {
     values: vec![
       vec![ 2, 1, 4, 3 ],

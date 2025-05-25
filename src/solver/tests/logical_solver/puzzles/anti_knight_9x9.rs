@@ -27,8 +27,7 @@ fn check_anti_knight_9x9_1_solve() {
     FixedNumber::new(8, 8, 5),
   ];
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
@@ -79,8 +78,7 @@ fn check_anti_knight_9x9_2_solve() {
     FixedNumber::new(8, 7, 5),
   ];
   let empty_cells = grid_size * grid_size - fixed_numbers.len();
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);

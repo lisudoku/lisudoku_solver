@@ -2,8 +2,7 @@ use crate::{solver::Solver, types::{Area, InvalidStateReason, InvalidStateType, 
 
 #[test]
 fn check_anti_knight_correct() {
-  let mut constraints = SudokuConstraints::new(4, vec![]);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(4, vec![]).with_anti_knight();
   let grid = SudokuGrid {
     values: vec![
       vec![ 1, 2, 4, 3 ],
@@ -19,8 +18,7 @@ fn check_anti_knight_correct() {
 
 #[test]
 fn check_anti_knight_wrong() {
-  let mut constraints = SudokuConstraints::new(4, vec![]);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(4, vec![]).with_anti_knight();
   let grid = SudokuGrid {
     values: vec![
       vec![ 2, 1, 4, 3 ],
@@ -46,8 +44,7 @@ fn check_anti_knight_wrong() {
 
 #[test]
 fn check_anti_knight_invalid_region() {
-  let mut constraints = SudokuConstraints::new(4, vec![]);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(4, vec![]).with_anti_knight();
   let grid = SudokuGrid {
     values: vec![
       vec![ 1, 0, 0, 0 ],

@@ -8,8 +8,7 @@ fn check_mixed_9x9_1_hard_solve() {
     FixedNumber::new(1, 3, 9),
   ];
   let _empty_cells = grid_size * grid_size - fixed_numbers.len();
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   constraints.thermos = vec![
     vec![
       CellPosition::new(1, 4),

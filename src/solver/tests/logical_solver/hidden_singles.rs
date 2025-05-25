@@ -129,8 +129,7 @@ fn check_hidden_single_using_anti_knight_1() {
     FixedNumber::new(5, 0, 1),
     FixedNumber::new(6, 2, 1),
   ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
 
   let steps = HiddenSingles.run(&solver);
@@ -163,8 +162,7 @@ fn check_hidden_single_using_anti_knight_2() {
     FixedNumber::new(1, 4, 4),
     FixedNumber::new(3, 2, 5),
   ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
 
   let steps = HiddenSingles.run(&solver);

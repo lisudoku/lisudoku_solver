@@ -67,8 +67,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
     FixedNumber::new(0, 1, 2),
     FixedNumber::new(1, 0, 3),
   ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.anti_knight = true;
+  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints, None);
   // TODO: will have to fix version without candidates_active
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
