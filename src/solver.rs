@@ -10,6 +10,7 @@ use std::cmp::{min, max};
 use std::ops::BitAnd;
 use std::rc::Rc;
 use itertools::Itertools;
+use logical_solver::adhoc_naked_set::AdhocNakedSet;
 use logical_solver::palindrome_candidates::PalindromeCandidates;
 use logical_solver::palindrome_values::PalindromeValues;
 use self::logical_solver::advanced_candidates::CellEliminationsResult;
@@ -158,7 +159,7 @@ impl Solver {
             })
             .collect();
           let negative_cells: HashSet<CellPosition> = adjacent_cells.difference(&dot_cells).copied().collect();
-          for negative_cell in negative_cells {
+          for negative_cell in negative_cells.into_iter().sorted() {
             let kropki_dot_index = constraints.kropki_dots.len();
             grid_to_kropki_dots[cell.row][cell.col].push(kropki_dot_index);
             grid_to_kropki_dots[negative_cell.row][negative_cell.col].push(kropki_dot_index);
@@ -261,6 +262,7 @@ impl Solver {
       Rc::new(KropkiAdvancedCandidates),
       Rc::new(ArrowAdvancedCandidates),
       Rc::new(CommonPeerEliminationArrow),
+      Rc::new(AdhocNakedSet),
       Rc::new(TurbotFish),
       Rc::new(EmptyRectangles),
       // Rc::new(PhistomefelRing), // disabled for now...
@@ -299,7 +301,7 @@ impl Solver {
     match area {
       #[allow(unused_parens)]
       (
-        &Area::Row(_) | &Area::Column(_) | &Area::Region(_) | &Area::Renban(_) |
+        &Area::Adhoc(_) | &Area::Row(_) | &Area::Column(_) | &Area::Region(_) | &Area::Renban(_) |
         &Area::PrimaryDiagonal | &Area::SecondaryDiagonal
       ) => self.compute_generic_area_cell_candidates(area),
       &Area::Thermo(thermo_index) => self.compute_thermo_cell_candidates(thermo_index, cell),
@@ -412,11 +414,37 @@ impl Solver {
   // Note: update when adding new areas
   // Note: we're mostly interested in areas with uniqueness constraints
   fn get_cell_areas(&self, cell: &CellPosition, include_thermo: bool) -> Vec<Area> {
+    let mut areas: Vec<Area> = vec![];
+
+    areas.extend(self.get_cell_classic_areas(cell));
+    areas.extend(self.get_cell_special_areas(cell, include_thermo));
+
+    areas
+  }
+
+  fn get_cell_classic_areas(&self, cell: &CellPosition) -> Vec<Area> {
     let &CellPosition { row, col } = cell;
     let mut areas = vec![ Area::Row(row), Area::Column(col) ];
+
     for &region_index in &self.grid_to_regions[row][col] {
-      areas.push(Area::Region(region_index));
+      if region_index < self.constraints.grid_size {
+        areas.push(Area::Region(region_index));
+      }
     }
+
+    areas
+  }
+
+  fn get_cell_special_areas(&self, cell: &CellPosition, include_thermo: bool) -> Vec<Area> {
+    let &CellPosition { row, col } = cell;
+    let mut areas: Vec<Area> = vec![];
+
+    for &region_index in &self.grid_to_regions[row][col] {
+      if region_index >= self.constraints.grid_size {
+        areas.push(Area::Region(region_index));
+      }
+    }
+
     if self.constraints.primary_diagonal && row == col {
       areas.push(Area::PrimaryDiagonal);
     }
@@ -505,6 +533,7 @@ impl Solver {
   fn get_area_cells(&self, area: &Area) -> Vec<CellPosition> {
     match area {
       &Area::Grid => self.get_grid_cells(),
+      Area::Adhoc(cells) => cells.to_vec(),
       &Area::Cell(row, col) => vec![CellPosition::new(row, col)],
       &Area::Row(row) => self.get_row_cells(row),
       &Area::Column(col) => self.get_col_cells(col),
@@ -610,7 +639,7 @@ impl Solver {
   fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<HashSet<u32>>>) -> HashMap<u32, Vec<CellPosition>> {
     let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
     for cell in self.get_empty_area_cells(area) {
-      for value in &candidates[cell.row][cell.col] {
+      for value in candidates[cell.row][cell.col].iter().sorted() {
         let entry = value_cells.entry(*value).or_insert(vec![]);
         entry.push(cell);
       }
@@ -632,7 +661,26 @@ impl Solver {
   // What it considers as a "peer" is subjective, it doesn't consider
   // all restrictions at this level (e.g. thermo, palindrome)
   fn get_cell_peers(&self, cell: &CellPosition, include_thermo: bool) -> Vec<CellPosition> {
-    let mut peers: Vec<CellPosition> = self.get_cell_areas(cell, include_thermo)
+    let mut peers: Vec<CellPosition> = vec![];
+
+    peers.extend(self.get_cell_classic_peers(cell));
+    peers.extend(self.get_cell_special_peers(cell, include_thermo));
+
+    peers.into_iter()
+         .filter(|other_cell| other_cell != cell)
+         .unique()
+         .collect()
+  }
+
+  fn get_cell_classic_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
+    self.get_cell_classic_areas(cell)
+      .iter()
+      .flat_map(|area| self.get_area_cells(area))
+      .collect()
+  }
+
+  fn get_cell_special_peers(&self, cell: &CellPosition, include_thermo: bool) -> Vec<CellPosition> {
+    let mut peers: Vec<CellPosition> = self.get_cell_special_areas(cell, include_thermo)
       .iter()
       .flat_map(|area| self.get_area_cells(area))
       .collect();
@@ -645,10 +693,17 @@ impl Solver {
       peers.extend(self.get_king_peers(cell));
     }
 
-    peers.into_iter()
-         .filter(|other_cell| other_cell != cell)
-         .unique()
-         .collect()
+    peers
+  }
+
+  // Returns peers that are special and are not peers through classical constraints
+  fn get_cell_only_special_peers(&self, cell: &CellPosition, include_thermo: bool) -> Vec<CellPosition> {
+    let special_peers = self.get_cell_special_peers(cell, include_thermo);
+    let classic_peers = self.get_cell_classic_peers(cell);
+
+    special_peers.into_iter().filter(|special_peer|
+      !classic_peers.contains(special_peer)
+    ).collect()
   }
 
   fn get_knight_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {

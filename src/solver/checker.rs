@@ -109,7 +109,7 @@ impl Solver {
       &Area::KropkiDot(kropki_dot_index) => self.check_kropki_dot_valid(kropki_dot_index),
       &Area::Renban(_) => self.check_renban_valid(area),
       &Area::Palindrome(_) => self.check_palindrome_valid(area),
-      &Area::Grid | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
+      &Area::Grid | &Area::Adhoc(_) | &Area::Cell(_, _) | &Area::Arrow(_) => unimplemented!(),
     }
   }
 
@@ -129,7 +129,7 @@ impl Solver {
           false,
           Some(InvalidStateReason {
             state_type: InvalidStateType::AreaValueConflict,
-            area: *area,
+            area: area.clone(),
             values: vec![value],
           }),
         )
@@ -151,7 +151,7 @@ impl Solver {
         false,
         Some(InvalidStateReason {
           state_type: InvalidStateType::AreaCandidates,
-          area: *area,
+          area: area.clone(),
           values,
         }),
       )
@@ -179,7 +179,7 @@ impl Solver {
             false,
             Some(InvalidStateReason {
               state_type: InvalidStateType::AreaCandidates,
-              area: *area,
+              area: area.clone(),
               values,
             }),
           )
@@ -203,7 +203,7 @@ impl Solver {
           false,
           Some(InvalidStateReason {
             state_type: InvalidStateType::AreaConstraint,
-            area: *area,
+            area: area.clone(),
             values: vec![crt_max_value, value],
           }),
         )
@@ -284,7 +284,7 @@ impl Solver {
         false,
         Some(InvalidStateReason {
           state_type: InvalidStateType::AreaConstraint,
-          area: *area,
+          area: area.clone(),
           values: vec![],
         }),
       )
@@ -303,7 +303,7 @@ impl Solver {
           false,
           Some(InvalidStateReason {
             state_type: InvalidStateType::AreaConstraint,
-            area: *area,
+            area: area.clone(),
             values: vec![left as u32, right as u32],
           }),
         )
@@ -394,7 +394,7 @@ impl Solver {
           false,
           Some(InvalidStateReason {
             state_type: InvalidStateType::AreaConstraint,
-            area: *area,
+            area: area.clone(),
             values: vec![],
           }),
         )

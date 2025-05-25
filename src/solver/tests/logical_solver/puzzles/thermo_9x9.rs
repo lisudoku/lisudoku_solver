@@ -1,6 +1,9 @@
+use ntest::timeout;
+
 use crate::{types::{FixedNumber, SudokuConstraints, CellPosition, SolutionType}, solver::Solver};
 
 #[test]
+#[timeout(3000)]
 fn check_9x9_thermo_medium_solve() {
   // UK Sudoku Championship 2022 booklet - 9x9 thermo https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
   let grid_size = 9;
@@ -87,7 +90,7 @@ fn check_9x9_thermo_medium_solve() {
     vec![ 8, 4, 1, 2, 3, 5, 6, 7, 9 ],
   ]);
   assert!(result.steps.len() > empty_cells);
-  insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!("check_9x9_thermo_medium_solve", result.steps);
 }
 
 #[test]
@@ -117,6 +120,7 @@ fn check_9x9_thermo_no_solution() {
 
 // https://github.com/lisudoku/lisudoku_solver/issues/68
 #[test]
+#[timeout(3000)]
 fn check_9x9_thermo_hard_solve() {
   let grid_size = 9;
   let mut constraints = SudokuConstraints::new(grid_size, vec![]);
@@ -174,5 +178,5 @@ fn check_9x9_thermo_hard_solve() {
     vec![ 8, 5, 2, 3, 9, 6, 4, 1, 7 ],
     vec![ 4, 1, 9, 7, 8, 2, 3, 5, 6 ],
   ]);
-  insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!("check_9x9_thermo_hard_solve", result.steps);
 }

@@ -1,7 +1,10 @@
+use ntest::timeout;
+
 use crate::{types::{SudokuConstraints, CellPosition, SolutionType, KropkiDot, FixedNumber}, solver::Solver};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1_IB.pdf
 #[test]
+#[timeout(5000)]
 fn check_kropki_9x9_1_solve() {
   let grid_size = 9;
   let empty_cells = grid_size * grid_size;
@@ -68,7 +71,7 @@ fn check_kropki_9x9_1_solve() {
     vec![ 9, 4, 3, 8, 1, 7, 2, 6, 5 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
-  insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!("check_kropki_9x9_1_solve", result.steps);
 }
 
 // https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
@@ -130,6 +133,7 @@ fn check_kropki_9x9_2_solve() {
 
 // 2023 Sudoku GP Round 1
 #[test]
+#[timeout(4000)]
 fn check_kropki_9x9_3_solve() {
   let grid_size = 9;
   let empty_cells = grid_size * grid_size;
@@ -194,5 +198,5 @@ fn check_kropki_9x9_3_solve() {
     vec![ 9, 2, 3, 4, 5, 1, 7, 6, 8 ],
   ]);
   assert!(result.steps.len() >= empty_cells);
-  insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!("check_kropki_9x9_3_solve", result.steps);
 }

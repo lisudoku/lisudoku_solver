@@ -38,6 +38,7 @@ pub mod nishio_forcing_chains;
 pub mod renban_candidates;
 pub mod palindrome_values;
 pub mod palindrome_candidates;
+pub mod adhoc_naked_set;
 
 const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;
@@ -265,9 +266,9 @@ impl Solver {
          )
   }
 
-  // Returns cells in <area> except <cells> that have any of <values> candidates
-  fn get_affected_by_area_cells(&self, area: &Area, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.get_area_cells_with_candidates(area, values)
+  // Returns cells in area (given by <area_cells>) except <cells> that have any of <values> candidates
+  fn get_affected_by_area_cells_cells(&self, area_cells: &Vec<CellPosition>, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
+    self.filter_cells_with_any_candidates(area_cells, values)
         .into_iter()
         .filter(|cell| !cells.contains(cell))
         .collect()
@@ -290,7 +291,7 @@ impl Solver {
 
   fn find_common_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
     let areas = self.find_common_areas(cells);
-    let other_areas: Vec<Area> = areas.into_iter().filter(|&area| area != area_exception).collect();
+    let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
     other_areas
   }
 
@@ -316,7 +317,7 @@ impl Solver {
       let cell_regions: HashSet<&usize> = self.grid_to_regions[cell.row][cell.col].iter().collect();
       common_regions = common_regions.intersection(&cell_regions).copied().collect();
     }
-    for &region_index in common_regions {
+    for &region_index in common_regions.into_iter().sorted() {
       areas.push(Area::Region(region_index));
     }
 
@@ -389,6 +390,7 @@ impl Solver {
       let invalid_values: Vec<u32> = cell_candidates.difference(valid_cell_candidates)
                                                     .into_iter()
                                                     .copied()
+                                                    .sorted()
                                                     .collect();
 
       if invalid_values.is_empty() {
@@ -403,12 +405,12 @@ impl Solver {
     self.get_all_proper_areas().iter().flat_map(|area| {
       let value_cells = self.compute_cells_by_value_in_area(area, &self.candidates);
 
-      value_cells.into_iter().filter_map(|(value, cells)| {
+      value_cells.into_iter().sorted().filter_map(|(value, cells)| {
         if cells.len() != 2 {
           return None
         }
         return Some(
-          (*area, value, cells[0], cells[1])
+          (area.clone(), value, cells[0], cells[1])
         )
       })
     }).collect()
@@ -418,7 +420,7 @@ impl Solver {
     self.get_all_strong_links()
       .iter()
       .cloned()
-      .sorted_by_key(|link| (link.1, link.0, link.2, link.3))
+      .sorted_by_key(|link| (link.1, link.0.clone(), link.2, link.3))
       .group_by(|link| link.1)
       .into_iter()
       .map(|(value, group)| (value, group.collect()))

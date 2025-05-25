@@ -1,7 +1,8 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule};
+use crate::types::{Area, Rule, SolutionStep};
 use combinations::Combinations;
+use itertools::Itertools;
 use super::technique::Technique;
 
 // Within a house, 2/3 cells have the same set of 2/3 candidates, remove those from all
@@ -20,41 +21,9 @@ impl Technique for NakedSet {
 
     let areas = solver.get_all_areas(false, true, false, true, false);
     for area in areas {
-      let area_cells = solver.get_empty_area_cells(&area);
-      let cell_combinations: Vec<_> = if self.set_size < area_cells.len() {
-        Combinations::new(area_cells, self.set_size).collect()
-      } else {
-        // Has to be handled separately because of stupid crate
-        vec![area_cells]
-      };
-
-      for cells in cell_combinations {
-        let mut combined_candidates: HashSet<u32> = HashSet::new();
-        for cell in &cells {
-          let candidates = &solver.candidates[cell.row][cell.col];
-          combined_candidates = combined_candidates.union(candidates).cloned().collect();
-          if combined_candidates.len() > self.set_size {
-            break
-          }
-        }
-
-        if combined_candidates.len() != self.set_size {
-          continue
-        }
-
-        let affected_cells = solver.get_affected_by_area_cells(&area, &cells, &combined_candidates);
-        if !solver.any_cells_with_candidates(&affected_cells, &combined_candidates) {
-          continue
-        }
-
-        return vec![
-          self.build_solution_step(
-            cells,
-            combined_candidates.into_iter().collect(),
-            vec![area],
-            affected_cells,
-          )
-        ]
+      let steps = self.run_in_area(area, solver);
+      if !steps.is_empty() {
+        return steps;
       }
     }
 
@@ -65,5 +34,46 @@ impl Technique for NakedSet {
 impl NakedSet {
   pub fn new(set_size: usize) -> NakedSet {
     NakedSet { set_size }
+  }
+
+  pub fn run_in_area(&self, area: Area, solver: &Solver) -> Vec<SolutionStep> {
+    let area_cells = solver.get_empty_area_cells(&area);
+    let cell_combinations: Vec<_> = if self.set_size < area_cells.len() {
+      Combinations::new(area_cells.to_vec(), self.set_size).collect()
+    } else {
+      // Has to be handled separately because of stupid crate
+      vec![area_cells.to_vec()]
+    };
+
+    for cells in cell_combinations {
+      let mut combined_candidates: HashSet<u32> = HashSet::new();
+      for cell in &cells {
+        let candidates = &solver.candidates[cell.row][cell.col];
+        combined_candidates = combined_candidates.union(candidates).cloned().collect();
+        if combined_candidates.len() > self.set_size {
+          break
+        }
+      }
+
+      if combined_candidates.len() != self.set_size {
+        continue
+      }
+
+      let affected_cells = solver.get_affected_by_area_cells_cells(&area_cells, &cells, &combined_candidates);
+      if !solver.any_cells_with_candidates(&affected_cells, &combined_candidates) {
+        continue
+      }
+
+      return vec![
+        self.build_solution_step(
+          cells,
+          combined_candidates.into_iter().sorted().collect(),
+          vec![ area ],
+          affected_cells,
+        )
+      ]
+    }
+
+    vec![]
   }
 }

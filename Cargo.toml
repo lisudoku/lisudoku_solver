@@ -26,3 +26,4 @@ lz-str = "0.2.1"
 
 [dev-dependencies]
 insta = { version = "1.42.2", features = ["yaml"] }
+ntest = "0.9.3"

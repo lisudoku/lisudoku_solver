@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fmt::{self, Display, Debug}};
+use std::fmt::{self, Display, Debug};
 use itertools::Itertools;
 use serde::{Serialize, Deserialize};
 
@@ -125,12 +125,20 @@ pub struct SudokuBruteSolveResult {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SolutionStep {
   pub rule: Rule,
+  // Used for grid steps (the first cell should have <value>) or e.g. Rule::XWing to
+  // show which cells build the X shape
   pub cells: Vec<CellPosition>,
+  // The meaning can vary between rules
   pub values: Vec<u32>,
+  // Used in rules that are applies inside an area. Could be multiple e.g. Rule::XWing
   pub areas: Vec<Area>,
+  // Used for non-grid steps. The meaning can vary between rules,
+  // but we will remove candidates from these cells.
   pub affected_cells: Vec<CellPosition>,
-  pub candidates: Option<Vec<Vec<HashSet<u32>>>>,
-  pub invalid_state_reason: Option<InvalidStateReason>, // Nishio
+  // Used for Rule::Candidates
+  pub candidates: Option<Vec<Vec<Vec<u32>>>>,
+  // Used for Rule::NishioForcingChains
+  pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash)]
@@ -169,13 +177,15 @@ pub enum Rule {
   Swordfish, // ???
   TurbotFish,
   EmptyRectangles,
+  AdhocNakedSet,
   PhistomefelRing,
   NishioForcingChains,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub enum Area {
   Grid,
+  Adhoc(Vec<CellPosition>),
   Cell(usize, usize),
   Row(usize),
   Column(usize),
@@ -284,6 +294,19 @@ impl SudokuConstraints {
   #[cfg(test)]
   pub fn with_anti_king(mut self) -> Self {
     self.anti_king = true;
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_anti_knight(mut self) -> Self {
+    self.anti_knight = true;
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_diagonals(mut self) -> Self {
+    self.primary_diagonal = true;
+    self.secondary_diagonal = true;
     self
   }
 
@@ -461,7 +484,8 @@ impl Area {
       Area::Row(row) => format!("row {}", row + 1),
       Area::Column(col) => format!("column {}", col + 1),
       Area::Region(region) => format!("box {}", region + 1),
-      Area::Grid | Area::Cell(_, _) | Area::Thermo(_) | Area::Arrow(_) |
+      Area::Grid | Area::Adhoc(_) | Area::Cell(_, _) |
+        Area::Thermo(_) | Area::Arrow(_) |
         Area::KillerCage(_) | Area::KropkiDot(_) |
         Area::PrimaryDiagonal | Area::SecondaryDiagonal |
         Area::Renban(_) | Area::Palindrome(_) => unimplemented!(),

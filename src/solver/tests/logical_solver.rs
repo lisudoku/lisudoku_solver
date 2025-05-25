@@ -31,4 +31,5 @@ mod palindrome_values;
 mod palindrome_candidates;
 mod phistomefel_ring;
 mod nishio_forcing_chains;
+mod adhoc_naked_set;
 mod puzzles;
