@@ -19,7 +19,7 @@ struct SumCombinationsLogic<'a> {
 }
 
 impl SumCombinationsLogic<'_> {
-  pub fn new<'a>(cells: &'_ Vec<CellPosition>, sum: u32) -> SumCombinationsLogic {
+  pub fn new<'a>(cells: &'_ Vec<CellPosition>, sum: u32) -> SumCombinationsLogic<'_> {
     SumCombinationsLogic {
       cells,
       sum_left: sum,
