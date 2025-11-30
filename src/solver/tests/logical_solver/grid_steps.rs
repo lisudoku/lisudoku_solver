@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_grid_steps_without_candidates() {
@@ -109,14 +109,14 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    Thermo(vec![
       CellPosition::new(4, 2),
       CellPosition::new(3, 1),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(4, 2),
       CellPosition::new(3, 3),
-    ],
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());

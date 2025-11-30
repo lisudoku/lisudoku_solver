@@ -1,6 +1,6 @@
 use std::{collections::HashSet, vec};
 use ntest::timeout;
-use crate::{solver::{logical_solver::{adhoc_naked_set::AdhocNakedSet, candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates}, Solver}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints, SudokuGrid}};
+use crate::{solver::{Solver, logical_solver::{adhoc_naked_set::AdhocNakedSet, candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints, Grid, Thermo}};
 
 #[test]
 fn check_adhoc_naked_sets_antiknight_4x4() {
@@ -32,7 +32,7 @@ fn check_adhoc_naked_sets_antiknight_4x4() {
 
 #[test]
 fn check_adhoc_naked_sets_diagonal_full_4x4() {
-  let fixed_numbers = SudokuGrid::from_string(String::from("\
+  let fixed_numbers = Grid::from_string(String::from("\
     0312\
     2034\
     1203\
@@ -53,11 +53,11 @@ fn check_adhoc_naked_sets_thermo_4x4_1() {
   ];
   let mut constraints = SudokuConstraints::new(4, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    Thermo(vec![
       CellPosition { row: 2, col: 2 },
       CellPosition { row: 2, col: 1 },
       CellPosition { row: 1, col: 2 },
-    ],
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
@@ -116,11 +116,11 @@ fn check_adhoc_naked_sets_thermo_6x6_peers() {
   ];
   let mut constraints = SudokuConstraints::new(6, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    Thermo(vec![
       CellPosition { row: 2, col: 3 },
       CellPosition { row: 1, col: 2 },
       CellPosition { row: 0, col: 3 },
-    ],
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
@@ -194,7 +194,7 @@ fn check_adhoc_naked_sets_empty_antiknight_9x9() {
 // https://lisudoku.xyz/p/X2vLSy6lGcGaNTVlQ9iY
 #[test]
 fn check_adhoc_naked_sets_contest_puzzle_antiknight_9x9() {
-  let fixed_numbers = SudokuGrid::from_string(String::from("\
+  let fixed_numbers = Grid::from_string(String::from("\
     005024010\
     024016005\
     000935624\

@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
+use crate::{solver::{Solver, checker::SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_wrong_odd() {
@@ -9,25 +9,22 @@ fn check_wrong_odd() {
   constraints.odd_cells = vec![
     CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(3, 0),
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
   assert_eq!(
     solved,
-    (
-      false,
-      Some(InvalidStateReason {
+    SolvedState::unsolved(
+      InvalidStateReason {
         state_type: InvalidStateType::CellInvalidValue,
         area: Area::Cell(3, 0),
         values: vec![4],
-      }),
+      }
     )
   );
 }
@@ -41,25 +38,22 @@ fn check_wrong_even() {
   constraints.odd_cells = vec![
     CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(3, 1),
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
   assert_eq!(
     solved,
-    (
-      false,
-      Some(InvalidStateReason {
+    SolvedState::unsolved(
+      InvalidStateReason {
         state_type: InvalidStateType::CellInvalidValue,
         area: Area::Cell(3, 3),
         values: vec![1],
-      }),
+      }
     )
   );
 }
@@ -73,15 +67,13 @@ fn check_solved_grid() {
   constraints.odd_cells = vec![
     CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(3, 1),
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, (true, None));
+  assert_eq!(solved, SolvedState::solved());
 }

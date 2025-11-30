@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{Area, Arrow, CellPosition, InvalidStateReason, InvalidStateType, SudokuConstraints, SudokuGrid}};
+use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_wrong_arrow() {
@@ -11,25 +11,22 @@ fn check_wrong_arrow() {
       ],
     },
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
   assert_eq!(
     solved,
-    (
-      false,
-      Some(InvalidStateReason {
+    SolvedState::unsolved(
+      InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Arrow(0),
         values: vec![],
-      }),
+      }
     )
   );
 }
@@ -45,17 +42,15 @@ fn check_correct_arrow() {
       ],
     },
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, (true, None));
+  assert_eq!(solved, SolvedState::solved());
 }
 
 #[test]
@@ -72,25 +67,22 @@ fn check_wrong_oval_arrow() {
       ],
     },
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
   assert_eq!(
     solved,
-    (
-      false,
-      Some(InvalidStateReason {
+    SolvedState::unsolved(
+      InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Arrow(0),
         values: vec![],
-      }),
+      }
     )
   );
 }
@@ -109,17 +101,15 @@ fn check_correct_oval_arrow() {
       ],
     },
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 2, 1, 4, 3 ],
-      vec![ 3, 4, 1, 2 ],
-      vec![ 1, 2, 3, 4 ],
-      vec![ 4, 3, 2, 1 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 2, 1, 4, 3 ],
+    vec![ 3, 4, 1, 2 ],
+    vec![ 1, 2, 3, 4 ],
+    vec![ 4, 3, 2, 1 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_solved();
-  assert_eq!(solved, (true, None));
+  assert_eq!(solved, SolvedState::solved());
 }
 
 #[test]
@@ -133,15 +123,13 @@ fn check_partial_arrow() {
       ],
     },
   ];
-  let grid = SudokuGrid {
-    values: vec![
-      vec![ 0, 1, 0, 3 ],
-      vec![ 0, 0, 0, 0 ],
-      vec![ 1, 0, 0, 0 ],
-      vec![ 0, 0, 0, 0 ],
-    ]
-  };
+  let grid = Grid(vec![
+    vec![ 0, 1, 0, 3 ],
+    vec![ 0, 0, 0, 0 ],
+    vec![ 1, 0, 0, 0 ],
+    vec![ 0, 0, 0, 0 ],
+  ]);
   let solver = Solver::new(constraints, Some(grid));
   let solved = solver.check_partially_solved();
-  assert_eq!(solved, (true, None));
+  assert_eq!(solved, SolvedState::solved());
 }

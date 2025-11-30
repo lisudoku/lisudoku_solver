@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates, locked_candidates::LockedCandidates}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, locked_candidates::LockedCandidates, technique::Technique, thermo_candidates::ThermoCandidates}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_thermo_candidates_update_hidden_single() {
@@ -11,7 +11,7 @@ fn check_thermo_candidates_update_hidden_single() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![ CellPosition::new(2, 3), CellPosition::new(3, 3), CellPosition::new(3, 2) ]
+    Thermo(vec![ CellPosition::new(2, 3), CellPosition::new(3, 3), CellPosition::new(3, 2) ]),
   ];
   let mut solver = Solver::new(constraints, None);
 
@@ -50,7 +50,7 @@ fn check_thermo_candidates_update_locked_candidates() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![ CellPosition::new(2, 5), CellPosition::new(3, 5), CellPosition::new(4, 5) ]
+    Thermo(vec![ CellPosition::new(2, 5), CellPosition::new(3, 5), CellPosition::new(4, 5) ]),
   ];
   let mut solver = Solver::new(constraints, None);
 

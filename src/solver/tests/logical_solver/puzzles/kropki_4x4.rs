@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, SolutionType, KropkiDot, FixedNumber}, solver::Solver};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_kropki_4x4_1_solve() {
@@ -17,12 +17,15 @@ fn check_kropki_4x4_1_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 1, 2, 3, 4 ],
-    vec![ 3, 4, 1, 2 ],
-    vec![ 2, 1, 4, 3 ],
-    vec![ 4, 3, 2, 1 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 1, 2, 3, 4 ],
+      vec![ 3, 4, 1, 2 ],
+      vec![ 2, 1, 4, 3 ],
+      vec![ 4, 3, 2, 1 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

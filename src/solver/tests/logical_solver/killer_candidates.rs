@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, KillerCage, FixedNumber, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, killer_candidates::KillerCandidates}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, killer_candidates::KillerCandidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -8,7 +8,7 @@ fn check_killer_candidates_single_unfixed() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(7),
-      region: vec![ CellPosition::new(8, 8) ],
+      region: Region(vec![ CellPosition::new(8, 8) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);
@@ -37,7 +37,7 @@ fn check_killer_candidates_single_fixed() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(5),
-      region: vec![ CellPosition::new(0, 0) ],
+      region: Region(vec![ CellPosition::new(0, 0) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);
@@ -54,7 +54,7 @@ fn check_killer_candidates_pair_1() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(4),
-      region: vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ],
+      region: Region(vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);
@@ -90,7 +90,7 @@ fn check_killer_candidates_pair_2() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(4),
-      region: vec![ CellPosition::new(8, 0), CellPosition::new(8, 1) ],
+      region: Region(vec![ CellPosition::new(8, 0), CellPosition::new(8, 1) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);

@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, KillerCage, Area, FixedNumber}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, killer45::Killer45}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, killer45::Killer45, technique::Technique}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -8,11 +8,11 @@ fn check_killer45_row() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(4),
-      region: vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ],
+      region: Region(vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]),
     },
     KillerCage {
       sum: Some(15),
-      region: vec![ CellPosition::new(0, 2), CellPosition::new(0, 3), CellPosition::new(0, 4) ],
+      region: Region(vec![ CellPosition::new(0, 2), CellPosition::new(0, 3), CellPosition::new(0, 4) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);
@@ -40,14 +40,14 @@ fn check_killer45_region() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(30),
-      region: vec![
+      region: Region(vec![
         CellPosition::new(3, 3), CellPosition::new(3, 4), CellPosition::new(3, 5),
         CellPosition::new(4, 3), CellPosition::new(5, 3),
-      ],
+      ]),
     },
     KillerCage {
       sum: Some(11),
-      region: vec![ CellPosition::new(4, 5), CellPosition::new(5, 5) ],
+      region: Region(vec![ CellPosition::new(4, 5), CellPosition::new(5, 5) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);
@@ -76,7 +76,7 @@ fn check_killer45_col_with_fixed_digits() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(12),
-      region: vec![ CellPosition::new(1, 1), CellPosition::new(2, 1), CellPosition::new(3, 1) ],
+      region: Region(vec![ CellPosition::new(1, 1), CellPosition::new(2, 1), CellPosition::new(3, 1) ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);
@@ -111,27 +111,27 @@ fn check_killer45_col_partial_cages() {
   constraints.killer_cages = vec![
     KillerCage {
       sum: Some(21),
-      region: vec![
+      region: Region(vec![
         CellPosition::new(1, 2), CellPosition::new(2, 2), CellPosition::new(2, 3),
         CellPosition::new(3, 3), CellPosition::new(3, 4), CellPosition::new(4, 4),
-      ],
+      ]),
     },
     KillerCage {
       sum: Some(13),
-      region: vec![
+      region: Region(vec![
         CellPosition::new(4, 2), CellPosition::new(4, 3), CellPosition::new(5, 3),
-      ],
+      ]),
     },
     KillerCage {
       sum: Some(12),
-      region: vec![ CellPosition::new(0, 3), CellPosition::new(0, 4), CellPosition::new(0, 5) ],
+      region: Region(vec![ CellPosition::new(0, 3), CellPosition::new(0, 4), CellPosition::new(0, 5) ]),
     },
     KillerCage {
       sum: Some(28),
-      region: vec![
+      region: Region(vec![
         CellPosition::new(6, 3), CellPosition::new(6, 2), CellPosition::new(7, 2),
         CellPosition::new(7, 3), CellPosition::new(8, 3),
-      ],
+      ]),
     },
   ];
   let mut solver = Solver::new(constraints, None);

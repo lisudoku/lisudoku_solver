@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // https://github.com/lisudoku/lisudoku_solver/issues/32
 #[test]
@@ -35,17 +35,20 @@ fn check_odd_even_9x9_1_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 9, 6, 5, 2, 1, 7, 4, 8, 3 ],
-    vec![ 4, 1, 7, 8, 3, 6, 5, 9, 2 ],
-    vec![ 8, 3, 2, 5, 9, 4, 6, 7, 1 ],
-    vec![ 3, 2, 9, 1, 8, 5, 7, 4, 6 ],
-    vec![ 6, 5, 1, 4, 7, 2, 8, 3, 9 ],
-    vec![ 7, 4, 8, 3, 6, 9, 1, 2, 5 ],
-    vec![ 1, 9, 6, 7, 4, 3, 2, 5, 8 ],
-    vec![ 2, 7, 3, 6, 5, 8, 9, 1, 4 ],
-    vec![ 5, 8, 4, 9, 2, 1, 3, 6, 7 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 9, 6, 5, 2, 1, 7, 4, 8, 3 ],
+      vec![ 4, 1, 7, 8, 3, 6, 5, 9, 2 ],
+      vec![ 8, 3, 2, 5, 9, 4, 6, 7, 1 ],
+      vec![ 3, 2, 9, 1, 8, 5, 7, 4, 6 ],
+      vec![ 6, 5, 1, 4, 7, 2, 8, 3, 9 ],
+      vec![ 7, 4, 8, 3, 6, 9, 1, 2, 5 ],
+      vec![ 1, 9, 6, 7, 4, 3, 2, 5, 8 ],
+      vec![ 2, 7, 3, 6, 5, 8, 9, 1, 4 ],
+      vec![ 5, 8, 4, 9, 2, 1, 3, 6, 7 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }
@@ -87,17 +90,20 @@ fn check_odd_even_9x9_2_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 5, 9, 8, 7, 6, 4, 3, 1, 2 ],
-    vec![ 7, 6, 3, 2, 1, 5, 8, 4, 9 ],
-    vec![ 2, 1, 4, 8, 3, 9, 5, 6, 7 ],
-    vec![ 4, 3, 2, 6, 9, 7, 1, 5, 8 ],
-    vec![ 9, 8, 5, 3, 2, 1, 4, 7, 6 ],
-    vec![ 1, 7, 6, 5, 4, 8, 2, 9, 3 ],
-    vec![ 8, 5, 9, 4, 7, 2, 6, 3, 1 ],
-    vec![ 6, 4, 1, 9, 8, 3, 7, 2, 5 ],
-    vec![ 3, 2, 7, 1, 5, 6, 9, 8, 4 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 5, 9, 8, 7, 6, 4, 3, 1, 2 ],
+      vec![ 7, 6, 3, 2, 1, 5, 8, 4, 9 ],
+      vec![ 2, 1, 4, 8, 3, 9, 5, 6, 7 ],
+      vec![ 4, 3, 2, 6, 9, 7, 1, 5, 8 ],
+      vec![ 9, 8, 5, 3, 2, 1, 4, 7, 6 ],
+      vec![ 1, 7, 6, 5, 4, 8, 2, 9, 3 ],
+      vec![ 8, 5, 9, 4, 7, 2, 6, 3, 1 ],
+      vec![ 6, 4, 1, 9, 8, 3, 7, 2, 5 ],
+      vec![ 3, 2, 7, 1, 5, 6, 9, 8, 4 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

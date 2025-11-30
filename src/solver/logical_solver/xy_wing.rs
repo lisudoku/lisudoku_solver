@@ -1,7 +1,8 @@
 use std::collections::HashSet;
 use itertools::Itertools;
 use crate::solver::Solver;
-use crate::types::{CellPosition, InvalidStateReason, Rule, SolutionStep};
+use crate::solver::checker::SolvedState;
+use crate::types::{CellPosition, Rule, SolutionStep};
 use super::technique::Technique;
 
 pub struct XYWing;
@@ -61,11 +62,11 @@ impl Technique for XYWing {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> (bool, Option<InvalidStateReason>) {
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> SolvedState {
     for &CellPosition { row, col } in &step.affected_cells {
       // Remove Z as candidate
       solver.candidates[row][col].remove(&step.values[2]);
     }
-    (true, None)
+    SolvedState::solved()
   }
 }

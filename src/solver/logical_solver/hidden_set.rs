@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
-use crate::types::{CellPosition, InvalidStateReason, Rule, SolutionStep};
+use crate::solver::checker::SolvedState;
+use crate::types::{CellPosition, Rule, SolutionStep};
 use combinations::Combinations;
 use itertools::Itertools;
 use super::technique::Technique;
@@ -65,12 +66,12 @@ impl Technique for HiddenSet {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> (bool, Option<InvalidStateReason>) {
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> SolvedState {
     for &CellPosition { row, col } in &step.cells {
       let value_set: HashSet<u32> = step.values.iter().copied().collect();
       solver.candidates[row][col] = solver.candidates[row][col].intersection(&value_set).copied().collect();
     }
-    (true, None)
+    SolvedState::solved()
   }
 }
 

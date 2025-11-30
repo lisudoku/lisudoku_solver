@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType}, solver::Solver};
+use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // TODO: uncomment after implementing more rules
 // // https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
@@ -79,17 +79,20 @@ fn check_diagonal_9x9_2_medium_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 3, 7, 1, 8, 6, 5, 2, 9, 4 ],
-    vec![ 2, 6, 5, 9, 1, 4, 7, 3, 8 ],
-    vec![ 8, 4, 9, 7, 3, 2, 5, 1, 6 ],
-    vec![ 5, 3, 6, 4, 2, 9, 8, 7, 1 ],
-    vec![ 1, 9, 8, 3, 7, 6, 4, 5, 2 ],
-    vec![ 7, 2, 4, 1, 5, 8, 3, 6, 9 ],
-    vec![ 4, 5, 2, 6, 9, 7, 1, 8, 3 ],
-    vec![ 9, 8, 3, 5, 4, 1, 6, 2, 7 ],
-    vec![ 6, 1, 7, 2, 8, 3, 9, 4, 5 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 3, 7, 1, 8, 6, 5, 2, 9, 4 ],
+      vec![ 2, 6, 5, 9, 1, 4, 7, 3, 8 ],
+      vec![ 8, 4, 9, 7, 3, 2, 5, 1, 6 ],
+      vec![ 5, 3, 6, 4, 2, 9, 8, 7, 1 ],
+      vec![ 1, 9, 8, 3, 7, 6, 4, 5, 2 ],
+      vec![ 7, 2, 4, 1, 5, 8, 3, 6, 9 ],
+      vec![ 4, 5, 2, 6, 9, 7, 1, 8, 3 ],
+      vec![ 9, 8, 3, 5, 4, 1, 6, 2, 7 ],
+      vec![ 6, 1, 7, 2, 8, 3, 9, 4, 5 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

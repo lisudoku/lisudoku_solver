@@ -12,7 +12,7 @@ impl Solver {
 
     let res = SudokuBruteSolveResult {
       solution_count,
-      solution: if let Some(grid) = &self.solution { Some(grid.to_vec()) } else { None },
+      solution: if let Some(grid) = &self.solution { Some(grid.clone()) } else { None },
     };
     res
   }
@@ -23,7 +23,7 @@ impl Solver {
 
     let mut original_grid: Option<Grid> = None;
     if use_logical {
-      original_grid = Some(self.grid.to_vec());
+      original_grid = Some(self.grid.clone());
       // No need to store candidates, we will recompute
       // Storing would complicate things and we need to do it for each candidate at each depth
       self.candidates_active = false;
@@ -43,7 +43,7 @@ impl Solver {
     }
 
     if best_cell.is_none() {
-      self.solution = Some(self.grid.to_vec());
+      self.solution = Some(self.grid.clone());
       *solution_count += 1;
     } else if !best_candidates.is_empty() {
       for value in best_candidates.into_iter() {

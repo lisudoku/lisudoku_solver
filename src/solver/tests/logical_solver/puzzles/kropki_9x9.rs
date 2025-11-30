@@ -1,6 +1,6 @@
 use ntest::timeout;
 
-use crate::{types::{SudokuConstraints, CellPosition, SolutionType, KropkiDot, FixedNumber}, solver::Solver};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1_IB.pdf
 #[test]
@@ -59,17 +59,20 @@ fn check_kropki_9x9_1_solve() {
   assert_eq!(solver.constraints.kropki_dots.len(), (grid_size - 1) * grid_size * 2);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 7, 5, 2, 3, 6, 8, 1, 4, 9 ],
-    vec![ 4, 9, 6, 1, 7, 2, 8, 5, 3 ],
-    vec![ 8, 3, 1, 4, 5, 9, 6, 7, 2 ],
-    vec![ 1, 6, 4, 2, 9, 5, 7, 3, 8 ],
-    vec![ 5, 8, 7, 6, 3, 1, 9, 2, 4 ],
-    vec![ 3, 2, 9, 7, 8, 4, 5, 1, 6 ],
-    vec![ 6, 7, 5, 9, 2, 3, 4, 8, 1 ],
-    vec![ 2, 1, 8, 5, 4, 6, 3, 9, 7 ],
-    vec![ 9, 4, 3, 8, 1, 7, 2, 6, 5 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 7, 5, 2, 3, 6, 8, 1, 4, 9 ],
+      vec![ 4, 9, 6, 1, 7, 2, 8, 5, 3 ],
+      vec![ 8, 3, 1, 4, 5, 9, 6, 7, 2 ],
+      vec![ 1, 6, 4, 2, 9, 5, 7, 3, 8 ],
+      vec![ 5, 8, 7, 6, 3, 1, 9, 2, 4 ],
+      vec![ 3, 2, 9, 7, 8, 4, 5, 1, 6 ],
+      vec![ 6, 7, 5, 9, 2, 3, 4, 8, 1 ],
+      vec![ 2, 1, 8, 5, 4, 6, 3, 9, 7 ],
+      vec![ 9, 4, 3, 8, 1, 7, 2, 6, 5 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!("check_kropki_9x9_1_solve", result.steps);
 }
@@ -116,17 +119,20 @@ fn check_kropki_9x9_2_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 7, 6, 9, 4, 3, 2, 1, 5, 8 ],
-    vec![ 1, 2, 3, 5, 8, 6, 9, 4, 7 ],
-    vec![ 5, 4, 8, 9, 1, 7, 6, 3, 2 ],
-    vec![ 9, 5, 6, 7, 4, 8, 3, 2, 1 ],
-    vec![ 8, 1, 7, 6, 2, 3, 5, 9, 4 ],
-    vec![ 4, 3, 2, 1, 5, 9, 8, 7, 6 ],
-    vec![ 6, 9, 5, 2, 7, 1, 4, 8, 3 ],
-    vec![ 2, 8, 1, 3, 9, 4, 7, 6, 5 ],
-    vec![ 3, 7, 4, 8, 6, 5, 2, 1, 9 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 7, 6, 9, 4, 3, 2, 1, 5, 8 ],
+      vec![ 1, 2, 3, 5, 8, 6, 9, 4, 7 ],
+      vec![ 5, 4, 8, 9, 1, 7, 6, 3, 2 ],
+      vec![ 9, 5, 6, 7, 4, 8, 3, 2, 1 ],
+      vec![ 8, 1, 7, 6, 2, 3, 5, 9, 4 ],
+      vec![ 4, 3, 2, 1, 5, 9, 8, 7, 6 ],
+      vec![ 6, 9, 5, 2, 7, 1, 4, 8, 3 ],
+      vec![ 2, 8, 1, 3, 9, 4, 7, 6, 5 ],
+      vec![ 3, 7, 4, 8, 6, 5, 2, 1, 9 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }
@@ -186,17 +192,20 @@ fn check_kropki_9x9_3_solve() {
   assert_eq!(solver.constraints.kropki_dots.len(), (grid_size - 1) * grid_size * 2);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 6, 1, 5, 3, 7, 2, 8, 4, 9 ],
-    vec![ 8, 3, 7, 1, 4, 9, 2, 5, 6 ],
-    vec![ 2, 4, 9, 5, 8, 6, 1, 7, 3 ],
-    vec![ 4, 9, 1, 6, 2, 7, 3, 8, 5 ],
-    vec![ 3, 5, 2, 8, 1, 4, 6, 9, 7 ],
-    vec![ 7, 6, 8, 9, 3, 5, 4, 1, 2 ],
-    vec![ 5, 7, 4, 2, 6, 8, 9, 3, 1 ],
-    vec![ 1, 8, 6, 7, 9, 3, 5, 2, 4 ],
-    vec![ 9, 2, 3, 4, 5, 1, 7, 6, 8 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 6, 1, 5, 3, 7, 2, 8, 4, 9 ],
+      vec![ 8, 3, 7, 1, 4, 9, 2, 5, 6 ],
+      vec![ 2, 4, 9, 5, 8, 6, 1, 7, 3 ],
+      vec![ 4, 9, 1, 6, 2, 7, 3, 8, 5 ],
+      vec![ 3, 5, 2, 8, 1, 4, 6, 9, 7 ],
+      vec![ 7, 6, 8, 9, 3, 5, 4, 1, 2 ],
+      vec![ 5, 7, 4, 2, 6, 8, 9, 3, 1 ],
+      vec![ 1, 8, 6, 7, 9, 3, 5, 2, 4 ],
+      vec![ 9, 2, 3, 4, 5, 1, 7, 6, 8 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!("check_kropki_9x9_3_solve", result.steps);
 }

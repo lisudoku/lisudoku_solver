@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, SolutionType, KropkiDot, FixedNumber}, solver::Solver};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 // https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
 #[test]
@@ -42,14 +42,17 @@ fn check_kropki_6x6_1_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 6, 5, 4, 3, 2, 1 ],
-    vec![ 2, 1, 3, 6, 4, 5 ],
-    vec![ 4, 6, 5, 1, 3, 2 ],
-    vec![ 1, 3, 2, 4, 5, 6 ],
-    vec![ 3, 2, 6, 5, 1, 4 ],
-    vec![ 5, 4, 1, 2, 6, 3 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 6, 5, 4, 3, 2, 1 ],
+      vec![ 2, 1, 3, 6, 4, 5 ],
+      vec![ 4, 6, 5, 1, 3, 2 ],
+      vec![ 1, 3, 2, 4, 5, 6 ],
+      vec![ 3, 2, 6, 5, 1, 4 ],
+      vec![ 5, 4, 1, 2, 6, 3 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }
@@ -85,14 +88,17 @@ fn check_kropki_6x6_negative_condition_solve() {
   assert_eq!(solver.constraints.kropki_dots.len(), (grid_size - 1) * grid_size * 2);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 6, 2, 3, 1, 4, 5 ],
-    vec![ 1, 4, 5, 3, 6, 2 ],
-    vec![ 4, 1, 2, 5, 3, 6 ],
-    vec![ 5, 3, 6, 2, 1, 4 ],
-    vec![ 3, 5, 4, 6, 2, 1 ],
-    vec![ 2, 6, 1, 4, 5, 3 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 6, 2, 3, 1, 4, 5 ],
+      vec![ 1, 4, 5, 3, 6, 2 ],
+      vec![ 4, 1, 2, 5, 3, 6 ],
+      vec![ 5, 3, 6, 2, 1, 4 ],
+      vec![ 3, 5, 4, 6, 2, 1 ],
+      vec![ 2, 6, 1, 4, 5, 3 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

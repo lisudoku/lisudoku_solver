@@ -1,7 +1,8 @@
 use std::collections::{HashSet, HashMap};
 use std::ops::BitOr;
 use std::rc::Rc;
-use crate::types::{Area, CellPosition, InvalidStateReason, SolutionStep, SolutionType, SudokulogicalSolveResult};
+use crate::solver::checker::SolvedState;
+use crate::types::{Area, CellPosition, SolutionStep, SolutionType, SudokuLogicalSolveResult};
 use crate::solver::Solver;
 use self::combinations::cell_combination_logic::CellsCacheKey;
 use self::technique::Technique;
@@ -44,17 +45,17 @@ const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;
 
 impl Solver {
-  pub fn logical_solve(&mut self) -> SudokulogicalSolveResult {
+  pub fn logical_solve(&mut self) -> SudokuLogicalSolveResult {
     let mut solution_type = SolutionType::Full;
     let mut solution_steps = vec![];
     let mut solution_steps_group_count = 0;
 
     let check = self.check_partially_solved();
-    if !check.0 {
+    if !check.solved {
       if DEBUG {
         println!("Invalid initial grid");
       }
-      return SudokulogicalSolveResult::no_solution(check.1.unwrap())
+      return SudokuLogicalSolveResult::no_solution(check.invalid_state_reason.unwrap())
     }
 
     let mut empty_cell_count = self.compute_empty_cell_count();
@@ -62,11 +63,11 @@ impl Solver {
     while empty_cell_count > 0 {
       // TODO: only check cells impacted by latest change
       let check = self.check_partially_solved();
-      if !check.0 {
+      if !check.solved {
         if DEBUG {
           println!("Reached invalid state");
         }
-        return SudokulogicalSolveResult::no_solution(check.1.unwrap())
+        return SudokuLogicalSolveResult::no_solution(check.invalid_state_reason.unwrap())
       }
 
       // Some rules can find multiple steps at once
@@ -92,8 +93,8 @@ impl Solver {
       let mut grid_step = false;
       for mut step in steps.into_iter() {
         let rule_check = self.apply_rule(&mut step);
-        if !rule_check.0 {
-          return SudokulogicalSolveResult::no_solution(rule_check.1.unwrap())
+        if !rule_check.solved {
+          return SudokuLogicalSolveResult::no_solution(rule_check.invalid_state_reason.unwrap())
         }
 
         if step.is_grid_step() {
@@ -115,9 +116,9 @@ impl Solver {
       solution_type = SolutionType::Partial;
     }
 
-    let res = SudokulogicalSolveResult {
+    let res = SudokuLogicalSolveResult {
       solution_type,
-      solution: Some(self.grid.to_vec()),
+      solution: Some(self.grid.clone()),
       steps: solution_steps.clone(),
       invalid_state_reason: None,
     };
@@ -199,7 +200,7 @@ impl Solver {
     })
   }
 
-  pub fn apply_rule(&mut self, step: &SolutionStep) -> (bool, Option<InvalidStateReason>) {
+  pub fn apply_rule(&mut self, step: &SolutionStep) -> SolvedState {
     if DISPLAY_STEPS {
       println!(
         "{:?} ({}) ({}) ({}): {}",

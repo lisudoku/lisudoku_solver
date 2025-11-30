@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::{Solver, logical_solver::{thermo_steps::Thermo, technique::Technique}}};
+use crate::{solver::{Solver, logical_solver::{technique::Technique, thermo_steps::Thermo}}, types::{CellPosition, FixedNumber, SudokuConstraints}};
 
 #[test]
 fn check_thermo_steps() {
@@ -9,7 +9,7 @@ fn check_thermo_steps() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    crate::types::Thermo(vec![
       CellPosition::new(8, 0),
       CellPosition::new(7, 0),
       CellPosition::new(6, 0),
@@ -17,7 +17,7 @@ fn check_thermo_steps() {
       CellPosition::new(4, 0),
       CellPosition::new(3, 0),
       CellPosition::new(2, 0),
-    ]
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
 
@@ -48,12 +48,12 @@ fn check_full_thermo() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    crate::types::Thermo(vec![
       CellPosition::new(0, 0),
       CellPosition::new(1, 0),
       CellPosition::new(2, 0),
       CellPosition::new(3, 0),
-    ]
+    ]),
   ];
   let solver = Solver::new(constraints, None);
 

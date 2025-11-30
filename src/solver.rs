@@ -3,7 +3,7 @@ use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerElim
 use crate::solver::logical_solver::kropki_advanced_candidates::KropkiAdvancedCandidates;
 use crate::solver::logical_solver::nishio_forcing_chains::NishioForcingChains;
 use crate::solver::logical_solver::renban_candidates::RenbanCandidates;
-use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SudokuConstraints, SudokuGrid};
+use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SudokuConstraints};
 use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
@@ -37,7 +37,7 @@ use self::logical_solver::turbot_fish::TurbotFish;
 use self::logical_solver::empty_reclanges::EmptyRectangles;
 use crate::solver::logical_solver::arrow_candidates::ArrowCandidates;
 
-mod checker;
+pub mod checker;
 pub mod logical_solver;
 mod brute_solver;
 
@@ -115,27 +115,27 @@ impl Clone for Solver {
 }
 
 impl Solver {
-  pub fn new(mut constraints: SudokuConstraints, input_grid: Option<SudokuGrid>) -> Solver {
+  pub fn new(mut constraints: SudokuConstraints, input_grid: Option<Grid>) -> Solver {
     // Assume all extra regions contain grid_size cells
     constraints.regions.extend(constraints.extra_regions.to_vec());
 
     let mut grid_to_regions = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
     for (index, region) in constraints.regions.iter().enumerate() {
-      for cell in region {
+      for cell in region.iter() {
         grid_to_regions[cell.row][cell.col].push(index);
       }
     }
 
     let mut grid_to_thermos = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
     for (index, thermo) in constraints.thermos.iter().enumerate() {
-      for cell in thermo {
+      for cell in thermo.iter() {
         grid_to_thermos[cell.row][cell.col].push(index);
       }
     }
 
     let mut grid_to_killer_cage = vec![ vec![ usize::MAX; constraints.grid_size ]; constraints.grid_size ];
     for (index, killer_cage) in constraints.killer_cages.iter().enumerate() {
-      for cell in &killer_cage.region {
+      for cell in killer_cage.region.iter() {
         grid_to_killer_cage[cell.row][cell.col] = index;
       }
     }
@@ -185,19 +185,19 @@ impl Solver {
 
     let mut grid_to_renbans = vec![ vec![ vec![]; constraints.grid_size ]; constraints.grid_size ];
     for (index, renban) in constraints.renbans.iter().enumerate() {
-      for cell in renban {
+      for cell in renban.iter() {
         grid_to_renbans[cell.row][cell.col].push(index);
       }
     }
 
     let grid = if input_grid.is_some() {
-      input_grid.unwrap().values
+      input_grid.unwrap()
     } else {
       let mut initial_grid = vec![ vec![ 0; constraints.grid_size ]; constraints.grid_size ];
       for fixed_number in &constraints.fixed_numbers {
         initial_grid[fixed_number.position.row][fixed_number.position.col] = fixed_number.value;
       }
-      initial_grid
+      Grid(initial_grid)
     };
 
     let candidates = vec![ vec![ HashSet::new(); constraints.grid_size ]; constraints.grid_size ];
@@ -346,7 +346,7 @@ impl Solver {
     let mut max_before = 0;
     let mut min_after = self.constraints.grid_size as u32 + 1;
 
-    for cell in thermo {
+    for cell in thermo.iter() {
       if area_cell.row == cell.row && area_cell.col == cell.col {
         after = true;
         continue

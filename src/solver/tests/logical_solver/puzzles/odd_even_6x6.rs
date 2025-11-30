@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // https://logicmastersindia.com/live/?contest=SM202301
 #[test]
@@ -27,14 +27,17 @@ fn check_odd_even_6x6_1_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 1, 2, 5, 4, 6, 3 ],
-    vec![ 6, 3, 4, 5, 2, 1 ],
-    vec![ 3, 4, 6, 2, 1, 5 ],
-    vec![ 2, 5, 1, 6, 3, 4 ],
-    vec![ 5, 1, 2, 3, 4, 6 ],
-    vec![ 4, 6, 3, 1, 5, 2 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 1, 2, 5, 4, 6, 3 ],
+      vec![ 6, 3, 4, 5, 2, 1 ],
+      vec![ 3, 4, 6, 2, 1, 5 ],
+      vec![ 2, 5, 1, 6, 3, 4 ],
+      vec![ 5, 1, 2, 3, 4, 6 ],
+      vec![ 4, 6, 3, 1, 5, 2 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType}, solver::Solver};
+use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_topbot_4x4_1() {
@@ -12,12 +12,15 @@ fn check_topbot_4x4_1() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 4, 2, 3, 1 ],
-    vec![ 3, 1, 4, 2 ],
-    vec![ 2, 4, 1, 3 ],
-    vec![ 1, 3, 2, 4 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 4, 2, 3, 1 ],
+      vec![ 3, 1, 4, 2 ],
+      vec![ 2, 4, 1, 3 ],
+      vec![ 1, 3, 2, 4 ],
+    ])
+  );
   assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, common_peer_elimination::CommonPeerElimination}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, common_peer_elimination::CommonPeerElimination, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_anti_knight_common_peer_elimination_1() {
@@ -76,16 +76,16 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    Thermo(vec![
       CellPosition::new(3, 2),
       CellPosition::new(4, 3),
       CellPosition::new(4, 4),
       CellPosition::new(4, 5),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(4, 5),
       CellPosition::new(3, 5),
-    ],
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());

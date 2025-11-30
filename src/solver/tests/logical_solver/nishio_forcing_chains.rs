@@ -1,4 +1,4 @@
-use crate::{solver::{logical_solver::{candidates::Candidates, nishio_forcing_chains::NishioForcingChains, technique::Technique, thermo_candidates::ThermoCandidates}, Solver}, types::{Area, CellPosition, FixedNumber, InvalidStateType, Rule, SudokuConstraints}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, nishio_forcing_chains::NishioForcingChains, technique::Technique, thermo_candidates::ThermoCandidates}}, types::{Area, CellPosition, FixedNumber, InvalidStateType, Palindrome, Rule, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_nishio_forcing_chain_valid() {
@@ -10,10 +10,10 @@ fn check_nishio_forcing_chain_valid() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.thermos = vec![
-    vec![
+    Thermo(vec![
       CellPosition::new(0, 6), CellPosition::new(0, 7), CellPosition::new(0, 8),
       CellPosition::new(1, 8), CellPosition::new(1, 7), CellPosition::new(1, 6),
-    ]
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
@@ -53,10 +53,10 @@ fn check_nishio_forcing_chain_contradiction() {
   ];
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
   constraints.palindromes = vec![
-    vec![
+    Palindrome(vec![
       CellPosition::new(0, 0), CellPosition::new(1, 1), CellPosition::new(1, 2),
       CellPosition::new(0, 3),
-    ],
+    ]),
   ];
   let mut solver = Solver::new(constraints, None);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());

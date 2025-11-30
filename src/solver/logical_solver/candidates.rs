@@ -1,5 +1,6 @@
 use crate::solver::Solver;
-use crate::types::{InvalidStateReason, Rule, SolutionStep};
+use crate::solver::checker::SolvedState;
+use crate::types::{Rule, SolutionStep};
 use super::technique::Technique;
 use std::collections::HashSet;
 use itertools::Itertools;
@@ -35,13 +36,13 @@ impl Technique for Candidates {
     ]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> (bool, Option<InvalidStateReason>) {
+  fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> SolvedState {
     solver.candidates_active = true;
     solver.candidates = step.candidates.as_ref().unwrap().into_iter()
       .map(|row| row.into_iter().map(|col|
         HashSet::from_iter(col.iter().copied())
       ).collect())
       .collect();
-    (true, None)
+    SolvedState::solved()
   }
 }

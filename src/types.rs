@@ -1,10 +1,15 @@
 use std::fmt::{self, Display, Debug};
 use itertools::Itertools;
 use serde::{Serialize, Deserialize};
+use tsify::Tsify;
+use derive_more::{Deref, DerefMut};
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
+#[tsify(from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
 pub struct SudokuConstraints {
   pub grid_size: usize,
+  // TODO: make all below optional?
   pub fixed_numbers: Vec<FixedNumber>,
   pub regions: Vec<Region>,
   pub extra_regions: Vec<Region>,
@@ -24,13 +29,15 @@ pub struct SudokuConstraints {
   pub palindromes: Vec<Palindrome>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Tsify)]
+#[tsify(from_wasm_abi)]
 pub struct FixedNumber {
   pub position: CellPosition,
   pub value: u32,
 }
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Tsify)]
+#[tsify(from_wasm_abi)]
 pub struct CellPosition {
   pub row: usize,
   pub col: usize,
@@ -55,58 +62,67 @@ pub struct CellDirection {
   pub col: isize,
 }
 
-pub type Region = Vec<CellPosition>;
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref, DerefMut)]
+#[tsify(from_wasm_abi)]
+pub struct Region(pub Vec<CellPosition>);
 
-pub type Grid = Vec<Vec<u32>>;
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Tsify, Deref, DerefMut)]
+#[tsify(from_wasm_abi)]
+pub struct Grid(pub Vec<Vec<u32>>);
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
+#[tsify(from_wasm_abi)]
 pub struct KillerCage {
   pub sum: Option<u32>,
   pub region: Region,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
+#[tsify(from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
 pub struct KropkiDot {
   pub dot_type: KropkiDotType,
   pub cell_1: CellPosition,
   pub cell_2: CellPosition,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify)]
+#[tsify(from_wasm_abi)]
 pub enum KropkiDotType {
   Consecutive,
   Double,
   Negative,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct SudokuGrid {
-  pub values: Grid,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct SudokulogicalSolveResult {
+#[derive(Serialize, Deserialize, Debug, Tsify)]
+#[tsify(into_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct SudokuLogicalSolveResult {
   pub solution_type: SolutionType,
   pub solution: Option<Grid>,
   pub steps: Vec<SolutionStep>,
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Tsify)]
+#[tsify(into_wasm_abi)]
 pub enum SolutionType {
   Full,
   Partial,
   None,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify)]
+#[tsify(into_wasm_abi)]
+#[serde(rename_all = "camelCase")]
 pub struct InvalidStateReason {
   pub state_type: InvalidStateType,
   pub area: Area,
   pub values: Vec<u32>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify)]
+#[tsify(into_wasm_abi)]
 pub enum InvalidStateType {
   CellNoCandidates,
   CellEmpty,
@@ -116,13 +132,17 @@ pub enum InvalidStateType {
   AreaConstraint,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Tsify)]
+#[tsify(into_wasm_abi)]
+#[serde(rename_all = "camelCase")]
 pub struct SudokuBruteSolveResult {
   pub solution_count: u32,
   pub solution: Option<Grid>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
+#[tsify(into_wasm_abi)]
+#[serde(rename_all = "camelCase")]
 pub struct SolutionStep {
   pub rule: Rule,
   // Used for grid steps (the first cell should have <value>) or e.g. Rule::XWing to
@@ -141,7 +161,8 @@ pub struct SolutionStep {
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash, Tsify)]
+#[tsify(into_wasm_abi)]
 pub enum Rule {
   // Easy
   NakedSingle, // 1 Cell Position, 1 value + who it is constrained by
@@ -149,7 +170,6 @@ pub enum Rule {
   Thermo,
   Kropki,
   Candidates,
-  AdvancedCandidates,
   ThermoCandidates,
   KillerCandidates,
   ArrowCandidates,
@@ -182,7 +202,8 @@ pub enum Rule {
   NishioForcingChains,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash, Ord, PartialOrd, Tsify)]
+#[tsify(into_wasm_abi)]
 pub enum Area {
   Grid,
   Adhoc(Vec<CellPosition>),
@@ -200,17 +221,25 @@ pub enum Area {
   Palindrome(usize),
 }
 
-pub type Thermo = Vec<CellPosition>;
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref)]
+#[tsify(from_wasm_abi)]
+pub struct Thermo(pub Vec<CellPosition>);
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
+#[tsify(from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
 pub struct Arrow {
   pub circle_cells: Vec<CellPosition>,
   pub arrow_cells: Vec<CellPosition>,
 }
 
-pub type Renban = Vec<CellPosition>;
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref)]
+#[tsify(from_wasm_abi)]
+pub struct Renban(pub Vec<CellPosition>);
 
-pub type Palindrome = Vec<CellPosition>;
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref)]
+#[tsify(from_wasm_abi)]
+pub struct Palindrome(pub Vec<CellPosition>);
 
 impl Display for Rule {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -258,7 +287,7 @@ impl SudokuConstraints {
     let mut regions: Vec<Region> = vec![];
     for region_row_index in 0..(grid_size / region_height) {
       for region_col_index in 0..(grid_size / region_width) {
-        let mut region: Region = vec![];
+        let mut region = Region(vec![]);
         for row_index in 0..region_height {
           for col_index in 0..region_width {
             let cell = CellPosition {
@@ -317,7 +346,7 @@ impl SudokuConstraints {
   }
 
   pub fn to_grid_string(&self) -> String {
-    SudokuGrid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string(Some("\n"))
+    Grid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string(Some("\n"))
   }
 
   pub fn to_import_string(&self) -> String {
@@ -389,9 +418,9 @@ impl KropkiDot {
   }
 }
 
-impl SudokulogicalSolveResult {
-  pub fn no_solution(invalid_state_reason: InvalidStateReason) -> SudokulogicalSolveResult {
-    SudokulogicalSolveResult {
+impl SudokuLogicalSolveResult {
+  pub fn no_solution(invalid_state_reason: InvalidStateReason) -> SudokuLogicalSolveResult {
+    SudokuLogicalSolveResult {
       solution_type: SolutionType::None,
       solution: None,
       steps: vec![],
@@ -421,40 +450,32 @@ impl SolutionStep {
   }
 }
 
-impl SudokuGrid {
-  pub fn new(grid: Grid) -> Self {
-    SudokuGrid {
-      values: grid,
-    }
-  }
-
+impl Grid {
   pub fn from_string(grid_str: String) -> Self {
     let grid_size = f32::sqrt(grid_str.len() as f32) as usize;
     assert_eq!(grid_size * grid_size, grid_str.len(), "Invalid grid passed");
     let grid_chars = grid_str.chars().collect_vec();
-    let grid: Grid = (0..grid_size).map(|row| {
+    let grid: Vec<Vec<u32>> = (0..grid_size).map(|row| {
       (0..grid_size).map(|col| {
         let index = row * grid_size + col;
         grid_chars[index].to_digit(10).unwrap()
       }).collect()
     }).collect();
-    Self {
-      values: grid,
-    }
+    Self(grid)
   }
 
   pub fn from_fixed_numbers(grid_size: usize, fixed_numbers: &Vec<FixedNumber>) -> Self {
-    let mut grid: Grid = vec![ vec![ 0; grid_size ]; grid_size ];
+    let mut grid = vec![ vec![ 0; grid_size ]; grid_size ];
     for fixed_number in fixed_numbers {
       let cell = fixed_number.position;
       grid[cell.row][cell.col] = fixed_number.value;
     }
-    SudokuGrid::new(grid)
+    Grid(grid)
   }
 
   pub fn to_fixed_numbers(&self) -> Vec<FixedNumber> {
     let mut fixed_numbers = vec![];
-    for (row_index, row) in self.values.iter().enumerate() {
+    for (row_index, row) in self.0.iter().enumerate() {
       for (col_index, &value) in row.iter().enumerate() {
         if value != 0 {
           fixed_numbers.push(FixedNumber::new(row_index, col_index, value));
@@ -465,7 +486,7 @@ impl SudokuGrid {
   }
 
   pub fn to_string(&self, separator: Option<&str>) -> String {
-    self.values
+    self.0
       .iter()
       .map(|row| {
         row.iter()
@@ -496,7 +517,7 @@ impl Area {
 // https://www.reddit.com/r/sudoku/comments/11kpwbt/fun_puzzle_link_in_comment/
 #[test]
 fn check_sudoku_constraints_import_string() {
-  let fixed_numbers = SudokuGrid::new(vec![
+  let fixed_numbers = Grid(vec![
     vec![ 2, 0, 3, 0, 0, 0, 1, 0, 7 ],
     vec![ 9, 1, 0, 0, 4, 0, 0, 2, 6 ],
     vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
@@ -508,16 +529,33 @@ fn check_sudoku_constraints_import_string() {
     vec![ 8, 0, 0, 2, 0, 9, 0, 0, 3 ],
   ]).to_fixed_numbers();
   let constraints = SudokuConstraints::new(9, fixed_numbers);
-  assert_eq!(constraints.to_import_string(), String::from(
-    "203000107910040026000000000308010709100000002002000800004167200700080001800209003"
-  ))
+  assert_eq!(constraints.to_import_string(), String::from("\
+    203000107\
+    910040026\
+    000000000\
+    308010709\
+    100000002\
+    002000800\
+    004167200\
+    700080001\
+    800209003\
+  "));
 }
 
 #[test]
 fn check_sudoku_grid_from_string() {
-  let grid_str = String::from("203000107910040026000000000308010709100000002002000800004167200700080001800209003");
-  let grid = SudokuGrid::from_string(grid_str).values;
-  let expected_grid = vec![
+  let grid = Grid::from_string(String::from("\
+    203000107\
+    910040026\
+    000000000\
+    308010709\
+    100000002\
+    002000800\
+    004167200\
+    700080001\
+    800209003\
+  "));
+  let expected_grid = Grid(vec![
     vec![ 2, 0, 3, 0, 0, 0, 1, 0, 7 ],
     vec![ 9, 1, 0, 0, 4, 0, 0, 2, 6 ],
     vec![ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
@@ -527,6 +565,6 @@ fn check_sudoku_grid_from_string() {
     vec![ 0, 0, 4, 1, 6, 7, 2, 0, 0 ],
     vec![ 7, 0, 0, 0, 8, 0, 0, 0, 1 ],
     vec![ 8, 0, 0, 2, 0, 9, 0, 0, 3 ],
-  ];
+  ]);
   assert_eq!(grid, expected_grid);
 }

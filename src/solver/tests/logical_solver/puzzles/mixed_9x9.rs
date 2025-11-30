@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, CellPosition}, solver::Solver};
+use crate::{solver::Solver, types::{CellPosition, FixedNumber, Thermo, SudokuConstraints}};
 
 // https://youtu.be/LwkNChSO2yE
 #[test]
@@ -10,40 +10,40 @@ fn check_mixed_9x9_1_hard_solve() {
   let _empty_cells = grid_size * grid_size - fixed_numbers.len();
   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
   constraints.thermos = vec![
-    vec![
+    Thermo(vec![
       CellPosition::new(1, 4),
       CellPosition::new(0, 3),
       CellPosition::new(1, 2),
       CellPosition::new(2, 3),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(1, 6),
       CellPosition::new(2, 5),
       CellPosition::new(3, 4),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(2, 4),
       CellPosition::new(1, 3),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(2, 6),
       CellPosition::new(3, 7),
       CellPosition::new(4, 6),
       CellPosition::new(3, 5),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(5, 6),
       CellPosition::new(6, 7),
       CellPosition::new(7, 6),
       CellPosition::new(6, 5),
       CellPosition::new(5, 4),
-    ],
-    vec![
+    ]),
+    Thermo(vec![
       CellPosition::new(6, 6),
       CellPosition::new(7, 5),
       CellPosition::new(6, 4),
       CellPosition::new(5, 5),
-    ],
+    ]),
   ];
   let mut _solver = Solver::new(constraints, None);
   // TODO: this requires more complex rules to solve

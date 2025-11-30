@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, SolutionType}, solver::Solver};
+use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_anti_knight_6x6_1_solve() {
@@ -18,14 +18,17 @@ fn check_anti_knight_6x6_1_solve() {
   let mut solver = Solver::new(constraints, None);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert_eq!(result.solution.unwrap(), vec![
-    vec![ 4, 5, 1, 3, 6, 2 ],
-    vec![ 3, 6, 2, 4, 5, 1 ],
-    vec![ 1, 2, 6, 5, 4, 3 ],
-    vec![ 5, 4, 3, 1, 2, 6 ],
-    vec![ 6, 3, 4, 2, 1, 5 ],
-    vec![ 2, 1, 5, 6, 3, 4 ],
-  ]);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid(vec![
+      vec![ 4, 5, 1, 3, 6, 2 ],
+      vec![ 3, 6, 2, 4, 5, 1 ],
+      vec![ 1, 2, 6, 5, 4, 3 ],
+      vec![ 5, 4, 3, 1, 2, 6 ],
+      vec![ 6, 3, 4, 2, 1, 5 ],
+      vec![ 2, 1, 5, 6, 3, 4 ],
+    ])
+  );
   assert_eq!(result.steps.len(), empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }
