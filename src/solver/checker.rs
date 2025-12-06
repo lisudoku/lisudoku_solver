@@ -12,6 +12,7 @@ use super::logical_solver::{technique::Technique, top_bottom_candidates::TopBott
 #[serde(rename_all = "camelCase")]
 pub struct SolvedState {
   pub solved: bool,
+  #[tsify(optional)]
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 

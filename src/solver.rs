@@ -3,7 +3,7 @@ use crate::solver::logical_solver::common_peer_elimination_arrow::CommonPeerElim
 use crate::solver::logical_solver::kropki_advanced_candidates::KropkiAdvancedCandidates;
 use crate::solver::logical_solver::nishio_forcing_chains::NishioForcingChains;
 use crate::solver::logical_solver::renban_candidates::RenbanCandidates;
-use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, Rule, SudokuConstraints};
+use crate::types::{Area, Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, KropkiDotType, NormalizedSudokuConstraints, Rule, SudokuConstraints};
 use std::cell::RefCell;
 use std::collections::{HashSet, HashMap};
 use std::cmp::{min, max};
@@ -71,7 +71,7 @@ const ADJACENT_MOVES: [CellDirection; 4] = [
 ];
 
 pub struct Solver {
-  pub constraints: SudokuConstraints,
+  pub constraints: NormalizedSudokuConstraints,
   pub techniques: Vec<Rc<dyn Technique>>,
   pub grid: Grid,
   pub solution: Option<Grid>,
@@ -115,7 +115,9 @@ impl Clone for Solver {
 }
 
 impl Solver {
-  pub fn new(mut constraints: SudokuConstraints, input_grid: Option<Grid>) -> Solver {
+  pub fn new(input_constraints: SudokuConstraints) -> Solver {
+    let mut constraints = NormalizedSudokuConstraints::try_from(input_constraints).unwrap();
+
     // Assume all extra regions contain grid_size cells
     constraints.regions.extend(constraints.extra_regions.to_vec());
 
@@ -190,15 +192,11 @@ impl Solver {
       }
     }
 
-    let grid = if input_grid.is_some() {
-      input_grid.unwrap()
-    } else {
-      let mut initial_grid = vec![ vec![ 0; constraints.grid_size ]; constraints.grid_size ];
-      for fixed_number in &constraints.fixed_numbers {
-        initial_grid[fixed_number.position.row][fixed_number.position.col] = fixed_number.value;
-      }
-      Grid(initial_grid)
-    };
+    let mut initial_grid = vec![ vec![ 0; constraints.grid_size ]; constraints.grid_size ];
+    for fixed_number in constraints.fixed_numbers.iter() {
+      initial_grid[fixed_number.position.row][fixed_number.position.col] = fixed_number.value;
+    }
+    let grid = Grid(initial_grid);
 
     let candidates = vec![ vec![ HashSet::new(); constraints.grid_size ]; constraints.grid_size ];
 
@@ -221,6 +219,12 @@ impl Solver {
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: RefCell::new(HashMap::new()),
     }
+  }
+
+  // TODO: should just pass grid to check_solved instead? and init the grid when starting a solve
+  pub fn with_grid(mut self, grid: Grid) -> Self {
+    self.grid = grid;
+    self
   }
 
   pub fn with_hint_mode(mut self, flag: bool) -> Self {

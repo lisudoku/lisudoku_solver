@@ -3,49 +3,50 @@ use crate::{solver::Solver, types::{CellPosition, FixedNumber, Thermo, SudokuCon
 // https://youtu.be/LwkNChSO2yE
 #[test]
 fn check_mixed_9x9_1_hard_solve() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 3, 9),
-  ];
-  let _empty_cells = grid_size * grid_size - fixed_numbers.len();
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  constraints.thermos = vec![
-    Thermo(vec![
-      CellPosition::new(1, 4),
-      CellPosition::new(0, 3),
-      CellPosition::new(1, 2),
-      CellPosition::new(2, 3),
-    ]),
-    Thermo(vec![
-      CellPosition::new(1, 6),
-      CellPosition::new(2, 5),
-      CellPosition::new(3, 4),
-    ]),
-    Thermo(vec![
-      CellPosition::new(2, 4),
-      CellPosition::new(1, 3),
-    ]),
-    Thermo(vec![
-      CellPosition::new(2, 6),
-      CellPosition::new(3, 7),
-      CellPosition::new(4, 6),
-      CellPosition::new(3, 5),
-    ]),
-    Thermo(vec![
-      CellPosition::new(5, 6),
-      CellPosition::new(6, 7),
-      CellPosition::new(7, 6),
-      CellPosition::new(6, 5),
-      CellPosition::new(5, 4),
-    ]),
-    Thermo(vec![
-      CellPosition::new(6, 6),
-      CellPosition::new(7, 5),
-      CellPosition::new(6, 4),
-      CellPosition::new(5, 5),
-    ]),
-  ];
-  let mut _solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![FixedNumber::new(1, 3, 9)]
+    )
+    .with_anti_knight()
+    .with_thermos(
+      vec![
+        Thermo(vec![
+          CellPosition::new(1, 4),
+          CellPosition::new(0, 3),
+          CellPosition::new(1, 2),
+          CellPosition::new(2, 3),
+        ]),
+        Thermo(vec![
+          CellPosition::new(1, 6),
+          CellPosition::new(2, 5),
+          CellPosition::new(3, 4),
+        ]),
+        Thermo(vec![
+          CellPosition::new(2, 4),
+          CellPosition::new(1, 3),
+        ]),
+        Thermo(vec![
+          CellPosition::new(2, 6),
+          CellPosition::new(3, 7),
+          CellPosition::new(4, 6),
+          CellPosition::new(3, 5),
+        ]),
+        Thermo(vec![
+          CellPosition::new(5, 6),
+          CellPosition::new(6, 7),
+          CellPosition::new(7, 6),
+          CellPosition::new(6, 5),
+          CellPosition::new(5, 4),
+        ]),
+        Thermo(vec![
+          CellPosition::new(6, 6),
+          CellPosition::new(7, 5),
+          CellPosition::new(6, 4),
+          CellPosition::new(5, 5),
+        ]),
+      ]
+    );
+  let mut _solver = Solver::new(constraints);
   // TODO: this requires more complex rules to solve
   // let result = solver.logical_solve();
   // assert_eq!(result.solution_type, SolutionType::Full);

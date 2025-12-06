@@ -2,15 +2,16 @@ use crate::{solver::{Solver, logical_solver::{candidates::Candidates, technique:
 
 #[test]
 fn check_grid_steps_without_candidates() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(2, 0, 1),
-    FixedNumber::new(2, 2, 3),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(2, 0, 1),
+        FixedNumber::new(2, 2, 3),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
@@ -29,15 +30,16 @@ fn check_grid_steps_without_candidates() {
 
 #[test]
 fn check_grid_steps_with_candidates() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(2, 0, 1),
-    FixedNumber::new(2, 2, 3),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(2, 0, 1),
+        FixedNumber::new(2, 2, 3),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
@@ -61,14 +63,16 @@ fn check_grid_steps_with_candidates() {
 
 #[test]
 fn check_grid_steps_with_anti_knight_affected_cells() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1),
-    FixedNumber::new(0, 1, 2),
-    FixedNumber::new(1, 0, 3),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1),
+        FixedNumber::new(0, 1, 2),
+        FixedNumber::new(1, 0, 3),
+      ]
+    )
+    .with_anti_knight();
+  let mut solver = Solver::new(constraints);
   // TODO: will have to fix version without candidates_active
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
@@ -99,26 +103,29 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
 
 #[test]
 fn check_grid_steps_overlapping_thermos_affected_cells() {
-  let grid_size = 6;
-  let fixed_numbers = vec![
-    FixedNumber::new(5, 0, 1),
-    FixedNumber::new(5, 1, 2),
-    FixedNumber::new(5, 2, 3),
-    FixedNumber::new(4, 0, 4),
-    FixedNumber::new(4, 1, 5),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![
-      CellPosition::new(4, 2),
-      CellPosition::new(3, 1),
-    ]),
-    Thermo(vec![
-      CellPosition::new(4, 2),
-      CellPosition::new(3, 3),
-    ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(5, 0, 1),
+        FixedNumber::new(5, 1, 2),
+        FixedNumber::new(5, 2, 3),
+        FixedNumber::new(4, 0, 4),
+        FixedNumber::new(4, 1, 5),
+      ]
+    )
+    .with_thermos(
+      vec![
+        Thermo(vec![
+          CellPosition::new(4, 2),
+          CellPosition::new(3, 1),
+        ]),
+        Thermo(vec![
+          CellPosition::new(4, 2),
+          CellPosition::new(3, 3),
+        ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();

@@ -13,7 +13,7 @@ pub fn wasm_check_solved(constraints: SudokuConstraints, grid: Grid) -> SolvedSt
   // Try this instead
   console_error_panic_hook::set_once();
 
-  let solver = solver::Solver::new(constraints, Some(grid));
+  let solver = solver::Solver::new(constraints).with_grid(grid);
   solver.check_solved()
 }
 
@@ -23,7 +23,7 @@ pub fn wasm_logical_solve(constraints: SudokuConstraints) -> SudokuLogicalSolveR
   // Try this instead
   console_error_panic_hook::set_once();
 
-  let mut solver = solver::Solver::new(constraints, None);
+  let mut solver = solver::Solver::new(constraints);
   solver.logical_solve()
 }
 
@@ -33,17 +33,16 @@ pub fn wasm_brute_solve(constraints: SudokuConstraints) -> SudokuBruteSolveResul
   // Try this instead
   console_error_panic_hook::set_once();
 
-  let mut solver = solver::Solver::new(constraints, None);
+  let mut solver = solver::Solver::new(constraints);
   solver.brute_solve(true)
 }
 
+// TODO: Try changing return type to Result<SudokuLogicalSolveResult, JsError> ?
 #[wasm_bindgen]
 pub fn wasm_logical_hint(constraints: SudokuConstraints) -> SudokuLogicalSolveResult {
-  // panic::set_hook(Box::new(console_error_panic_hook::hook));
-  // Try this instead
   console_error_panic_hook::set_once();
 
-  let mut solver = solver::Solver::new(constraints.clone(), None);
+  let mut solver = solver::Solver::new(constraints.clone());
   let result = solver.logical_solve();
 
   // Make sure there is a valid solution first
@@ -52,7 +51,7 @@ pub fn wasm_logical_hint(constraints: SudokuConstraints) -> SudokuLogicalSolveRe
   }
 
   // Get the first relevant steps
-  let mut solver = solver::Solver::new(constraints.clone(), None)
+  let mut solver = solver::Solver::new(constraints.clone())
     .with_hint_mode(true);
   solver.logical_solve()
 }

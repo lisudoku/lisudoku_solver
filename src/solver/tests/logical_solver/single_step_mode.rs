@@ -4,15 +4,16 @@ use itertools::Itertools;
 
 #[test]
 fn check_single_step_mode_all_techniques() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
-    FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
+        FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
+      ]
+    );
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle), Rc::new(HiddenSingles) ];
-  let mut solver = Solver::new(constraints, None).with_step_count_limit(1).with_techniques(techniques);
+  let mut solver = Solver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
   let result = solver.logical_solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
@@ -24,15 +25,16 @@ fn check_single_step_mode_all_techniques() {
 
 #[test]
 fn check_single_step_mode_hidden_singles() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
-    FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
+        FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
+      ]
+    );
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(HiddenSingles) ];
-  let mut solver = Solver::new(constraints, None).with_step_count_limit(1).with_techniques(techniques);
+  let mut solver = Solver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
   let result = solver.logical_solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
@@ -42,15 +44,16 @@ fn check_single_step_mode_hidden_singles() {
 
 #[test]
 fn check_single_step_mode_naked_singles() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
-    FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
+        FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
+      ]
+    );
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle) ];
-  let mut solver = Solver::new(constraints, None).with_step_count_limit(1).with_techniques(techniques);
+  let mut solver = Solver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
   let result = solver.logical_solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);

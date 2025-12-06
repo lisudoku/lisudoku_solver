@@ -3,21 +3,24 @@ use itertools::Itertools;
 
 #[test]
 fn check_kropki_negative_row_consecutive() {
-  let grid_size = 6;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1),
-    FixedNumber::new(1, 0, 3),
-    FixedNumber::new(1, 1, 2),
-    FixedNumber::new(1, 2, 4),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
-    KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(1, 1)),
-    KropkiDot::double(CellPosition::new(1, 1), CellPosition::new(1, 2)),
-  ];
-  constraints.kropki_negative = true;
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1),
+        FixedNumber::new(1, 0, 3),
+        FixedNumber::new(1, 1, 2),
+        FixedNumber::new(1, 2, 4),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
+        KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(1, 1)),
+        KropkiDot::double(CellPosition::new(1, 1), CellPosition::new(1, 2)),
+      ]
+    )
+    .with_kropki_negative();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(true).run(&solver);
@@ -32,17 +35,16 @@ fn check_kropki_negative_row_consecutive() {
   assert!(!solver.candidates[0][2].contains(&5));
 }
 
-
 // We only handle negative dot with pairs for now
 
 // #[test]
 // fn check_kropki_row_double_unfixed() {
 //   let grid_size = 9;
-//   let mut constraints = SudokuConstraints::new(grid_size, vec![]);
+//   let mut constraints = SudokuConstraints::new(grid_size);
 //   constraints.kropki_dots = vec![
 //     KropkiDot::double(CellPosition::new(0, 0), CellPosition::new(0, 1)),
 //   ];
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
 //   let steps = solver.find_kropki_pair_candidate_updates();
@@ -64,11 +66,11 @@ fn check_kropki_negative_row_consecutive() {
 // fn check_kropki_row_double_fixed() {
 //   let grid_size = 9;
 //   let fixed_numbers = vec![ FixedNumber::new(0, 1, 4) ];
-//   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+//   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.kropki_dots = vec![
 //     KropkiDot::double(CellPosition::new(0, 0), CellPosition::new(0, 1))
 //   ];
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
 //   let steps = solver.find_kropki_pair_candidate_updates();
@@ -89,11 +91,11 @@ fn check_kropki_negative_row_consecutive() {
 // #[test]
 // fn check_kropki_row_consecutive_unfixed() {
 //   let grid_size = 9;
-//   let mut constraints = SudokuConstraints::new(grid_size, vec![]);
+//   let mut constraints = SudokuConstraints::new(grid_size);
 //   constraints.kropki_dots = vec![
 //     KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1))
 //   ];
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
 //   let steps = solver.find_kropki_pair_candidate_updates();
@@ -104,11 +106,11 @@ fn check_kropki_negative_row_consecutive() {
 // fn check_kropki_row_consecutive_fixed() {
 //   let grid_size = 9;
 //   let fixed_numbers = vec![ FixedNumber::new(0, 1, 4) ];
-//   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+//   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.kropki_dots = vec![
 //     KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1))
 //   ];
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
 //   let steps = solver.find_kropki_pair_candidate_updates();
@@ -129,12 +131,12 @@ fn check_kropki_negative_row_consecutive() {
 // #[test]
 // fn check_kropki_row_double_with_2_dots() {
 //   let grid_size = 9;
-//   let mut constraints = SudokuConstraints::new(grid_size, vec![]);
+//   let mut constraints = SudokuConstraints::new(grid_size);
 //   constraints.kropki_dots = vec![
 //     KropkiDot::double(CellPosition::new(0, 0), CellPosition::new(0, 1)),
 //     KropkiDot::double(CellPosition::new(0, 1), CellPosition::new(0, 2)),
 //   ];
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   solver.apply_rule(&mut solver.find_candidates_step().unwrap());
 
 //   let steps = solver.find_kropki_pair_candidate_updates();

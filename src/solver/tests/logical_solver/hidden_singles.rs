@@ -3,13 +3,14 @@ use itertools::Itertools;
 
 #[test]
 fn check_hidden_single_in_region() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 3, 1),
-    FixedNumber::new(3, 1, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 3, 1),
+        FixedNumber::new(3, 1, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -31,17 +32,18 @@ fn check_hidden_single_in_region() {
 
 #[test]
 fn check_hidden_single_on_row() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 3, 2),
-    FixedNumber::new(0, 4, 3),
-    FixedNumber::new(0, 5, 4),
-    FixedNumber::new(2, 8, 1),
-    FixedNumber::new(5, 2, 1),
-    FixedNumber::new(6, 1, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 3, 2),
+        FixedNumber::new(0, 4, 3),
+        FixedNumber::new(0, 5, 4),
+        FixedNumber::new(2, 8, 1),
+        FixedNumber::new(5, 2, 1),
+        FixedNumber::new(6, 1, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -64,15 +66,16 @@ fn check_hidden_single_on_row() {
 
 #[test]
 fn check_hidden_single_on_col() {
-  let grid_size = 6;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 5, 1),
-    FixedNumber::new(2, 3, 2),
-    FixedNumber::new(3, 3, 3),
-    FixedNumber::new(4, 0, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 5, 1),
+        FixedNumber::new(2, 3, 2),
+        FixedNumber::new(3, 3, 3),
+        FixedNumber::new(4, 0, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -96,13 +99,14 @@ fn check_hidden_single_on_col() {
 
 #[test]
 fn check_hidden_single_in_region_with_candidates() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 3, 1),
-    FixedNumber::new(3, 1, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 3, 1),
+        FixedNumber::new(3, 1, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = HiddenSingles.run(&solver);
@@ -121,16 +125,18 @@ fn check_hidden_single_in_region_with_candidates() {
 
 #[test]
 fn check_hidden_single_using_anti_knight_1() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 8, 1),
-    FixedNumber::new(2, 3, 2),
-    FixedNumber::new(3, 3, 1),
-    FixedNumber::new(5, 0, 1),
-    FixedNumber::new(6, 2, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 8, 1),
+        FixedNumber::new(2, 3, 2),
+        FixedNumber::new(3, 3, 1),
+        FixedNumber::new(5, 0, 1),
+        FixedNumber::new(6, 2, 1),
+      ]
+    )
+    .with_anti_knight();
+  let mut solver = Solver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -154,16 +160,18 @@ fn check_hidden_single_using_anti_knight_1() {
 
 #[test]
 fn check_hidden_single_using_anti_knight_2() {
-  let grid_size = 6;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 0, 1),
-    FixedNumber::new(1, 1, 2),
-    FixedNumber::new(1, 2, 3),
-    FixedNumber::new(1, 4, 4),
-    FixedNumber::new(3, 2, 5),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 0, 1),
+        FixedNumber::new(1, 1, 2),
+        FixedNumber::new(1, 2, 3),
+        FixedNumber::new(1, 4, 4),
+        FixedNumber::new(3, 2, 5),
+      ]
+    )
+    .with_anti_knight();
+  let mut solver = Solver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -186,10 +194,12 @@ fn check_hidden_single_using_anti_knight_2() {
 
 #[test]
 fn check_hidden_single_anti_king() {
-  let grid_size = 6;
-  let fixed_numbers = vec![ FixedNumber::new(3, 1, 2), FixedNumber::new(5, 0, 3) ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_king();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(3, 1, 2), FixedNumber::new(5, 0, 3) ]
+    )
+    .with_anti_king();
+  let mut solver = Solver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());

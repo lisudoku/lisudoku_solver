@@ -2,15 +2,17 @@ use crate::{solver::{Solver, logical_solver::{candidates::Candidates, common_pee
 
 #[test]
 fn check_anti_knight_common_peer_elimination_1() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(3, 3, 1),
-    FixedNumber::new(3, 5, 2),
-    FixedNumber::new(5, 5, 3),
-    FixedNumber::new(6, 1, 5),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(3, 3, 1),
+        FixedNumber::new(3, 5, 2),
+        FixedNumber::new(5, 5, 3),
+        FixedNumber::new(6, 1, 5),
+      ]
+    )
+    .with_anti_knight();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
@@ -34,18 +36,20 @@ fn check_anti_knight_common_peer_elimination_1() {
 
 #[test]
 fn check_anti_knight_common_peer_elimination_2() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(3, 3, 1),
-    FixedNumber::new(3, 4, 2),
-    FixedNumber::new(3, 5, 3),
-    FixedNumber::new(4, 3, 4),
-    FixedNumber::new(4, 4, 5),
-    FixedNumber::new(5, 3, 6),
-    FixedNumber::new(5, 5, 7),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(3, 3, 1),
+        FixedNumber::new(3, 4, 2),
+        FixedNumber::new(3, 5, 3),
+        FixedNumber::new(4, 3, 4),
+        FixedNumber::new(4, 4, 5),
+        FixedNumber::new(5, 3, 6),
+        FixedNumber::new(5, 5, 7),
+      ]
+    )
+    .with_anti_knight();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
@@ -70,24 +74,25 @@ fn check_anti_knight_common_peer_elimination_2() {
 
 #[test]
 fn check_common_peer_elimination_overlapping_thermos_1() {
-  let grid_size = 6;
-  let fixed_numbers = vec![
-    FixedNumber::new(5, 0, 1),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![
-      CellPosition::new(3, 2),
-      CellPosition::new(4, 3),
-      CellPosition::new(4, 4),
-      CellPosition::new(4, 5),
-    ]),
-    Thermo(vec![
-      CellPosition::new(4, 5),
-      CellPosition::new(3, 5),
-    ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![FixedNumber::new(5, 0, 1)]
+    )
+    .with_thermos(
+      vec![
+        Thermo(vec![
+          CellPosition::new(3, 2),
+          CellPosition::new(4, 3),
+          CellPosition::new(4, 4),
+          CellPosition::new(4, 5),
+        ]),
+        Thermo(vec![
+          CellPosition::new(4, 5),
+          CellPosition::new(3, 5),
+        ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);

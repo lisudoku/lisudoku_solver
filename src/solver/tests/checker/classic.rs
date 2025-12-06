@@ -2,14 +2,14 @@ use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Grid, InvalidS
 
 #[test]
 fn check_wrong_row() {
-  let constraints = SudokuConstraints::new(4, vec![]);
+  let constraints = SudokuConstraints::new(4);
   let grid = Grid(vec![
     vec![ 1, 1, 1, 1 ],
     vec![ 2, 2, 2, 2 ],
     vec![ 3, 3, 3, 3 ],
     vec![ 4, 4, 4, 4 ],
   ]);
-  let solver = Solver::new(constraints, Some(grid));
+  let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_solved();
   assert_eq!(
     solved,
@@ -25,14 +25,14 @@ fn check_wrong_row() {
 
 #[test]
 fn check_wrong_col() {
-  let constraints = SudokuConstraints::new(4, vec![]);
+  let constraints = SudokuConstraints::new(4);
   let grid = Grid(vec![
     vec![ 1, 2, 3, 4 ],
     vec![ 1, 2, 3, 4 ],
     vec![ 1, 2, 3, 4 ],
     vec![ 1, 2, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints, Some(grid));
+  let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_solved();
   assert_eq!(
     solved,
@@ -48,14 +48,14 @@ fn check_wrong_col() {
 
 #[test]
 fn check_wrong_region() {
-  let constraints = SudokuConstraints::new(4, vec![]);
+  let constraints = SudokuConstraints::new(4);
   let grid = Grid(vec![
     vec![ 1, 2, 3, 4 ],
     vec![ 2, 1, 4, 3 ],
     vec![ 3, 4, 1, 2 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints, Some(grid));
+  let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_solved();
   assert_eq!(
     solved,
@@ -71,21 +71,21 @@ fn check_wrong_region() {
 
 #[test]
 fn check_solved_grid() {
-  let constraints = SudokuConstraints::new(4, vec![]);
+  let constraints = SudokuConstraints::new(4);
   let grid = Grid(vec![
     vec![ 2, 1, 4, 3 ],
     vec![ 3, 4, 1, 2 ],
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints, Some(grid));
+  let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }
 
 #[test]
 fn check_partially_solved_no_solution_grid() {
-  let constraints = SudokuConstraints::new(9, vec![]);
+  let constraints = SudokuConstraints::new(9);
   let grid = Grid(vec![
     vec![ 0, 0, 0, 0, 0, 0, 0, 1, 2 ],
     vec![ 0, 0, 0, 0, 1, 2, 0, 0, 0 ],
@@ -97,7 +97,7 @@ fn check_partially_solved_no_solution_grid() {
     vec![ 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
     vec![ 2, 0, 0, 0, 0, 0, 0, 0, 0 ],
   ]);
-  let solver = Solver::new(constraints, Some(grid));
+  let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_partially_solved();
   // 1 and 2 both can only be put into the same cell
   assert_eq!(

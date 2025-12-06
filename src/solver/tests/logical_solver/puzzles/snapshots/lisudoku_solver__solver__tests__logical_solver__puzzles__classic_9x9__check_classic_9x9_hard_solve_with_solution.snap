@@ -13,9 +13,9 @@ snapshot_kind: text
     - Row: 5
     - Column: 3
     - Region: 4
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 0
@@ -30,9 +30,9 @@ snapshot_kind: text
     - 8
   areas:
     - Column: 2
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 2
@@ -47,9 +47,9 @@ snapshot_kind: text
     - 7
   areas:
     - Column: 3
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 0
@@ -64,9 +64,9 @@ snapshot_kind: text
     - 4
   areas:
     - Column: 5
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 0
@@ -79,9 +79,9 @@ snapshot_kind: text
     - 9
   areas:
     - Row: 0
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 2
@@ -94,14 +94,14 @@ snapshot_kind: text
     - 1
   areas:
     - Region: 1
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Candidates
   cells: []
   values: []
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates:
     - - - 2
         - 6
@@ -334,7 +334,7 @@ snapshot_kind: text
         - 7
         - 8
         - 9
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: LockedCandidatesPairs
   cells:
     - row: 1
@@ -346,13 +346,13 @@ snapshot_kind: text
   areas:
     - Region: 0
     - Row: 1
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 6
     - row: 1
       col: 8
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenPairs
   cells:
     - row: 1
@@ -364,9 +364,9 @@ snapshot_kind: text
     - 7
   areas:
     - Row: 1
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: LockedCandidatesPairs
   cells:
     - row: 1
@@ -378,13 +378,13 @@ snapshot_kind: text
   areas:
     - Row: 1
     - Region: 2
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 7
     - row: 2
       col: 8
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: LockedCandidatesPairs
   cells:
     - row: 6
@@ -396,11 +396,11 @@ snapshot_kind: text
   areas:
     - Column: 2
     - Region: 6
-  affected_cells:
+  affectedCells:
     - row: 8
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: XWing
   cells:
     - row: 1
@@ -418,7 +418,7 @@ snapshot_kind: text
     - Row: 3
     - Column: 4
     - Column: 8
-  affected_cells:
+  affectedCells:
     - row: 8
       col: 4
     - row: 0
@@ -428,7 +428,7 @@ snapshot_kind: text
     - row: 4
       col: 8
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: XYWing
   cells:
     - row: 1
@@ -442,11 +442,11 @@ snapshot_kind: text
     - 6
     - 5
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 7
       col: 8
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: TurbotFish
   cells:
     - row: 5
@@ -462,7 +462,7 @@ snapshot_kind: text
   areas:
     - Row: 5
     - Row: 7
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 8
     - row: 6
@@ -470,4 +470,4 @@ snapshot_kind: text
     - row: 8
       col: 6
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~

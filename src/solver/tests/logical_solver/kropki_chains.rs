@@ -3,14 +3,15 @@ use itertools::Itertools;
 
 #[test]
 fn check_kropki_chain_row_consecutive_unfixed() {
-  let grid_size = 4;
-  let mut constraints = SudokuConstraints::new(grid_size, vec![]);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
-    KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
-    KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
+        KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
+        KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -54,14 +55,15 @@ fn check_kropki_chain_row_consecutive_unfixed() {
 
 #[test]
 fn check_kropki_chain_region_double_unfixed() {
-  let grid_size = 9;
-  let mut constraints = SudokuConstraints::new(grid_size, vec![]);
-  constraints.kropki_dots = vec![
-    KropkiDot::double(CellPosition::new(3, 8), CellPosition::new(4, 8)),
-    KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(4, 8)),
-    KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(5, 7)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_kropki_dots(
+      vec![
+        KropkiDot::double(CellPosition::new(3, 8), CellPosition::new(4, 8)),
+        KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(4, 8)),
+        KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(5, 7)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -105,14 +107,15 @@ fn check_kropki_chain_region_double_unfixed() {
 
 #[test]
 fn check_kropki_chain_row_consecutive_fixed() {
-  let grid_size = 6;
-  let fixed_numbers = vec![ FixedNumber::new(0, 0, 3) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
-    KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(vec![ FixedNumber::new(0, 0, 3) ])
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
+        KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);

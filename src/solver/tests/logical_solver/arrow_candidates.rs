@@ -3,15 +3,16 @@ use itertools::Itertools;
 
 #[test]
 fn check_arrow_candidates_simple() {
-  let grid_size = 9;
-  let mut constraints = SudokuConstraints::new(grid_size, vec![]);
-  constraints.arrows = vec![
-    Arrow {
-      arrow_cells: vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ],
-      circle_cells: vec![ CellPosition::new(0, 2) ],
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_arrows(
+      vec![
+        Arrow {
+          arrow_cells: vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ],
+          circle_cells: vec![ CellPosition::new(0, 2) ],
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -50,16 +51,19 @@ fn check_arrow_candidates_simple() {
 
 #[test]
 fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
-  let grid_size = 6;
-  let fixed_numbers = vec![ FixedNumber::new(1, 4, 2) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.arrows = vec![
-    Arrow {
-      arrow_cells: vec![ CellPosition::new(1, 2), CellPosition::new(2, 3) ],
-      circle_cells: vec![ CellPosition::new(1, 4) ],
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(1, 4, 2) ]
+    )
+    .with_arrows(
+      vec![
+        Arrow {
+          arrow_cells: vec![ CellPosition::new(1, 2), CellPosition::new(2, 3) ],
+          circle_cells: vec![ CellPosition::new(1, 4) ],
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -88,19 +92,22 @@ fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
 
 #[test]
 fn check_arrow_candidates_2_digit_circle_horizontal() {
-  let grid_size = 9;
-  let fixed_numbers = vec![ FixedNumber::new(6, 6, 5), FixedNumber::new(7, 7, 9) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.arrows = vec![
-    Arrow {
-      arrow_cells: vec![
-        CellPosition::new(2, 2), CellPosition::new(3, 3), CellPosition::new(4, 4),
-        CellPosition::new(5, 5), CellPosition::new(6, 6), CellPosition::new(7, 7),
-      ],
-      circle_cells: vec![ CellPosition::new(1, 1), CellPosition::new(1, 0) ], // reversed!
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(6, 6, 5), FixedNumber::new(7, 7, 9) ]
+    )
+    .with_arrows(
+      vec![
+        Arrow {
+          arrow_cells: vec![
+            CellPosition::new(2, 2), CellPosition::new(3, 3), CellPosition::new(4, 4),
+            CellPosition::new(5, 5), CellPosition::new(6, 6), CellPosition::new(7, 7),
+          ],
+          circle_cells: vec![ CellPosition::new(1, 1), CellPosition::new(1, 0) ], // reversed!
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -119,19 +126,22 @@ fn check_arrow_candidates_2_digit_circle_horizontal() {
 
 #[test]
 fn check_arrow_candidates_2_digit_circle_vertical() {
-  let grid_size = 9;
-  let fixed_numbers = vec![ FixedNumber::new(3, 0, 1) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.arrows = vec![
-    Arrow {
-      circle_cells: vec![ CellPosition::new(3, 2), CellPosition::new(4, 2) ],
-      arrow_cells: vec![
-        CellPosition::new(4, 3), CellPosition::new(5, 3), CellPosition::new(5, 4),
-        CellPosition::new(6, 5),
-      ],
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(3, 0, 1) ]
+    )
+    .with_arrows(
+      vec![
+        Arrow {
+          circle_cells: vec![ CellPosition::new(3, 2), CellPosition::new(4, 2) ],
+          arrow_cells: vec![
+            CellPosition::new(4, 3), CellPosition::new(5, 3), CellPosition::new(5, 4),
+            CellPosition::new(6, 5),
+          ],
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -150,19 +160,22 @@ fn check_arrow_candidates_2_digit_circle_vertical() {
 
 #[test]
 fn check_arrow_candidates_long() {
-  let grid_size = 9;
-  let fixed_numbers = vec![ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.arrows = vec![
-    Arrow {
-      arrow_cells: vec![
-        CellPosition::new(1, 1), CellPosition::new(2, 2), CellPosition::new(3, 3),
-        CellPosition::new(4, 4), CellPosition::new(5, 5),
-      ],
-      circle_cells: vec![ CellPosition::new(0, 0) ],
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
+    )
+    .with_arrows(
+      vec![
+        Arrow {
+          arrow_cells: vec![
+            CellPosition::new(1, 1), CellPosition::new(2, 2), CellPosition::new(3, 3),
+            CellPosition::new(4, 4), CellPosition::new(5, 5),
+          ],
+          circle_cells: vec![ CellPosition::new(0, 0) ],
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);

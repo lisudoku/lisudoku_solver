@@ -2,16 +2,17 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, s
 
 #[test]
 fn check_locked_candidates_pairs() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 4),
-    FixedNumber::new(0, 1, 5),
-    FixedNumber::new(0, 2, 6),
-    FixedNumber::new(1, 3, 1),
-    FixedNumber::new(3, 0, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 4),
+        FixedNumber::new(0, 1, 5),
+        FixedNumber::new(0, 2, 6),
+        FixedNumber::new(1, 3, 1),
+        FixedNumber::new(3, 0, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -36,17 +37,18 @@ fn check_locked_candidates_pairs() {
 
 #[test]
 fn check_locked_candidates_pairs_no_affected_cells() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 4),
-    FixedNumber::new(0, 1, 5),
-    FixedNumber::new(0, 2, 6),
-    FixedNumber::new(0, 6, 1),
-    FixedNumber::new(1, 3, 1),
-    FixedNumber::new(3, 0, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 4),
+        FixedNumber::new(0, 1, 5),
+        FixedNumber::new(0, 2, 6),
+        FixedNumber::new(0, 6, 1),
+        FixedNumber::new(1, 3, 1),
+        FixedNumber::new(3, 0, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -55,17 +57,18 @@ fn check_locked_candidates_pairs_no_affected_cells() {
 
 #[test]
 fn check_locked_candidates_pairs_on_primary_diagonal() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 1, 2),
-    FixedNumber::new(0, 2, 4),
-    FixedNumber::new(1, 2, 5),
-    FixedNumber::new(2, 1, 3),
-    FixedNumber::new(3, 0, 1),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.primary_diagonal = true;
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 1, 2),
+        FixedNumber::new(0, 2, 4),
+        FixedNumber::new(1, 2, 5),
+        FixedNumber::new(2, 1, 3),
+        FixedNumber::new(3, 0, 1),
+      ]
+    )
+    .with_primary_diagonal();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -97,17 +100,18 @@ fn check_locked_candidates_pairs_on_primary_diagonal() {
 
 #[test]
 fn check_locked_candidates_pairs_on_secondary_diagonal() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 6, 4),
-    FixedNumber::new(0, 7, 2),
-    FixedNumber::new(1, 6, 5),
-    FixedNumber::new(2, 7, 3),
-    FixedNumber::new(3, 8, 1),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.secondary_diagonal = true;
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 6, 4),
+        FixedNumber::new(0, 7, 2),
+        FixedNumber::new(1, 6, 5),
+        FixedNumber::new(2, 7, 3),
+        FixedNumber::new(3, 8, 1),
+      ]
+    )
+    .with_secondary_diagonal();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);

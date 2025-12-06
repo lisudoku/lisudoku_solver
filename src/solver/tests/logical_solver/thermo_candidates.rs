@@ -2,18 +2,21 @@ use crate::{solver::{Solver, logical_solver::{candidates::Candidates, locked_can
 
 #[test]
 fn check_thermo_candidates_update_hidden_single() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 1, 5),
-    FixedNumber::new(8, 0, 5),
-    FixedNumber::new(4, 2, 1),
-    FixedNumber::new(5, 2, 2),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![ CellPosition::new(2, 3), CellPosition::new(3, 3), CellPosition::new(3, 2) ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 1, 5),
+        FixedNumber::new(8, 0, 5),
+        FixedNumber::new(4, 2, 1),
+        FixedNumber::new(5, 2, 2),
+      ]
+    )
+    .with_thermos(
+      vec![
+        Thermo(vec![ CellPosition::new(2, 3), CellPosition::new(3, 3), CellPosition::new(3, 2) ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = solver.find_grid_steps();
@@ -38,21 +41,24 @@ fn check_thermo_candidates_update_hidden_single() {
 
 #[test]
 fn check_thermo_candidates_update_locked_candidates() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 2),
-    FixedNumber::new(4, 0, 7),
-    FixedNumber::new(4, 1, 8),
-    FixedNumber::new(4, 2, 9),
-    FixedNumber::new(5, 0, 4),
-    FixedNumber::new(5, 1, 5),
-    FixedNumber::new(5, 2, 6),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![ CellPosition::new(2, 5), CellPosition::new(3, 5), CellPosition::new(4, 5) ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 2),
+        FixedNumber::new(4, 0, 7),
+        FixedNumber::new(4, 1, 8),
+        FixedNumber::new(4, 2, 9),
+        FixedNumber::new(5, 0, 4),
+        FixedNumber::new(5, 1, 5),
+        FixedNumber::new(5, 2, 6),
+      ]
+    )
+    .with_thermos(
+      vec![
+        Thermo(vec![ CellPosition::new(2, 5), CellPosition::new(3, 5), CellPosition::new(4, 5) ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   for _ in 0..3 {

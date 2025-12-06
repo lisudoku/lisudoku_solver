@@ -7,7 +7,7 @@ snapshot_kind: text
   cells: []
   values: []
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates:
     - - []
       - - 1
@@ -208,7 +208,7 @@ snapshot_kind: text
         - 4
         - 5
         - 6
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -217,11 +217,11 @@ snapshot_kind: text
   areas:
     - Row: 0
     - KropkiDot: 0
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -229,11 +229,11 @@ snapshot_kind: text
   areas:
     - Row: 0
     - KropkiDot: 0
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -242,11 +242,11 @@ snapshot_kind: text
   areas:
     - Column: 1
     - KropkiDot: 1
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -254,11 +254,11 @@ snapshot_kind: text
   areas:
     - Row: 1
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -266,11 +266,11 @@ snapshot_kind: text
   areas:
     - Row: 1
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -278,11 +278,11 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 8
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -290,11 +290,11 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 8
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -302,11 +302,11 @@ snapshot_kind: text
   areas:
     - Row: 3
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -314,11 +314,11 @@ snapshot_kind: text
   areas:
     - Row: 3
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -328,11 +328,11 @@ snapshot_kind: text
     - Region: 4
     - KropkiDot: 13
     - KropkiDot: 14
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -340,11 +340,11 @@ snapshot_kind: text
   areas:
     - Row: 1
     - KropkiDot: 3
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -353,66 +353,66 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 25
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 25
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 26
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 27
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 43
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 49
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -421,11 +421,11 @@ snapshot_kind: text
   areas:
     - Column: 1
     - KropkiDot: 1
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -433,11 +433,11 @@ snapshot_kind: text
   areas:
     - Row: 1
     - KropkiDot: 3
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -445,11 +445,11 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 7
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -457,11 +457,11 @@ snapshot_kind: text
   areas:
     - Column: 0
     - KropkiDot: 6
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -469,11 +469,11 @@ snapshot_kind: text
   areas:
     - Column: 0
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -482,66 +482,66 @@ snapshot_kind: text
   areas:
     - Row: 0
     - KropkiDot: 0
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 19
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 20
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 28
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 29
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 56
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -549,33 +549,33 @@ snapshot_kind: text
   areas:
     - Row: 1
     - KropkiDot: 3
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 25
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 6
   areas:
     - KropkiDot: 28
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -584,22 +584,22 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 27
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 6
   areas:
     - KropkiDot: 29
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -607,11 +607,11 @@ snapshot_kind: text
   areas:
     - Row: 1
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -619,11 +619,11 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 7
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -631,11 +631,11 @@ snapshot_kind: text
   areas:
     - Column: 4
     - KropkiDot: 5
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -643,55 +643,55 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 8
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 26
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 30
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 36
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 39
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -699,11 +699,11 @@ snapshot_kind: text
   areas:
     - Row: 3
     - KropkiDot: 10
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -711,33 +711,33 @@ snapshot_kind: text
   areas:
     - Column: 4
     - KropkiDot: 11
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 35
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 0
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -745,11 +745,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -757,11 +757,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -769,11 +769,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -782,33 +782,33 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -816,11 +816,11 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 13
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -829,33 +829,33 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 13
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -864,11 +864,11 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 14
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -878,11 +878,11 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 14
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -890,33 +890,33 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 5
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 5
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 0
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -924,11 +924,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -936,11 +936,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -948,11 +948,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -961,55 +961,55 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -1019,11 +1019,11 @@ snapshot_kind: text
   areas:
     - KropkiDot: 13
     - KropkiDot: 14
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -1035,11 +1035,11 @@ snapshot_kind: text
   areas:
     - KropkiDot: 13
     - KropkiDot: 14
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
@@ -1050,11 +1050,11 @@ snapshot_kind: text
   areas:
     - KropkiDot: 13
     - KropkiDot: 14
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1063,11 +1063,11 @@ snapshot_kind: text
   areas:
     - Column: 4
     - KropkiDot: 5
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1076,11 +1076,11 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 8
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1088,11 +1088,11 @@ snapshot_kind: text
   areas:
     - Row: 2
     - KropkiDot: 8
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1100,11 +1100,11 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 19
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1112,22 +1112,22 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 23
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 20
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1136,11 +1136,11 @@ snapshot_kind: text
     - 6
   areas:
     - KropkiDot: 31
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1148,33 +1148,33 @@ snapshot_kind: text
     - 6
   areas:
     - KropkiDot: 30
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 42
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 6
   areas:
     - KropkiDot: 43
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1182,22 +1182,22 @@ snapshot_kind: text
     - 3
   areas:
     - KropkiDot: 45
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 44
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1206,11 +1206,11 @@ snapshot_kind: text
     - 6
   areas:
     - KropkiDot: 39
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1219,22 +1219,22 @@ snapshot_kind: text
     - 6
   areas:
     - KropkiDot: 40
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 5
   areas:
     - KropkiDot: 49
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1244,22 +1244,22 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 50
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 56
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1269,11 +1269,11 @@ snapshot_kind: text
     - 5
   areas:
     - KropkiDot: 51
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1281,11 +1281,11 @@ snapshot_kind: text
   areas:
     - Row: 0
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1293,11 +1293,11 @@ snapshot_kind: text
   areas:
     - Column: 0
     - KropkiDot: 6
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1305,11 +1305,11 @@ snapshot_kind: text
   areas:
     - Row: 3
     - KropkiDot: 9
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1317,11 +1317,11 @@ snapshot_kind: text
   areas:
     - Row: 3
     - KropkiDot: 10
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1329,11 +1329,11 @@ snapshot_kind: text
   areas:
     - Column: 0
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1342,11 +1342,11 @@ snapshot_kind: text
   areas:
     - Column: 4
     - KropkiDot: 11
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1356,55 +1356,55 @@ snapshot_kind: text
   areas:
     - Row: 4
     - KropkiDot: 15
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 5
   areas:
     - KropkiDot: 21
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 24
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 6
   areas:
     - KropkiDot: 34
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 5
   areas:
     - KropkiDot: 29
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1412,44 +1412,44 @@ snapshot_kind: text
     - 3
   areas:
     - KropkiDot: 41
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 6
   areas:
     - KropkiDot: 44
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 6
   areas:
     - KropkiDot: 57
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 54
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1457,22 +1457,22 @@ snapshot_kind: text
   areas:
     - Column: 0
     - KropkiDot: 6
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 35
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1480,11 +1480,11 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 58
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1492,22 +1492,22 @@ snapshot_kind: text
   areas:
     - Row: 5
     - KropkiDot: 16
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 38
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1515,11 +1515,11 @@ snapshot_kind: text
   areas:
     - Row: 3
     - KropkiDot: 10
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1528,11 +1528,11 @@ snapshot_kind: text
   areas:
     - Column: 4
     - KropkiDot: 11
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1540,11 +1540,11 @@ snapshot_kind: text
   areas:
     - Row: 4
     - KropkiDot: 15
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1552,22 +1552,22 @@ snapshot_kind: text
     - 2
   areas:
     - KropkiDot: 47
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 46
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1575,22 +1575,22 @@ snapshot_kind: text
     - 4
   areas:
     - KropkiDot: 54
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 2
   areas:
     - KropkiDot: 55
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1598,22 +1598,22 @@ snapshot_kind: text
   areas:
     - Row: 5
     - KropkiDot: 16
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 48
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1621,11 +1621,11 @@ snapshot_kind: text
     - 6
   areas:
     - KropkiDot: 53
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -1633,11 +1633,11 @@ snapshot_kind: text
     - 6
   areas:
     - KropkiDot: 59
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -1645,77 +1645,77 @@ snapshot_kind: text
   areas:
     - Row: 5
     - KropkiDot: 16
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 1
   areas:
     - KropkiDot: 55
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 59
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 3
   areas:
     - KropkiDot: 2
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 4
   areas:
     - KropkiDot: 12
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -1723,9 +1723,9 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -1733,9 +1733,9 @@ snapshot_kind: text
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -1743,11 +1743,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -1755,9 +1755,9 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -1765,9 +1765,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -1775,11 +1775,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -1787,9 +1787,9 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -1797,9 +1797,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -1807,9 +1807,9 @@ snapshot_kind: text
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -1817,9 +1817,9 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -1827,9 +1827,9 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -1837,9 +1837,9 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -1847,9 +1847,9 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -1857,9 +1857,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -1867,9 +1867,9 @@ snapshot_kind: text
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -1877,9 +1877,9 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -1887,9 +1887,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -1897,9 +1897,9 @@ snapshot_kind: text
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -1907,9 +1907,9 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -1917,9 +1917,9 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -1927,9 +1927,9 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -1937,9 +1937,9 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -1947,9 +1947,9 @@ snapshot_kind: text
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -1957,9 +1957,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -1967,9 +1967,9 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -1977,9 +1977,9 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -1987,9 +1987,9 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -1997,11 +1997,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -2009,9 +2009,9 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -2019,9 +2019,9 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -2029,9 +2029,9 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -2039,9 +2039,9 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -2049,9 +2049,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -2059,9 +2059,9 @@ snapshot_kind: text
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -2069,6 +2069,6 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~

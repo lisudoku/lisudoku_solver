@@ -3,29 +3,30 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, s
 // https://www.sudopedia.org/wiki/2-String_Kite
 #[test]
 fn check_turbot_fish_2_string_kite() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1),
-    FixedNumber::new(0, 1, 2),
-    FixedNumber::new(1, 0, 3),
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 2, 5),
-    FixedNumber::new(2, 1, 7),
-    FixedNumber::new(2, 2, 6),
-    FixedNumber::new(0, 3, 7),
-    FixedNumber::new(0, 4, 3),
-    FixedNumber::new(0, 5, 4),
-    FixedNumber::new(0, 7, 5),
-    FixedNumber::new(0, 8, 6),
-    FixedNumber::new(3, 0, 2),
-    FixedNumber::new(4, 0, 4),
-    FixedNumber::new(5, 0, 5),
-    FixedNumber::new(7, 0, 6),
-    FixedNumber::new(6, 8, 9),
-    FixedNumber::new(8, 5, 8),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1),
+        FixedNumber::new(0, 1, 2),
+        FixedNumber::new(1, 0, 3),
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 2, 5),
+        FixedNumber::new(2, 1, 7),
+        FixedNumber::new(2, 2, 6),
+        FixedNumber::new(0, 3, 7),
+        FixedNumber::new(0, 4, 3),
+        FixedNumber::new(0, 5, 4),
+        FixedNumber::new(0, 7, 5),
+        FixedNumber::new(0, 8, 6),
+        FixedNumber::new(3, 0, 2),
+        FixedNumber::new(4, 0, 4),
+        FixedNumber::new(5, 0, 5),
+        FixedNumber::new(7, 0, 6),
+        FixedNumber::new(6, 8, 9),
+        FixedNumber::new(8, 5, 8),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = TurbotFish.run(&solver);

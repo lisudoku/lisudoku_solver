@@ -15,9 +15,9 @@ snapshot_kind: text
     - 3
   areas:
     - Row: 1
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 4
@@ -30,14 +30,14 @@ snapshot_kind: text
     - 4
   areas:
     - Row: 4
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Candidates
   cells: []
   values: []
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates:
     - - []
       - - 2
@@ -127,7 +127,7 @@ snapshot_kind: text
         - 3
         - 5
       - []
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: XWing
   cells:
     - row: 3
@@ -145,7 +145,7 @@ snapshot_kind: text
     - Row: 5
     - Column: 1
     - Column: 3
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 1
     - row: 2
@@ -159,7 +159,7 @@ snapshot_kind: text
     - row: 2
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -167,13 +167,13 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
     - row: 0
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -181,7 +181,7 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 4
     - row: 0
@@ -189,7 +189,7 @@ snapshot_kind: text
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -197,7 +197,7 @@ snapshot_kind: text
   values:
     - 2
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
     - row: 0
@@ -207,7 +207,7 @@ snapshot_kind: text
     - row: 1
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -215,13 +215,13 @@ snapshot_kind: text
   values:
     - 4
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 1
@@ -230,9 +230,9 @@ snapshot_kind: text
     - 2
   areas:
     - Row: 1
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 1
@@ -241,9 +241,9 @@ snapshot_kind: text
     - 4
   areas:
     - Row: 1
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 4
@@ -252,9 +252,9 @@ snapshot_kind: text
     - 2
   areas:
     - Row: 4
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 4
@@ -263,7 +263,7 @@ snapshot_kind: text
     - 3
   areas:
     - Row: 4
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
     - row: 5
@@ -271,7 +271,7 @@ snapshot_kind: text
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 5
@@ -280,13 +280,13 @@ snapshot_kind: text
     - 3
   areas:
     - Column: 2
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 3
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 3
@@ -295,9 +295,9 @@ snapshot_kind: text
     - 3
   areas:
     - Row: 3
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: LockedCandidatesPairs
   cells:
     - row: 4
@@ -309,11 +309,11 @@ snapshot_kind: text
   areas:
     - Row: 4
     - Region: 4
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: LockedCandidatesPairs
   cells:
     - row: 2
@@ -325,11 +325,11 @@ snapshot_kind: text
   areas:
     - Column: 2
     - Region: 2
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: XYWing
   cells:
     - row: 0
@@ -343,11 +343,11 @@ snapshot_kind: text
     - 6
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -355,7 +355,7 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 0
     - row: 1
@@ -363,7 +363,7 @@ snapshot_kind: text
     - row: 5
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -371,11 +371,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -383,13 +383,13 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
     - row: 1
       col: 0
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -397,11 +397,11 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -409,13 +409,13 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 3
     - row: 0
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -423,11 +423,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -435,11 +435,11 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -447,11 +447,11 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -459,11 +459,11 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -471,13 +471,13 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 4
     - row: 3
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -485,11 +485,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -497,9 +497,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -507,11 +507,11 @@ snapshot_kind: text
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -519,9 +519,9 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -529,9 +529,9 @@ snapshot_kind: text
   values:
     - 5
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -539,6 +539,6 @@ snapshot_kind: text
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~

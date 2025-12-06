@@ -2,28 +2,31 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, Kr
 
 #[test]
 fn check_kropki_advanced_candidates_1() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 2, 5),
-    FixedNumber::new(2, 2, 6),
-    FixedNumber::new(1, 2, 7),
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(1, 4, 3),
-    FixedNumber::new(0, 1, 4),
-    FixedNumber::new(1, 6, 8),
-    FixedNumber::new(6, 1, 7),
-    FixedNumber::new(7, 2, 9),
-    FixedNumber::new(8, 3, 4),
-    FixedNumber::new(8, 4, 5),
-    FixedNumber::new(8, 6, 6),
-    FixedNumber::new(8, 7, 8),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
-    KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 2, 5),
+        FixedNumber::new(2, 2, 6),
+        FixedNumber::new(1, 2, 7),
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(1, 4, 3),
+        FixedNumber::new(0, 1, 4),
+        FixedNumber::new(1, 6, 8),
+        FixedNumber::new(6, 1, 7),
+        FixedNumber::new(7, 2, 9),
+        FixedNumber::new(8, 3, 4),
+        FixedNumber::new(8, 4, 5),
+        FixedNumber::new(8, 6, 6),
+        FixedNumber::new(8, 7, 8),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
+        KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -62,28 +65,31 @@ fn check_kropki_advanced_candidates_1() {
 
 #[test]
 fn check_kropki_advanced_candidates_2() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 2, 5),
-    FixedNumber::new(2, 2, 6),
-    FixedNumber::new(1, 2, 7),
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(1, 4, 3),
-    FixedNumber::new(0, 1, 4),
-    FixedNumber::new(1, 6, 8),
-    FixedNumber::new(6, 1, 3),
-    FixedNumber::new(7, 2, 1),
-    FixedNumber::new(8, 3, 4),
-    FixedNumber::new(8, 4, 5),
-    FixedNumber::new(8, 6, 6),
-    FixedNumber::new(8, 7, 2),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
-    KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 2, 5),
+        FixedNumber::new(2, 2, 6),
+        FixedNumber::new(1, 2, 7),
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(1, 4, 3),
+        FixedNumber::new(0, 1, 4),
+        FixedNumber::new(1, 6, 8),
+        FixedNumber::new(6, 1, 3),
+        FixedNumber::new(7, 2, 1),
+        FixedNumber::new(8, 3, 4),
+        FixedNumber::new(8, 4, 5),
+        FixedNumber::new(8, 6, 6),
+        FixedNumber::new(8, 7, 2),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
+        KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -122,25 +128,28 @@ fn check_kropki_advanced_candidates_2() {
 
 #[test]
 fn check_kropki_advanced_candidates_3() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 5, 3),
-    FixedNumber::new(1, 6, 4),
-    FixedNumber::new(1, 7, 5),
-    FixedNumber::new(1, 8, 6),
-    FixedNumber::new(5, 0, 9),
-    FixedNumber::new(6, 0, 8),
-    FixedNumber::new(7, 0, 7),
-    FixedNumber::new(8, 5, 1),
-    FixedNumber::new(8, 6, 5),
-    FixedNumber::new(8, 7, 6),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
-    KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 5, 3),
+        FixedNumber::new(1, 6, 4),
+        FixedNumber::new(1, 7, 5),
+        FixedNumber::new(1, 8, 6),
+        FixedNumber::new(5, 0, 9),
+        FixedNumber::new(6, 0, 8),
+        FixedNumber::new(7, 0, 7),
+        FixedNumber::new(8, 5, 1),
+        FixedNumber::new(8, 6, 5),
+        FixedNumber::new(8, 7, 6),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
+        KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -179,26 +188,29 @@ fn check_kropki_advanced_candidates_3() {
 
 #[test]
 fn check_kropki_advanced_candidates_4() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(1, 4, 3),
-    FixedNumber::new(1, 5, 4),
-    FixedNumber::new(1, 6, 6),
-    FixedNumber::new(1, 7, 7),
-    FixedNumber::new(6, 0, 8),
-    FixedNumber::new(7, 0, 9),
-    FixedNumber::new(8, 5, 6),
-    FixedNumber::new(8, 6, 7),
-    FixedNumber::new(8, 7, 2),
-    FixedNumber::new(8, 8, 1),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
-    KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(1, 4, 3),
+        FixedNumber::new(1, 5, 4),
+        FixedNumber::new(1, 6, 6),
+        FixedNumber::new(1, 7, 7),
+        FixedNumber::new(6, 0, 8),
+        FixedNumber::new(7, 0, 9),
+        FixedNumber::new(8, 5, 6),
+        FixedNumber::new(8, 6, 7),
+        FixedNumber::new(8, 7, 2),
+        FixedNumber::new(8, 8, 1),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
+        KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);

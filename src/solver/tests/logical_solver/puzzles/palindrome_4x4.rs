@@ -2,20 +2,23 @@ use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, Palindrome,
 
 #[test]
 fn check_palindrome_4x4_1_solve() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1), FixedNumber::new(0, 2, 2),
-    FixedNumber::new(1, 3, 1), FixedNumber::new(2, 1, 4),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.palindromes = vec![
-    Palindrome(vec![
-      CellPosition::new(1, 2), CellPosition::new(2, 2),
-      CellPosition::new(3, 1), CellPosition::new(2, 0),
-    ]),
-  ];
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1), FixedNumber::new(0, 2, 2),
+        FixedNumber::new(1, 3, 1), FixedNumber::new(2, 1, 4),
+      ]
+    )
+    .with_palindromes(
+      vec![
+        Palindrome(vec![
+          CellPosition::new(1, 2), CellPosition::new(2, 2),
+          CellPosition::new(3, 1), CellPosition::new(2, 0),
+        ]),
+      ]
+    );
 
-  let mut solver = Solver::new(constraints, None);
+  let mut solver = Solver::new(constraints);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert!(result.steps.iter().any(|step| step.rule == Rule::PalindromeValues));

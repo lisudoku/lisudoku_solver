@@ -2,20 +2,23 @@ use crate::{solver::{Solver, logical_solver::{candidates::Candidates, nishio_for
 
 #[test]
 fn check_nishio_forcing_chain_valid() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(2, 0, 1),
-    FixedNumber::new(2, 1, 2),
-    FixedNumber::new(2, 2, 3),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![
-      CellPosition::new(0, 6), CellPosition::new(0, 7), CellPosition::new(0, 8),
-      CellPosition::new(1, 8), CellPosition::new(1, 7), CellPosition::new(1, 6),
-    ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(2, 0, 1),
+        FixedNumber::new(2, 1, 2),
+        FixedNumber::new(2, 2, 3),
+      ]
+    )
+    .with_thermos(
+      vec![
+        Thermo(vec![
+          CellPosition::new(0, 6), CellPosition::new(0, 7), CellPosition::new(0, 8),
+          CellPosition::new(1, 8), CellPosition::new(1, 7), CellPosition::new(1, 6),
+        ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   solver.apply_rules(&ThermoCandidates.run(&solver));
 
@@ -47,18 +50,21 @@ fn check_nishio_forcing_chain_valid() {
 
 #[test]
 fn check_nishio_forcing_chain_contradiction() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 1, 2), FixedNumber::new(0, 2, 3), FixedNumber::new(2, 0, 4),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.palindromes = vec![
-    Palindrome(vec![
-      CellPosition::new(0, 0), CellPosition::new(1, 1), CellPosition::new(1, 2),
-      CellPosition::new(0, 3),
-    ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 1, 2), FixedNumber::new(0, 2, 3), FixedNumber::new(2, 0, 4),
+      ]
+    )
+    .with_palindromes(
+      vec![
+        Palindrome(vec![
+          CellPosition::new(0, 0), CellPosition::new(1, 1), CellPosition::new(1, 2),
+          CellPosition::new(0, 3),
+        ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NishioForcingChains.run(&solver);

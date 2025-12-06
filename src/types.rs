@@ -9,7 +9,45 @@ use derive_more::{Deref, DerefMut};
 #[serde(rename_all = "camelCase")]
 pub struct SudokuConstraints {
   pub grid_size: usize,
-  // TODO: make all below optional?
+  #[tsify(optional)]
+  pub fixed_numbers: Option<Vec<FixedNumber>>,
+  #[tsify(optional)]
+  pub regions: Option<Vec<Region>>,
+  #[tsify(optional)]
+  pub extra_regions: Option<Vec<Region>>,
+  #[tsify(optional)]
+  pub killer_cages: Option<Vec<KillerCage>>,
+  #[tsify(optional)]
+  pub thermos: Option<Vec<Thermo>>,
+  #[tsify(optional)]
+  pub arrows: Option<Vec<Arrow>>,
+  #[tsify(optional)]
+  pub primary_diagonal: Option<bool>,
+  #[tsify(optional)]
+  pub secondary_diagonal: Option<bool>,
+  #[tsify(optional)]
+  pub anti_knight: Option<bool>,
+  #[tsify(optional)]
+  pub anti_king: Option<bool>,
+  #[tsify(optional)]
+  pub kropki_dots: Option<Vec<KropkiDot>>,
+  #[tsify(optional)]
+  pub kropki_negative: Option<bool>,
+  #[tsify(optional)]
+  pub odd_cells: Option<Vec<CellPosition>>,
+  #[tsify(optional)]
+  pub even_cells: Option<Vec<CellPosition>>,
+  #[tsify(optional)]
+  pub top_bottom: Option<bool>,
+  #[tsify(optional)]
+  pub renbans: Option<Vec<Renban>>,
+  #[tsify(optional)]
+  pub palindromes: Option<Vec<Palindrome>>,
+}
+
+#[derive(Debug, Clone)]
+pub struct NormalizedSudokuConstraints {
+  pub grid_size: usize,
   pub fixed_numbers: Vec<FixedNumber>,
   pub regions: Vec<Region>,
   pub extra_regions: Vec<Region>,
@@ -99,8 +137,10 @@ pub enum KropkiDotType {
 #[serde(rename_all = "camelCase")]
 pub struct SudokuLogicalSolveResult {
   pub solution_type: SolutionType,
+  #[tsify(optional)]
   pub solution: Option<Grid>,
   pub steps: Vec<SolutionStep>,
+  #[tsify(optional)]
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
@@ -137,6 +177,7 @@ pub enum InvalidStateType {
 #[serde(rename_all = "camelCase")]
 pub struct SudokuBruteSolveResult {
   pub solution_count: u32,
+  #[tsify(optional)]
   pub solution: Option<Grid>,
 }
 
@@ -156,8 +197,10 @@ pub struct SolutionStep {
   // but we will remove candidates from these cells.
   pub affected_cells: Vec<CellPosition>,
   // Used for Rule::Candidates
+  #[tsify(optional)]
   pub candidates: Option<Vec<Vec<Vec<u32>>>>,
   // Used for Rule::NishioForcingChains
+  #[tsify(optional)]
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
@@ -241,6 +284,45 @@ pub struct Renban(pub Vec<CellPosition>);
 #[tsify(from_wasm_abi)]
 pub struct Palindrome(pub Vec<CellPosition>);
 
+#[derive(Debug)]
+pub enum ConstraintError {
+  InvalidValue {
+    field: &'static str,
+    message: &'static str,
+  },
+}
+
+impl TryFrom<SudokuConstraints> for NormalizedSudokuConstraints {
+  type Error = ConstraintError;
+
+  fn try_from(src: SudokuConstraints) -> Result<Self, Self::Error> {
+    if ![4, 6, 9].contains(&src.grid_size) {
+      return Err(ConstraintError::InvalidValue { field: "grid_size", message: "Can only be 4, 6 or 9" })
+    }
+
+    Ok(NormalizedSudokuConstraints {
+      grid_size: src.grid_size,
+      fixed_numbers: src.fixed_numbers.unwrap_or_default(),
+      regions: src.regions.unwrap_or(SudokuConstraints::default_regions(src.grid_size)),
+      extra_regions: src.extra_regions.unwrap_or_default(),
+      killer_cages: src.killer_cages.unwrap_or_default(),
+      thermos: src.thermos.unwrap_or_default(),
+      arrows: src.arrows.unwrap_or_default(),
+      primary_diagonal: src.primary_diagonal.unwrap_or_default(),
+      secondary_diagonal: src.secondary_diagonal.unwrap_or_default(),
+      anti_knight: src.anti_knight.unwrap_or_default(),
+      anti_king: src.anti_king.unwrap_or_default(),
+      kropki_dots: src.kropki_dots.unwrap_or_default(),
+      kropki_negative: src.kropki_negative.unwrap_or_default(),
+      odd_cells: src.odd_cells.unwrap_or_default(),
+      even_cells: src.even_cells.unwrap_or_default(),
+      top_bottom: src.top_bottom.unwrap_or_default(),
+      renbans: src.renbans.unwrap_or_default(),
+      palindromes: src.palindromes.unwrap_or_default(),
+    })
+  }
+}
+
 impl Display for Rule {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
       Debug::fmt(self, f)
@@ -257,26 +339,26 @@ impl Arrow {
 }
 
 impl SudokuConstraints {
-  pub fn new(grid_size: usize, fixed_numbers: Vec<FixedNumber>) -> SudokuConstraints {
+  pub fn new(grid_size: usize) -> SudokuConstraints {
     SudokuConstraints {
       grid_size,
-      fixed_numbers,
-      regions: SudokuConstraints::default_regions(grid_size),
-      extra_regions: vec![],
-      killer_cages: vec![],
-      thermos: vec![],
-      arrows: vec![],
-      primary_diagonal: false,
-      secondary_diagonal: false,
-      anti_knight: false,
-      anti_king: false,
-      kropki_dots: vec![],
-      kropki_negative: false,
-      odd_cells: vec![],
-      even_cells: vec![],
-      top_bottom: false,
-      renbans: vec![],
-      palindromes: vec![],
+      fixed_numbers: None,
+      regions: None,
+      extra_regions: None,
+      killer_cages: None,
+      thermos: None,
+      arrows: None,
+      primary_diagonal: None,
+      secondary_diagonal: None,
+      anti_knight: None,
+      anti_king: None,
+      kropki_dots: None,
+      kropki_negative: None,
+      odd_cells: None,
+      even_cells: None,
+      top_bottom: None,
+      renbans: None,
+      palindromes: None,
     }
   }
 
@@ -315,27 +397,115 @@ impl SudokuConstraints {
   }
 
   #[cfg(test)]
+  pub fn with_fixed_numbers(mut self, fixed_numbers: Vec<FixedNumber>) -> Self {
+    self.fixed_numbers = Some(fixed_numbers);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_fixed_numbers_grid(mut self, fixed_numbers_grid: Grid) -> Self {
+    self.fixed_numbers = Some(fixed_numbers_grid.to_fixed_numbers());
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_regions(mut self, regions: Vec<Region>) -> Self {
+    self.regions = Some(regions);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_extra_regions(mut self, extra_regions: Vec<Region>) -> Self {
+    self.extra_regions = Some(extra_regions);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_killer_cages(mut self, killer_cages: Vec<KillerCage>) -> Self {
+    self.killer_cages = Some(killer_cages);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_kropki_dots(mut self, kropki_dots: Vec<KropkiDot>) -> Self {
+    self.kropki_dots = Some(kropki_dots);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_kropki_negative(mut self) -> Self {
+    self.kropki_negative = Some(true);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_odd_cells(mut self, odd_cells: Vec<CellPosition>) -> Self {
+    self.odd_cells = Some(odd_cells);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_even_cells(mut self, even_cells: Vec<CellPosition>) -> Self {
+    self.even_cells = Some(even_cells);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_palindromes(mut self, palindromes: Vec<Palindrome>) -> Self {
+    self.palindromes = Some(palindromes);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_renbans(mut self, renbans: Vec<Renban>) -> Self {
+    self.renbans = Some(renbans);
+    self
+  }
+
+  #[cfg(test)]
   pub fn with_top_bottom(mut self) -> Self {
-    self.top_bottom = true;
+    self.top_bottom = Some(true);
     self
   }
 
   #[cfg(test)]
   pub fn with_anti_king(mut self) -> Self {
-    self.anti_king = true;
+    self.anti_king = Some(true);
     self
   }
 
   #[cfg(test)]
   pub fn with_anti_knight(mut self) -> Self {
-    self.anti_knight = true;
+    self.anti_knight = Some(true);
     self
   }
 
   #[cfg(test)]
-  pub fn with_diagonals(mut self) -> Self {
-    self.primary_diagonal = true;
-    self.secondary_diagonal = true;
+  pub fn with_primary_diagonal(mut self) -> Self {
+    self.primary_diagonal = Some(true);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_secondary_diagonal(mut self) -> Self {
+    self.secondary_diagonal = Some(true);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_diagonals(self) -> Self {
+    self.with_primary_diagonal().with_secondary_diagonal()
+  }
+
+  #[cfg(test)]
+  pub fn with_thermos(mut self, thermos: Vec<Thermo>) -> Self {
+    self.thermos = Some(thermos);
+    self
+  }
+
+  #[cfg(test)]
+  pub fn with_arrows(mut self, arrows: Vec<Arrow>) -> Self {
+    self.arrows = Some(arrows);
     self
   }
 
@@ -464,9 +634,9 @@ impl Grid {
     Self(grid)
   }
 
-  pub fn from_fixed_numbers(grid_size: usize, fixed_numbers: &Vec<FixedNumber>) -> Self {
+  pub fn from_fixed_numbers(grid_size: usize, fixed_numbers: &Option<Vec<FixedNumber>>) -> Self {
     let mut grid = vec![ vec![ 0; grid_size ]; grid_size ];
-    for fixed_number in fixed_numbers {
+    for fixed_number in fixed_numbers.as_ref().unwrap_or(&vec![]) {
       let cell = fixed_number.position;
       grid[cell.row][cell.col] = fixed_number.value;
     }
@@ -528,7 +698,7 @@ fn check_sudoku_constraints_import_string() {
     vec![ 7, 0, 0, 0, 8, 0, 0, 0, 1 ],
     vec![ 8, 0, 0, 2, 0, 9, 0, 0, 3 ],
   ]).to_fixed_numbers();
-  let constraints = SudokuConstraints::new(9, fixed_numbers);
+  let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers);
   assert_eq!(constraints.to_import_string(), String::from("\
     203000107\
     910040026\

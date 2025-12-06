@@ -2,16 +2,17 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, s
 
 #[test]
 fn check_locked_candidates_triples() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 4),
-    FixedNumber::new(0, 1, 5),
-    FixedNumber::new(0, 2, 6),
-    FixedNumber::new(1, 3, 1),
-    FixedNumber::new(8, 8, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 4),
+        FixedNumber::new(0, 1, 5),
+        FixedNumber::new(0, 2, 6),
+        FixedNumber::new(1, 3, 1),
+        FixedNumber::new(8, 8, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(3).run(&solver);
@@ -38,16 +39,17 @@ fn check_locked_candidates_triples() {
 
 #[test]
 fn check_locked_candidates_triples_no_affected_cells() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 4),
-    FixedNumber::new(0, 1, 5),
-    FixedNumber::new(0, 2, 6),
-    FixedNumber::new(0, 6, 1),
-    FixedNumber::new(1, 3, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 4),
+        FixedNumber::new(0, 1, 5),
+        FixedNumber::new(0, 2, 6),
+        FixedNumber::new(0, 6, 1),
+        FixedNumber::new(1, 3, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(3).run(&solver);

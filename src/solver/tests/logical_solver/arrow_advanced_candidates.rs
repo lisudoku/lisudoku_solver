@@ -2,22 +2,25 @@ use crate::{types::{FixedNumber, SudokuConstraints, CellPosition, Rule, Area, Ar
 
 #[test]
 fn check_arrow_advanced_candidates() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1), FixedNumber::new(1, 0, 4), FixedNumber::new(2, 0, 5),
-    FixedNumber::new(3, 0, 6), FixedNumber::new(4, 0, 7), FixedNumber::new(5, 0, 8),
-    FixedNumber::new(6, 0, 9), FixedNumber::new(6, 7, 5), FixedNumber::new(6, 8, 6),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.arrows = vec![
-    Arrow {
-      circle_cells: vec![ CellPosition::new(7, 7) ],
-      arrow_cells: vec![
-        CellPosition::new(8, 8), CellPosition::new(8, 7), CellPosition::new(8, 6),
-      ],
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1), FixedNumber::new(1, 0, 4), FixedNumber::new(2, 0, 5),
+        FixedNumber::new(3, 0, 6), FixedNumber::new(4, 0, 7), FixedNumber::new(5, 0, 8),
+        FixedNumber::new(6, 0, 9), FixedNumber::new(6, 7, 5), FixedNumber::new(6, 8, 6),
+      ]
+    )
+    .with_arrows(
+      vec![
+        Arrow {
+          circle_cells: vec![ CellPosition::new(7, 7) ],
+          arrow_cells: vec![
+            CellPosition::new(8, 8), CellPosition::new(8, 7), CellPosition::new(8, 6),
+          ],
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = ArrowCandidates.run(&solver);

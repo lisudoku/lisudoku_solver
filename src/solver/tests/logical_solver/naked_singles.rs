@@ -2,15 +2,16 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition}, solver::{Solv
 
 #[test]
 fn check_naked_single_without_candidates() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(2, 0, 1),
-    FixedNumber::new(2, 2, 3),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(2, 0, 1),
+        FixedNumber::new(2, 2, 3),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   let steps = NakedSingle.run(&solver);
   assert!(!steps.is_empty());
@@ -28,15 +29,16 @@ fn check_naked_single_without_candidates() {
 
 #[test]
 fn check_naked_single_with_candidates() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 3, 2),
-    FixedNumber::new(2, 0, 1),
-    FixedNumber::new(2, 2, 3),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 3, 2),
+        FixedNumber::new(2, 0, 1),
+        FixedNumber::new(2, 2, 3),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSingle.run(&solver);
@@ -68,9 +70,9 @@ fn check_naked_single_with_candidates() {
 //     FixedNumber::new(6, 2, 7),
 //     FixedNumber::new(4, 3, 8),
 //   ];
-//   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+//   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.anti_knight = true;
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 
 //   let step = solver.find_naked_singles();
 //   assert!(step.is_some());

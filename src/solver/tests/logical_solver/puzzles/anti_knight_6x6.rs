@@ -2,20 +2,21 @@ use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConst
 
 #[test]
 fn check_anti_knight_6x6_1_solve() {
-  let grid_size = 6;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 1, 5),
-    FixedNumber::new(0, 2, 1),
-    FixedNumber::new(0, 3, 3),
-    FixedNumber::new(0, 4, 6),
-    FixedNumber::new(1, 2, 2),
-    FixedNumber::new(1, 3, 4),
-    FixedNumber::new(5, 0, 2),
-    FixedNumber::new(5, 5, 4),
-  ];
-  let empty_cells = grid_size * grid_size - fixed_numbers.len();
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 1, 5),
+        FixedNumber::new(0, 2, 1),
+        FixedNumber::new(0, 3, 3),
+        FixedNumber::new(0, 4, 6),
+        FixedNumber::new(1, 2, 2),
+        FixedNumber::new(1, 3, 4),
+        FixedNumber::new(5, 0, 2),
+        FixedNumber::new(5, 5, 4),
+      ]
+    )
+    .with_anti_knight();
+  let mut solver = Solver::new(constraints);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -29,6 +30,5 @@ fn check_anti_knight_6x6_1_solve() {
       vec![ 2, 1, 5, 6, 3, 4 ],
     ])
   );
-  assert_eq!(result.steps.len(), empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }

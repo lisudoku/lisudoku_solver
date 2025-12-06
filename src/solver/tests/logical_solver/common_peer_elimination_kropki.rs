@@ -3,17 +3,20 @@ use itertools::Itertools;
 
 #[test]
 fn check_common_peer_elimination_kropki_1() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(4, 2, 7), FixedNumber::new(5, 2, 5),
-    FixedNumber::new(5, 4, 2), FixedNumber::new(5, 5, 3), FixedNumber::new(4, 6, 2),
-  ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.kropki_dots = vec![
-    KropkiDot::consecutive(CellPosition::new(3, 0), CellPosition::new(3, 1)),
-    KropkiDot::consecutive(CellPosition::new(3, 0), CellPosition::new(4, 0)),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(4, 2, 7), FixedNumber::new(5, 2, 5),
+        FixedNumber::new(5, 4, 2), FixedNumber::new(5, 5, 3), FixedNumber::new(4, 6, 2),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(3, 0), CellPosition::new(3, 1)),
+        KropkiDot::consecutive(CellPosition::new(3, 0), CellPosition::new(4, 0)),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);

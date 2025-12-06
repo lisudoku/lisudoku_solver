@@ -28,10 +28,10 @@ use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConst
 //     FixedNumber::new(8, 3, 8),
 //   ];
 //   let empty_cells = grid_size * grid_size - fixed_numbers.len();
-//   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+//   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.primary_diagonal = true;
 //   constraints.secondary_diagonal = true;
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   let result = solver.logical_solve();
 //   assert_eq!(result.solution_type, SolutionType::Full);
 //   assert_eq!(result.solution.unwrap(), vec![
@@ -51,32 +51,31 @@ use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConst
 // https://www.sudopedia.org/wiki/Sudoku-X
 #[test]
 fn check_diagonal_9x9_2_medium_solve() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(5, 0, 7),
-    FixedNumber::new(5, 2, 4),
-    FixedNumber::new(5, 4, 5),
-    FixedNumber::new(5, 6, 3),
-    FixedNumber::new(5, 8, 9),
-    FixedNumber::new(6, 1, 5),
-    FixedNumber::new(6, 3, 6),
-    FixedNumber::new(6, 5, 7),
-    FixedNumber::new(6, 7, 8),
-    FixedNumber::new(7, 0, 9),
-    FixedNumber::new(7, 2, 3),
-    FixedNumber::new(7, 4, 4),
-    FixedNumber::new(7, 6, 6),
-    FixedNumber::new(7, 8, 7),
-    FixedNumber::new(8, 1, 1),
-    FixedNumber::new(8, 3, 2),
-    FixedNumber::new(8, 5, 3),
-    FixedNumber::new(8, 7, 4),
-  ];
-  let empty_cells = grid_size * grid_size - fixed_numbers.len();
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.primary_diagonal = true;
-  constraints.secondary_diagonal = true;
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(5, 0, 7),
+        FixedNumber::new(5, 2, 4),
+        FixedNumber::new(5, 4, 5),
+        FixedNumber::new(5, 6, 3),
+        FixedNumber::new(5, 8, 9),
+        FixedNumber::new(6, 1, 5),
+        FixedNumber::new(6, 3, 6),
+        FixedNumber::new(6, 5, 7),
+        FixedNumber::new(6, 7, 8),
+        FixedNumber::new(7, 0, 9),
+        FixedNumber::new(7, 2, 3),
+        FixedNumber::new(7, 4, 4),
+        FixedNumber::new(7, 6, 6),
+        FixedNumber::new(7, 8, 7),
+        FixedNumber::new(8, 1, 1),
+        FixedNumber::new(8, 3, 2),
+        FixedNumber::new(8, 5, 3),
+        FixedNumber::new(8, 7, 4),
+      ]
+    )
+    .with_diagonals();
+  let mut solver = Solver::new(constraints);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -93,7 +92,6 @@ fn check_diagonal_9x9_2_medium_solve() {
       vec![ 6, 1, 7, 2, 8, 3, 9, 4, 5 ],
     ])
   );
-  assert!(result.steps.len() >= empty_cells);
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -117,10 +115,10 @@ fn check_diagonal_9x9_2_medium_solve() {
 //     FixedNumber::new(8, 7, 3),
 //   ];
 //   let empty_cells = grid_size * grid_size - fixed_numbers.len();
-//   let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
+//   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.primary_diagonal = true;
 //   constraints.secondary_diagonal = true;
-//   let mut solver = Solver::new(constraints, None);
+//   let mut solver = Solver::new(constraints);
 //   let result = solver.logical_solve();
 //   assert_eq!(result.solution_type, SolutionType::Full);
 //   assert_eq!(result.solution.unwrap(), vec![

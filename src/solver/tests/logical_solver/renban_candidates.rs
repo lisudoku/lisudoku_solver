@@ -3,15 +3,18 @@ use itertools::Itertools;
 
 #[test]
 fn check_renban_candidates_in_area() {
-  let grid_size = 9;
-  let fixed_numbers = vec![FixedNumber::new(1, 1, 4)];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let renban = Renban(vec![
-    CellPosition::new(0, 0), CellPosition::new(0, 1),
-    CellPosition::new(0, 2), CellPosition::new(1, 2),
-  ]);
-  constraints.renbans = vec![renban.clone()];
-  let mut solver = Solver::new(constraints, None);
+  let renbans = vec![
+    Renban(vec![
+      CellPosition::new(0, 0), CellPosition::new(0, 1),
+      CellPosition::new(0, 2), CellPosition::new(1, 2),
+    ])
+  ];
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![FixedNumber::new(1, 1, 4)]
+    )
+    .with_renbans(renbans.clone());
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = RenbanCandidates.run(&solver);
@@ -19,7 +22,7 @@ fn check_renban_candidates_in_area() {
 
   for (index, step) in steps.into_iter().enumerate() {
     assert_eq!(step.rule, Rule::RenbanCandidates);
-    let cell = renban[index];
+    let cell = renbans[0][index];
     assert_eq!(step.affected_cells, vec![cell]);
     assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 2, 3]);
     assert_eq!(step.areas, vec![ Area::Renban(0) ]);
@@ -32,15 +35,18 @@ fn check_renban_candidates_in_area() {
 
 #[test]
 fn check_renban_candidates_fixed_value() {
-  let grid_size = 9;
-  let fixed_numbers = vec![FixedNumber::new(0, 0, 5)];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let renban = Renban(vec![
-    CellPosition::new(0, 0), CellPosition::new(0, 1),
-    CellPosition::new(0, 2), CellPosition::new(1, 2),
-  ]);
-  constraints.renbans = vec![renban.clone()];
-  let mut solver = Solver::new(constraints, None);
+  let renbans = vec![
+    Renban(vec![
+      CellPosition::new(0, 0), CellPosition::new(0, 1),
+      CellPosition::new(0, 2), CellPosition::new(1, 2),
+    ])
+  ];
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![FixedNumber::new(0, 0, 5)]
+    )
+    .with_renbans(renbans.clone());
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = RenbanCandidates.run(&solver);
@@ -48,7 +54,7 @@ fn check_renban_candidates_fixed_value() {
 
   for (index, step) in steps.into_iter().enumerate() {
     assert_eq!(step.rule, Rule::RenbanCandidates);
-    let cell = renban[index + 1];
+    let cell = renbans[0][index + 1];
     assert_eq!(step.affected_cells, vec![cell]);
     assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 9]);
     assert_eq!(step.areas, vec![ Area::Renban(0) ]);

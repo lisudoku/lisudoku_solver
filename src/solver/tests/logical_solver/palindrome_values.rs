@@ -2,15 +2,19 @@ use crate::{solver::{Solver, logical_solver::{palindrome_values::PalindromeValue
 
 #[test]
 fn check_palindrome_values() {
-  let grid_size = 9;
-  let fixed_numbers = vec![FixedNumber::new(0, 0, 1), FixedNumber::new(0, 3, 2)];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let palindrome = Palindrome(vec![
-    CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(0, 2),
-    CellPosition::new(0, 3), CellPosition::new(0, 4),
-  ]);
-  constraints.palindromes = vec![palindrome.clone()];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![FixedNumber::new(0, 0, 1), FixedNumber::new(0, 3, 2)]
+    )
+    .with_palindromes(
+      vec![
+        Palindrome(vec![
+          CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(0, 2),
+          CellPosition::new(0, 3), CellPosition::new(0, 4),
+        ])
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   let steps = PalindromeValues.run(&solver);
   assert_eq!(steps.len(), 2);

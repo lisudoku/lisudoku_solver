@@ -2,19 +2,20 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver:
 
 #[test]
 fn check_naked_pairs_with_affected_cells() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1),
-    FixedNumber::new(0, 1, 2),
-    FixedNumber::new(0, 2, 3),
-    FixedNumber::new(2, 0, 7),
-    FixedNumber::new(2, 1, 8),
-    FixedNumber::new(2, 2, 9),
-    FixedNumber::new(5, 0, 6),
-    FixedNumber::new(6, 2, 6),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1),
+        FixedNumber::new(0, 1, 2),
+        FixedNumber::new(0, 2, 3),
+        FixedNumber::new(2, 0, 7),
+        FixedNumber::new(2, 1, 8),
+        FixedNumber::new(2, 2, 9),
+        FixedNumber::new(5, 0, 6),
+        FixedNumber::new(6, 2, 6),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSet::new(2).run(&solver);
@@ -33,22 +34,23 @@ fn check_naked_pairs_with_affected_cells() {
 
 #[test]
 fn check_naked_pairs_no_affected_cells() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 0, 1),
-    FixedNumber::new(0, 1, 2),
-    FixedNumber::new(0, 2, 3),
-    FixedNumber::new(0, 7, 4),
-    FixedNumber::new(0, 8, 5),
-    FixedNumber::new(1, 0, 6),
-    FixedNumber::new(2, 0, 7),
-    FixedNumber::new(2, 1, 8),
-    FixedNumber::new(2, 2, 9),
-    FixedNumber::new(2, 4, 4),
-    FixedNumber::new(2, 5, 5),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 0, 1),
+        FixedNumber::new(0, 1, 2),
+        FixedNumber::new(0, 2, 3),
+        FixedNumber::new(0, 7, 4),
+        FixedNumber::new(0, 8, 5),
+        FixedNumber::new(1, 0, 6),
+        FixedNumber::new(2, 0, 7),
+        FixedNumber::new(2, 1, 8),
+        FixedNumber::new(2, 2, 9),
+        FixedNumber::new(2, 4, 4),
+        FixedNumber::new(2, 5, 5),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSet::new(2).run(&solver);

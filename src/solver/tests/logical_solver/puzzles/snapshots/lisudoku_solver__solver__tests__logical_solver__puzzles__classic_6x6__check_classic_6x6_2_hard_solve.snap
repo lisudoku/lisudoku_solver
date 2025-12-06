@@ -1,7 +1,7 @@
 ---
 source: src/solver/tests/logical_solver/puzzles/classic_6x6.rs
-assertion_line: 69
 expression: result.steps
+snapshot_kind: text
 ---
 - rule: NakedSingle
   cells:
@@ -12,9 +12,9 @@ expression: result.steps
   areas:
     - Row: 4
     - Column: 0
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -24,9 +24,9 @@ expression: result.steps
   areas:
     - Row: 0
     - Column: 0
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -36,9 +36,9 @@ expression: result.steps
   areas:
     - Row: 5
     - Column: 0
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 2
@@ -51,9 +51,9 @@ expression: result.steps
     - 2
   areas:
     - Column: 4
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 1
@@ -68,9 +68,9 @@ expression: result.steps
     - 1
   areas:
     - Column: 4
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 1
@@ -83,14 +83,14 @@ expression: result.steps
     - 5
   areas:
     - Row: 1
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: Candidates
   cells: []
   values: []
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates:
     - - []
       - - 3
@@ -161,7 +161,7 @@ expression: result.steps
         - 5
         - 6
       - []
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: XYWing
   cells:
     - row: 1
@@ -175,13 +175,13 @@ expression: result.steps
     - 4
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 4
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -189,13 +189,13 @@ expression: result.steps
   values:
     - 5
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
     - row: 5
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -203,13 +203,13 @@ expression: result.steps
   values:
     - 3
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 3
     - row: 0
       col: 4
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -217,11 +217,11 @@ expression: result.steps
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: HiddenSingle
   cells:
     - row: 5
@@ -230,9 +230,9 @@ expression: result.steps
     - 5
   areas:
     - Row: 5
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: TurbotFish
   cells:
     - row: 0
@@ -248,11 +248,11 @@ expression: result.steps
   areas:
     - Row: 0
     - Column: 5
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: TurbotFish
   cells:
     - row: 0
@@ -268,13 +268,13 @@ expression: result.steps
   areas:
     - Row: 0
     - Row: 4
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 5
     - row: 5
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -282,7 +282,7 @@ expression: result.steps
   values:
     - 3
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 1
     - row: 1
@@ -292,7 +292,7 @@ expression: result.steps
     - row: 0
       col: 3
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -300,7 +300,7 @@ expression: result.steps
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 5
       col: 2
     - row: 2
@@ -310,7 +310,7 @@ expression: result.steps
     - row: 4
       col: 5
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -318,11 +318,11 @@ expression: result.steps
   values:
     - 4
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 0
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -330,13 +330,13 @@ expression: result.steps
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 1
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -344,11 +344,11 @@ expression: result.steps
   values:
     - 4
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 4
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 5
@@ -356,13 +356,13 @@ expression: result.steps
   values:
     - 4
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 2
     - row: 4
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 0
@@ -370,11 +370,11 @@ expression: result.steps
   values:
     - 3
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -382,13 +382,13 @@ expression: result.steps
   values:
     - 2
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 1
       col: 1
     - row: 3
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 4
@@ -396,11 +396,11 @@ expression: result.steps
   values:
     - 6
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 1
@@ -408,9 +408,9 @@ expression: result.steps
   values:
     - 4
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -418,13 +418,13 @@ expression: result.steps
   values:
     - 1
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 2
       col: 3
     - row: 3
       col: 1
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -432,13 +432,13 @@ expression: result.steps
   values:
     - 3
   areas: []
-  affected_cells:
+  affectedCells:
     - row: 3
       col: 3
     - row: 2
       col: 2
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -446,9 +446,9 @@ expression: result.steps
   values:
     - 6
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 2
@@ -456,9 +456,9 @@ expression: result.steps
   values:
     - 3
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -466,9 +466,9 @@ expression: result.steps
   values:
     - 2
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~
 - rule: NakedSingle
   cells:
     - row: 3
@@ -476,6 +476,6 @@ expression: result.steps
   values:
     - 1
   areas: []
-  affected_cells: []
+  affectedCells: []
   candidates: ~
-  invalid_state_reason: ~
+  invalidStateReason: ~

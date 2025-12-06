@@ -3,15 +3,16 @@ use itertools::Itertools;
 
 #[test]
 fn check_killer_candidates_single_unfixed() {
-  let grid_size = 9;
-  let mut constraints = SudokuConstraints::new(grid_size, vec![]);
-  constraints.killer_cages = vec![
-    KillerCage {
-      sum: Some(7),
-      region: Region(vec![ CellPosition::new(8, 8) ]),
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_killer_cages(
+      vec![
+        KillerCage {
+          sum: Some(7),
+          region: Region(vec![ CellPosition::new(8, 8) ]),
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -31,16 +32,17 @@ fn check_killer_candidates_single_unfixed() {
 
 #[test]
 fn check_killer_candidates_single_fixed() {
-  let grid_size = 9;
-  let fixed_numbers = vec![ FixedNumber::new(0, 0, 5) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.killer_cages = vec![
-    KillerCage {
-      sum: Some(5),
-      region: Region(vec![ CellPosition::new(0, 0) ]),
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(vec![ FixedNumber::new(0, 0, 5) ])
+    .with_killer_cages(
+      vec![
+        KillerCage {
+          sum: Some(5),
+          region: Region(vec![ CellPosition::new(0, 0) ]),
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -49,15 +51,16 @@ fn check_killer_candidates_single_fixed() {
 
 #[test]
 fn check_killer_candidates_pair_1() {
-  let grid_size = 9;
-  let mut constraints = SudokuConstraints::new(grid_size, vec![]);
-  constraints.killer_cages = vec![
-    KillerCage {
-      sum: Some(4),
-      region: Region(vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]),
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_killer_cages(
+      vec![
+        KillerCage {
+          sum: Some(4),
+          region: Region(vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]),
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -84,16 +87,17 @@ fn check_killer_candidates_pair_1() {
 
 #[test]
 fn check_killer_candidates_pair_2() {
-  let grid_size = 9;
-  let fixed_numbers = vec![ FixedNumber::new(0, 0, 1) ];
-  let mut constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  constraints.killer_cages = vec![
-    KillerCage {
-      sum: Some(4),
-      region: Region(vec![ CellPosition::new(8, 0), CellPosition::new(8, 1) ]),
-    },
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(vec![ FixedNumber::new(0, 0, 1) ])
+    .with_killer_cages(
+      vec![
+        KillerCage {
+          sum: Some(4),
+          region: Region(vec![ CellPosition::new(8, 0), CellPosition::new(8, 1) ]),
+        },
+      ]
+    );
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);

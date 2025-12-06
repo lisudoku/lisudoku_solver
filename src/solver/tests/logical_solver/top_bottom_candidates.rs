@@ -2,10 +2,12 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, s
 
 #[test]
 fn check_top_bottom_candidates_ascending_row1() {
-  let grid_size = 4;
-  let fixed_numbers = vec![ FixedNumber::new(1, 3, 2) ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_top_bottom();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(1, 3, 2) ]
+    )
+    .with_top_bottom();
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -24,12 +26,14 @@ fn check_top_bottom_candidates_ascending_row1() {
 
 #[test]
 fn check_top_bottom_candidates_ascending_row4() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 2, 1), FixedNumber::new(1, 2, 2), FixedNumber::new(2, 2, 3),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_top_bottom();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 2, 1), FixedNumber::new(1, 2, 2), FixedNumber::new(2, 2, 3),
+      ]
+    )
+    .with_top_bottom();
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -48,10 +52,12 @@ fn check_top_bottom_candidates_ascending_row4() {
 
 #[test]
 fn check_top_bottom_candidates_descending_row3() {
-  let grid_size = 4;
-  let fixed_numbers = vec![ FixedNumber::new(3, 3, 1) ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_top_bottom();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![ FixedNumber::new(3, 3, 1) ]
+    )
+    .with_top_bottom();
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -70,12 +76,14 @@ fn check_top_bottom_candidates_descending_row3() {
 
 #[test]
 fn check_top_bottom_candidates_descending_row1() {
-  let grid_size = 4;
-  let fixed_numbers = vec![
-    FixedNumber::new(1, 0, 3), FixedNumber::new(2, 0, 2), FixedNumber::new(3, 0, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers).with_top_bottom();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(1, 0, 3), FixedNumber::new(2, 0, 2), FixedNumber::new(3, 0, 1),
+      ]
+    )
+    .with_top_bottom();
+  let mut solver = Solver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);

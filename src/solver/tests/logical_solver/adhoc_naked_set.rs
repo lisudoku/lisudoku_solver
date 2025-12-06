@@ -7,8 +7,8 @@ fn check_adhoc_naked_sets_antiknight_4x4() {
   let fixed_numbers: Vec<FixedNumber> = vec![
     FixedNumber::new(2, 0, 1), FixedNumber::new(2, 1, 2), FixedNumber::new(3, 2, 2),
   ];
-  let constraints = SudokuConstraints::new(4, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4).with_fixed_numbers(fixed_numbers).with_anti_knight();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -38,8 +38,8 @@ fn check_adhoc_naked_sets_diagonal_full_4x4() {
     1203\
     3420\
   ")).to_fixed_numbers();
-  let constraints = SudokuConstraints::new(4, fixed_numbers).with_diagonals();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4).with_fixed_numbers(fixed_numbers).with_diagonals();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -51,15 +51,18 @@ fn check_adhoc_naked_sets_thermo_4x4_1() {
   let fixed_numbers: Vec<FixedNumber> = vec![
     FixedNumber::new(0, 1, 2), FixedNumber::new(1, 1, 1), FixedNumber::new(1, 3, 2),
   ];
-  let mut constraints = SudokuConstraints::new(4, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![
-      CellPosition { row: 2, col: 2 },
-      CellPosition { row: 2, col: 1 },
-      CellPosition { row: 1, col: 2 },
-    ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(4)
+    .with_fixed_numbers(fixed_numbers)
+    .with_thermos(
+      vec![
+        Thermo(vec![
+          CellPosition { row: 2, col: 2 },
+          CellPosition { row: 2, col: 1 },
+          CellPosition { row: 1, col: 2 },
+        ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -87,8 +90,10 @@ fn check_adhoc_naked_sets_diagonal_6x6_1() {
     FixedNumber::new(5, 5, 3), FixedNumber::new(3, 5, 1), FixedNumber::new(3, 3, 2),
     FixedNumber::new(0, 3, 1), FixedNumber::new(1, 3, 3), FixedNumber::new(1, 4, 4),
   ];
-  let constraints = SudokuConstraints::new(6, fixed_numbers).with_diagonals();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(fixed_numbers)
+    .with_diagonals();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -114,15 +119,18 @@ fn check_adhoc_naked_sets_thermo_6x6_peers() {
   let fixed_numbers: Vec<FixedNumber> = vec![
     FixedNumber::new(1, 0, 3), FixedNumber::new(1, 4, 2), FixedNumber::new(1, 5, 1),
   ];
-  let mut constraints = SudokuConstraints::new(6, fixed_numbers);
-  constraints.thermos = vec![
-    Thermo(vec![
-      CellPosition { row: 2, col: 3 },
-      CellPosition { row: 1, col: 2 },
-      CellPosition { row: 0, col: 3 },
-    ]),
-  ];
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(6)
+    .with_fixed_numbers(fixed_numbers)
+    .with_thermos(
+      vec![
+        Thermo(vec![
+          CellPosition { row: 2, col: 3 },
+          CellPosition { row: 1, col: 2 },
+          CellPosition { row: 0, col: 3 },
+        ]),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   solver.apply_rules(&mut ThermoCandidates.run(&solver));
 
@@ -154,8 +162,8 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
     FixedNumber::new(7, 3, 6), FixedNumber::new(7, 7, 5), FixedNumber::new(7, 8, 4),
     FixedNumber::new(6, 7, 3), FixedNumber::new(5, 5, 6), FixedNumber::new(5, 6, 7),
   ];
-  let constraints = SudokuConstraints::new(9, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers).with_anti_knight();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -182,8 +190,8 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
 #[test]
 #[timeout(1000)]
 fn check_adhoc_naked_sets_empty_antiknight_9x9() {
-  let constraints = SudokuConstraints::new(9, vec![]).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9).with_anti_knight();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -205,8 +213,8 @@ fn check_adhoc_naked_sets_contest_puzzle_antiknight_9x9() {
     040368250\
     200150000\
   ")).to_fixed_numbers();
-  let constraints = SudokuConstraints::new(9, fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers).with_anti_knight();
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   // Exclude Common Peer Eliminations

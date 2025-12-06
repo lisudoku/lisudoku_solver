@@ -2,29 +2,30 @@ use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver:
 
 #[test]
 fn check_xy_wing() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 2, 9),
-    FixedNumber::new(1, 0, 5),
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 2, 3),
-    FixedNumber::new(2, 0, 6),
-    FixedNumber::new(2, 1, 7),
-    FixedNumber::new(2, 2, 8),
-    FixedNumber::new(3, 0, 4),
-    FixedNumber::new(4, 0, 7),
-    FixedNumber::new(5, 0, 8),
-    FixedNumber::new(6, 0, 9),
-    FixedNumber::new(7, 3, 1),
-    FixedNumber::new(1, 7, 7),
-    FixedNumber::new(3, 7, 5),
-    FixedNumber::new(4, 7, 4),
-    FixedNumber::new(5, 7, 6),
-    FixedNumber::new(6, 7, 2),
-    FixedNumber::new(8, 7, 8),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 2, 9),
+        FixedNumber::new(1, 0, 5),
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 2, 3),
+        FixedNumber::new(2, 0, 6),
+        FixedNumber::new(2, 1, 7),
+        FixedNumber::new(2, 2, 8),
+        FixedNumber::new(3, 0, 4),
+        FixedNumber::new(4, 0, 7),
+        FixedNumber::new(5, 0, 8),
+        FixedNumber::new(6, 0, 9),
+        FixedNumber::new(7, 3, 1),
+        FixedNumber::new(1, 7, 7),
+        FixedNumber::new(3, 7, 5),
+        FixedNumber::new(4, 7, 4),
+        FixedNumber::new(5, 7, 6),
+        FixedNumber::new(6, 7, 2),
+        FixedNumber::new(8, 7, 8),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
@@ -53,30 +54,31 @@ fn check_xy_wing() {
 
 #[test]
 fn check_xy_wing_no_affected_cells() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 2, 9),
-    FixedNumber::new(1, 0, 5),
-    FixedNumber::new(1, 1, 4),
-    FixedNumber::new(1, 2, 3),
-    FixedNumber::new(2, 0, 6),
-    FixedNumber::new(2, 1, 7),
-    FixedNumber::new(2, 2, 8),
-    FixedNumber::new(3, 0, 4),
-    FixedNumber::new(4, 0, 7),
-    FixedNumber::new(5, 0, 8),
-    FixedNumber::new(6, 0, 9),
-    FixedNumber::new(7, 3, 1),
-    FixedNumber::new(1, 7, 7),
-    FixedNumber::new(3, 7, 5),
-    FixedNumber::new(4, 7, 4),
-    FixedNumber::new(5, 7, 6),
-    FixedNumber::new(6, 7, 2),
-    FixedNumber::new(8, 7, 8),
-    FixedNumber::new(8, 8, 3), // this eliminates the affected cell
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 2, 9),
+        FixedNumber::new(1, 0, 5),
+        FixedNumber::new(1, 1, 4),
+        FixedNumber::new(1, 2, 3),
+        FixedNumber::new(2, 0, 6),
+        FixedNumber::new(2, 1, 7),
+        FixedNumber::new(2, 2, 8),
+        FixedNumber::new(3, 0, 4),
+        FixedNumber::new(4, 0, 7),
+        FixedNumber::new(5, 0, 8),
+        FixedNumber::new(6, 0, 9),
+        FixedNumber::new(7, 3, 1),
+        FixedNumber::new(1, 7, 7),
+        FixedNumber::new(3, 7, 5),
+        FixedNumber::new(4, 7, 4),
+        FixedNumber::new(5, 7, 6),
+        FixedNumber::new(6, 7, 2),
+        FixedNumber::new(8, 7, 8),
+        FixedNumber::new(8, 8, 3), // this eliminates the affected cell
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
@@ -85,26 +87,27 @@ fn check_xy_wing_no_affected_cells() {
 
 #[test]
 fn check_xy_wing_on_row_no_affected_cells() {
-  let grid_size = 9;
-  let fixed_numbers = vec![
-    FixedNumber::new(0, 3, 4),
-    FixedNumber::new(0, 4, 5),
-    FixedNumber::new(0, 5, 6),
-    FixedNumber::new(1, 3, 1),
-    FixedNumber::new(1, 4, 2),
-    FixedNumber::new(1, 5, 3),
-    FixedNumber::new(0, 6, 7),
-    FixedNumber::new(0, 7, 8),
-    FixedNumber::new(0, 8, 9),
-    FixedNumber::new(2, 6, 1),
-    FixedNumber::new(2, 7, 2),
-    FixedNumber::new(2, 8, 3),
-    FixedNumber::new(3, 0, 3),
-    FixedNumber::new(3, 1, 2),
-    FixedNumber::new(3, 2, 1),
-  ];
-  let constraints = SudokuConstraints::new(grid_size, fixed_numbers);
-  let mut solver = Solver::new(constraints, None);
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 3, 4),
+        FixedNumber::new(0, 4, 5),
+        FixedNumber::new(0, 5, 6),
+        FixedNumber::new(1, 3, 1),
+        FixedNumber::new(1, 4, 2),
+        FixedNumber::new(1, 5, 3),
+        FixedNumber::new(0, 6, 7),
+        FixedNumber::new(0, 7, 8),
+        FixedNumber::new(0, 8, 9),
+        FixedNumber::new(2, 6, 1),
+        FixedNumber::new(2, 7, 2),
+        FixedNumber::new(2, 8, 3),
+        FixedNumber::new(3, 0, 3),
+        FixedNumber::new(3, 1, 2),
+        FixedNumber::new(3, 2, 1),
+      ]
+    );
+  let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
