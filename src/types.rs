@@ -196,7 +196,8 @@ pub struct SolutionStep {
   // Used for non-grid steps. The meaning can vary between rules,
   // but we will remove candidates from these cells.
   pub affected_cells: Vec<CellPosition>,
-  // Used for Rule::Candidates
+  #[tsify(optional)]
+  pub grid: Option<Grid>,
   #[tsify(optional)]
   pub candidates: Option<Vec<Vec<Vec<u32>>>>,
   // Used for Rule::NishioForcingChains
@@ -610,6 +611,7 @@ impl SolutionStep {
       values,
       areas,
       affected_cells,
+      grid: None,
       candidates: None,
       invalid_state_reason: None,
     }

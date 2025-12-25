@@ -60,6 +60,7 @@ impl Technique for NishioForcingChains {
             values: vec![ invalid_value ],
             areas: vec![],
             affected_cells: vec![ cell ],
+            grid: None,
             candidates: None,
             invalid_state_reason: Some(invalid_state_reason),
           }

@@ -16,6 +16,7 @@ snapshot_kind: text
   areas:
     - Row: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -31,6 +32,7 @@ snapshot_kind: text
   areas:
     - Row: 8
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Candidates
@@ -38,6 +40,7 @@ snapshot_kind: text
   values: []
   areas: []
   affectedCells: []
+  grid: ~
   candidates:
     - - - 5
         - 6
@@ -390,6 +393,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -401,6 +405,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -413,6 +418,7 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -425,6 +431,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -438,6 +445,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -449,6 +457,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -461,6 +470,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -473,6 +483,7 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -485,6 +496,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -498,6 +510,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -511,6 +524,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -523,6 +537,7 @@ snapshot_kind: text
   affectedCells:
     - row: 1
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -536,6 +551,7 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -549,6 +565,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -566,6 +583,7 @@ snapshot_kind: text
       col: 4
     - row: 4
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -583,6 +601,7 @@ snapshot_kind: text
       col: 4
     - row: 5
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -594,6 +613,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -609,6 +629,7 @@ snapshot_kind: text
       col: 0
     - row: 7
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -626,6 +647,7 @@ snapshot_kind: text
       col: 7
     - row: 6
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -639,6 +661,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -652,6 +675,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -670,6 +694,7 @@ snapshot_kind: text
       col: 3
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -689,6 +714,7 @@ snapshot_kind: text
       col: 1
     - row: 5
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -700,6 +726,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -719,6 +746,7 @@ snapshot_kind: text
       col: 6
     - row: 4
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -734,6 +762,7 @@ snapshot_kind: text
       col: 6
     - row: 4
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeValues
@@ -751,6 +780,7 @@ snapshot_kind: text
       col: 8
     - row: 1
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -766,6 +796,7 @@ snapshot_kind: text
       col: 5
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeValues
@@ -783,6 +814,7 @@ snapshot_kind: text
       col: 7
     - row: 6
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -802,6 +834,7 @@ snapshot_kind: text
       col: 2
     - row: 8
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -817,6 +850,7 @@ snapshot_kind: text
       col: 1
     - row: 1
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -832,6 +866,7 @@ snapshot_kind: text
       col: 6
     - row: 8
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -845,6 +880,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -858,6 +894,7 @@ snapshot_kind: text
   affectedCells:
     - row: 8
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -877,6 +914,7 @@ snapshot_kind: text
       col: 8
     - row: 3
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -895,6 +933,7 @@ snapshot_kind: text
       col: 2
     - row: 2
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -911,6 +950,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -929,6 +969,7 @@ snapshot_kind: text
       col: 1
     - row: 4
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -940,6 +981,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -957,6 +999,7 @@ snapshot_kind: text
       col: 1
     - row: 3
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -976,6 +1019,7 @@ snapshot_kind: text
       col: 8
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -993,6 +1037,7 @@ snapshot_kind: text
       col: 5
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1008,6 +1053,7 @@ snapshot_kind: text
       col: 0
     - row: 8
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1027,6 +1073,7 @@ snapshot_kind: text
       col: 8
     - row: 7
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1040,6 +1087,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1053,6 +1101,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1066,6 +1115,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1079,6 +1129,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1096,6 +1147,7 @@ snapshot_kind: text
       col: 8
     - row: 1
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1109,6 +1161,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1122,6 +1175,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1141,6 +1195,7 @@ snapshot_kind: text
       col: 8
     - row: 7
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -1159,6 +1214,7 @@ snapshot_kind: text
       col: 6
     - row: 3
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1170,6 +1226,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1190,6 +1247,7 @@ snapshot_kind: text
       col: 5
     - row: 1
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1216,6 +1274,7 @@ snapshot_kind: text
       col: 8
     - row: 5
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1227,6 +1286,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1243,6 +1303,7 @@ snapshot_kind: text
       col: 7
     - row: 2
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1257,6 +1318,7 @@ snapshot_kind: text
       col: 7
     - row: 3
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1275,6 +1337,7 @@ snapshot_kind: text
       col: 2
     - row: 5
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1291,6 +1354,7 @@ snapshot_kind: text
       col: 7
     - row: 7
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1309,6 +1373,7 @@ snapshot_kind: text
       col: 5
     - row: 7
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1320,6 +1385,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1331,6 +1397,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1347,6 +1414,7 @@ snapshot_kind: text
       col: 2
     - row: 1
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1363,6 +1431,7 @@ snapshot_kind: text
       col: 8
     - row: 1
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1383,6 +1452,7 @@ snapshot_kind: text
       col: 3
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1403,6 +1473,7 @@ snapshot_kind: text
       col: 3
     - row: 7
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1415,6 +1486,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1426,6 +1498,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1437,6 +1510,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: PalindromeCandidates
@@ -1448,6 +1522,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1458,6 +1533,7 @@ snapshot_kind: text
     - 8
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1470,6 +1546,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1480,6 +1557,7 @@ snapshot_kind: text
     - 7
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1494,6 +1572,7 @@ snapshot_kind: text
       col: 3
     - row: 5
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1504,6 +1583,7 @@ snapshot_kind: text
     - 9
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1520,6 +1600,7 @@ snapshot_kind: text
       col: 3
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1534,6 +1615,7 @@ snapshot_kind: text
       col: 8
     - row: 5
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1550,6 +1632,7 @@ snapshot_kind: text
       col: 7
     - row: 4
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1562,6 +1645,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1578,6 +1662,7 @@ snapshot_kind: text
       col: 0
     - row: 8
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1594,6 +1679,7 @@ snapshot_kind: text
       col: 7
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1604,6 +1690,7 @@ snapshot_kind: text
     - 7
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1614,6 +1701,7 @@ snapshot_kind: text
     - 8
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1624,6 +1712,7 @@ snapshot_kind: text
     - 2
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1634,6 +1723,7 @@ snapshot_kind: text
     - 8
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1644,6 +1734,7 @@ snapshot_kind: text
     - 7
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1656,6 +1747,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1668,6 +1760,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1678,6 +1771,7 @@ snapshot_kind: text
     - 9
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1688,5 +1782,6 @@ snapshot_kind: text
     - 8
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~

@@ -1,4 +1,4 @@
-use crate::{solver::{logical_solver::nishio_forcing_chains::NishioForcingChains, Solver}, types::{FixedNumber, SolutionType, SudokuConstraints, Grid}};
+use crate::{solver::{Solver, logical_solver::nishio_forcing_chains::NishioForcingChains}, types::{FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
 use std::rc::Rc;
 
 #[test]
@@ -97,11 +97,11 @@ fn check_classic_9x9_medium_solve() {
         FixedNumber::new(8, 7, 7),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = Solver::new(constraints).with_enriched_steps(true);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
-    result.solution.unwrap(),
+    result.solution.clone().unwrap(),
     Grid(vec![
       vec![ 5, 1, 4, 8, 7, 3, 9, 2, 6 ],
       vec![ 8, 2, 9, 1, 6, 5, 3, 4, 7 ],
@@ -114,6 +114,15 @@ fn check_classic_9x9_medium_solve() {
       vec![ 9, 4, 5, 3, 1, 6, 8, 7, 2 ],
     ])
   );
+
+  assert!(result.steps.iter().all(|step| step.grid.is_some()));
+  assert_eq!(result.solution.unwrap(), result.steps.last().unwrap().grid.clone().unwrap());
+
+  let candidates_step_index = result.steps.iter().position(|step| step.rule == Rule::Candidates).unwrap();
+  assert!(result.steps[..candidates_step_index].iter().all(|step| step.candidates.is_none()));
+  assert!(result.steps[candidates_step_index..].iter().all(|step| step.candidates.is_some()));
+  assert!(result.steps.last().unwrap().candidates.iter().all(|row| row.iter().all(|cell| cell.is_sorted())));
+
   insta::assert_yaml_snapshot!(result.steps);
 }
 

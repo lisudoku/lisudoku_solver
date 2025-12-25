@@ -13,6 +13,7 @@ snapshot_kind: text
     - Row: 4
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -25,6 +26,7 @@ snapshot_kind: text
     - Row: 0
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -37,6 +39,7 @@ snapshot_kind: text
     - Row: 5
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -52,6 +55,7 @@ snapshot_kind: text
   areas:
     - Column: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -69,6 +73,7 @@ snapshot_kind: text
   areas:
     - Column: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -84,6 +89,7 @@ snapshot_kind: text
   areas:
     - Row: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Candidates
@@ -91,6 +97,7 @@ snapshot_kind: text
   values: []
   areas: []
   affectedCells: []
+  grid: ~
   candidates:
     - - []
       - - 3
@@ -180,6 +187,7 @@ snapshot_kind: text
       col: 4
     - row: 5
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -194,6 +202,7 @@ snapshot_kind: text
       col: 1
     - row: 5
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -208,6 +217,7 @@ snapshot_kind: text
       col: 3
     - row: 0
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -220,6 +230,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -231,6 +242,7 @@ snapshot_kind: text
   areas:
     - Row: 5
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: TurbotFish
@@ -251,6 +263,7 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: TurbotFish
@@ -273,6 +286,7 @@ snapshot_kind: text
       col: 5
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -291,6 +305,7 @@ snapshot_kind: text
       col: 5
     - row: 0
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -309,6 +324,7 @@ snapshot_kind: text
       col: 3
     - row: 4
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -321,6 +337,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -335,6 +352,7 @@ snapshot_kind: text
       col: 1
     - row: 3
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -347,6 +365,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -361,6 +380,7 @@ snapshot_kind: text
       col: 2
     - row: 4
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -373,6 +393,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -387,6 +408,7 @@ snapshot_kind: text
       col: 1
     - row: 3
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -399,6 +421,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -409,6 +432,7 @@ snapshot_kind: text
     - 4
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -423,6 +447,7 @@ snapshot_kind: text
       col: 3
     - row: 3
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -437,6 +462,7 @@ snapshot_kind: text
       col: 3
     - row: 2
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -447,6 +473,7 @@ snapshot_kind: text
     - 6
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -457,6 +484,7 @@ snapshot_kind: text
     - 3
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -467,6 +495,7 @@ snapshot_kind: text
     - 2
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -477,5 +506,6 @@ snapshot_kind: text
     - 1
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~

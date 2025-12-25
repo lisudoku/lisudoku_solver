@@ -12,6 +12,7 @@ snapshot_kind: text
   areas:
     - Thermo: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -23,6 +24,7 @@ snapshot_kind: text
   areas:
     - Thermo: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -34,6 +36,7 @@ snapshot_kind: text
   areas:
     - Thermo: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -45,6 +48,7 @@ snapshot_kind: text
   areas:
     - Thermo: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -56,6 +60,7 @@ snapshot_kind: text
   areas:
     - Thermo: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -67,6 +72,7 @@ snapshot_kind: text
   areas:
     - Thermo: 6
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -78,6 +84,7 @@ snapshot_kind: text
   areas:
     - Thermo: 6
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -89,6 +96,7 @@ snapshot_kind: text
   areas:
     - Thermo: 6
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -100,6 +108,7 @@ snapshot_kind: text
   areas:
     - Thermo: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -115,6 +124,7 @@ snapshot_kind: text
   areas:
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -126,6 +136,7 @@ snapshot_kind: text
   areas:
     - Thermo: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -137,6 +148,7 @@ snapshot_kind: text
   areas:
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -154,6 +166,7 @@ snapshot_kind: text
   areas:
     - Row: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -165,6 +178,7 @@ snapshot_kind: text
   areas:
     - Thermo: 6
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -176,6 +190,7 @@ snapshot_kind: text
   areas:
     - Thermo: 7
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -187,6 +202,7 @@ snapshot_kind: text
   areas:
     - Thermo: 7
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -198,6 +214,7 @@ snapshot_kind: text
   areas:
     - Thermo: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -209,6 +226,7 @@ snapshot_kind: text
   areas:
     - Thermo: 3
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -220,6 +238,7 @@ snapshot_kind: text
   areas:
     - Thermo: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -235,6 +254,7 @@ snapshot_kind: text
   areas:
     - Row: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -246,6 +266,7 @@ snapshot_kind: text
   areas:
     - Thermo: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -258,6 +279,7 @@ snapshot_kind: text
     - Row: 5
     - Region: 5
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -269,6 +291,7 @@ snapshot_kind: text
   areas:
     - Region: 5
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -286,6 +309,7 @@ snapshot_kind: text
   areas:
     - Column: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -297,6 +321,7 @@ snapshot_kind: text
   areas:
     - Thermo: 7
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -310,6 +335,7 @@ snapshot_kind: text
     - Column: 8
     - Region: 8
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -322,6 +348,7 @@ snapshot_kind: text
     - Column: 8
     - Region: 8
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -333,6 +360,7 @@ snapshot_kind: text
   areas:
     - Thermo: 6
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Thermo
@@ -344,6 +372,7 @@ snapshot_kind: text
   areas:
     - Thermo: 6
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -355,6 +384,7 @@ snapshot_kind: text
   areas:
     - Column: 8
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Candidates
@@ -362,6 +392,7 @@ snapshot_kind: text
   values: []
   areas: []
   affectedCells: []
+  grid: ~
   candidates:
     - - []
       - - 4
@@ -592,6 +623,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -607,6 +639,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -620,6 +653,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -635,6 +669,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -646,6 +681,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -658,6 +694,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -670,6 +707,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -682,6 +720,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -694,6 +733,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -705,6 +745,7 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -717,6 +758,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -729,6 +771,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -741,6 +784,7 @@ snapshot_kind: text
   affectedCells:
     - row: 6
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -753,6 +797,7 @@ snapshot_kind: text
   affectedCells:
     - row: 8
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -764,6 +809,7 @@ snapshot_kind: text
   affectedCells:
     - row: 8
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -776,6 +822,7 @@ snapshot_kind: text
   affectedCells:
     - row: 8
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -789,6 +836,7 @@ snapshot_kind: text
   affectedCells:
     - row: 1
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -804,6 +852,7 @@ snapshot_kind: text
       col: 5
     - row: 3
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -829,6 +878,7 @@ snapshot_kind: text
       col: 7
     - row: 6
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -849,6 +899,7 @@ snapshot_kind: text
       col: 7
     - row: 0
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -864,6 +915,7 @@ snapshot_kind: text
       col: 5
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -879,6 +931,7 @@ snapshot_kind: text
       col: 3
     - row: 2
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -896,6 +949,7 @@ snapshot_kind: text
       col: 4
     - row: 4
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -913,6 +967,7 @@ snapshot_kind: text
       col: 3
     - row: 3
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -933,6 +988,7 @@ snapshot_kind: text
       col: 4
     - row: 1
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -949,6 +1005,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedPairs
@@ -969,6 +1026,7 @@ snapshot_kind: text
       col: 3
     - row: 1
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedPairs
@@ -985,6 +1043,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedTriples
@@ -1008,6 +1067,7 @@ snapshot_kind: text
       col: 4
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1021,6 +1081,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1036,6 +1097,7 @@ snapshot_kind: text
       col: 1
     - row: 1
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -1049,6 +1111,7 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1063,6 +1126,7 @@ snapshot_kind: text
       col: 3
     - row: 8
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1077,6 +1141,7 @@ snapshot_kind: text
       col: 1
     - row: 6
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1095,6 +1160,7 @@ snapshot_kind: text
       col: 3
     - row: 8
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -1106,6 +1172,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -1117,6 +1184,7 @@ snapshot_kind: text
   affectedCells:
     - row: 0
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1131,6 +1199,7 @@ snapshot_kind: text
       col: 7
     - row: 2
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1143,6 +1212,7 @@ snapshot_kind: text
   affectedCells:
     - row: 4
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1155,6 +1225,7 @@ snapshot_kind: text
   affectedCells:
     - row: 1
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1169,6 +1240,7 @@ snapshot_kind: text
       col: 1
     - row: 7
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1183,6 +1255,7 @@ snapshot_kind: text
       col: 1
     - row: 0
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1193,6 +1266,7 @@ snapshot_kind: text
     - 4
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1205,6 +1279,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1225,6 +1300,7 @@ snapshot_kind: text
       col: 1
     - row: 1
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1243,6 +1319,7 @@ snapshot_kind: text
       col: 2
     - row: 3
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1253,6 +1330,7 @@ snapshot_kind: text
     - 3
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1267,6 +1345,7 @@ snapshot_kind: text
       col: 1
     - row: 7
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1283,6 +1362,7 @@ snapshot_kind: text
       col: 1
     - row: 7
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1297,6 +1377,7 @@ snapshot_kind: text
       col: 2
     - row: 7
       col: 1
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1315,6 +1396,7 @@ snapshot_kind: text
       col: 3
     - row: 1
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1327,6 +1409,7 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1341,6 +1424,7 @@ snapshot_kind: text
       col: 1
     - row: 1
       col: 2
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1351,6 +1435,7 @@ snapshot_kind: text
     - 4
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1365,6 +1450,7 @@ snapshot_kind: text
       col: 7
     - row: 2
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1379,6 +1465,7 @@ snapshot_kind: text
       col: 4
     - row: 1
       col: 7
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1391,6 +1478,7 @@ snapshot_kind: text
   affectedCells:
     - row: 1
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1405,6 +1493,7 @@ snapshot_kind: text
       col: 5
     - row: 7
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1415,6 +1504,7 @@ snapshot_kind: text
     - 2
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: ThermoCandidates
@@ -1426,6 +1516,7 @@ snapshot_kind: text
   affectedCells:
     - row: 2
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1440,6 +1531,7 @@ snapshot_kind: text
       col: 3
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1450,6 +1542,7 @@ snapshot_kind: text
     - 9
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1462,6 +1555,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 4
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1472,6 +1566,7 @@ snapshot_kind: text
     - 3
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1484,6 +1579,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 5
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1498,6 +1594,7 @@ snapshot_kind: text
       col: 5
     - row: 1
       col: 3
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1508,6 +1605,7 @@ snapshot_kind: text
     - 7
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1518,6 +1616,7 @@ snapshot_kind: text
     - 9
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -1528,5 +1627,6 @@ snapshot_kind: text
     - 6
   areas: []
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~

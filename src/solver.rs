@@ -88,6 +88,7 @@ pub struct Solver {
   step_count_limit: Option<usize>,
   arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
   cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
+  enriched_steps_enabled: bool,
 }
 
 impl Clone for Solver {
@@ -110,6 +111,7 @@ impl Clone for Solver {
       step_count_limit: self.step_count_limit.clone(),
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: self.cell_eliminations_cache.clone(),
+      enriched_steps_enabled: self.enriched_steps_enabled,
     }
   }
 }
@@ -192,13 +194,8 @@ impl Solver {
       }
     }
 
-    let mut initial_grid = vec![ vec![ 0; constraints.grid_size ]; constraints.grid_size ];
-    for fixed_number in constraints.fixed_numbers.iter() {
-      initial_grid[fixed_number.position.row][fixed_number.position.col] = fixed_number.value;
-    }
-    let grid = Grid(initial_grid);
-
-    let candidates = vec![ vec![ HashSet::new(); constraints.grid_size ]; constraints.grid_size ];
+    let grid = Self::build_initial_grid(&constraints);
+    let candidates = Self::build_initial_candidates(&constraints);
 
     Solver {
       constraints,
@@ -218,12 +215,45 @@ impl Solver {
       techniques: Self::default_techniques(),
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: RefCell::new(HashMap::new()),
+      enriched_steps_enabled: false,
     }
+  }
+
+  fn build_initial_grid(constraints: &NormalizedSudokuConstraints) -> Grid {
+    let mut initial_grid = vec![ vec![ 0; constraints.grid_size ]; constraints.grid_size ];
+    for fixed_number in constraints.fixed_numbers.iter() {
+      initial_grid[fixed_number.position.row][fixed_number.position.col] = fixed_number.value;
+    }
+    Grid(initial_grid)
+  }
+
+  fn build_initial_candidates(constraints: &NormalizedSudokuConstraints) -> Vec<Vec<HashSet<u32>>> {
+    vec![ vec![ HashSet::new(); constraints.grid_size ]; constraints.grid_size ]
+  }
+
+  pub fn with_reset_grid(self) -> Self {
+    let initial_grid = Self::build_initial_grid(&self.constraints);
+    self.with_grid(initial_grid)
   }
 
   // TODO: should just pass grid to check_solved instead? and init the grid when starting a solve
   pub fn with_grid(mut self, grid: Grid) -> Self {
     self.grid = grid;
+    self
+  }
+
+  pub fn with_reset_candidates(self) -> Self {
+    let initial_candidates = Self::build_initial_candidates(&self.constraints);
+    self.with_candidates_active(false).with_candidates(initial_candidates)
+  }
+
+  pub fn with_candidates(mut self, candidates: Vec<Vec<HashSet<u32>>>) -> Self {
+    self.candidates = candidates;
+    self
+  }
+
+  pub fn with_candidates_active(mut self, candidates_active: bool) -> Self {
+    self.candidates_active = candidates_active;
     self
   }
 
@@ -234,6 +264,11 @@ impl Solver {
 
   pub fn with_step_count_limit(mut self, step_count_limit: usize) -> Self {
     self.step_count_limit = Some(step_count_limit);
+    self
+  }
+
+  pub fn with_enriched_steps(mut self, enriched_steps_enabled: bool) -> Self {
+    self.enriched_steps_enabled = enriched_steps_enabled;
     self
   }
 

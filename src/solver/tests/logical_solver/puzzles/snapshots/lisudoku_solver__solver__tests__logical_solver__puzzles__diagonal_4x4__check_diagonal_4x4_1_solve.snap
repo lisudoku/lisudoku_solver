@@ -13,6 +13,7 @@ snapshot_kind: text
     - Row: 1
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -25,6 +26,7 @@ snapshot_kind: text
     - Row: 1
     - Region: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -36,6 +38,7 @@ snapshot_kind: text
   areas:
     - Column: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -47,6 +50,7 @@ snapshot_kind: text
   areas:
     - Region: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -58,6 +62,7 @@ snapshot_kind: text
   areas:
     - Row: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -70,6 +75,7 @@ snapshot_kind: text
     - Row: 2
     - PrimaryDiagonal
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -82,6 +88,7 @@ snapshot_kind: text
     - Row: 0
     - Column: 2
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -94,6 +101,7 @@ snapshot_kind: text
     - Row: 2
     - Column: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -106,6 +114,7 @@ snapshot_kind: text
     - Row: 2
     - Column: 3
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -118,6 +127,7 @@ snapshot_kind: text
     - Row: 3
     - Column: 2
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -129,6 +139,7 @@ snapshot_kind: text
   areas:
     - PrimaryDiagonal
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -140,6 +151,7 @@ snapshot_kind: text
   areas:
     - Row: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
@@ -151,5 +163,6 @@ snapshot_kind: text
   areas:
     - Row: 3
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~

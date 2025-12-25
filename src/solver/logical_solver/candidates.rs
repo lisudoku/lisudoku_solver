@@ -30,6 +30,7 @@ impl Technique for Candidates {
         values: vec![],
         areas: vec![],
         affected_cells: vec![],
+        grid: None,
         candidates: Some(candidates),
         invalid_state_reason: None,
       }

@@ -14,6 +14,7 @@ snapshot_kind: text
     - Column: 3
     - Region: 4
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -31,6 +32,7 @@ snapshot_kind: text
   areas:
     - Column: 2
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -48,6 +50,7 @@ snapshot_kind: text
   areas:
     - Column: 3
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -65,6 +68,7 @@ snapshot_kind: text
   areas:
     - Column: 5
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -80,6 +84,7 @@ snapshot_kind: text
   areas:
     - Row: 0
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenSingle
@@ -95,6 +100,7 @@ snapshot_kind: text
   areas:
     - Region: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Candidates
@@ -102,6 +108,7 @@ snapshot_kind: text
   values: []
   areas: []
   affectedCells: []
+  grid: ~
   candidates:
     - - - 2
         - 6
@@ -351,6 +358,7 @@ snapshot_kind: text
       col: 6
     - row: 1
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: HiddenPairs
@@ -365,6 +373,7 @@ snapshot_kind: text
   areas:
     - Row: 1
   affectedCells: []
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -383,6 +392,7 @@ snapshot_kind: text
       col: 7
     - row: 2
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: LockedCandidatesPairs
@@ -399,6 +409,7 @@ snapshot_kind: text
   affectedCells:
     - row: 8
       col: 0
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: XWing
@@ -427,6 +438,7 @@ snapshot_kind: text
       col: 8
     - row: 4
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: XYWing
@@ -445,6 +457,7 @@ snapshot_kind: text
   affectedCells:
     - row: 7
       col: 8
+  grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: TurbotFish
@@ -469,5 +482,6 @@ snapshot_kind: text
       col: 6
     - row: 8
       col: 6
+  grid: ~
   candidates: ~
   invalidStateReason: ~

@@ -116,10 +116,14 @@ impl Solver {
       solution_type = SolutionType::Partial;
     }
 
+    if self.enriched_steps_enabled {
+      self.enrich_steps(&mut solution_steps);
+    }
+
     let res = SudokuLogicalSolveResult {
       solution_type,
       solution: Some(self.grid.clone()),
-      steps: solution_steps.clone(),
+      steps: solution_steps,
       invalid_state_reason: None,
     };
 
@@ -442,5 +446,24 @@ impl Solver {
         self.candidates_to_set(*cell),
       )
     }).collect()
+  }
+
+  fn enrich_steps(&self, solution_steps: &mut [SolutionStep]) {
+    let mut temp_solver = self.clone().with_reset_grid().with_reset_candidates();
+
+    for mut step in solution_steps {
+      // Replay the step to capture the grid and candidates state at that point
+      temp_solver.apply_rule(&mut step);
+
+      step.grid = Some(temp_solver.grid.clone());
+      if temp_solver.candidates_active {
+        let candidates: Vec<Vec<Vec<u32>>> = temp_solver.candidates.iter().map(|row|
+          row.iter().map(|cell|
+            cell.iter().copied().sorted().collect()
+          ).collect()
+        ).collect();
+        step.candidates = Some(candidates);
+      }
+    }
   }
 }
