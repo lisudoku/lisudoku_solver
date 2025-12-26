@@ -23,7 +23,7 @@ pub fn wasm_logical_solve(constraints: SudokuConstraints) -> SudokuLogicalSolveR
   // Try this instead
   console_error_panic_hook::set_once();
 
-  let mut solver = solver::Solver::new(constraints);
+  let mut solver = solver::Solver::new(constraints).with_enriched_steps(true);
   solver.logical_solve()
 }
 
