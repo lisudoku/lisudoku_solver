@@ -1,6 +1,7 @@
 use std::collections::{HashSet, HashMap};
 use std::ops::BitOr;
 use std::rc::Rc;
+use std::usize;
 use crate::solver::checker::SolvedState;
 use crate::types::{Area, CellPosition, SolutionStep, SolutionType, SudokuLogicalSolveResult};
 use crate::solver::Solver;
@@ -70,9 +71,11 @@ impl Solver {
         return SudokuLogicalSolveResult::no_solution(check.invalid_state_reason.unwrap())
       }
 
-      // Some rules can find multiple steps at once
+      // Note: some rules can find multiple steps at once
       let mut steps = self.find_next_steps();
+
       if steps.is_empty() {
+        // No more steps found, stop
         break
       }
 
@@ -82,29 +85,31 @@ impl Solver {
         // In hint mode apply 1 step at a time
         steps.drain(1..);
       }
-      if let Some(limit) = self.step_count_limit {
-        if solution_steps_group_count >= limit {
-          solution_steps.extend(steps);
-          // Found all steps from initial grid, stop
-          break
-        }
-      }
 
-      let mut grid_step = false;
+      let mut found_grid_step = false;
       for mut step in steps.into_iter() {
         let rule_check = self.apply_rule(&mut step);
         if !rule_check.solved {
           return SudokuLogicalSolveResult::no_solution(rule_check.invalid_state_reason.unwrap())
         }
 
+        if self.enriched_steps_enabled {
+          self.enrich_step(&mut step);
+        }
+
         if step.is_grid_step() {
-          grid_step = true;
+          found_grid_step = true;
         }
 
         solution_steps.push(step);
       }
 
-      if self.hint_mode && grid_step {
+      if solution_steps_group_count >= self.step_count_limit.unwrap_or(usize::MAX) {
+        // Reached step count limit, stop
+        break
+      }
+
+      if self.hint_mode && found_grid_step {
         // Found the first filled digit, it's enough for a hint
         break
       }
@@ -114,10 +119,6 @@ impl Solver {
 
     if empty_cell_count > 0 {
       solution_type = SolutionType::Partial;
-    }
-
-    if self.enriched_steps_enabled {
-      self.enrich_steps(&mut solution_steps);
     }
 
     let res = SudokuLogicalSolveResult {
@@ -448,22 +449,15 @@ impl Solver {
     }).collect()
   }
 
-  fn enrich_steps(&self, solution_steps: &mut [SolutionStep]) {
-    let mut temp_solver = self.clone().with_reset_grid().with_reset_candidates();
-
-    for mut step in solution_steps {
-      // Replay the step to capture the grid and candidates state at that point
-      temp_solver.apply_rule(&mut step);
-
-      step.grid = Some(temp_solver.grid.clone());
-      if temp_solver.candidates_active {
-        let candidates: Vec<Vec<Vec<u32>>> = temp_solver.candidates.iter().map(|row|
-          row.iter().map(|cell|
-            cell.iter().copied().sorted().collect()
-          ).collect()
-        ).collect();
-        step.candidates = Some(candidates);
-      }
+  fn enrich_step(&self, step: &mut SolutionStep) {
+    step.grid = Some(self.grid.clone());
+    if self.candidates_active {
+      let candidates: Vec<Vec<Vec<u32>>> = self.candidates.iter().map(|row|
+        row.iter().map(|cell|
+          cell.iter().copied().sorted().collect()
+        ).collect()
+      ).collect();
+      step.candidates = Some(candidates);
     }
   }
 }
