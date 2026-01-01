@@ -106,6 +106,8 @@ fn check_thermo_6x6_2_solve() {
   let mut solver = Solver::new(constraints);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::None);
+  // Returns found steps even if no solution
+  assert_eq!(result.steps.len(), 25);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/3

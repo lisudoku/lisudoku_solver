@@ -44,6 +44,8 @@ pub trait Technique {
   fn run(&self, solver: &Solver) -> Vec<SolutionStep>;
 
   // This is the default base implementation, but can be overridden
+  // Return value indicates whether applying this step leads to a contradiction
+  // (overriding cell value, things that check_partially_solved wouldn't catch)
   fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> SolvedState {
     if self.is_grid_step() {
       if solver.candidates_active {

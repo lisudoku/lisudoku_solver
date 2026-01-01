@@ -51,24 +51,26 @@ impl Solver {
     let mut solution_steps = vec![];
     let mut solution_steps_group_count = 0;
 
-    let check = self.check_partially_solved();
-    if !check.solved {
-      if DEBUG {
-        println!("Invalid initial grid");
-      }
-      return SudokuLogicalSolveResult::no_solution(check.invalid_state_reason.unwrap())
-    }
-
     let mut empty_cell_count = self.compute_empty_cell_count();
 
     while empty_cell_count > 0 {
       // TODO: only check cells impacted by latest change
+
+      // Note: this check is needed on each step because
+      // apply_rule only checks some contradictions
       let check = self.check_partially_solved();
       if !check.solved {
         if DEBUG {
-          println!("Reached invalid state");
+          if solution_steps.is_empty() {
+            println!("Invalid initial grid");
+          } else {
+            println!("Reached invalid state");
+          }
         }
-        return SudokuLogicalSolveResult::no_solution(check.invalid_state_reason.unwrap())
+        return SudokuLogicalSolveResult::no_solution(
+          check.invalid_state_reason.unwrap(),
+          solution_steps,
+        )
       }
 
       // Note: some rules can find multiple steps at once
@@ -88,20 +90,24 @@ impl Solver {
 
       let mut found_grid_step = false;
       for mut step in steps.into_iter() {
-        let rule_check = self.apply_rule(&mut step);
-        if !rule_check.solved {
-          return SudokuLogicalSolveResult::no_solution(rule_check.invalid_state_reason.unwrap())
+        if step.is_grid_step() {
+          found_grid_step = true;
         }
+
+        let rule_check = self.apply_rule(&mut step);
 
         if self.enriched_steps_enabled {
           self.enrich_step(&mut step);
         }
 
-        if step.is_grid_step() {
-          found_grid_step = true;
-        }
-
         solution_steps.push(step);
+
+        if !rule_check.solved {
+          return SudokuLogicalSolveResult::no_solution(
+            rule_check.invalid_state_reason.unwrap(),
+            solution_steps,
+          )
+        }
       }
 
       if solution_steps_group_count >= self.step_count_limit.unwrap_or(usize::MAX) {

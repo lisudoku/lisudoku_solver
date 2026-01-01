@@ -590,11 +590,11 @@ impl KropkiDot {
 }
 
 impl SudokuLogicalSolveResult {
-  pub fn no_solution(invalid_state_reason: InvalidStateReason) -> SudokuLogicalSolveResult {
+  pub fn no_solution(invalid_state_reason: InvalidStateReason, steps: Vec<SolutionStep>) -> SudokuLogicalSolveResult {
     SudokuLogicalSolveResult {
       solution_type: SolutionType::None,
       solution: None,
-      steps: vec![],
+      steps: steps,
       invalid_state_reason: Some(invalid_state_reason),
     }
   }
