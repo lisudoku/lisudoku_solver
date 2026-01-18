@@ -24,5 +24,6 @@ Manage test snapshots through `cargo insta review`
 
 ```
 cd pkg
+npm login
 npm publish
 ```
