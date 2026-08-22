@@ -1,5 +1,4 @@
-use std::collections::HashSet;
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, Rule, SolutionStep}};
+use crate::{solver::{Solver, checker::SolvedState, types::CandidateSet}, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, Rule, SolutionStep}};
 
 pub trait Technique {
   // It is a grid step if it fills in a value in the grid
@@ -26,8 +25,8 @@ pub trait Technique {
       assert_eq!(cells.len(), 1);
       let cell = cells[0];
       let value = values[0];
-      let values_set = &HashSet::from([value]);
-      solver.get_affected_by_cell(&cell, values_set)
+      let values_set = &CandidateSet::from([value]);
+      solver.cell_peers_with_candidates(&cell, values_set)
     } else {
       vec![]
     };

@@ -16,7 +16,8 @@ impl Technique for PalindromeCandidates {
       return vec![]
     }
 
-    solver.constraints.palindromes.iter().enumerate().flat_map(|(palindrome_index, palindrome)| {
+    let Some(constraint) = solver.puzzle.palindrome() else { return vec![] };
+    constraint.palindromes.iter().enumerate().flat_map(|(palindrome_index, palindrome)| {
       let area = Area::Palindrome(palindrome_index);
       let cells = palindrome;
       let mut left = 0;
@@ -30,7 +31,7 @@ impl Technique for PalindromeCandidates {
           let candidates_left = &solver.candidates[cell_left.row][cell_left.col];
           let candidates_right = &solver.candidates[cell_right.row][cell_right.col];
 
-          let extra_candidates: Vec<u32> = candidates_left.difference(&candidates_right).sorted().copied().collect();
+          let extra_candidates: Vec<u32> = candidates_left.difference(&candidates_right).into_iter().sorted().collect();
           if !extra_candidates.is_empty() {
             steps.push(
               self.build_simple_solution_step(
@@ -41,7 +42,7 @@ impl Technique for PalindromeCandidates {
             );
           }
 
-          let extra_candidates: Vec<u32> = candidates_right.difference(&candidates_left).sorted().copied().collect();
+          let extra_candidates: Vec<u32> = candidates_right.difference(&candidates_left).into_iter().sorted().collect();
           if !extra_candidates.is_empty() {
             steps.push(
               self.build_simple_solution_step(

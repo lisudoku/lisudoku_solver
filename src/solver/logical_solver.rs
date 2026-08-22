@@ -1,8 +1,8 @@
-use std::collections::{HashSet, HashMap};
-use std::ops::BitOr;
+use std::collections::HashMap;
 use std::rc::Rc;
 use std::usize;
 use crate::solver::checker::SolvedState;
+use crate::solver::types::CandidateSet;
 use crate::types::{Area, CellPosition, SolutionStep, SolutionType, SudokuLogicalSolveResult};
 use crate::solver::Solver;
 use self::combinations::cell_combination_logic::CellsCacheKey;
@@ -35,7 +35,7 @@ pub mod arrow_candidates;
 pub mod advanced_candidates;
 pub mod arrow_advanced_candidates;
 pub mod common_peer_elimination_arrow;
-pub mod phistomefel_ring;
+// pub mod phistomefel_ring;
 pub mod nishio_forcing_chains;
 pub mod renban_candidates;
 pub mod palindrome_values;
@@ -60,13 +60,6 @@ impl Solver {
       // apply_rule only checks some contradictions
       let check = self.check_partially_solved();
       if !check.solved {
-        if DEBUG {
-          if solution_steps.is_empty() {
-            println!("Invalid initial grid");
-          } else {
-            println!("Reached invalid state");
-          }
-        }
         return SudokuLogicalSolveResult::no_solution(
           check.invalid_state_reason.unwrap(),
           solution_steps,
@@ -97,7 +90,7 @@ impl Solver {
         let rule_check = self.apply_rule(&mut step);
 
         if self.enriched_steps_enabled {
-          self.enrich_step(&mut step);
+          self.enrich_solution_step(&mut step);
         }
 
         solution_steps.push(step);
@@ -121,6 +114,15 @@ impl Solver {
       }
 
       empty_cell_count = self.compute_empty_cell_count();
+    }
+
+    // Check whether final state is valid
+    let check = self.check_partially_solved();
+    if !check.solved {
+      return SudokuLogicalSolveResult::no_solution(
+        check.invalid_state_reason.unwrap(),
+        solution_steps,
+      )
     }
 
     if empty_cell_count > 0 {
@@ -167,7 +169,7 @@ impl Solver {
     vec![ validity_update_steps, grid_steps, nongrid_steps ].concat()
   }
 
-  pub fn find_candidate_validity_update_steps(&self) -> Vec<SolutionStep> {
+  fn find_candidate_validity_update_steps(&self) -> Vec<SolutionStep> {
     let candidate_validity_techniques: Vec<&Rc<dyn Technique>> = self.techniques
       .iter()
       .filter(|technique| technique.is_candidate_validity_update_step())
@@ -178,7 +180,7 @@ impl Solver {
     steps
   }
 
-  pub fn find_grid_steps(&self) -> Vec<SolutionStep> {
+  pub(crate) fn find_grid_steps(&self) -> Vec<SolutionStep> {
     let grid_techniques: Vec<&Rc<dyn Technique>> = self.techniques
       .iter()
       .filter(|technique| technique.is_grid_step())
@@ -211,7 +213,8 @@ impl Solver {
     })
   }
 
-  pub fn apply_rule(&mut self, step: &SolutionStep) -> SolvedState {
+  /// Updates grid and candidates with the deduction from `step`
+  pub(crate) fn apply_rule(&mut self, step: &SolutionStep) -> SolvedState {
     if DISPLAY_STEPS {
       println!(
         "{:?} ({}) ({}) ({}): {}",
@@ -242,48 +245,24 @@ impl Solver {
     rule_check
   }
 
-  pub fn apply_rules(&mut self, steps: &Vec<SolutionStep>) {
+  #[cfg(test)]
+  pub(crate) fn apply_rules(&mut self, steps: &Vec<SolutionStep>) {
     for mut step in steps {
       self.apply_rule(&mut step);
     }
   }
 
-  // This method is used after placing a digit into the grid
-  // Returns cells that <cell> sees which have any of <values> candidates
-  fn get_affected_by_cell(&self, cell: &CellPosition, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.get_cell_peers_with_candidates(cell, values)
-  }
-
-  // Returns cells that are seen by all <cells> with any of <values> candidates
-  fn get_affected_by_cells(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.get_affected_by_cell(&cells[0], values)
-        .into_iter()
-        .filter(|cell| {
-          cells[1..].iter().all(|other_cell| {
-            self.cells_affect_eachother(cell, other_cell)
-          })
+  /// Returns cells that are seen by all <cells> with any of <values> candidates
+  fn cells_peers_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
+    self
+      .cell_peers_with_candidates(&cells[0], values)
+      .into_iter()
+      .filter(|cell| {
+        cells[1..].iter().all(|other_cell| {
+          self.puzzle.cells_are_peers(cell, other_cell)
         })
-        .collect()
-  }
-
-  fn cells_affect_eachother(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
-    cell1 != cell2 &&
-    !self.get_cell_areas(cell1, false)
-         .into_iter()
-         .collect::<HashSet<Area>>()
-         .is_disjoint(
-           &self.get_cell_areas(cell2, false)
-                .into_iter()
-                .collect()
-         )
-  }
-
-  // Returns cells in area (given by <area_cells>) except <cells> that have any of <values> candidates
-  fn get_affected_by_area_cells_cells(&self, area_cells: &Vec<CellPosition>, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> Vec<CellPosition> {
-    self.filter_cells_with_any_candidates(area_cells, values)
-        .into_iter()
-        .filter(|cell| !cells.contains(cell))
-        .collect()
+      })
+      .collect()
   }
 
   fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
@@ -294,92 +273,29 @@ impl Solver {
 
   fn compute_empty_cell_count(&self) -> usize {
     self.grid
-        .iter()
-        .map(|row| row.iter()
-                      .map(|cell| if *cell == 0 { 1 } else { 0 })
-                      .sum::<usize>())
-        .sum()
+      .iter()
+      .map(|row| {
+        row
+          .iter()
+          .map(|cell| if *cell == 0 { 1 } else { 0 })
+          .sum::<usize>()
+      })
+      .sum()
   }
 
-  fn find_common_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
-    let areas = self.find_common_areas(cells);
-    let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
-    other_areas
-  }
-
-  // Note: update when adding new areas
-  // Returns all areas that contain all <cells>
-  // Used to see which areas are affected by all <cells>
-  // Note: we want areas that need all <grid_size> and unique values
-  fn find_common_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
-    assert!(cells.len() >= 2);
-
-    let cell1 = cells[0];
-
-    let mut areas = vec![];
-    if cells.iter().map(|cell| cell.row).all_equal() {
-      areas.push(Area::Row(cell1.row));
-    }
-    if cells.iter().map(|cell| cell.col).all_equal() {
-      areas.push(Area::Column(cell1.col));
-    }
-
-    let mut common_regions: HashSet<&usize> = self.grid_to_regions[cells[0].row][cells[0].col].iter().collect();
-    for cell in cells[1..].iter() {
-      let cell_regions: HashSet<&usize> = self.grid_to_regions[cell.row][cell.col].iter().collect();
-      common_regions = common_regions.intersection(&cell_regions).copied().collect();
-    }
-    for &region_index in common_regions.into_iter().sorted() {
-      areas.push(Area::Region(region_index));
-    }
-
-    if cells.iter().map(|cell| self.grid_to_killer_cage[cell.row][cell.col]).all_equal() {
-      let killer_cage_index = self.grid_to_killer_cage[cell1.row][cell1.col];
-      if killer_cage_index != usize::MAX {
-        areas.push(Area::KillerCage(killer_cage_index));
-      }
-    }
-    if self.constraints.primary_diagonal && cells.iter().all(|cell| cell.row == cell.col) {
-      areas.push(Area::PrimaryDiagonal);
-    }
-    if self.constraints.secondary_diagonal && cells.iter().all(|cell| cell.row + cell.col == self.constraints.grid_size - 1) {
-      areas.push(Area::SecondaryDiagonal);
-    }
-
-    let mut common_renbans: HashSet<&usize> = self.grid_to_renbans[cells[0].row][cells[0].col].iter().collect();
-    for cell in cells[1..].iter() {
-      let cell_renbans: HashSet<&usize> = self.grid_to_renbans[cell.row][cell.col].iter().collect();
-      common_renbans = common_renbans.intersection(&cell_renbans).copied().collect();
-    }
-    for &renban_index in common_renbans {
-      areas.push(Area::Renban(renban_index));
-    }
-
-    areas
-  }
-
-  fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> bool {
+  fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
     cells.iter().any(|cell| !self.candidates[cell.row][cell.col].is_disjoint(&values))
   }
 
-  fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &HashSet<u32>) -> bool {
-    cells.iter().any(|cell| self.candidates[cell.row][cell.col].difference(&values).count() > 0)
-  }
-
-  // Move <cell> orthogonally to <area>
-  fn cell_to_area(&self, cell: &CellPosition, area: &Area) -> CellPosition {
-    match area {
-      &Area::Row(row) => CellPosition { row, col: cell.col },
-      &Area::Column(col) => CellPosition { row: cell.row, col },
-      _ => unimplemented!(),
-    }
+  fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
+    cells.iter().any(|cell| self.candidates[cell.row][cell.col].difference(&values).len() > 0)
   }
 
   fn validate_candidates(&self) {
     if !self.candidates_active {
       return
     }
-    for cell in &self.get_all_empty_cells() {
+    for cell in &self.all_empty_cells() {
       let &CellPosition { row, col } = cell;
       let recomputed_cell_candidates = self.recompute_cell_candidates(cell);
       if !self.candidates[row][col].is_subset(&recomputed_cell_candidates) {
@@ -391,7 +307,7 @@ impl Solver {
     }
   }
 
-  pub fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<HashSet<u32>>) -> Vec<(CellPosition, Vec<u32>)> {
+  fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<CandidateSet>) -> Vec<(CellPosition, Vec<u32>)> {
     cells.into_iter().enumerate().filter_map(|(cell_index, &cell)| {
       let cell_candidates = &self.candidates[cell.row][cell.col];
       let valid_cell_candidates = &valid_candidates[cell_index];
@@ -399,11 +315,11 @@ impl Solver {
         return None
       }
 
-      let invalid_values: Vec<u32> = cell_candidates.difference(valid_cell_candidates)
-                                                    .into_iter()
-                                                    .copied()
-                                                    .sorted()
-                                                    .collect();
+      let invalid_values: Vec<u32> = cell_candidates
+        .difference(valid_cell_candidates)
+        .into_iter()
+        .sorted()
+        .collect();
 
       if invalid_values.is_empty() {
         return None
@@ -413,8 +329,8 @@ impl Solver {
     }).collect()
   }
 
-  fn get_all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
-    self.get_all_proper_areas().iter().flat_map(|area| {
+  fn all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
+    self.puzzle.all_house_areas().iter().flat_map(|area| {
       let value_cells = self.compute_cells_by_value_in_area(area, &self.candidates);
 
       value_cells.into_iter().sorted().filter_map(|(value, cells)| {
@@ -428,8 +344,8 @@ impl Solver {
     }).collect()
   }
 
-  fn get_all_strong_links_by_value(&self) -> HashMap<u32, Vec<(Area, u32, CellPosition, CellPosition)>> {
-    self.get_all_strong_links()
+  fn all_strong_links_by_value(&self) -> HashMap<u32, Vec<(Area, u32, CellPosition, CellPosition)>> {
+    self.all_strong_links()
       .iter()
       .cloned()
       .sorted_by_key(|link| (link.1, link.0.clone(), link.2, link.3))
@@ -440,27 +356,25 @@ impl Solver {
   }
 
   fn candidates_to_set(&self, cell: CellPosition) -> u32 {
-    self.candidates[cell.row][cell.col].iter().fold(0, |acc, e| {
-      acc.bitor(1 << e)
-    })
+    self.candidates[cell.row][cell.col].to_bitmask()
   }
 
   fn cells_to_cache_key(&self, cells: &Vec<CellPosition>) -> CellsCacheKey {
     cells.into_iter().map(|cell| {
       (
-        cell.row as u32 * (self.constraints.grid_size as u32 + 1) + cell.col as u32,
+        cell.row as u32 * (self.puzzle.grid_size as u32 + 1) + cell.col as u32,
         self.grid[cell.row][cell.col],
         self.candidates_to_set(*cell),
       )
     }).collect()
   }
 
-  fn enrich_step(&self, step: &mut SolutionStep) {
+  fn enrich_solution_step(&self, step: &mut SolutionStep) {
     step.grid = Some(self.grid.clone());
     if self.candidates_active {
       let candidates: Vec<Vec<Vec<u32>>> = self.candidates.iter().map(|row|
         row.iter().map(|cell|
-          cell.iter().copied().sorted().collect()
+          cell.into_iter().copied().sorted().collect()
         ).collect()
       ).collect();
       step.candidates = Some(candidates);

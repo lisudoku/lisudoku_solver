@@ -1,7 +1,7 @@
 use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
-fn check_topbot_solved() {
+fn check_top_bottom_solved() {
   let constraints = SudokuConstraints::new(4).with_top_bottom();
   let grid = Grid(vec![
     vec![ 1, 3, 2, 4 ],
@@ -15,7 +15,7 @@ fn check_topbot_solved() {
 }
 
 #[test]
-fn check_topbot_wrong_one_sequence() {
+fn check_top_bottom_wrong_one_sequence() {
   let constraints = SudokuConstraints::new(4).with_top_bottom();
   let grid = Grid(vec![
     vec![ 4, 1, 3, 2 ],
@@ -38,7 +38,7 @@ fn check_topbot_wrong_one_sequence() {
 }
 
 #[test]
-fn check_topbot_wrong_both() {
+fn check_top_bottom_wrong_both() {
   let constraints = SudokuConstraints::new(4).with_top_bottom();
   let grid = Grid(vec![
     vec![ 2, 1, 4, 3 ],
@@ -61,7 +61,7 @@ fn check_topbot_wrong_both() {
 }
 
 #[test]
-fn check_topbot_empty_correct() {
+fn check_top_bottom_empty_correct() {
   let constraints = SudokuConstraints::new(4).with_top_bottom();
   let grid = Grid(vec![
     vec![ 1, 0, 0, 0 ],
@@ -75,7 +75,7 @@ fn check_topbot_empty_correct() {
 }
 
 #[test]
-fn check_topbot_empty_wrong() {
+fn check_top_bottom_empty_wrong() {
   let constraints = SudokuConstraints::new(4).with_top_bottom();
   let grid = Grid(vec![
     vec![ 1, 0, 0, 0 ],

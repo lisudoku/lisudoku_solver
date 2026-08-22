@@ -18,7 +18,7 @@ impl Technique for LockedCandidates {
       return vec![]
     }
 
-    let areas = solver.get_all_proper_areas();
+    let areas = solver.puzzle.all_house_areas();
     for area in areas {
       let value_cells = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
 
@@ -27,14 +27,14 @@ impl Technique for LockedCandidates {
           continue
         }
 
-        let other_areas = solver.find_common_areas_except(&cells, area.clone());
+        let other_areas = solver.puzzle.find_common_region_areas_except(&cells, area.clone());
         if other_areas.is_empty() {
           continue
         }
 
         for other_area in other_areas {
           let affected_cells: Vec<CellPosition> = solver
-            .get_area_cells_with_candidate(&other_area, value)
+            .area_cells_with_candidate(&other_area, value)
             .into_iter()
             .filter(|cell| !cells.contains(cell))
             .collect();

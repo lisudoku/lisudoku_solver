@@ -4,7 +4,7 @@ use super::combinations::cell_combination_logic::CellCombinationLogic;
 use super::combinations::cell_combinations_runner::{CellCombinationsRunner, State};
 
 impl Solver {
-  pub fn detect_invalid_sum_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
+  pub(crate) fn detect_invalid_sum_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
     let mut combinations_runner = CellCombinationsRunner::new(
       &self, Box::new(SumCombinationsLogic::new(cells, sum))
     );

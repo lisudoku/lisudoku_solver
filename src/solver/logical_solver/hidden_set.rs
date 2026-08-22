@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 use crate::solver::Solver;
 use crate::solver::checker::SolvedState;
+use crate::solver::types::CandidateSet;
 use crate::types::{CellPosition, Rule, SolutionStep};
 use combinations::Combinations;
 use itertools::Itertools;
@@ -20,7 +21,7 @@ impl Technique for HiddenSet {
       return vec![]
     }
 
-    let areas = solver.get_all_proper_areas();
+    let areas = solver.puzzle.all_house_areas();
     for area in areas {
       let value_cells = solver.compute_cells_by_value_in_area(&area, &solver.candidates);
 
@@ -47,7 +48,7 @@ impl Technique for HiddenSet {
         }
 
         let cells_array: Vec<CellPosition> = combined_cells.into_iter().sorted().collect();
-        let values_set: HashSet<u32> = values.iter().copied().collect();
+        let values_set = CandidateSet::from_iter(values.iter().copied());
         if !solver.any_cells_with_other_candidates(&cells_array, &values_set) {
           continue
         }
@@ -68,8 +69,8 @@ impl Technique for HiddenSet {
 
   fn apply(&self, step: &SolutionStep, solver: &mut Solver) -> SolvedState {
     for &CellPosition { row, col } in &step.cells {
-      let value_set: HashSet<u32> = step.values.iter().copied().collect();
-      solver.candidates[row][col] = solver.candidates[row][col].intersection(&value_set).copied().collect();
+      let value_set = CandidateSet::from_iter(step.values.iter().copied());
+      solver.candidates[row][col] = solver.candidates[row][col].intersection(&value_set);
     }
     SolvedState::solved()
   }

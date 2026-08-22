@@ -15,7 +15,9 @@ impl Technique for ArrowAdvancedCandidates {
       return vec![]
     }
 
-    solver.constraints.arrows.iter().enumerate().flat_map(|(arrow_index, arrow)| {
+    let Some(constraint) = solver.puzzle.arrow() else { return vec![] };
+
+    constraint.arrows.iter().enumerate().flat_map(|(arrow_index, arrow)| {
       let cells = arrow.all_cells();
 
       // Running the algorithm for really long arrows will take too much time, so

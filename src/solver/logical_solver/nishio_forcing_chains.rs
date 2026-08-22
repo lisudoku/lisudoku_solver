@@ -24,19 +24,19 @@ impl Technique for NishioForcingChains {
       .collect();
 
     let cells: Vec<CellPosition> = solver
-      .get_all_empty_cells()
+      .all_empty_cells()
       .into_iter()
       .sorted_by_key(|cell| solver.candidates[cell.row][cell.col].len())
       .collect();
 
     for cell in cells {
-      let invalid_values: Vec<(u32, InvalidStateReason)> = solver.candidates[cell.row][cell.col].iter().sorted().filter_map(|value| {
+      let invalid_values: Vec<(u32, InvalidStateReason)> = (&solver.candidates[cell.row][cell.col]).into_iter().sorted().filter_map(|value| {
         let mut temp_solver: Solver = solver
           .clone()
           .with_techniques(temp_techniques.clone())
           // the limit might need some tweaking to account for some techniques
           // that return individual steps per step group
-          .with_step_count_limit(solver.constraints.grid_size)
+          .with_step_count_limit(solver.puzzle.grid_size)
           // parent solve might have hint mode, but we want it off here
           .with_hint_mode(false);
 

@@ -13,8 +13,10 @@ impl Technique for PalindromeValues {
   fn get_rule(&self) -> Rule { Rule::PalindromeValues }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
-    solver.constraints.palindromes.iter().enumerate().flat_map(|(palindrome_index, palindrome)| {
-      let values = solver.get_area_values(&Area::Palindrome(palindrome_index));
+    let Some(constraint) = solver.puzzle.palindrome() else { return vec![] };
+
+    constraint.palindromes.iter().enumerate().flat_map(|(palindrome_index, palindrome)| {
+      let values = solver.area_values(&Area::Palindrome(palindrome_index));
       let mut left = 0;
       let mut right = values.len() - 1;
       let mut steps: Vec<SolutionStep> = vec![];

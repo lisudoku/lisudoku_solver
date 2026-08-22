@@ -1,7 +1,6 @@
 use itertools::Itertools;
-
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule, Area, Thermo};
+use crate::types::{Area, Rule, SolutionStep, Thermo};
 use super::technique::Technique;
 
 pub struct ThermoCandidates;
@@ -15,13 +14,15 @@ impl Technique for ThermoCandidates {
       return vec![]
     }
 
-    for (thermo_index, thermo) in solver.constraints.thermos.iter().enumerate() {
+    let Some(constraint) = solver.puzzle.thermo() else { return vec![] };
+
+    for (thermo_index, thermo) in constraint.thermos.iter().enumerate() {
       let lower_bounds = Self::find_thermo_lower_bounds(solver, &thermo);
       let upper_bounds = Self::find_thermo_upper_bounds(solver, &thermo);
 
       let steps: Vec<SolutionStep> = thermo.iter().enumerate().filter_map(|(cell_index, cell)| {
-        let invalid_values: Vec<u32> = solver.candidates[cell.row][cell.col]
-          .iter()
+        let invalid_values: Vec<u32> = (&solver.candidates[cell.row][cell.col])
+          .into_iter()
           .filter(|&&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
           .copied()
           .sorted()
@@ -49,7 +50,7 @@ impl Technique for ThermoCandidates {
 
 impl ThermoCandidates {
   pub fn find_thermo_lower_bounds(solver: &Solver, thermo: &Thermo) -> Vec<u32> {
-    let max_value: u32 = solver.constraints.grid_size as u32 + 1;
+    let max_value: u32 = solver.puzzle.grid_size as u32 + 1;
     let mut current_min = 0;
     thermo.iter().map(|cell| {
       if solver.grid[cell.row][cell.col] != 0 {
@@ -72,7 +73,7 @@ impl ThermoCandidates {
   }
 
   pub fn find_thermo_upper_bounds(solver: &Solver, thermo: &Thermo) -> Vec<u32> {
-    let mut current_max = solver.constraints.grid_size as u32 + 1;
+    let mut current_max = solver.puzzle.grid_size as u32 + 1;
     thermo.iter().rev().map(|cell| {
       if solver.grid[cell.row][cell.col] != 0 {
         current_max = solver.grid[cell.row][cell.col];

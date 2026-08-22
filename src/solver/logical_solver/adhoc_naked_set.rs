@@ -16,10 +16,10 @@ impl Technique for AdhocNakedSet {
       return vec![]
     }
 
-    let cells = solver.get_all_empty_cells();
+    let cells = solver.all_empty_cells();
 
     for starting_cell in cells {
-      let special_peers: Vec<CellPosition> = solver.get_cell_only_special_peers(&starting_cell, true)
+      let special_peers: Vec<CellPosition> = solver.puzzle.cell_only_special_peers(&starting_cell)
         .into_iter()
         .filter(|cell| solver.grid[cell.row][cell.col] == 0)
         .collect();
@@ -28,11 +28,11 @@ impl Technique for AdhocNakedSet {
         continue
       }
 
-      let peers: Vec<CellPosition> = solver.get_cell_peers(&starting_cell, true)
+      let peers: Vec<CellPosition> = solver.puzzle.all_cell_peers_unconstrained(&starting_cell)
         .into_iter()
         .filter(|cell| solver.grid[cell.row][cell.col] == 0)
         .collect();
-      
+
       // Do not even bother when there's too many peers because it hurts performance
       // and we want to use 32-bit masks
       if peers.len() >= 31 {
@@ -48,7 +48,7 @@ impl Technique for AdhocNakedSet {
 
       // Precalculate neighbour masks
       let neighbour_masks: Vec<u32> = nodes.iter().map(|node| {
-        let node_neighbours = solver.get_cell_peers(node, true);
+        let node_neighbours = solver.puzzle.all_cell_peers_unconstrained(node);
         let mut neighbour_mask: u32 = 0;
 
         for neighbour in node_neighbours {
@@ -85,7 +85,7 @@ impl Technique for AdhocNakedSet {
         // If the whole clique is within the same area, skip
         // because the same deduction can be made using simpler techniques.
         // We shouldn't reach this point because those techiques will run first, but still...
-        let common_areas = solver.find_common_areas(&clique);
+        let common_areas = solver.puzzle.find_common_region_areas(&clique);
         if !common_areas.is_empty() {
           continue
         }

@@ -1,4 +1,4 @@
-use crate::{types::{CellPosition, Grid}, solver::Solver};
+use crate::{solver::{Solver, types::CandidateSet}, types::{CellPosition, Grid}};
 use std::{collections::HashSet, ops::{BitXorAssign, BitAnd}};
 use super::cell_combination_logic::CellCombinationLogic;
 
@@ -11,7 +11,7 @@ pub struct CellCombinationsRunner<'a> {
   pub state: State,
   // Output
   combinations_list: Vec<Vec<u32>>,
-  valid_candidates: Vec<HashSet<u32>>,
+  valid_candidates: Vec<CandidateSet>,
 }
 
 pub struct State {
@@ -23,7 +23,7 @@ pub struct State {
   pub used_candidates_at: Vec<u32>,
 }
 
-pub type CellCombinationsRunnerResult = (Vec<HashSet<u32>>, Vec<Vec<u32>>);
+pub type CellCombinationsRunnerResult = (Vec<CandidateSet>, Vec<Vec<u32>>);
 
 impl<'a> CellCombinationsRunner<'a> {
   pub fn new(solver: &'a Solver, combinations_logic: Box<dyn CellCombinationLogic + 'a>) -> CellCombinationsRunner<'a> {
@@ -33,7 +33,7 @@ impl<'a> CellCombinationsRunner<'a> {
     let affected_by: Vec<u32> = cells.iter().enumerate().map(|(cell_index, cell)| {
       let mut mask = 0;
       for (prev_cell_index, prev_cell) in cells[0..cell_index].iter().enumerate() {
-        if solver.cells_affect_eachother(prev_cell, cell) {
+        if solver.puzzle.cells_are_peers(prev_cell, cell) {
           mask.bitxor_assign(1 << prev_cell_index);
         }
       }
@@ -48,9 +48,9 @@ impl<'a> CellCombinationsRunner<'a> {
         used_candidates: vec![ 0; cell_count ],
         temp_grid: solver.grid.clone(),
         affected_by,
-        used_candidates_at: vec![ 0; solver.constraints.grid_size + 1 ],
+        used_candidates_at: vec![ 0; solver.puzzle.grid_size + 1 ],
       },
-      valid_candidates: vec![ HashSet::new(); cell_count ],
+      valid_candidates: vec![ CandidateSet::new(); cell_count ],
       combinations_list: vec![],
     }
   }
@@ -86,7 +86,7 @@ impl<'a> CellCombinationsRunner<'a> {
     
     let mut prev_value_candidate = HashSet::new();
     let cell_candidates = if cell_prev_value == 0 {
-      self.solver.candidates[cell.row][cell.col].iter()
+      (&self.solver.candidates[cell.row][cell.col]).into_iter()
     } else {
       prev_value_candidate.insert(cell_prev_value);
       prev_value_candidate.iter()

@@ -19,7 +19,9 @@ impl Technique for RenbanCandidates {
       return vec![]
     }
 
-    solver.constraints.renbans.iter().enumerate().flat_map(|(renban_index, renban)| {
+    let Some(constraint) = solver.puzzle.renban() else { return vec![] };
+
+    constraint.renbans.iter().enumerate().flat_map(|(renban_index, renban)| {
       let cells = renban;
 
       let combination_logic = RenbanCombinationLogic::new(renban);

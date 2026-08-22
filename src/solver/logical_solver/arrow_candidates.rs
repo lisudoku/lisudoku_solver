@@ -18,7 +18,9 @@ impl Technique for ArrowCandidates {
       return vec![]
     }
 
-    solver.constraints.arrows.iter().enumerate().flat_map(|(arrow_index, arrow)| {
+    let Some(constraint) = solver.puzzle.arrow() else { return vec![] };
+
+    constraint.arrows.iter().enumerate().flat_map(|(arrow_index, arrow)| {
       let cells = arrow.all_cells();
 
       // Running the algorithm for really long arrows will take too much time, so
@@ -121,7 +123,7 @@ impl CellCombinationLogic for ArrowCombinationLogic<'_> {
     // For the minimum assume the rest will all be 1s
     let min_arrow_sum = self.arrow_cells_sum + value + cell_count_left as u32 * 1;
     // For the maximum assume the rest will all be 9s
-    let max_arrow_sum = self.arrow_cells_sum + value + cell_count_left as u32 * runner.solver.constraints.grid_size as u32;
+    let max_arrow_sum = self.arrow_cells_sum + value + cell_count_left as u32 * runner.solver.puzzle.grid_size as u32;
 
     return max_arrow_sum >= self.circle_sum_min && min_arrow_sum <= self.circle_sum_max
   }

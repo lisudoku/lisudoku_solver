@@ -16,7 +16,9 @@ impl Technique for KillerCandidates {
       return vec![]
     }
 
-    for (killer_cage_index, killer_cage) in solver.constraints.killer_cages.iter().enumerate() {
+    let Some(constraint) = solver.puzzle.killer() else { return vec![] };
+
+    for (killer_cage_index, killer_cage) in constraint.killer_cages.iter().enumerate() {
       if killer_cage.sum.is_none() {
         continue
       }

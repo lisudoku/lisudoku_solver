@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use crate::solver::Solver;
+use crate::solver::types::CandidateSet;
 use crate::types::{Area, Rule, SolutionStep};
 use combinations::Combinations;
 use itertools::Itertools;
@@ -19,7 +19,7 @@ impl Technique for NakedSet {
       return vec![]
     }
 
-    let areas = solver.get_all_areas(false, true, false, true, false);
+    let areas = solver.puzzle.all_region_areas();
     for area in areas {
       let steps = self.run_in_area(area, solver);
       if !steps.is_empty() {
@@ -37,7 +37,9 @@ impl NakedSet {
   }
 
   pub fn run_in_area(&self, area: Area, solver: &Solver) -> Vec<SolutionStep> {
-    let area_cells = solver.get_empty_area_cells(&area);
+    let area_cells = solver.area_empty_cells(&area);
+    // TODO: filter cells with CandidateSet size > self.set_size
+
     let cell_combinations: Vec<_> = if self.set_size < area_cells.len() {
       Combinations::new(area_cells.to_vec(), self.set_size).collect()
     } else {
@@ -46,10 +48,10 @@ impl NakedSet {
     };
 
     for cells in cell_combinations {
-      let mut combined_candidates: HashSet<u32> = HashSet::new();
+      let mut combined_candidates = CandidateSet::new();
       for cell in &cells {
         let candidates = &solver.candidates[cell.row][cell.col];
-        combined_candidates = combined_candidates.union(candidates).cloned().collect();
+        combined_candidates = combined_candidates.union(candidates);
         if combined_candidates.len() > self.set_size {
           break
         }
@@ -59,7 +61,11 @@ impl NakedSet {
         continue
       }
 
-      let affected_cells = solver.get_affected_by_area_cells_cells(&area_cells, &cells, &combined_candidates);
+      let affected_cells = solver
+        .filter_cells_with_any_candidates(&area_cells, &combined_candidates)
+        .into_iter()
+        .filter(|cell| !cells.contains(cell))
+        .collect();
       if !solver.any_cells_with_candidates(&affected_cells, &combined_candidates) {
         continue
       }

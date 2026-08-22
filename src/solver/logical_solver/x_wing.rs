@@ -13,13 +13,15 @@ impl Technique for XWing {
       return vec![]
     }
 
-    let rows = solver.get_row_areas();
+    let Some(constraint) = solver.puzzle.region() else { return vec![] };
+
+    let rows = constraint.row_areas();
     let step = self.find_x_wing_in_areas(solver, &rows);
     if step.is_some() {
       return vec![ step.unwrap() ]
     }
 
-    let cols = solver.get_col_areas();
+    let cols = constraint.col_areas();
     let step = self.find_x_wing_in_areas(solver, &cols);
     if step.is_some() {
       return vec![ step.unwrap() ]
@@ -41,17 +43,18 @@ impl XWing {
         let cell1 = area1_cells[0];
         let cell2 = area1_cells[1];
 
+        // TODO: continue from area1's index
         for area2 in areas {
           if area2 == area1 {
             continue
           }
-          let area2_cells: Vec<CellPosition> = solver.get_area_cells_with_candidate(area2, value);
+          let area2_cells: Vec<CellPosition> = solver.area_cells_with_candidate(area2, value);
 
           let translated_cells: Vec<CellPosition> = area2_cells.iter()
             .copied()
-            .map(|cell| solver.cell_to_area(&cell, area1))
+            .map(|cell| area1.translate_cell_to(&cell))
             .collect();
-          
+
           if translated_cells != area1_cells {
             continue
           }
@@ -62,11 +65,12 @@ impl XWing {
           assert!(solver.candidates[cell3.row][cell3.col].contains(&value));
           assert!(solver.candidates[cell4.row][cell4.col].contains(&value));
 
-          let area3 = solver.find_common_areas(&vec![ cell1, cell3 ]).first().unwrap().clone();
-          let area4 = solver.find_common_areas(&vec![ cell2, cell4 ]).first().unwrap().clone();
+          // TODO: only need to check rows&cols
+          let area3 = solver.puzzle.find_common_region_areas(&vec![ cell1, cell3 ]).first().unwrap().clone();
+          let area4 = solver.puzzle.find_common_region_areas(&vec![ cell2, cell4 ]).first().unwrap().clone();
           let affected_cells: Vec<CellPosition> = vec![
-            solver.get_area_cells_with_candidate(&area3, value),
-            solver.get_area_cells_with_candidate(&area4, value),
+            solver.area_cells_with_candidate(&area3, value),
+            solver.area_cells_with_candidate(&area4, value),
           ].concat().into_iter().filter(|&cell| {
             cell != cell1 && cell != cell2 && cell != cell3 && cell != cell4
           }).collect();

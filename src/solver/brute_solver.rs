@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use crate::solver::Solver;
+use crate::solver::types::CandidateSet;
 use crate::types::{SudokuBruteSolveResult, Grid, SolutionType, CellPosition};
 
 impl Solver {
@@ -8,18 +8,19 @@ impl Solver {
     assert!(use_logical);
 
     let mut solution_count = 0;
-    self.recursive_check(&mut solution_count, use_logical, 1);
+    let mut solution: Option<Grid> = None;
+    self.recursive_check(1, use_logical, &mut solution_count, &mut solution);
 
     let res = SudokuBruteSolveResult {
       solution_count,
-      solution: if let Some(grid) = &self.solution { Some(grid.clone()) } else { None },
+      solution,
     };
     res
   }
 
-  pub fn recursive_check(&mut self, solution_count: &mut u32, use_logical: bool, depth: u32) {
+  fn recursive_check(&mut self, depth: u32, use_logical: bool, solution_count: &mut u32, solution: &mut Option<Grid>) {
     let mut best_cell: Option<CellPosition> = None;
-    let mut best_candidates: HashSet<u32> = HashSet::new();
+    let mut best_candidates = CandidateSet::new();
 
     let mut original_grid: Option<Grid> = None;
     if use_logical {
@@ -34,7 +35,7 @@ impl Solver {
       }
     }
 
-    for cell in self.get_all_empty_cells() {
+    for cell in self.all_empty_cells() {
       let cell_candidates = self.compute_cell_candidates(&cell);
       if best_cell.is_none() || cell_candidates.len() < best_candidates.len() {
         best_cell = Some(cell);
@@ -43,7 +44,7 @@ impl Solver {
     }
 
     if best_cell.is_none() {
-      self.solution = Some(self.grid.clone());
+      *solution = Some(self.grid.clone());
       *solution_count += 1;
     } else if !best_candidates.is_empty() {
       for value in best_candidates.into_iter() {
@@ -52,7 +53,7 @@ impl Solver {
 
         // Currently we only run the solver with logical and because of
         // rules that restrict candidates to valid ones we know <value> is valid
-        self.recursive_check(solution_count, use_logical, depth + 1);
+        self.recursive_check(depth + 1, use_logical, solution_count, solution);
 
         self.grid[best_row][best_col] = 0;
         if *solution_count > 1 {

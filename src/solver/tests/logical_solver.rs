@@ -29,7 +29,7 @@ mod common_peer_elimination_arrow;
 mod renban_candidates;
 mod palindrome_values;
 mod palindrome_candidates;
-mod phistomefel_ring;
+// mod phistomefel_ring;
 mod nishio_forcing_chains;
 mod adhoc_naked_set;
 mod puzzles;

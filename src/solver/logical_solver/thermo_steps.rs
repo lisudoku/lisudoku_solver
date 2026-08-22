@@ -1,5 +1,5 @@
 use crate::solver::Solver;
-use crate::types::{SolutionStep, Rule, Area};
+use crate::types::{Area, Rule, SolutionStep};
 use super::technique::Technique;
 use super::thermo_candidates::ThermoCandidates;
 
@@ -10,7 +10,10 @@ impl Technique for Thermo {
   fn get_rule(&self) -> Rule { Rule::Thermo }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
-    for (thermo_index, thermo) in solver.constraints.thermos.iter().enumerate() {
+    let Some(constraint) = solver.puzzle.thermo() else { return vec![] };
+
+    for (thermo_index, thermo) in constraint.thermos.iter().enumerate() {
+      // TODO: duplicate logic in constraint definition
       let lower_bounds = ThermoCandidates::find_thermo_lower_bounds(solver, &thermo);
       let upper_bounds = ThermoCandidates::find_thermo_upper_bounds(solver, &thermo);
 

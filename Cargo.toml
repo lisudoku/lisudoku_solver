@@ -1,8 +1,8 @@
 [package]
 name = "lisudoku-solver"
-version = "0.1.31"
+version = "0.1.32"
 authors = ["George Marcus <george.marcus922@gmail.com>"]
-description = "Solver for sudoku puzzles used by lisudoku"
+description = "Solver for sudoku variant puzzles used by lisudoku"
 license-file = "LICENSE"
 repository = "https://github.com/lisudoku/lisudoku_solver"
 edition = "2021"
@@ -24,6 +24,8 @@ serde_json = "1.0.93"
 lz-str = "0.2.1"
 tsify = "0.5.6"
 derive_more = { version = "2.0.1", features = ["deref", "deref_mut"] }
+enum_dispatch = "0.3.13"
+strum = { version = "0.28", features = ["derive"] }
 
 [dev-dependencies]
 insta = { version = "1.42.2", features = ["yaml"] }

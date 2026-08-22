@@ -24,7 +24,7 @@ fn check_thermo_steps() {
     );
   let mut solver = Solver::new(constraints);
 
-  let steps = crate::solver::Thermo.run(&solver);
+  let steps = crate::solver::logical_solver::thermo_steps::Thermo.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
   assert_eq!(step.cells, vec![ CellPosition::new(6, 0) ]);
@@ -63,6 +63,6 @@ fn check_full_thermo() {
     );
   let solver = Solver::new(constraints);
 
-  let steps = crate::solver::Thermo.run(&solver);
+  let steps = crate::solver::logical_solver::thermo_steps::Thermo.run(&solver);
   assert!(steps.is_empty());
 }

@@ -1,6 +1,6 @@
-use std::collections::HashSet;
 use itertools::Itertools;
 use crate::solver::Solver;
+use crate::solver::types::CandidateSet;
 use crate::types::{SolutionStep, Rule, CellPosition};
 use super::technique::Technique;
 
@@ -12,7 +12,7 @@ impl Technique for PhistomefelRing {
   fn get_rule(&self) -> Rule { Rule::PhistomefelRing }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
-    if !solver.candidates_active || solver.constraints.grid_size != 9 {
+    if !solver.candidates_active || solver.puzzle.grid_size != 9 {
       return vec![]
     }
 
@@ -38,12 +38,12 @@ impl Technique for PhistomefelRing {
 }
 
 impl PhistomefelRing {
-  fn get_cell_values(&self, solver: &Solver, cell: &CellPosition) -> HashSet<u32> {
+  fn get_cell_values(&self, solver: &Solver, cell: &CellPosition) -> CandidateSet {
     let &CellPosition { row, col } = cell;
     if solver.grid[row][col] != 0 {
-      HashSet::from([ solver.grid[row][col] ])
+      CandidateSet::from([ solver.grid[row][col] ])
     } else {
-      solver.candidates[row][col].to_owned()
+      solver.candidates[row][col].clone()
     }
   }
 
@@ -56,7 +56,7 @@ impl PhistomefelRing {
   fn match_sets_ordered(&self, solver: &Solver, set1: &Vec<CellPosition>, set2: &Vec<CellPosition>) -> Vec<SolutionStep> {
     set1.iter().flat_map(|cell1| {
       let values1 = self.get_cell_values(solver, cell1);
-      let mut matching_values: HashSet<u32> = HashSet::new();
+      let mut matching_values = CandidateSet::new();
       let mut matching_cell_count = 0;
       let mut matching_cell: Option<&CellPosition> = None;
       for cell2 in set2 {
@@ -70,7 +70,7 @@ impl PhistomefelRing {
 
       let mut steps = vec![];
 
-      let extra_values: Vec<u32> = values1.difference(&matching_values).copied().sorted().collect();
+      let extra_values: Vec<u32> = values1.difference(&matching_values).into_iter().sorted().collect();
       if !extra_values.is_empty() {
         let step = self.build_simple_solution_step(
           extra_values,
@@ -81,7 +81,7 @@ impl PhistomefelRing {
       }
 
       if matching_cell_count == 1 {
-        let extra_values: Vec<u32> = matching_values.difference(&values1).copied().sorted().collect();
+        let extra_values: Vec<u32> = matching_values.difference(&values1).into_iter().sorted().collect();
         if !extra_values.is_empty() {
           let step = self.build_simple_solution_step(
             extra_values,

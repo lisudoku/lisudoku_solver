@@ -1,8 +1,8 @@
 use crate::solver::Solver;
 use crate::solver::checker::SolvedState;
+use crate::solver::types::CandidateSet;
 use crate::types::{Rule, SolutionStep};
 use super::technique::Technique;
-use std::collections::HashSet;
 use itertools::Itertools;
 
 pub struct Candidates;
@@ -16,10 +16,10 @@ impl Technique for Candidates {
     }
 
     let mut candidates: Vec<Vec<Vec<u32>>> = vec![
-      vec![ vec![]; solver.constraints.grid_size ];
-      solver.constraints.grid_size
+      vec![ vec![]; solver.puzzle.grid_size ];
+      solver.puzzle.grid_size
     ];
-    for cell in &solver.get_all_empty_cells() {
+    for cell in &solver.all_empty_cells() {
       candidates[cell.row][cell.col] = solver.compute_cell_candidates(cell).into_iter().sorted().collect();
     }
 
@@ -41,7 +41,7 @@ impl Technique for Candidates {
     solver.candidates_active = true;
     solver.candidates = step.candidates.as_ref().unwrap().into_iter()
       .map(|row| row.into_iter().map(|col|
-        HashSet::from_iter(col.iter().copied())
+        CandidateSet::from_iter(col.iter().copied())
       ).collect())
       .collect();
     SolvedState::solved()

@@ -1,7 +1,7 @@
 use crate::{solver::{Solver, checker::SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Region, SudokuConstraints}};
 
 #[test]
-fn check_wrong_region() {
+fn check_extra_regions_wrong() {
   let constraints = SudokuConstraints::new(4)
     .with_extra_regions(
       vec![
@@ -32,7 +32,7 @@ fn check_wrong_region() {
 }
 
 #[test]
-fn check_solved_grid() {
+fn check_extra_regions_solved_grid() {
   let constraints = SudokuConstraints::new(4)
     .with_extra_regions(
       vec![

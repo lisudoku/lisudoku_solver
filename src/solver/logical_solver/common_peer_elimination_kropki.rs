@@ -14,16 +14,24 @@ impl Technique for CommonPeerEliminationKropki {
     if !solver.candidates_active {
       return vec![]
     }
-    if solver.constraints.kropki_dots.is_empty() {
+
+    let Some(constraint) = solver.puzzle.kropki() else { return vec![] };
+    if constraint.kropki_dots.is_empty() {
       return vec![]
     }
 
     let mut steps: Vec<SolutionStep> = vec![];
 
-    for area in &solver.get_all_proper_areas() {
+    let areas = solver.puzzle
+      .all_region_areas()
+      .into_iter()
+      // Pointless to find dots inside dot areas
+      .filter(|area| !matches!(area, Area::KropkiDot(_)));
+
+    for area in areas {
       let dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
       for dot_type in dot_types {
-        let kropki_ccs = KropkiChainCandidates::compute_area_kropki_ccs(solver, area, dot_type, false);
+        let kropki_ccs = KropkiChainCandidates::compute_area_kropki_ccs(solver, &area, dot_type, false);
         for (cells, kropki_dot_indices) in kropki_ccs {
           let combinations: Vec<Vec<u32>> = KropkiChainCandidates::find_kropki_ccs_combinations(solver, &cells);
 

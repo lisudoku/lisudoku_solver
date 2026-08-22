@@ -17,9 +17,11 @@ impl Technique for EmptyRectangles {
       return vec![]
     }
 
-    let strong_links_by_value = solver.get_all_strong_links_by_value();
+    let Some(constraint) = solver.puzzle.region() else { return vec![] };
 
-    for region_area in solver.get_region_areas() {
+    let strong_links_by_value = solver.all_strong_links_by_value();
+
+    for region_area in constraint.original_region_areas() {
       let value_cells = solver.compute_cells_by_value_in_area(&region_area, &solver.candidates);
 
       for (value, region_cells) in value_cells.into_iter().sorted() {
@@ -43,7 +45,7 @@ impl Technique for EmptyRectangles {
         let strong_links = strong_links_by_value.get(&value).unwrap_or(&empty_strong_links);
 
         // Search for strong links that see selected_row
-        for cell in solver.get_area_cells_with_candidate(&Area::Row(selected_row), value) {
+        for cell in solver.area_cells_with_candidate(&Area::Row(selected_row), value) {
           if region_cells.contains(&cell) {
             continue
           }
@@ -75,7 +77,7 @@ impl Technique for EmptyRectangles {
         }
 
         // Search for strong links that see selected_col
-        for cell in solver.get_area_cells_with_candidate(&Area::Column(selected_col), value) {
+        for cell in solver.area_cells_with_candidate(&Area::Column(selected_col), value) {
           if region_cells.contains(&cell) {
             continue
           }

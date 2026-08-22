@@ -15,11 +15,13 @@ impl Technique for CommonPeerEliminationArrow {
     if !solver.candidates_active {
       return vec![]
     }
-    if solver.constraints.arrows.is_empty() {
+
+    let Some(constraint) = solver.puzzle.arrow() else { return vec![] };
+    if constraint.arrows.is_empty() {
       return vec![]
     }
 
-    solver.constraints.arrows.iter().enumerate().filter_map(|(arrow_index, arrow)| {
+    constraint.arrows.iter().enumerate().filter_map(|(arrow_index, arrow)| {
       let cells = arrow.all_cells();
 
       let mut arrow_combinatons_logic_factory = solver.arrow_combinatons_logic_factory.borrow_mut();
