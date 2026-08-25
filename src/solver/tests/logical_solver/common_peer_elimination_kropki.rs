@@ -1,5 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, KropkiDot}, solver::{Solver, logical_solver::{kropki_chain_candidates::KropkiChainCandidates, technique::Technique, candidates::Candidates, common_peer_elimination_kropki::CommonPeerEliminationKropki}}};
-use itertools::Itertools;
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, common_peer_elimination_kropki::CommonPeerEliminationKropki, kropki_chain_candidates::KropkiChainCandidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, KropkiDot, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_common_peer_elimination_kropki_1() {
@@ -26,22 +25,30 @@ fn check_common_peer_elimination_kropki_1() {
   assert_eq!(steps.len(), 2);
 
   let mut step = &steps[0];
-  assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
-  assert_eq!(step.values, vec![ 2 ]);
-  assert_eq!(step.areas, vec![ Area::KropkiDot(0) ]);
-  assert_eq!(step.affected_cells, vec![ CellPosition::new(3, 2) ]);
-  assert!(solver.candidates[3][2].contains(&2));
-  solver.apply_rule(&mut step);
-  assert!(!solver.candidates[3][2].contains(&2));
-
-  let mut step = &steps[1];
-  assert_eq!(step.rule, Rule::CommonPeerEliminationKropki);
-  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 3, 3 ]);
-  assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
-  assert_eq!(step.affected_cells.iter().copied().collect_vec(), vec![
-    CellPosition::new(3, 2), CellPosition::new(3, 2), CellPosition::new(4, 1),
-  ]);
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::CommonPeerEliminationKropki,
+      vec![],
+      vec![2, 3, 3],
+      vec![Area::KropkiDot(0), Area::KropkiDot(1)],
+      vec![CellPosition::new(3, 2), CellPosition::new(3, 2), CellPosition::new(4, 1)],
+    )
+  );
   assert!(solver.candidates[4][1].contains(&3));
+
   solver.apply_rule(&mut step);
   assert!(!solver.candidates[4][1].contains(&3));
+
+  let step = &steps[1];
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::CommonPeerEliminationKropki,
+      vec![],
+      vec![2],
+      vec![Area::KropkiDot(0)],
+      vec![CellPosition::new(3, 2)],
+    ),
+  );
 }

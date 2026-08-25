@@ -12,6 +12,8 @@ impl Technique for PalindromeValues {
 
   fn get_rule(&self) -> Rule { Rule::PalindromeValues }
 
+  fn complexity(&self, _step: &SolutionStep, _solver: &Solver) -> u32 { 2 }
+
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
     let Some(constraint) = solver.puzzle.palindrome() else { return vec![] };
 

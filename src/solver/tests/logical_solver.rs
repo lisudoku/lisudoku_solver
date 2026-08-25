@@ -2,6 +2,7 @@ mod hint_mode;
 mod single_step_mode;
 mod naked_singles;
 mod grid_steps;
+mod grid_steps_priority;
 mod locked_candidates_pairs;
 mod locked_candidates_triples;
 mod hidden_singles;

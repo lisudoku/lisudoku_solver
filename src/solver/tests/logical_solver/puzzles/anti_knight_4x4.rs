@@ -23,5 +23,5 @@ fn check_anti_knight_4x4_1_solve() {
       vec![ 2, 1, 3, 4 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }

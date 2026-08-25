@@ -13,11 +13,10 @@ impl ConstraintDefinition for RegionsConstraint {
     SolvedState::solved()
   }
 
-  // TODO: maybe it's more intuitive to check regions first?
   fn region_areas(&self) -> Vec<Area> {
-    (0..self.row_regions.len()).map(|row| Area::Row(row))
+    (0..self.regions.len()).map(|region_index| Area::Region(region_index))
+      .chain((0..self.row_regions.len()).map(|row| Area::Row(row)))
       .chain((0..self.col_regions.len()).map(|col| Area::Column(col)))
-      .chain((0..self.regions.len()).map(|region_index| Area::Region(region_index)))
       .collect()
   }
 
@@ -32,13 +31,8 @@ impl ConstraintDefinition for RegionsConstraint {
     cells.0.clone()
   }
 
-  // TODO: maybe it's more intuitive to check regions first?
   fn cell_region_areas(&self, cell: &CellPosition, peer_mode: PeerMode, _candidate_mode: CandidateMode) -> Vec<Area> {
     let mut areas: Vec<Area> = vec![];
-
-    if peer_mode != PeerMode::Special {
-      areas.extend([Area::Row(cell.row), Area::Column(cell.col)]);
-    }
 
     let grid_size = self.row_regions.len();
     areas.extend(
@@ -52,6 +46,10 @@ impl ConstraintDefinition for RegionsConstraint {
         }
       })
     );
+
+    if peer_mode != PeerMode::Special {
+      areas.extend([Area::Row(cell.row), Area::Column(cell.col)]);
+    }
 
     areas
   }

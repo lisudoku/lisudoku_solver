@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints, Thermo}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_grid_steps_without_candidates() {
@@ -63,31 +63,33 @@ fn check_grid_steps_with_candidates() {
 
 #[test]
 fn check_grid_steps_with_anti_knight_affected_cells() {
-  let constraints = SudokuConstraints::new(4)
+  let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
       vec![
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 1, 2),
-        FixedNumber::new(1, 0, 3),
+        FixedNumber::new(0, 2, 3),
+        FixedNumber::new(0, 5, 6),
+        FixedNumber::new(1, 2, 4),
       ]
     )
     .with_anti_knight();
   let mut solver = Solver::new(constraints);
-  // TODO: will have to fix version without candidates_active
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
   let mut step = steps.into_iter().next().unwrap();
-  assert_eq!(step.values, vec![4]);
-  assert_eq!(step.rule, Rule::NakedSingle);
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 2),
-  ]);
-  assert_eq!(step.affected_cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(0, 3), CellPosition::new(1, 2), CellPosition::new(2, 2), CellPosition::new(3, 2),
-    CellPosition::new(1, 3), CellPosition::new(2, 3), CellPosition::new(2, 1),
-  ]);
+  assert_eq!(
+    step,
+    SolutionStep::new(
+      Rule::HiddenSingle,
+      vec![CellPosition::new(0, 3)],
+      vec![4],
+      vec![Area::Row(0)],
+      vec![CellPosition::new(2, 3), CellPosition::new(4, 3), CellPosition::new(5, 3)],
+    ),
+  );
   let CellPosition { row, col } = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
   let initial_value = solver.grid[row][col];
@@ -132,11 +134,11 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
   assert!(!steps.is_empty());
   let mut step = steps.into_iter().next().unwrap();
   assert_eq!(step.values, vec![6]);
-  assert_eq!(step.rule, Rule::NakedSingle);
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.rule, Rule::HiddenSingle);
+  assert_eq!(step.cells, vec![
     CellPosition::new(4, 2),
   ]);
-  assert_eq!(step.affected_cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.affected_cells, vec![
     CellPosition::new(4, 3), CellPosition::new(4, 4), CellPosition::new(4, 5),
     CellPosition::new(0, 2), CellPosition::new(1, 2), CellPosition::new(2, 2),
     CellPosition::new(3, 2), CellPosition::new(3, 1), CellPosition::new(3, 3),

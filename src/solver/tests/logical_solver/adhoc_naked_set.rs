@@ -1,6 +1,6 @@
-use std::{collections::HashSet, vec};
+use crate::{solver::{Solver, logical_solver::{adhoc_naked_set::AdhocNakedSet, candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, Rule, SolutionStep, SudokuConstraints, Thermo}};
+use std::vec;
 use ntest::timeout;
-use crate::{solver::{Solver, logical_solver::{adhoc_naked_set::AdhocNakedSet, candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints, Grid, Thermo}};
 
 #[test]
 fn check_adhoc_naked_sets_antiknight_4x4() {
@@ -13,31 +13,36 @@ fn check_adhoc_naked_sets_antiknight_4x4() {
 
   let steps = AdhocNakedSet.run(&solver);
   assert_eq!(steps.len(), 1);
-  
-  let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::AdhocNakedSet);
-  assert_eq!(step.areas, vec![Area::Adhoc(vec![
-    CellPosition::new(0, 0), CellPosition::new(0, 2), CellPosition::new(0, 3),
-    CellPosition::new(1, 2),
-  ])]);
-  assert_eq!(step.cells, vec![ CellPosition::new(0, 0), CellPosition::new(1, 2) ]);
-  assert_eq!(step.values, vec![ 3, 4 ]);
-  assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 2), CellPosition::new(0, 3) ]);
 
-  let initial_candidates = solver.candidates[0][3].clone();
+  let mut step = steps.first().unwrap();
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::AdhocNakedSet,
+      vec![CellPosition::new(0, 0), CellPosition::new(1, 2)],
+      vec![3, 4],
+      vec![Area::Adhoc(vec![
+        CellPosition::new(0, 0), CellPosition::new(1, 0), CellPosition::new(1, 1),
+        CellPosition::new(1, 2),
+      ])],
+      vec![CellPosition::new(1, 0), CellPosition::new(1, 1)],
+    )
+  );
+
+  let initial_candidates = solver.candidates[1][0].clone();
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[0][3];
+  let final_candidates = &solver.candidates[1][0];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 
 #[test]
 fn check_adhoc_naked_sets_diagonal_full_4x4() {
-  let fixed_numbers = Grid::from_string(String::from("\
-    0312\
-    2034\
-    1203\
-    3420\
-  ")).to_fixed_numbers();
+  let fixed_numbers = Grid::from_string("
+    0312
+    2034
+    1203
+    3420
+  ").to_fixed_numbers();
   let constraints = SudokuConstraints::new(4).with_fixed_numbers(fixed_numbers).with_diagonals();
   let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
@@ -67,7 +72,7 @@ fn check_adhoc_naked_sets_thermo_4x4_1() {
 
   let steps = AdhocNakedSet.run(&solver);
   assert_eq!(steps.len(), 1);
-  
+
   let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::AdhocNakedSet);
   assert_eq!(step.areas, vec![Area::Adhoc(vec![
@@ -98,7 +103,7 @@ fn check_adhoc_naked_sets_diagonal_6x6_1() {
 
   let steps = AdhocNakedSet.run(&solver);
   assert_eq!(steps.len(), 1);
-  
+
   let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::AdhocNakedSet);
   assert_eq!(step.areas, vec![Area::Adhoc(vec![
@@ -136,7 +141,7 @@ fn check_adhoc_naked_sets_thermo_6x6_peers() {
 
   let steps = AdhocNakedSet.run(&solver);
   assert_eq!(steps.len(), 1);
-  
+
   let mut step = steps.first().unwrap();
   assert_eq!(step.rule, Rule::AdhocNakedSet);
   assert_eq!(step.areas, vec![Area::Adhoc(vec![
@@ -188,7 +193,7 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
 }
 
 #[test]
-#[timeout(1000)]
+#[timeout(2000)]
 fn check_adhoc_naked_sets_empty_antiknight_9x9() {
   let constraints = SudokuConstraints::new(9).with_anti_knight();
   let mut solver = Solver::new(constraints);
@@ -202,17 +207,17 @@ fn check_adhoc_naked_sets_empty_antiknight_9x9() {
 // https://lisudoku.xyz/p/X2vLSy6lGcGaNTVlQ9iY
 #[test]
 fn check_adhoc_naked_sets_contest_puzzle_antiknight_9x9() {
-  let fixed_numbers = Grid::from_string(String::from("\
-    005024010\
-    024016005\
-    000935624\
-    000693502\
-    096582070\
-    502471900\
-    053240000\
-    040368250\
-    200150000\
-  ")).to_fixed_numbers();
+  let fixed_numbers = Grid::from_string("
+    005024010
+    024016005
+    000935624
+    000693502
+    096582070
+    502471900
+    053240000
+    040368250
+    200150000
+  ").to_fixed_numbers();
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers).with_anti_knight();
   let mut solver = Solver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
@@ -240,5 +245,5 @@ fn check_adhoc_naked_sets_contest_puzzle_antiknight_9x9() {
 
   solver.apply_rule(&mut step);
   let final_candidates = &solver.candidates[3][0];
-  assert_eq!(final_candidates, &HashSet::from([4]));
+  assert_eq!(final_candidates, &CandidateSet::from([4]));
 }

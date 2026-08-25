@@ -318,7 +318,9 @@ pub struct Region(pub Vec<CellPosition>);
 pub struct Grid(pub Vec<Vec<u32>>);
 
 impl Grid {
-  pub fn from_string(grid_str: String) -> Self {
+  pub fn from_string(grid_str_input: &str) -> Self {
+    // Remove all whitespace so the function is easier to use
+    let grid_str: String = grid_str_input.chars().filter(|c| !c.is_whitespace()).collect();
     let grid_size = f32::sqrt(grid_str.len() as f32) as usize;
     assert_eq!(grid_size * grid_size, grid_str.len(), "Invalid grid passed");
     let grid_chars = grid_str.chars().collect_vec();

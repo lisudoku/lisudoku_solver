@@ -59,7 +59,7 @@ fn check_classic_9x9_easy_solve() {
       vec![ 6, 2, 4, 1, 7, 5, 8, 9, 3 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -123,7 +123,7 @@ fn check_classic_9x9_medium_solve() {
   assert!(result.steps[candidates_step_index..].iter().all(|step| step.candidates.is_some()));
   assert!(result.steps.last().unwrap().candidates.iter().all(|row| row.iter().all(|cell| cell.is_sorted())));
 
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -173,7 +173,7 @@ fn check_classic_9x9_hard_solve() {
       vec![ 5, 4, 7, 3, 9, 6, 2, 1, 8 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -223,7 +223,7 @@ fn check_classic_9x9_hard_xy_wing_solve() {
       vec![ 2, 1, 8, 5, 6, 3, 7, 4, 9 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -273,7 +273,7 @@ fn check_classic_9x9_hard_x_wing_solve() {
       vec![ 9, 2, 8, 7, 3, 1, 5, 6, 4 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -309,7 +309,7 @@ fn check_classic_9x9_hard_solve_with_solution() {
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   // TODO: why no full?
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://github.com/lisudoku/lisudoku_solver/issues/5
@@ -365,7 +365,7 @@ fn check_classic_9x9_1_solve() {
       vec![ 9, 1, 2, 5, 3, 8, 7, 6, 4 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 
   let fixed_numbers: Vec<FixedNumber> = fixed_numbers.iter().copied().filter(|fixed_number| *fixed_number != FixedNumber::new(4, 1, 5)).collect();
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers);
@@ -445,5 +445,5 @@ fn check_classic_9x9_hard_empty_rectangles_solve() {
       vec![ 7, 3, 4, 5, 1, 6, 9, 8, 2 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }

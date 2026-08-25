@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, naked_set::NakedSet}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, naked_set::NakedSet, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_naked_pairs_with_affected_cells() {
@@ -21,14 +21,20 @@ fn check_naked_pairs_with_affected_cells() {
   let steps = NakedSet::new(2).run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::NakedPairs);
-  assert_eq!(step.cells, vec![ CellPosition::new(1, 0), CellPosition::new(1, 2) ]);
-  assert_eq!(step.values.iter().cloned().collect::<Vec<u32>>(), vec![ 4, 5 ]);
-  assert!(step.affected_cells.len() == 7);
-  let initial_candidates = solver.candidates[1][8].clone();
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::NakedPairs,
+      vec![CellPosition::new(1, 0), CellPosition::new(1, 2)],
+      vec![4, 5],
+      vec![Area::Region(0)],
+      vec![CellPosition::new(1, 1)],
+    ),
+  );
+  let initial_candidates = solver.candidates[1][1].clone();
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[1][8];
+  let final_candidates = &solver.candidates[1][1];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 

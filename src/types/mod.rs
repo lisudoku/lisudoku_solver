@@ -82,17 +82,17 @@ fn check_sudoku_constraints_import_string() {
 
 #[test]
 fn check_sudoku_grid_from_string() {
-  let grid = Grid::from_string(String::from("\
-    203000107\
-    910040026\
-    000000000\
-    308010709\
-    100000002\
-    002000800\
-    004167200\
-    700080001\
-    800209003\
-  "));
+  let grid = Grid::from_string("
+    203000107
+    910040026
+    000000000
+    308010709
+    100000002
+    002000800
+    004167200
+    700080001
+    800209003
+  ");
   let expected_grid = Grid(vec![
     vec![ 2, 0, 3, 0, 0, 0, 1, 0, 7 ],
     vec![ 9, 1, 0, 0, 4, 0, 0, 2, 6 ],

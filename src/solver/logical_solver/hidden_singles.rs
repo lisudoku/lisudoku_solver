@@ -10,6 +10,9 @@ pub struct HiddenSingles;
 impl Technique for HiddenSingles {
   fn is_grid_step(&self) -> bool { true }
   fn get_rule(&self) -> Rule { Rule::HiddenSingle }
+  fn complexity(&self, step: &SolutionStep, solver: &Solver) -> u32 {
+    solver.area_empty_cells(&step.areas[0]).len() as u32 / 2 + step.cells.len() as u32 - 1
+  }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
     let candidates = solver.compute_all_cell_candidates();
@@ -32,7 +35,7 @@ impl Technique for HiddenSingles {
           &solver,
         )
       })
-    }).unique_by(|step| step.cells[0]).collect()
+    }).sorted_by_key(|step| self.complexity(step, solver)).unique_by(|step| step.cells[0]).collect()
   }
 }
 

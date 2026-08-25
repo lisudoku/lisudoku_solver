@@ -10,6 +10,8 @@ pub trait Technique {
 
   fn get_rule(&self) -> Rule;
 
+  fn complexity(&self, _step: &SolutionStep, _solver: &Solver) -> u32 { u32::MAX }
+
   fn build_solution_step(
     &self,
     cells: Vec<CellPosition>, values: Vec<u32>, areas: Vec<Area>, affected_cells: Vec<CellPosition>

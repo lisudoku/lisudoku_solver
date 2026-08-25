@@ -52,7 +52,7 @@ pub struct SudokuBruteSolveResult {
   pub solution: Option<Grid>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
+#[derive(Serialize, Deserialize, Debug, Clone, Tsify, PartialEq)]
 #[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct SolutionStep {

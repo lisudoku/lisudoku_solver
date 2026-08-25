@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, hidden_singles::HiddenSingles}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, hidden_singles::HiddenSingles, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -17,7 +17,7 @@ fn check_hidden_single_in_region() {
   let mut step = steps.first().unwrap();
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.cells[0], CellPosition::new(0, 0));
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.cells, vec![
     CellPosition::new(0, 0), CellPosition::new(3, 1), CellPosition::new(1, 3),
   ]);
   assert!(step.affected_cells.is_empty());
@@ -51,7 +51,7 @@ fn check_hidden_single_on_row() {
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![Area::Row(0)]);
   assert_eq!(step.cells[0], CellPosition::new(0, 0));
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.cells, vec![
     CellPosition::new(0, 0), CellPosition::new(6, 1), CellPosition::new(5, 2), CellPosition::new(2, 8),
   ]);
   assert!(step.affected_cells.is_empty());
@@ -83,7 +83,7 @@ fn check_hidden_single_on_col() {
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![Area::Column(3)]);
   assert_eq!(step.cells[0], CellPosition::new(5, 3));
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
+  assert_eq!(step.cells, vec![
     CellPosition::new(5, 3), CellPosition::new(0, 5), CellPosition::new(4, 0),
   ]);
   assert_eq!(step.cells.len(), step.cells.iter().unique().count());
@@ -132,7 +132,7 @@ fn check_hidden_single_using_anti_knight_1() {
         FixedNumber::new(2, 3, 2),
         FixedNumber::new(3, 3, 1),
         FixedNumber::new(5, 0, 1),
-        FixedNumber::new(6, 2, 1),
+        FixedNumber::new(8, 2, 1),
       ]
     )
     .with_anti_knight();
@@ -141,14 +141,19 @@ fn check_hidden_single_using_anti_knight_1() {
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.areas, vec![Area::Row(2)]);
-  assert_eq!(step.values, vec![1]);
-  assert_eq!(step.cells[0], CellPosition::new(2, 4));
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(2, 4), CellPosition::new(5, 0), CellPosition::new(3, 3),
-    CellPosition::new(6, 2), CellPosition::new(0, 8),
-  ]);
-  assert!(step.affected_cells.is_empty());
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::HiddenSingle,
+      vec![
+        CellPosition::new(1, 1), CellPosition::new(0, 8), CellPosition::new(5, 0),
+        CellPosition::new(8, 2), CellPosition::new(3, 3),
+      ],
+      vec![1],
+      vec![Area::Region(0)],
+      vec![],
+    )
+  );
   let CellPosition { row, col } = step.cells[0];
   let initial_value = solver.grid[row][col];
   assert!(initial_value == 0);
@@ -175,14 +180,15 @@ fn check_hidden_single_using_anti_knight_2() {
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
-  let mut step = steps.first().unwrap();
-  assert_eq!(step.areas, vec![Area::Row(1)]);
-  assert_eq!(step.values, vec![5]);
-  assert_eq!(step.cells[0], CellPosition::new(1, 5));
-  assert_eq!(step.cells.iter().copied().collect::<Vec<CellPosition>>(), vec![
-    CellPosition::new(1, 5), CellPosition::new(3, 2),
-  ]);
-  assert!(step.affected_cells.is_empty());
+  let expected_step = SolutionStep::new(
+    Rule::HiddenSingle,
+    vec![CellPosition::new(1, 5), CellPosition::new(3, 2)],
+    vec![5],
+    vec![Area::Row(1)],
+    vec![],
+  );
+  assert!(steps.into_iter().find(|step| *step == expected_step).is_some());
+  let mut step = expected_step.clone();
   let CellPosition { row, col } = step.cells[0];
   let initial_value = solver.grid[row][col];
   assert!(initial_value == 0);

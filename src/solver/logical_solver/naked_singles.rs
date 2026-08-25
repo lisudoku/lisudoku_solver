@@ -11,6 +11,9 @@ pub struct NakedSingle;
 impl Technique for NakedSingle {
   fn is_grid_step(&self) -> bool { true }
   fn get_rule(&self) -> Rule { Rule::NakedSingle }
+  fn complexity(&self, step: &SolutionStep, _solver: &Solver) -> u32 {
+    step.areas.len() as u32
+  }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
     solver.all_empty_cells().into_iter().filter_map(|cell| {
@@ -27,11 +30,8 @@ impl NakedSingle {
       return None
     }
 
-    let areas = if !solver.candidates_active {
-      self.compute_naked_single_areas(&cell, solver)
-    } else {
-      vec![]
-    };
+    // Compute areas even if candidates are active
+    let areas = self.compute_naked_single_areas(&cell, solver);
 
     let value = cell_candidates.into_iter().next().unwrap();
     return Some(

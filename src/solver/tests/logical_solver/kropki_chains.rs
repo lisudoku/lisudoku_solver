@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, Area, FixedNumber, KropkiDot}, solver::{Solver, logical_solver::{kropki_chain_candidates::KropkiChainCandidates, technique::Technique, candidates::Candidates}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, kropki_chain_candidates::KropkiChainCandidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, KropkiDot, Rule, SolutionStep, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -122,10 +122,16 @@ fn check_kropki_chain_row_consecutive_fixed() {
   assert_eq!(steps.len(), 2);
 
   let step = &steps[0];
-  assert_eq!(step.rule, Rule::KropkiChainCandidates);
-  assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 1) ]);
-  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 5, 6 ]);
-  assert_eq!(step.areas, vec![ Area::Row(0), Area::KropkiDot(0), Area::KropkiDot(1) ]);
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::KropkiChainCandidates,
+      vec![],
+      vec![1, 5, 6],
+      vec![Area::Region(0), Area::KropkiDot(0), Area::KropkiDot(1)],
+      vec![CellPosition::new(0, 1)],
+    ),
+  );
   assert!(solver.candidates[0][1].contains(&1));
   solver.apply_rule(&step);
   let final_candidates = &solver.candidates[0][1];
@@ -133,10 +139,16 @@ fn check_kropki_chain_row_consecutive_fixed() {
   assert!(!final_candidates.contains(&1));
 
   let step = &steps[1];
-  assert_eq!(step.rule, Rule::KropkiChainCandidates);
-  assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 2) ]);
-  assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4, 6 ]);
-  assert_eq!(step.areas, vec![ Area::Row(0), Area::KropkiDot(0), Area::KropkiDot(1) ]);
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::KropkiChainCandidates,
+      vec![],
+      vec![2, 4, 6],
+      vec![Area::Region(0), Area::KropkiDot(0), Area::KropkiDot(1)],
+      vec![CellPosition::new(0, 2)],
+    ),
+  );
   solver.apply_rule(&step);
   assert_eq!(solver.candidates[0][2].len(), 2);
 }

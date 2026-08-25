@@ -8,6 +8,7 @@ pub struct Thermo;
 impl Technique for Thermo {
   fn is_grid_step(&self) -> bool { true }
   fn get_rule(&self) -> Rule { Rule::Thermo }
+  fn complexity(&self, _step: &SolutionStep, _solver: &Solver) -> u32 { 2 }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
     let Some(constraint) = solver.puzzle.thermo() else { return vec![] };

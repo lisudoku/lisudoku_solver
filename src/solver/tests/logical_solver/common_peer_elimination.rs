@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, common_peer_elimination::CommonPeerElimination, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints, Thermo}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, common_peer_elimination::CommonPeerElimination, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_anti_knight_common_peer_elimination_1() {
@@ -98,15 +98,16 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
   let steps = CommonPeerElimination.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::CommonPeerElimination);
-  assert_eq!(step.values, vec![1]);
-  assert_eq!(step.areas, vec![ Area::Row(4) ]);
-  assert_eq!(step.cells, vec![
-    CellPosition::new(4, 3), CellPosition::new(4, 4), CellPosition::new(4, 5),
-  ]);
-  assert_eq!(step.affected_cells, vec![
-    CellPosition::new(3, 2),
-  ]);
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::CommonPeerElimination,
+      vec![CellPosition::new(4, 3), CellPosition::new(4, 4), CellPosition::new(4, 5)],
+      vec![1],
+      vec![Area::Region(5)],
+      vec![CellPosition::new(3, 2)],
+    ),
+  );
   assert!(solver.candidates[3][2].contains(&1));
 
   solver.apply_rule(&mut step);

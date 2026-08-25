@@ -4,10 +4,10 @@ use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Grid, InvalidS
 fn check_wrong_row() {
   let constraints = SudokuConstraints::new(4);
   let grid = Grid(vec![
-    vec![ 1, 1, 1, 1 ],
-    vec![ 2, 2, 2, 2 ],
-    vec![ 3, 3, 3, 3 ],
-    vec![ 4, 4, 4, 4 ],
+    vec![ 1, 2, 1, 2 ],
+    vec![ 3, 4, 3, 4 ],
+    vec![ 2, 1, 2, 1 ],
+    vec![ 4, 3, 4, 3 ],
   ]);
   let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_solved();
@@ -27,10 +27,10 @@ fn check_wrong_row() {
 fn check_wrong_col() {
   let constraints = SudokuConstraints::new(4);
   let grid = Grid(vec![
-    vec![ 1, 2, 3, 4 ],
-    vec![ 1, 2, 3, 4 ],
-    vec![ 1, 2, 3, 4 ],
-    vec![ 1, 2, 3, 4 ],
+    vec![ 1, 3, 2, 4 ],
+    vec![ 2, 4, 1, 3 ],
+    vec![ 1, 3, 2, 4 ],
+    vec![ 2, 4, 1, 3 ],
   ]);
   let solver = Solver::new(constraints).with_grid(grid);
   let solved = solver.check_solved();
@@ -105,7 +105,7 @@ fn check_partially_solved_no_solution_grid() {
     SolvedState::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaCandidates,
-        area: Area::Row(2),
+        area: Area::Region(0),
         values: vec![1, 2],
       }
     )

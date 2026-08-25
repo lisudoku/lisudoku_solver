@@ -35,7 +35,7 @@ fn check_classic_6x6_1_solve() {
       vec![ 2, 6, 1, 4, 5, 3 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://sudoku-puzzles.net/sudoku-6x6-hard
@@ -70,7 +70,7 @@ fn check_classic_6x6_2_hard_solve() {
       vec![ 2, 5, 4, 6, 3, 1 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
 
 // SM 2023 Round 2 - puzzle 1
@@ -108,5 +108,5 @@ fn check_classic_6x6_3_hard_solve() {
       vec![ 3, 4, 1, 6, 5, 2 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }

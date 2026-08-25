@@ -175,7 +175,7 @@ impl Solver {
       .filter(|technique| technique.is_candidate_validity_update_step())
       .collect();
 
-    let steps = self.run_techniques(candidate_validity_techniques);
+    let steps = self.run_nongrid_techniques(candidate_validity_techniques);
 
     steps
   }
@@ -186,7 +186,7 @@ impl Solver {
       .filter(|technique| technique.is_grid_step())
       .collect();
 
-    self.run_techniques(grid_techniques)
+    self.run_grid_techniques(grid_techniques)
   }
 
   fn find_nongrid_steps(&self) -> Vec<SolutionStep> {
@@ -196,21 +196,50 @@ impl Solver {
                           !technique.is_candidate_validity_update_step())
       .collect();
 
-    let steps = self.run_techniques(nongrid_techniques);
+    let steps = self.run_nongrid_techniques(nongrid_techniques);
 
     steps
   }
 
-  fn run_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
-    techniques.into_iter().fold(vec![], |mut all_steps, technique| {
-      if !all_steps.is_empty() && self.step_count_limit.is_none() {
-        return all_steps
-      }
+  fn run_grid_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
+    let mut all_steps: Vec<SolutionStep> = vec![];
+
+    for technique in &techniques {
       let steps = technique.run(&self);
       all_steps.extend(steps);
+    }
 
-      all_steps
-    })
+    if !all_steps.is_empty() && self.step_count_limit.is_none() {
+      // In this mode we only want to return one step so pick the simplest
+      let best_step = all_steps.into_iter().min_by_key(|step| {
+        techniques
+          .iter()
+          .find(|technique| technique.get_rule() == step.rule)
+          .unwrap()
+          .complexity(step, self)
+      });
+
+      return vec![best_step.unwrap()];
+    }
+
+    all_steps
+  }
+
+  fn run_nongrid_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
+    let mut all_steps: Vec<SolutionStep> = vec![];
+
+    for technique in techniques {
+      let steps = technique.run(&self);
+
+      // Usually we want to stop after finding any steps, except with step_count_limit
+      if !steps.is_empty() && self.step_count_limit.is_none() {
+        return steps
+      }
+
+      all_steps.extend(steps);
+    }
+
+    all_steps
   }
 
   /// Updates grid and candidates with the deduction from `step`

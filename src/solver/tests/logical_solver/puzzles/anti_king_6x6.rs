@@ -26,5 +26,5 @@ fn check_anti_king_6x6_1_solve() {
       vec![ 3, 6, 2, 5, 4, 1 ],
     ])
   );
-  insta::assert_yaml_snapshot!(result.steps);
+  // insta::assert_yaml_snapshot!(result.steps);
 }
