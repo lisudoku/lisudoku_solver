@@ -95,7 +95,7 @@ fn check_9x9_thermo_medium_solve() {
       vec![ 8, 4, 1, 2, 3, 5, 6, 7, 9 ],
     ])
   );
-  // insta::assert_yaml_snapshot!("check_9x9_thermo_medium_solve", result.steps);
+  insta::assert_yaml_snapshot!("check_9x9_thermo_medium_solve", result.steps);
 }
 
 #[test]
@@ -188,5 +188,5 @@ fn check_9x9_thermo_hard_solve() {
       vec![ 4, 1, 9, 7, 8, 2, 3, 5, 6 ],
     ])
   );
-  // insta::assert_yaml_snapshot!("check_9x9_thermo_hard_solve", result.steps);
+  insta::assert_yaml_snapshot!("check_9x9_thermo_hard_solve", result.steps);
 }

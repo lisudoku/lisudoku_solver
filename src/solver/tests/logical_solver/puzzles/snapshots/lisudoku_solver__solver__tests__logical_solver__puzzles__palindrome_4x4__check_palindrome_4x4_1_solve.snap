@@ -3,20 +3,47 @@ source: src/solver/tests/logical_solver/puzzles/palindrome_4x4.rs
 expression: result.steps
 snapshot_kind: text
 ---
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 0
+    - row: 2
+      col: 1
+  values:
+    - 4
+  areas:
+    - Region: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 1
+    - row: 0
+      col: 2
+  values:
+    - 2
+  areas:
+    - Region: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 0
       col: 1
   values:
     - 3
   areas:
-    - Row: 0
-    - Column: 1
+    - Region: 0
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 0
       col: 3
@@ -28,32 +55,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 1
-      col: 1
-  values:
-    - 2
-  areas:
-    - Row: 1
-    - Column: 1
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 1
-      col: 0
-  values:
-    - 4
-  areas:
-    - Region: 0
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 1
       col: 2
@@ -65,18 +67,6 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 3
-      col: 1
-  values:
-    - 1
-  areas:
-    - Column: 1
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
 - rule: PalindromeValues
   cells:
     - row: 2
@@ -89,31 +79,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: PalindromeValues
-  cells:
-    - row: 2
-      col: 2
-  values:
-    - 1
-  areas:
-    - Palindrome: 0
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 2
-      col: 3
-  values:
-    - 2
-  areas:
-    - Row: 2
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 3
       col: 0
@@ -125,7 +91,43 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 1
+  values:
+    - 1
+  areas:
+    - Region: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: PalindromeValues
+  cells:
+    - row: 2
+      col: 2
+  values:
+    - 1
+  areas:
+    - Palindrome: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 3
+  values:
+    - 2
+  areas:
+    - Row: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 3
       col: 2
@@ -137,14 +139,14 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 3
       col: 3
   values:
     - 3
   areas:
-    - Row: 3
+    - Region: 3
   affectedCells: []
   grid: ~
   candidates: ~

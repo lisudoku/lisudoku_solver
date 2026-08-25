@@ -91,7 +91,7 @@ impl PuzzleDefinition {
         common_areas_set = common_areas_set.intersection(&areas_set).cloned().collect();
       }
 
-      common_areas_set.into_iter().collect::<Vec<_>>()
+      common_areas_set.into_iter().sorted().collect::<Vec<_>>()
     }).collect()
   }
 

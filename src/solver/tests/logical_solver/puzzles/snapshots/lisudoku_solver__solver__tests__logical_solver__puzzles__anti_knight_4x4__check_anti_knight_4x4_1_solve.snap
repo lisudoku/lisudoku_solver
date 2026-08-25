@@ -3,7 +3,7 @@ source: src/solver/tests/logical_solver/puzzles/anti_knight_4x4.rs
 expression: result.steps
 snapshot_kind: text
 ---
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 1
       col: 1
@@ -33,8 +33,6 @@ snapshot_kind: text
   cells:
     - row: 0
       col: 2
-    - row: 1
-      col: 1
   values:
     - 4
   areas:
@@ -52,7 +50,7 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Row: 1
+    - Region: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -61,54 +59,10 @@ snapshot_kind: text
   cells:
     - row: 1
       col: 2
-    - row: 0
-      col: 1
   values:
     - 2
   areas:
-    - Row: 1
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: HiddenSingle
-  cells:
-    - row: 2
-      col: 3
-    - row: 0
-      col: 1
-  values:
-    - 2
-  areas:
-    - Row: 2
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: HiddenSingle
-  cells:
-    - row: 3
-      col: 3
-    - row: 1
-      col: 1
-  values:
-    - 4
-  areas:
-    - Row: 3
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: HiddenSingle
-  cells:
-    - row: 3
-      col: 0
-    - row: 0
-      col: 1
-  values:
-    - 2
-  areas:
-    - Column: 0
+    - Region: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -130,41 +84,37 @@ snapshot_kind: text
 - rule: HiddenSingle
   cells:
     - row: 3
-      col: 1
-    - row: 0
       col: 0
+  values:
+    - 2
+  areas:
+    - Column: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 1
+    - row: 1
+      col: 0
+  values:
+    - 3
+  areas:
+    - Region: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 1
   values:
     - 1
   areas:
-    - Column: 1
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: HiddenSingle
-  cells:
-    - row: 2
-      col: 1
-    - row: 1
-      col: 0
-  values:
-    - 3
-  areas:
-    - Column: 1
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: HiddenSingle
-  cells:
-    - row: 3
-      col: 2
-    - row: 1
-      col: 0
-  values:
-    - 3
-  areas:
-    - Column: 2
+    - Region: 2
   affectedCells: []
   grid: ~
   candidates: ~
@@ -177,6 +127,43 @@ snapshot_kind: text
     - 1
   areas:
     - Row: 2
+    - Column: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 3
+  values:
+    - 2
+  areas:
+    - Row: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 2
+  values:
+    - 3
+  areas:
+    - Column: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 3
+  values:
+    - 4
+  areas:
+    - Region: 3
   affectedCells: []
   grid: ~
   candidates: ~

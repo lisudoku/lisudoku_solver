@@ -22,7 +22,7 @@ fn check_top_bottom_4x4_1() {
       vec![ 1, 3, 2, 4 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]

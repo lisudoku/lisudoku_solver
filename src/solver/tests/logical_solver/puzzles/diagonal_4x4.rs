@@ -23,7 +23,7 @@ fn check_diagonal_4x4_1_solve() {
       vec![ 4, 3, 2, 1 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 #[test]
@@ -49,5 +49,5 @@ fn check_diagonal_4x4_2_solve() {
       vec![ 4, 3, 2, 1 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }

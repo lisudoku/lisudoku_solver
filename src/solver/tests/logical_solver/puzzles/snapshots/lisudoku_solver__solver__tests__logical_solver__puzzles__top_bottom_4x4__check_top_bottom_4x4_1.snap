@@ -1,5 +1,5 @@
 ---
-source: src/solver/tests/logical_solver/puzzles/topbot_4x4.rs
+source: src/solver/tests/logical_solver/puzzles/top_bottom_4x4.rs
 expression: result.steps
 snapshot_kind: text
 ---
@@ -7,14 +7,14 @@ snapshot_kind: text
   cells:
     - row: 1
       col: 1
-    - row: 3
-      col: 0
     - row: 0
       col: 3
+    - row: 3
+      col: 0
   values:
     - 1
   areas:
-    - Row: 1
+    - Region: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -30,23 +30,7 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Row: 1
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: HiddenSingle
-  cells:
-    - row: 2
-      col: 2
-    - row: 3
-      col: 0
-    - row: 0
-      col: 3
-  values:
-    - 1
-  areas:
-    - Row: 2
+    - Region: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -62,7 +46,23 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Row: 2
+    - Region: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 2
+    - row: 0
+      col: 3
+    - row: 3
+      col: 0
+  values:
+    - 1
+  areas:
+    - Region: 3
   affectedCells: []
   grid: ~
   candidates: ~
@@ -164,85 +164,92 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 1
+  values:
+    - 2
+  areas:
+    - Region: 0
+  affectedCells:
+    - row: 0
+      col: 2
+    - row: 3
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 2
+  values:
+    - 3
+  areas:
+    - Row: 0
+  affectedCells:
+    - row: 3
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 1
       col: 3
   values:
     - 2
-  areas: []
-  affectedCells:
-    - row: 0
-      col: 2
+  areas:
+    - Region: 1
+  affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 2
       col: 0
   values:
     - 2
-  areas: []
-  affectedCells:
-    - row: 3
-      col: 1
+  areas:
+    - Column: 0
+  affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 1
+  values:
+    - 3
+  areas:
+    - Region: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 2
       col: 3
   values:
     - 3
-  areas: []
-  affectedCells:
-    - row: 3
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
-      col: 1
-  values:
-    - 2
-  areas: []
+  areas:
+    - Row: 2
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
-      col: 2
-  values:
-    - 3
-  areas: []
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 3
-      col: 1
-  values:
-    - 3
-  areas: []
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 3
       col: 2
   values:
     - 2
-  areas: []
+  areas:
+    - Region: 3
   affectedCells: []
   grid: ~
   candidates: ~

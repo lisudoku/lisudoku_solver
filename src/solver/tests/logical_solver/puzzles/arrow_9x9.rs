@@ -95,7 +95,7 @@ fn check_arrow_9x9_1_solve() {
       vec![ 5, 7, 1, 4, 9, 8, 6, 2, 3 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://www.youtube.com/watch?v=vKEmgKgYg_U
@@ -185,7 +185,7 @@ fn check_arrow_9x9_2_solve() {
       vec![ 7, 4, 3, 6, 8, 9, 5, 1, 2 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound7.pdf puzzle 8
@@ -279,5 +279,5 @@ fn check_arrow_9x9_3_solve() {
       vec![ 6, 5, 9, 2, 7, 8, 3, 1, 4 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }

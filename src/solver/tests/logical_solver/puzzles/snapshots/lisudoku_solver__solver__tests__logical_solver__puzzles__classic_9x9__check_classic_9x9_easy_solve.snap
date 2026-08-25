@@ -5,20 +5,6 @@ snapshot_kind: text
 ---
 - rule: NakedSingle
   cells:
-    - row: 1
-      col: 2
-  values:
-    - 2
-  areas:
-    - Row: 1
-    - Column: 2
-    - Region: 0
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
     - row: 2
       col: 8
   values:
@@ -30,7 +16,35 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 7
+    - row: 4
+      col: 6
+  values:
+    - 3
+  areas:
+    - Region: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 7
+    - row: 6
+      col: 6
+  values:
+    - 4
+  areas:
+    - Column: 7
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 8
       col: 7
@@ -38,142 +52,65 @@ snapshot_kind: text
     - 9
   areas:
     - Column: 7
-    - Region: 8
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
-      col: 1
-  values:
-    - 6
-  areas:
-    - Column: 1
-    - Region: 0
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
-      col: 2
-  values:
-    - 7
-  areas:
-    - Column: 2
-    - Region: 0
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
-      col: 7
-  values:
-    - 3
-  areas:
-    - Row: 0
-    - Column: 7
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 1
-      col: 6
-  values:
-    - 9
-  areas:
-    - Row: 1
-    - Column: 6
-    - Region: 2
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 4
-      col: 7
-  values:
-    - 4
-  areas:
-    - Row: 4
-    - Column: 7
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 6
       col: 8
+    - row: 3
+      col: 7
   values:
     - 2
   areas:
     - Column: 8
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 8
+      col: 6
+    - row: 7
+      col: 1
+  values:
+    - 8
+  areas:
     - Region: 8
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 8
-      col: 2
-  values:
-    - 4
-  areas:
-    - Row: 8
-    - Column: 2
-    - Region: 6
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
+    - row: 7
       col: 6
   values:
-    - 2
+    - 1
   areas:
-    - Region: 2
+    - Region: 8
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 2
+    - row: 6
+      col: 3
+    - row: 5
       col: 0
   values:
-    - 3
+    - 9
   areas:
-    - Region: 0
+    - Row: 6
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 5
-      col: 2
-  values:
-    - 5
-  areas:
-    - Row: 5
-    - Column: 2
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 6
       col: 0
@@ -181,38 +118,25 @@ snapshot_kind: text
     - 1
   areas:
     - Row: 6
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 2
+      col: 0
+    - row: 5
+      col: 1
+  values:
+    - 3
+  areas:
     - Column: 0
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 7
-      col: 2
-  values:
-    - 9
-  areas:
-    - Row: 7
-    - Column: 2
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 7
-      col: 6
-  values:
-    - 1
-  areas:
-    - Row: 7
-    - Region: 8
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 2
       col: 3
@@ -224,47 +148,78 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 3
-      col: 0
+    - row: 0
+      col: 1
+    - row: 4
+      col: 2
+  values:
+    - 6
+  areas:
+    - Region: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 0
+      col: 2
+    - row: 1
+      col: 8
   values:
     - 7
   areas:
-    - Row: 3
-    - Column: 0
+    - Region: 0
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 3
+    - row: 1
       col: 2
   values:
-    - 8
+    - 2
   areas:
-    - Column: 2
+    - Region: 0
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 6
-      col: 3
+    - row: 0
+      col: 6
+    - row: 1
+      col: 2
+  values:
+    - 2
+  areas:
+    - Region: 2
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 6
   values:
     - 9
   areas:
-    - Row: 6
+    - Region: 2
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 8
       col: 1
+    - row: 1
+      col: 2
   values:
     - 2
   areas:
@@ -273,57 +228,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 8
-      col: 6
-  values:
-    - 8
-  areas:
-    - Region: 8
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 0
-      col: 3
-  values:
-    - 5
-  areas:
-    - Row: 0
-    - Column: 3
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 3
-      col: 6
-  values:
-    - 6
-  areas:
-    - Row: 3
-    - Column: 6
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 4
-      col: 0
-  values:
-    - 2
-  areas:
-    - Column: 0
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 4
       col: 1
@@ -335,23 +240,38 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
+    - row: 7
+      col: 2
     - row: 8
-      col: 3
+      col: 7
   values:
-    - 1
+    - 9
   areas:
-    - Row: 8
-    - Column: 3
+    - Region: 6
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 8
+      col: 2
+  values:
+    - 4
+  areas:
+    - Region: 6
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 0
       col: 4
+    - row: 6
+      col: 3
   values:
     - 9
   areas:
@@ -360,48 +280,24 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 3
+    - row: 0
       col: 3
   values:
-    - 3
+    - 5
   areas:
-    - Row: 3
-    - Column: 3
+    - Row: 0
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 4
-      col: 3
-  values:
-    - 8
-  areas:
-    - Row: 4
-    - Column: 3
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 5
-      col: 6
-  values:
-    - 7
-  areas:
-    - Column: 6
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 8
       col: 4
+    - row: 2
+      col: 3
   values:
     - 7
   areas:
@@ -410,14 +306,104 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
-    - row: 1
+    - row: 8
       col: 3
+  values:
+    - 1
+  areas:
+    - Row: 8
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 0
+    - row: 3
+      col: 7
+  values:
+    - 2
+  areas:
+    - Column: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 0
+  values:
+    - 7
+  areas:
+    - Column: 0
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 2
+    - row: 5
+      col: 7
+  values:
+    - 8
+  areas:
+    - Region: 3
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 2
+  values:
+    - 5
+  areas:
+    - Region: 3
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 6
+    - row: 3
+      col: 0
+  values:
+    - 7
+  areas:
+    - Column: 6
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 6
   values:
     - 6
   areas:
-    - Row: 1
+    - Column: 6
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: NakedSingle
+  cells:
+    - row: 3
+      col: 3
+  values:
+    - 3
+  areas:
+    - Row: 3
     - Column: 3
   affectedCells: []
   grid: ~
@@ -436,46 +422,33 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 4
-      col: 4
+      col: 8
+    - row: 3
+      col: 5
+  values:
+    - 9
+  areas:
+    - Region: 5
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 3
+      col: 8
   values:
     - 5
   areas:
-    - Row: 4
-    - Column: 4
+    - Region: 5
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 5
-      col: 5
-  values:
-    - 2
-  areas:
-    - Row: 5
-    - Column: 5
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 1
-      col: 4
-  values:
-    - 3
-  areas:
-    - Row: 1
-    - Column: 4
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 3
       col: 4
@@ -483,25 +456,38 @@ snapshot_kind: text
     - 1
   areas:
     - Row: 3
-    - Column: 4
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: NakedSingle
   cells:
-    - row: 3
-      col: 8
+    - row: 4
+      col: 3
   values:
-    - 5
+    - 8
   areas:
-    - Row: 3
-    - Column: 8
+    - Row: 4
+    - Column: 3
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 4
+      col: 4
+    - row: 8
+      col: 5
+  values:
+    - 5
+  areas:
+    - Row: 4
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 4
       col: 5
@@ -509,46 +495,6 @@ snapshot_kind: text
     - 7
   areas:
     - Row: 4
-    - Column: 5
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 4
-      col: 8
-  values:
-    - 9
-  areas:
-    - Row: 4
-    - Column: 8
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 5
-      col: 3
-  values:
-    - 4
-  areas:
-    - Row: 5
-    - Column: 3
-  affectedCells: []
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: NakedSingle
-  cells:
-    - row: 7
-      col: 5
-  values:
-    - 3
-  areas:
-    - Row: 7
-    - Column: 5
   affectedCells: []
   grid: ~
   candidates: ~
@@ -556,11 +502,38 @@ snapshot_kind: text
 - rule: NakedSingle
   cells:
     - row: 1
+      col: 3
+  values:
+    - 6
+  areas:
+    - Column: 3
+    - Region: 1
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
       col: 5
+    - row: 6
+      col: 4
   values:
     - 8
   areas:
-    - Row: 1
+    - Region: 1
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 1
+      col: 4
+  values:
+    - 3
+  areas:
+    - Region: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -568,16 +541,55 @@ snapshot_kind: text
 - rule: NakedSingle
   cells:
     - row: 5
-      col: 4
+      col: 5
   values:
-    - 6
+    - 2
   areas:
-    - Row: 5
+    - Column: 5
+    - Region: 4
   affectedCells: []
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
+  cells:
+    - row: 7
+      col: 5
+  values:
+    - 3
+  areas:
+    - Column: 5
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 4
+    - row: 1
+      col: 3
+  values:
+    - 6
+  areas:
+    - Region: 4
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
+  cells:
+    - row: 5
+      col: 3
+  values:
+    - 4
+  areas:
+    - Region: 4
+  affectedCells: []
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: HiddenSingle
   cells:
     - row: 7
       col: 3
@@ -589,15 +601,14 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- rule: HiddenSingle
   cells:
     - row: 7
       col: 4
   values:
     - 4
   areas:
-    - Row: 7
-    - Column: 4
+    - Region: 7
   affectedCells: []
   grid: ~
   candidates: ~

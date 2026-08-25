@@ -44,5 +44,5 @@ fn check_extra_regions_6x6_1_solve() {
       vec![ 6, 2, 3, 5, 4, 1 ],
     ]),
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }

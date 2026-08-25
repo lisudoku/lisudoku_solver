@@ -30,5 +30,5 @@ fn check_anti_knight_6x6_1_solve() {
       vec![ 2, 1, 5, 6, 3, 4 ],
     ])
   );
-  // insta::assert_yaml_snapshot!(result.steps);
+  insta::assert_yaml_snapshot!(result.steps);
 }
