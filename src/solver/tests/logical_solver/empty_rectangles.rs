@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, empty_reclanges::EmptyRectangles}}};
+use crate::{solver::{Solver, logical_solver::{candidates::Candidates, empty_reclanges::EmptyRectangles, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_empty_rectangles_with_affected_cells_1() {
@@ -6,7 +6,8 @@ fn check_empty_rectangles_with_affected_cells_1() {
     .with_fixed_numbers(
       vec![
         FixedNumber::new(1, 1, 2), FixedNumber::new(2, 3, 1), FixedNumber::new(3, 2, 1),
-        FixedNumber::new(1, 6, 7), FixedNumber::new(0, 8, 8), FixedNumber::new(4, 7, 1),
+        FixedNumber::new(1, 6, 7), FixedNumber::new(0, 8, 8), FixedNumber::new(0, 7, 9),
+        FixedNumber::new(3, 6, 3), FixedNumber::new(4, 6, 4), FixedNumber::new(5, 6, 5),
         FixedNumber::new(7, 6, 8), FixedNumber::new(8, 6, 9),
       ]
     );
@@ -16,9 +17,16 @@ fn check_empty_rectangles_with_affected_cells_1() {
   let steps = EmptyRectangles.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::EmptyRectangles);
-  assert_eq!(step.cells, vec![ CellPosition::new(0, 6), CellPosition::new(6, 6) ]);
-  assert_eq!(step.values, vec![ 1 ]);
+  assert_eq!(
+    *step,
+    SolutionStep::new(
+      Rule::EmptyRectangles,
+      vec![CellPosition::new(0, 6), CellPosition::new(6, 6)],
+      vec![1],
+      vec![Area::Region(0), Area::Row(0), Area::Column(0)],
+      vec![CellPosition::new(6, 0)],
+    ),
+  );
   assert_eq!(solver.candidates[6][0].len(), 9);
   assert!(solver.candidates[6][0].contains(&1));
 
