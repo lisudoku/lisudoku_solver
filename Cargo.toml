@@ -30,3 +30,6 @@ strum = { version = "0.28", features = ["derive"] }
 [dev-dependencies]
 insta = { version = "1.42.2", features = ["yaml"] }
 ntest = "0.9.3"
+
+[profile.release]
+debug = true
