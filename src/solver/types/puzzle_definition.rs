@@ -1,5 +1,5 @@
 use crate::{solver::constraints::{CandidateMode, Constraint, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, arrow::ArrowConstraint, context::ConstraintCellPeersContext, fixed_numbers::FixedNumbersConstraint, killer::KillerConstraint, kind::ConstraintKind, kropki::KropkiConstraint, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::{Area, CellPosition, ConstraintError, SudokuConstraints}};
-use std::collections::HashSet;
+use std::{cell::RefCell, collections::{HashMap, HashSet}};
 use itertools::Itertools;
 use strum::{EnumCount, IntoEnumIterator};
 
@@ -8,6 +8,7 @@ pub(crate) struct PuzzleDefinition {
   pub grid_size: usize,
   pub constraints: Vec<Constraint>,
   pub constraints_by_kind: [Option<usize>; ConstraintKind::COUNT],
+  common_region_areas_cache: RefCell<HashMap<Vec<CellPosition>, Vec<Area>>>,
 }
 
 impl TryFrom<SudokuConstraints> for PuzzleDefinition {
@@ -30,6 +31,7 @@ impl TryFrom<SudokuConstraints> for PuzzleDefinition {
       grid_size: input.grid_size,
       constraints,
       constraints_by_kind,
+      common_region_areas_cache: RefCell::new(HashMap::new()),
     })
   }
 }
@@ -77,11 +79,15 @@ impl PuzzleDefinition {
   /// Returns all areas that contain all <cells>.
   /// Useful for finding areas that are affected by all <cells>.
   pub fn find_common_region_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
+    if let Some(cached_result) = self.common_region_areas_cache.borrow().get(cells).cloned() {
+      return cached_result;
+    }
+
     assert!(cells.len() >= 2);
 
     let cell1 = cells[0];
 
-    self.constraints.iter().flat_map(|constraint| {
+    let common_areas: Vec<Area> = self.constraints.iter().flat_map(|constraint| {
       let common_areas: Vec<Area> = constraint.cell_region_areas(&cell1, PeerMode::Full, CandidateMode::Simple);
       let mut common_areas_set: HashSet<Area> = HashSet::from_iter(common_areas.into_iter());
 
@@ -92,7 +98,11 @@ impl PuzzleDefinition {
       }
 
       common_areas_set.into_iter().sorted().collect::<Vec<_>>()
-    }).collect()
+    }).collect();
+
+    self.common_region_areas_cache.borrow_mut().insert(cells.clone(), common_areas.clone());
+
+    common_areas
   }
 
   pub fn cells_are_peers(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
@@ -133,7 +143,7 @@ impl PuzzleDefinition {
     })
   }
 
-  /// Returns the list of cells in an <area>
+  /// Returns the list of cells in an `area`
   pub fn area_cells(&self, area: &Area) -> Vec<CellPosition> {
     match area {
       Area::Adhoc(cells) => cells.clone(),
