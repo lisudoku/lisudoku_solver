@@ -49,6 +49,15 @@ impl PuzzleDefinition {
     }).collect()
   }
 
+  pub fn all_region_areas_except_kropki(&self) -> Vec<Area> {
+    self.constraints.iter().flat_map(|constraint|
+      constraint
+        .region_areas()
+        .into_iter()
+        .filter(|area| !matches!(area, Area::KropkiDot(_)))
+    ).collect()
+  }
+
   /// Returns the list of cells that are peers of the given <cell>
   /// What it considers as a "peer" is subjective, it doesn't consider
   /// all restrictions at this level (e.g. thermo, palindrome)

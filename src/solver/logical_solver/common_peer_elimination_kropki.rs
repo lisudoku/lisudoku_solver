@@ -22,11 +22,7 @@ impl Technique for CommonPeerEliminationKropki {
 
     let mut steps: Vec<SolutionStep> = vec![];
 
-    let areas = solver.puzzle
-      .all_region_areas()
-      .into_iter()
-      // Pointless to find dots inside dot areas
-      .filter(|area| !matches!(area, Area::KropkiDot(_)));
+    let areas = solver.puzzle.all_region_areas_except_kropki();
 
     for area in areas {
       let dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];

@@ -49,7 +49,9 @@ impl KropkiChainCandidates {
 
     let mut steps_by_cell: HashMap<CellPosition, SolutionStep> = HashMap::new();
 
-    for area in solver.puzzle.all_region_areas() {
+    let areas = solver.puzzle.all_region_areas_except_kropki();
+
+    for area in areas {
       let mut dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
       if self.chain_limit {
         // Kropki pairs handle negative dots, the rest handled by chains
