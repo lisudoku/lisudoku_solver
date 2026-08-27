@@ -40,7 +40,7 @@ impl Technique for NishioForcingChains {
           // parent solve might have hint mode, but we want it off here
           .with_hint_mode(false);
 
-        temp_solver.grid[cell.row][cell.col] = *value;
+        temp_solver.grid[cell.row][cell.col] = value;
         temp_solver.candidates_active = false; // force to recalculate all candidates
         temp_solver.apply_rule(&mut Candidates.run(&temp_solver).first().unwrap());
 
@@ -49,7 +49,7 @@ impl Technique for NishioForcingChains {
           return None
         }
 
-        Some((*value, result.invalid_state_reason.unwrap()))
+        Some((value, result.invalid_state_reason.unwrap()))
       }).collect();
 
       if !invalid_values.is_empty() {

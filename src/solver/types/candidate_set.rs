@@ -1,10 +1,10 @@
 use core::fmt;
-use std::{collections::{HashSet, hash_set}, ops::BitOr};
+use std::{ops::BitOr};
 use itertools::Itertools;
 
-#[derive(Default, Clone, PartialEq)]
+#[derive(Default, Clone, PartialEq, Copy)]
 pub struct CandidateSet {
-  values: HashSet<u32>,
+  mask: u16,
 }
 
 impl CandidateSet {
@@ -17,23 +17,31 @@ impl CandidateSet {
   }
 
   pub fn is_empty(&self) -> bool {
-    self.values.is_empty()
+    self.mask == 0
   }
 
   pub fn clear(&mut self) {
-    self.values.clear()
+    self.mask = 0;
   }
 
   pub fn contains(&self, value: &u32) -> bool {
-    self.values.contains(value)
+    (self.mask & (1 << value)) > 0
   }
 
   pub fn insert(&mut self, value: u32) -> bool {
-    self.values.insert(value)
+    if self.contains(&value) {
+      return false
+    }
+    self.mask |= 1 << value;
+    true
   }
 
   pub fn remove(&mut self, value: &u32) -> bool {
-    self.values.remove(value)
+    if !self.contains(value) {
+      return false
+    }
+    self.mask ^= 1 << value;
+    true
   }
 
   /// Retains only the elements specified by the predicate.
@@ -42,54 +50,55 @@ impl CandidateSet {
   where
     F: FnMut(&u32) -> bool,
   {
-    self.values.retain(f);
+    let other = CandidateSet::from_iter(self.into_iter().filter(f));
+    self.mask = other.mask;
   }
 
   pub fn extend<I: IntoIterator<Item = u32>>(&mut self, iter: I) {
-    self.values.extend(iter)
+    self.mask = self.union(&CandidateSet::from_iter(iter)).mask;
   }
 
   pub fn is_disjoint(&self, other: &CandidateSet) -> bool {
-    self.values.is_disjoint(&other.values)
+    (self.mask & other.mask) == 0
   }
 
   pub fn is_subset(&self, other: &CandidateSet) -> bool {
-    self.values.is_subset(&other.values)
+    (self.mask & other.mask) == self.mask
   }
 
   pub fn union(&self, other: &CandidateSet) -> CandidateSet {
-    CandidateSet::from_iter(
-      self.values.union(&other.values).cloned().into_iter()
-    )
+    CandidateSet {
+      mask: self.mask | other.mask,
+    }
   }
 
   pub fn intersection(&self, other: &CandidateSet) -> CandidateSet {
-    CandidateSet::from_iter(
-      self.values.intersection(&other.values).cloned().into_iter()
-    )
+    CandidateSet {
+      mask: self.mask & other.mask,
+    }
   }
 
   pub fn difference(&self, other: &CandidateSet) -> CandidateSet {
-    CandidateSet::from_iter(
-      self.values.difference(&other.values).cloned().into_iter()
-    )
+    CandidateSet {
+      mask: self.mask & (self.mask ^ other.mask),
+    }
   }
 
   pub fn len(&self) -> usize {
-    self.values.len()
+    self.mask.count_ones() as usize
   }
 
   pub fn to_bitmask(&self) -> u32 {
-    self.values.iter().fold(0, |acc, e| {
-      acc.bitor(1 << e)
-    })
+    self.mask as u32
   }
 }
 
 impl FromIterator<u32> for CandidateSet {
   fn from_iter<T: IntoIterator<Item = u32>>(iter: T) -> CandidateSet {
     CandidateSet{
-      values: HashSet::from_iter(iter),
+      mask: iter.into_iter().fold(0, |acc, e| {
+        acc.bitor(1 << e)
+      }),
     }
   }
 }
@@ -100,21 +109,29 @@ impl<const N: usize> From<[u32; N]> for CandidateSet {
   }
 }
 
-impl IntoIterator for CandidateSet {
-  type Item = u32;
-  type IntoIter = hash_set::IntoIter<u32>;
+pub struct SetBitsIter {
+    remaining: u16,
+}
 
-  fn into_iter(self) -> Self::IntoIter {
-    self.values.into_iter()
+impl Iterator for SetBitsIter {
+  type Item = u32; // bit position
+
+  fn next(&mut self) -> Option<Self::Item> {
+    if self.remaining == 0 {
+      return None;
+    }
+    let bit = self.remaining.trailing_zeros();
+    self.remaining &= self.remaining - 1; // clear lowest set bit
+    Some(bit)
   }
 }
 
-impl<'a> IntoIterator for &'a CandidateSet {
-  type Item = &'a u32;
-  type IntoIter = hash_set::Iter<'a, u32>;
+impl IntoIterator for CandidateSet {
+  type Item = u32;
+  type IntoIter = SetBitsIter;
 
   fn into_iter(self) -> Self::IntoIter {
-    self.values.iter()
+    SetBitsIter { remaining: self.mask }
   }
 }
 
@@ -122,7 +139,7 @@ impl fmt::Debug for CandidateSet {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     f.write_fmt(format_args!(
       "CandidateSet: {}",
-      self.values.iter().sorted().join(","),
+      self.into_iter().sorted().join(","),
     ))
   }
 }

@@ -1,5 +1,5 @@
 use crate::{solver::{Solver, types::CandidateSet}, types::{CellPosition, Grid}};
-use std::{collections::HashSet, ops::{BitXorAssign, BitAnd}};
+use std::{ops::{BitXorAssign, BitAnd}};
 use super::cell_combination_logic::CellCombinationLogic;
 
 pub struct CellCombinationsRunner<'a> {
@@ -84,15 +84,15 @@ impl<'a> CellCombinationsRunner<'a> {
     let cell = self.cells[index].to_owned();
     let cell_prev_value = self.state.temp_grid[cell.row][cell.col];
     
-    let mut prev_value_candidate = HashSet::new();
+    let mut prev_value_candidate = CandidateSet::new();
     let cell_candidates = if cell_prev_value == 0 {
       (&self.solver.candidates[cell.row][cell.col]).into_iter()
     } else {
       prev_value_candidate.insert(cell_prev_value);
-      prev_value_candidate.iter()
+      prev_value_candidate.into_iter()
     };
 
-    for &value in cell_candidates {
+    for value in cell_candidates {
       if cell_prev_value != 0 && value != cell_prev_value {
         continue
       }

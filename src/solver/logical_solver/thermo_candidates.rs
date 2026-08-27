@@ -23,8 +23,7 @@ impl Technique for ThermoCandidates {
       let steps: Vec<SolutionStep> = thermo.iter().enumerate().filter_map(|(cell_index, cell)| {
         let invalid_values: Vec<u32> = (&solver.candidates[cell.row][cell.col])
           .into_iter()
-          .filter(|&&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
-          .copied()
+          .filter(|&value| value < lower_bounds[cell_index] || value > upper_bounds[cell_index])
           .sorted()
           .collect();
 

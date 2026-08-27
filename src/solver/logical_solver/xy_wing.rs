@@ -23,7 +23,7 @@ impl Technique for XYWing {
 
     for xy_cell in cells_with_2 {
       let candidates = &solver.candidates[xy_cell.row][xy_cell.col];
-      let values: Vec<u32> = candidates.into_iter().copied().sorted().collect();
+      let values: Vec<u32> = candidates.into_iter().sorted().collect();
       let x = values[0];
       let y = values[1];
       let seen_cells = solver.cell_peers_with_candidates(&xy_cell, candidates);
@@ -33,7 +33,7 @@ impl Technique for XYWing {
         if candidates.len() != 2 || !candidates.contains(&x) {
           continue
         }
-        let z = *candidates.into_iter().filter(|&&value| value != x).next().unwrap();
+        let z = candidates.into_iter().filter(|value| *value != x).next().unwrap();
         let need_candidates = &CandidateSet::from([ y, z ]);
 
         for yz_cell in &seen_cells {

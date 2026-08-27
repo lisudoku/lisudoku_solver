@@ -403,7 +403,7 @@ impl Solver {
     if self.candidates_active {
       let candidates: Vec<Vec<Vec<u32>>> = self.candidates.iter().map(|row|
         row.iter().map(|cell|
-          cell.into_iter().copied().sorted().collect()
+          cell.into_iter().sorted().collect()
         ).collect()
       ).collect();
       step.candidates = Some(candidates);

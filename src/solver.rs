@@ -176,7 +176,7 @@ impl Solver {
     let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
     for cell in self.area_empty_cells(area) {
       for value in (&candidates[cell.row][cell.col]).into_iter().sorted() {
-        let entry = value_cells.entry(*value).or_insert(vec![]);
+        let entry = value_cells.entry(value).or_insert(vec![]);
         entry.push(cell);
       }
     }
