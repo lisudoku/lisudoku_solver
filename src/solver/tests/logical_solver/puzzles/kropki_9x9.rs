@@ -4,7 +4,7 @@ use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, 
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1_IB.pdf
 #[test]
-#[timeout(16000)]
+#[timeout(6000)]
 fn check_kropki_9x9_1_solve() {
   let grid_size = 9;
   let constraints = SudokuConstraints::new(grid_size)
@@ -139,7 +139,7 @@ fn check_kropki_9x9_2_solve() {
 
 // 2023 Sudoku GP Round 1
 #[test]
-#[timeout(16000)]
+#[timeout(6000)]
 fn check_kropki_9x9_3_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_kropki_dots(

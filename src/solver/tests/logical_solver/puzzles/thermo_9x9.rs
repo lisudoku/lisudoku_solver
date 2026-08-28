@@ -3,7 +3,7 @@ use ntest::timeout;
 use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints, Thermo}};
 
 #[test]
-#[timeout(3000)]
+#[timeout(2000)]
 fn check_9x9_thermo_medium_solve() {
   // UK Sudoku Championship 2022 booklet - 9x9 thermo https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
   let constraints = SudokuConstraints::new(9)
@@ -126,7 +126,7 @@ fn check_9x9_thermo_no_solution() {
 
 // https://github.com/lisudoku/lisudoku_solver/issues/68
 #[test]
-#[timeout(3000)]
+#[timeout(2000)]
 fn check_9x9_thermo_hard_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_thermos(

@@ -193,7 +193,7 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
 }
 
 #[test]
-#[timeout(2000)]
+#[timeout(1000)]
 fn check_adhoc_naked_sets_empty_antiknight_9x9() {
   let constraints = SudokuConstraints::new(9).with_anti_knight();
   let mut solver = Solver::new(constraints);
