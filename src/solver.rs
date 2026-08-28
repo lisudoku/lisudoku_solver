@@ -1,7 +1,8 @@
 use crate::solver::constraints::fixed_numbers::FixedNumbersConstraint;
 use crate::solver::constraints::{CandidateMode, ConstraintDefinition, PeerMode};
+use crate::solver::logical_solver::kropki_chain_candidates::KropkiChainCombinationLogicFactory;
 use crate::solver::types::{CandidateSet, Puzzle};
-use crate::types::{Area, CellPosition, Grid, SudokuConstraints};
+use crate::types::{Area, CellPosition, Grid, KropkiDotType, SudokuConstraints};
 use std::cell::RefCell;
 use std::collections::{HashMap};
 use std::rc::Rc;
@@ -27,9 +28,12 @@ pub struct Solver {
   candidates: Vec<Vec<CandidateSet>>,
   hint_mode: bool,
   step_count_limit: Option<usize>,
+  enriched_steps_enabled: bool,
+  // TODO: think about how to organize these caches
   arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
   cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
-  enriched_steps_enabled: bool,
+  area_kropki_ccs_cache: RefCell<HashMap<(Area, KropkiDotType, bool), Vec<(Vec<CellPosition>,Vec<usize>)>>>,
+  kropki_chain_combinatons_logic_factory: RefCell<KropkiChainCombinationLogicFactory>,
 }
 
 impl Clone for Solver {
@@ -42,9 +46,11 @@ impl Clone for Solver {
       candidates: self.candidates.clone(),
       hint_mode: self.hint_mode.clone(),
       step_count_limit: self.step_count_limit.clone(),
+      enriched_steps_enabled: self.enriched_steps_enabled,
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: self.cell_eliminations_cache.clone(),
-      enriched_steps_enabled: self.enriched_steps_enabled,
+      area_kropki_ccs_cache: self.area_kropki_ccs_cache.clone(),
+      kropki_chain_combinatons_logic_factory: RefCell::new(KropkiChainCombinationLogicFactory::new()),
     }
   }
 }
@@ -65,9 +71,11 @@ impl Solver {
       hint_mode: false,
       step_count_limit: None,
       techniques: Self::default_techniques(),
+      enriched_steps_enabled: false,
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: RefCell::new(HashMap::new()),
-      enriched_steps_enabled: false,
+      area_kropki_ccs_cache: RefCell::new(HashMap::new()),
+      kropki_chain_combinatons_logic_factory: RefCell::new(KropkiChainCombinationLogicFactory::new()),
     }
   }
 

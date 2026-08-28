@@ -393,7 +393,7 @@ pub struct KropkiDot {
   pub cell_2: CellPosition,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify, Copy)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify, Copy, Hash, Eq)]
 #[tsify(from_wasm_abi)]
 pub enum KropkiDotType {
   Consecutive,

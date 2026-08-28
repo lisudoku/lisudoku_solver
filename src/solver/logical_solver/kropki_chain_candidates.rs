@@ -1,6 +1,8 @@
 use crate::solver::Solver;
 use crate::solver::constraints::{CandidateMode, ConstraintDefinition, PeerMode};
 use crate::solver::constraints::kropki::KropkiConstraint;
+use crate::solver::logical_solver::combinations::cell_combination_logic::CellsCacheKey;
+use crate::solver::logical_solver::combinations::cell_combinations_runner::CellCombinationsRunnerResult;
 use crate::solver::types::CandidateSet;
 use crate::types::{SolutionStep, CellPosition, KropkiDot, Rule, Area, KropkiDotType};
 use super::combinations::cell_combination_logic::CellCombinationLogic;
@@ -111,8 +113,16 @@ impl KropkiChainCandidates {
   }
 
   pub fn compute_area_kropki_ccs(solver: &Solver, area: &Area, dot_type: KropkiDotType, chain_limit: bool) -> Vec<(Vec<CellPosition>,Vec<usize>)> {
+    if let Some(cached_result) = solver.area_kropki_ccs_cache.borrow().get(&(area.clone(), dot_type, chain_limit)).cloned() {
+      return cached_result
+    }
+
     let constraint = KropkiComponents { solver };
-    constraint.run_area(area, dot_type, chain_limit)
+    let result = constraint.run_area(area, dot_type, chain_limit);
+
+    solver.area_kropki_ccs_cache.borrow_mut().insert((area.clone(), dot_type, chain_limit), result.clone());
+
+    result
   }
 
   fn find_kropki_ccs_invalid_candidate(&self, solver: &Solver, cells: Vec<CellPosition>) -> Vec<(CellPosition, Vec<u32>)> {
@@ -129,8 +139,11 @@ impl KropkiChainCandidates {
   }
 
   pub fn mark_kropki_valid_candidates(solver: &Solver, cells: &Vec<CellPosition>) -> (Vec<CandidateSet>, Vec<Vec<u32>>) {
+    let mut kropki_chain_combinatons_logic_factory = solver.kropki_chain_combinatons_logic_factory.borrow_mut();
+    let combination_logic = kropki_chain_combinatons_logic_factory.create(cells, solver);
     let mut combinations_runner = CellCombinationsRunner::new(
-      solver, Box::new(KropkiChainCombinationsLogic::new(&cells))
+      solver,
+      Box::new(combination_logic),
     );
 
     combinations_runner.run()
@@ -224,15 +237,23 @@ impl<'a> KropkiComponents<'a> {
   }
 }
 
-struct KropkiChainCombinationsLogic<'a> {
+pub struct KropkiChainCombinationsLogic<'a> {
   cells: &'a Vec<CellPosition>,
+  cache: &'a mut KropkiChainCombinationLogicCache,
+  solver: &'a Solver,
 }
 
 impl KropkiChainCombinationsLogic<'_> {
-  fn new<'a>(cells: &'a Vec<CellPosition>) -> KropkiChainCombinationsLogic<'a> {
+  fn new<'a>(cells: &'a Vec<CellPosition>, cache: &'a mut KropkiChainCombinationLogicCache, solver: &'a Solver) -> KropkiChainCombinationsLogic<'a> {
     KropkiChainCombinationsLogic {
       cells,
+      cache,
+      solver,
     }
+  }
+
+  fn cache_key(&self) -> CellsCacheKey {
+    self.solver.cells_to_cache_key(&self.cells())
   }
 }
 
@@ -267,4 +288,31 @@ impl CellCombinationLogic for KropkiChainCombinationsLogic<'_> {
   }
 
   fn should_check_all_cells_in_set(&self) -> bool { true }
+
+  fn cached_result(&self) -> Option<&CellCombinationsRunnerResult> {
+    self.cache.get(&self.cache_key())
+  }
+
+  fn cache_result(&mut self, result: &CellCombinationsRunnerResult) {
+    self.cache.insert(self.cache_key(), result.to_owned());
+  }
+}
+
+type KropkiChainCombinationLogicCache = HashMap<CellsCacheKey, CellCombinationsRunnerResult>;
+
+// TODO: think about whether this factory approach is worth it or just put the cache in the solver
+pub struct KropkiChainCombinationLogicFactory {
+  cache: KropkiChainCombinationLogicCache,
+}
+
+impl<'a> KropkiChainCombinationLogicFactory {
+  pub fn new() -> KropkiChainCombinationLogicFactory {
+    KropkiChainCombinationLogicFactory {
+      cache: HashMap::new(),
+    }
+  }
+
+  pub fn create(&'a mut self, cells: &'a Vec<CellPosition>, solver: &'a Solver) -> KropkiChainCombinationsLogic<'a> {
+    KropkiChainCombinationsLogic::new(cells, &mut self.cache, solver)
+  }
 }
