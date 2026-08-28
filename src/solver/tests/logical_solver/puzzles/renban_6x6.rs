@@ -61,7 +61,6 @@ fn check_renban_6x6_1_solve() {
     );
   let mut solver = Solver::new(constraints);
   let result = solver.logical_solve();
-  dbg!(&result);
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
