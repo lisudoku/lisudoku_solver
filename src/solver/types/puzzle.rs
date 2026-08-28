@@ -3,8 +3,9 @@ use std::{cell::RefCell, collections::{HashMap, HashSet}};
 use itertools::Itertools;
 use strum::{EnumCount, IntoEnumIterator};
 
+/// Validated constraint set derived from SudokuConstraints, without grid state.
 #[derive(Clone)]
-pub(crate) struct PuzzleDefinition {
+pub(crate) struct Puzzle {
   pub grid_size: usize,
   pub constraints: Vec<Constraint>,
   pub constraints_by_kind: [Option<usize>; ConstraintKind::COUNT],
@@ -16,7 +17,7 @@ pub(crate) struct PuzzleDefinition {
   cell_only_special_peers_cache: RefCell<HashMap<CellPosition, Vec<CellPosition>>>,
 }
 
-impl TryFrom<SudokuConstraints> for PuzzleDefinition {
+impl TryFrom<SudokuConstraints> for Puzzle {
   type Error = ConstraintError;
 
   fn try_from(input: SudokuConstraints) -> Result<Self, Self::Error> {
@@ -32,7 +33,7 @@ impl TryFrom<SudokuConstraints> for PuzzleDefinition {
       constraints.push(constraint);
     }
 
-    Ok(PuzzleDefinition {
+    Ok(Puzzle {
       grid_size: input.grid_size,
       constraints,
       constraints_by_kind,
@@ -46,7 +47,7 @@ impl TryFrom<SudokuConstraints> for PuzzleDefinition {
   }
 }
 
-impl PuzzleDefinition {
+impl Puzzle {
   pub fn all_region_areas(&self) -> Vec<Area> {
     if let Some(cached_result) = self.all_region_areas_cache.borrow().clone() {
       return cached_result

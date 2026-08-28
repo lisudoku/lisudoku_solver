@@ -1,6 +1,6 @@
 use crate::solver::constraints::fixed_numbers::FixedNumbersConstraint;
 use crate::solver::constraints::{CandidateMode, ConstraintDefinition, PeerMode};
-use crate::solver::types::{CandidateSet, PuzzleDefinition};
+use crate::solver::types::{CandidateSet, Puzzle};
 use crate::types::{Area, CellPosition, Grid, SudokuConstraints};
 use std::cell::RefCell;
 use std::collections::{HashMap};
@@ -20,7 +20,7 @@ mod brute_solver;
 pub(crate) mod builder;
 
 pub struct Solver {
-  pub(crate) puzzle: PuzzleDefinition,
+  pub(crate) puzzle: Puzzle,
   pub techniques: Vec<Rc<dyn Technique>>,
   pub grid: Grid,
   candidates_active: bool,
@@ -58,7 +58,7 @@ impl Solver {
     let candidates = Self::build_initial_candidates(input_constraints.grid_size);
 
     Solver {
-      puzzle: PuzzleDefinition::try_from(input_constraints).expect("Error while parsing constraints"),
+      puzzle: Puzzle::try_from(input_constraints).expect("Error while parsing constraints"),
       grid,
       candidates_active: false,
       candidates,
