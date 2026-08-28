@@ -8,7 +8,7 @@ use super::combinations::cell_combination_logic::CellsCacheKey;
 pub type CellEliminationsResult = Vec<(CellPosition, Vec<u32>)>;
 
 impl Solver {
-  // Eliminate combinations that remove all candidates from any cells
+  // Eliminate `combinations` that remove all candidates from any of `cells`
   // Returns cells that need to be updated
   pub(crate) fn eliminate_combinations(&self, combinations: &Vec<Vec<u32>>, cells: &Vec<CellPosition>) -> CellEliminationsResult {
     let cache_key: CellsCacheKey = self.cells_to_cache_key(cells);

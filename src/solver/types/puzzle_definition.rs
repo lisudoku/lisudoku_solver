@@ -9,6 +9,11 @@ pub(crate) struct PuzzleDefinition {
   pub constraints: Vec<Constraint>,
   pub constraints_by_kind: [Option<usize>; ConstraintKind::COUNT],
   common_region_areas_cache: RefCell<HashMap<Vec<CellPosition>, Vec<Area>>>,
+  all_region_areas_cache: RefCell<Option<Vec<Area>>>,
+  all_house_areas_cache: RefCell<Option<Vec<Area>>>,
+  all_cell_peers_cache: RefCell<HashMap<(CellPosition, PeerMode, CandidateMode), Vec<CellPosition>>>,
+  area_cells_cache: RefCell<HashMap<Area, Vec<CellPosition>>>,
+  cell_only_special_peers_cache: RefCell<HashMap<CellPosition, Vec<CellPosition>>>,
 }
 
 impl TryFrom<SudokuConstraints> for PuzzleDefinition {
@@ -32,21 +37,42 @@ impl TryFrom<SudokuConstraints> for PuzzleDefinition {
       constraints,
       constraints_by_kind,
       common_region_areas_cache: RefCell::new(HashMap::new()),
+      all_region_areas_cache: RefCell::new(None),
+      all_house_areas_cache: RefCell::new(None),
+      all_cell_peers_cache: RefCell::new(HashMap::new()),
+      area_cells_cache: RefCell::new(HashMap::new()),
+      cell_only_special_peers_cache: RefCell::new(HashMap::new()),
     })
   }
 }
 
 impl PuzzleDefinition {
   pub fn all_region_areas(&self) -> Vec<Area> {
-    self.constraints.iter().flat_map(|constraint|
+    if let Some(cached_result) = self.all_region_areas_cache.borrow().clone() {
+      return cached_result
+    }
+
+    let areas: Vec<Area> = self.constraints.iter().flat_map(|constraint|
       constraint.region_areas()
-    ).collect()
+    ).collect();
+
+    *self.all_region_areas_cache.borrow_mut() = Some(areas.clone());
+
+    areas
   }
 
   pub fn all_house_areas(&self) -> Vec<Area> {
-    self.constraints.iter().flat_map(|constraint| {
+    if let Some(cached_result) = self.all_house_areas_cache.borrow().clone() {
+      return cached_result
+    }
+
+    let areas: Vec<Area> = self.constraints.iter().flat_map(|constraint| {
       constraint.house_areas(self.grid_size)
-    }).collect()
+    }).collect();
+
+    *self.all_house_areas_cache.borrow_mut() = Some(areas.clone());
+
+    areas
   }
 
   pub fn all_region_areas_except_kropki(&self) -> Vec<Area> {
@@ -62,6 +88,10 @@ impl PuzzleDefinition {
   /// What it considers as a "peer" is subjective, it doesn't consider
   /// all restrictions at this level (e.g. thermo, palindrome)
   pub fn all_cell_peers(&self, cell: &CellPosition, peer_mode: PeerMode, candidate_mode: CandidateMode) -> Vec<CellPosition> {
+    if let Some(cached_result) = self.all_cell_peers_cache.borrow().get(&(*cell, peer_mode, candidate_mode)).cloned() {
+      return cached_result
+    }
+
     let mut peers: Vec<CellPosition> = vec![];
 
     for constraint in &self.constraints {
@@ -72,11 +102,15 @@ impl PuzzleDefinition {
       peers.extend(constraint_peers);
     }
 
-    peers
+    peers = peers
       .into_iter()
       .filter(|other_cell| other_cell != cell)
       .unique()
-      .collect()
+      .collect();
+
+    self.all_cell_peers_cache.borrow_mut().insert((*cell, peer_mode, candidate_mode), peers.clone());
+
+    peers
   }
 
   pub fn find_common_region_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
@@ -89,7 +123,7 @@ impl PuzzleDefinition {
   /// Useful for finding areas that are affected by all <cells>.
   pub fn find_common_region_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
     if let Some(cached_result) = self.common_region_areas_cache.borrow().get(cells).cloned() {
-      return cached_result;
+      return cached_result
     }
 
     assert!(cells.len() >= 2);
@@ -125,15 +159,23 @@ impl PuzzleDefinition {
 
   /// Returns the <cell> peers that are special and are not peers through classic constraints
   pub fn cell_only_special_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
+    if let Some(cached_result) = self.cell_only_special_peers_cache.borrow().get(cell).cloned() {
+      return cached_result
+    }
+
     let special_peers = self.all_cell_peers(cell, PeerMode::Special, CandidateMode::Full);
     let classic_peers = self.all_cell_peers(cell, PeerMode::Classic, CandidateMode::Full);
 
-    special_peers
+    let only_special_peers: Vec<CellPosition> = special_peers
       .into_iter()
       .filter(|special_peer|
         !classic_peers.contains(special_peer)
       )
-      .collect()
+      .collect();
+
+    self.cell_only_special_peers_cache.borrow_mut().insert(cell.clone(), only_special_peers.clone());
+
+    only_special_peers
   }
 
   /// Returns the single constraint that owns `area`, if any.
@@ -154,7 +196,11 @@ impl PuzzleDefinition {
 
   /// Returns the list of cells in an `area`
   pub fn area_cells(&self, area: &Area) -> Vec<CellPosition> {
-    match area {
+    if let Some(cached_result) = self.area_cells_cache.borrow().get(area).cloned() {
+      return cached_result
+    }
+
+    let cells = match area {
       Area::Adhoc(cells) => cells.clone(),
       Area::Cell(row, col) => vec![CellPosition::new(*row, *col)],
       Area::Grid => self.all_grid_cells(),
@@ -175,7 +221,11 @@ impl PuzzleDefinition {
           .map(|constraint| constraint.area_cells(area))
           .unwrap_or_default()
       },
-    }
+    };
+
+    self.area_cells_cache.borrow_mut().insert(area.clone(), cells.clone());
+
+    cells
   }
 
   pub fn all_grid_cells(&self) -> Vec<CellPosition> {

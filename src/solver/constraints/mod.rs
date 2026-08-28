@@ -17,13 +17,13 @@ pub(crate) mod top_bottom;
 pub(crate) mod renban;
 pub(crate) mod palindrome;
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, PartialEq, Hash, Eq)]
 pub(crate) enum CandidateMode {
   Simple,
   Full,
 }
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, PartialEq, Hash, Eq)]
 pub(crate) enum PeerMode {
   Full,
   Special,
