@@ -1,3 +1,5 @@
+use ntest::timeout;
+
 use crate::{solver::{Solver, logical_solver::nishio_forcing_chains::NishioForcingChains}, types::{FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
 use std::rc::Rc;
 
@@ -446,4 +448,13 @@ fn check_classic_9x9_hard_empty_rectangles_solve() {
     ])
   );
   insta::assert_yaml_snapshot!(result.steps);
+}
+
+#[test]
+#[timeout(8000)]
+fn check_classic_9x9_empty_grid() {
+  let constraints = SudokuConstraints::new(9);
+  let mut solver = Solver::new(constraints);
+  let result = solver.logical_solve();
+  assert_eq!(result.solution_type, SolutionType::Partial);
 }
