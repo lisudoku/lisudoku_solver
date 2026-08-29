@@ -1,12 +1,11 @@
 use crate::solver::constraints::fixed_numbers::FixedNumbersConstraint;
 use crate::solver::constraints::{CandidateMode, ConstraintDefinition, PeerMode};
 use crate::solver::logical_solver::kropki_chain_candidates::KropkiChainCombinationLogicFactory;
-use crate::solver::types::{CandidateSet, Puzzle};
+use crate::solver::types::{CandidateSet, CellPositionSet, Puzzle};
 use crate::types::{Area, CellPosition, Grid, KropkiDotType, SudokuConstraints};
 use std::cell::RefCell;
 use std::collections::{HashMap};
 use std::rc::Rc;
-use itertools::Itertools;
 use self::logical_solver::advanced_candidates::CellEliminationsResult;
 use self::logical_solver::arrow_candidates::ArrowCombinationLogicFactory;
 use self::logical_solver::combinations::cell_combination_logic::CellsCacheKey;
@@ -180,15 +179,29 @@ impl Solver {
     self.filter_cells_with_any_candidates(&area_cells, values)
   }
 
-  fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> HashMap<u32, Vec<CellPosition>> {
-    let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
-    for cell in self.area_empty_cells(area) {
-      for value in (&candidates[cell.row][cell.col]).into_iter().sorted() {
-        let entry = value_cells.entry(value).or_insert(vec![]);
-        entry.push(cell);
+  fn compute_cells_by_value(&self, cells: &Vec<CellPosition>, candidates: &Vec<Vec<CandidateSet>>) -> HashMap<u32, Vec<CellPosition>> {
+    let mut value_cells: Vec<CellPositionSet> = vec![
+      CellPositionSet::new(self.puzzle.grid_size);
+      self.puzzle.grid_size
+    ];
+    for cell in self.filter_empty_cells(cells).into_iter() {
+      for value in &candidates[cell.row][cell.col] {
+        value_cells[value as usize - 1].insert(cell);
       }
     }
     value_cells
+      .into_iter()
+      .enumerate()
+      .filter(|e| e.1.len() > 0)
+      .map(|(value_index, cell_position_set)|
+        (value_index as u32 + 1, cell_position_set.into_iter().collect())
+      )
+      .collect()
+  }
+
+  fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> HashMap<u32, Vec<CellPosition>> {
+    let cells = self.puzzle.area_cells(area);
+    self.compute_cells_by_value(&cells, candidates)
   }
 
   fn cell_peers_with_candidate(&self, cell: &CellPosition, candidate_value: u32) -> Vec<CellPosition> {
