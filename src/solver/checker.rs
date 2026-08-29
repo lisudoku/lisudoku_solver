@@ -1,11 +1,10 @@
 use crate::solver::Solver;
 use crate::solver::constraints::{ConstraintDefinition};
-use crate::solver::types::CandidateSet;
-use crate::types::{Area, CellPosition, InvalidStateReason, InvalidStateType};
+use crate::solver::types::{CandidateSet, CellPositionSet};
+use crate::types::{Area, InvalidStateReason, InvalidStateType};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use tsify::Tsify;
-use std::collections::{HashMap, HashSet};
 use std::{format};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Tsify)]
@@ -88,7 +87,7 @@ impl Solver {
     for constraint in &self.puzzle.constraints {
       let constraint_region_areas = constraint.region_areas();
       for area in constraint_region_areas {
-        let check = self.check_area_region_valid(&area);
+        let check = self.check_region_area_valid(&area);
         if !check.solved {
           return check
         }
@@ -103,15 +102,18 @@ impl Solver {
     SolvedState::solved()
   }
 
-  fn check_area_region_valid(&self, area: &Area) -> SolvedState {
+  fn check_region_area_valid(&self, area: &Area) -> SolvedState {
     let mut values = CandidateSet::new();
-    let mut candidates = CandidateSet::new();
-
+    let mut candidates_and_values = CandidateSet::new();
     let area_cells = self.puzzle.area_cells(area);
+    let mut area_cell_candidates: Vec<CandidateSet> = Vec::with_capacity(area_cells.len());
+
     for cell in &area_cells {
       let value = self.grid[cell.row][cell.col];
       if value == 0 {
-        candidates.extend(self.compute_cell_candidates(cell));
+        let cell_candidates = self.compute_cell_candidates(cell);
+        candidates_and_values.extend(&cell_candidates);
+        area_cell_candidates.push(cell_candidates);
         continue
       }
       if values.contains(&value) {
@@ -126,13 +128,13 @@ impl Solver {
       values.insert(value);
     }
 
-    candidates.extend(values);
+    candidates_and_values.extend(values);
 
     // There's less candidate values than area cells so there is no solution
-    if candidates.len() < area_cells.len() {
+    if candidates_and_values.len() < area_cells.len() {
       let values = if area_cells.len() == self.puzzle.grid_size {
         self.full_candidate_set()
-          .difference(&candidates)
+          .difference(&candidates_and_values)
           .into_iter()
           .sorted()
           .collect()
@@ -153,20 +155,26 @@ impl Solver {
       // It's a full area, so we need to place all values
       // Check if all remaining candidate subsets fit into the remaining cells
 
-      let mut value_cells: HashMap<u32, Vec<CellPosition>> = HashMap::new();
-      for cell in self.filter_empty_cells(&area_cells) {
-        for value in self.compute_cell_candidates(&cell) {
-          let entry = value_cells.entry(value).or_insert(vec![]);
-          entry.push(cell);
+      let mut value_cells: Vec<CellPositionSet> = vec![
+        CellPositionSet::new(self.puzzle.grid_size);
+        self.puzzle.grid_size
+      ];
+      for (index, cell) in self.filter_empty_cells(&area_cells).into_iter().enumerate() {
+        for value in &area_cell_candidates[index] {
+          value_cells[value as usize - 1].insert(cell);
         }
       }
 
-      let mut used_cells_set: HashSet<CellPosition> = HashSet::new();
+      let mut used_cells_set: CellPositionSet = CellPositionSet::new(self.puzzle.grid_size);
       let mut values = vec![];
-      for (value_index, (value, value_cells)) in value_cells.into_iter().sorted_by_key(|e| (e.1.len(), e.0)).enumerate() {
-        used_cells_set.extend(value_cells);
-        values.push(value);
+
+      let value_cell_entries = value_cells.into_iter().enumerate().filter(|e| e.1.len() > 0).sorted_by_key(|e| e.1.len());
+      for (value_index, (value, value_cells)) in value_cell_entries.enumerate() {
+        used_cells_set.union_with(&value_cells);
+        values.push(value as u32 + 1);
+
         if value_index + 1 > used_cells_set.len() {
+          // There are more values than target cells
           return SolvedState::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::AreaCandidates,

@@ -457,4 +457,6 @@ fn check_classic_9x9_empty_grid() {
   let mut solver = Solver::new(constraints);
   let result = solver.logical_solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
+  assert_eq!(result.steps.len(), 1);
+  assert_eq!(result.steps.first().unwrap().rule, Rule::Candidates);
 }

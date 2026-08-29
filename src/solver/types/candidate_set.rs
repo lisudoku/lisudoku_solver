@@ -2,6 +2,9 @@ use core::fmt;
 use std::{ops::BitOr};
 use itertools::Itertools;
 
+/// Specialized implementation of a set for candidate values.
+/// I tried reusing BitSet here but it turned out slower.
+
 #[derive(Default, Clone, PartialEq, Copy)]
 pub struct CandidateSet {
   mask: u16,
@@ -127,6 +130,15 @@ impl Iterator for SetBitsIter {
 }
 
 impl IntoIterator for CandidateSet {
+  type Item = u32;
+  type IntoIter = SetBitsIter;
+
+  fn into_iter(self) -> Self::IntoIter {
+    SetBitsIter { remaining: self.mask }
+  }
+}
+
+impl IntoIterator for &CandidateSet {
   type Item = u32;
   type IntoIter = SetBitsIter;
 
