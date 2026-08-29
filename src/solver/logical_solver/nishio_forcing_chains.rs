@@ -26,6 +26,13 @@ impl Technique for NishioForcingChains {
     let cells: Vec<CellPosition> = solver
       .all_empty_cells()
       .into_iter()
+      /*
+        Only look at cells with relatively few candidates.
+        We could eliminate candidates from the other cells, but it is probably useless and also less human.
+        That together with the massive performance gains makes it worth it.
+      */
+      .filter(|cell| solver.candidates[cell.row][cell.col].len() <= 4)
+      // Sort because there is higher impact to remove candidates when there are fewer
       .sorted_by_key(|cell| solver.candidates[cell.row][cell.col].len())
       .collect();
 
