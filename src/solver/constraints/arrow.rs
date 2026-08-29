@@ -1,5 +1,4 @@
 use crate::{solver::{checker::SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
-use itertools::Itertools;
 
 #[derive(Clone, Default, Debug)]
 pub struct ArrowConstraint {
@@ -21,13 +20,8 @@ impl ArrowConstraint {
 
   fn arrow_circle_number(arrow: &Arrow, grid: &Grid) -> (u32, bool) {
     let mut value: u32 = 0;
-    let sorted_circle_cells: Vec<CellPosition> = arrow.circle_cells
-      .iter()
-      .cloned()
-      .sorted_by_key(|cell| *cell)
-      .collect();
     let mut full = true;
-    for &CellPosition { row, col } in &sorted_circle_cells {
+    for &CellPosition { row, col } in &arrow.circle_cells {
       value = 10 * value + grid[row][col];
       if grid[row][col] == 0 {
         full = false;

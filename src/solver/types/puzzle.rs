@@ -25,6 +25,12 @@ impl TryFrom<SudokuConstraints> for Puzzle {
       return Err(ConstraintError::InvalidValue { field: "grid_size", message: "Can only be 4, 6 or 9" })
     }
 
+    /* TODO: add exhaustive validations:
+      * check that arrow circle cells are sorted or sort them
+      * check regions count, sizes and overlap
+      * etc. same for all other constraints in their builder
+    */
+
     let mut constraints: Vec<Constraint> = vec![];
     let mut constraints_by_kind: [Option<usize>; ConstraintKind::COUNT] = [None; ConstraintKind::COUNT];
     for kind in ConstraintKind::iter() {

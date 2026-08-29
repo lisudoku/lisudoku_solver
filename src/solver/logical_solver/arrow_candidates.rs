@@ -66,9 +66,9 @@ impl<'a> ArrowCombinationLogic<'_> {
 
     for cell in cells {
       let value = solver.grid[cell.row][cell.col];
-      // Could be improved to check actual candidates and don't repeat them
-      let max_value = if value == 0 { 9 } else { value };
-      let min_value = if value == 0 { 1 } else { value };
+      let candidate_set = solver.candidates[cell.row][cell.col];
+      let max_value = if value == 0 { candidate_set.into_iter().max().unwrap_or(solver.puzzle.grid_size as u32) } else { value };
+      let min_value = if value == 0 { candidate_set.into_iter().min().unwrap_or(1) } else { value };
       circle_sum_min = 10 * circle_sum_min + min_value;
       circle_sum_max = 10 * circle_sum_max + max_value;
     }
@@ -125,7 +125,12 @@ impl CellCombinationLogic for ArrowCombinationLogic<'_> {
     // For the maximum assume the rest will all be 9s
     let max_arrow_sum = self.arrow_cells_sum + value + cell_count_left as u32 * runner.solver.puzzle.grid_size as u32;
 
-    return max_arrow_sum >= self.circle_sum_min && min_arrow_sum <= self.circle_sum_max
+    /*
+      Possible range of arrow cells sum depending on next choices: [min_arrow_sum, max_arrow_sum]
+      Valid range for circle cells sum: [self.circle_sum_min, self.circle_sum_max]
+      We are on a valid path if these ranges have a non-empty overlap.
+    */
+    return std::cmp::max(min_arrow_sum, self.circle_sum_min) <= std::cmp::min(max_arrow_sum, self.circle_sum_max)
   }
 
   fn should_check_value_conflict(&self) -> bool { true }
@@ -153,6 +158,7 @@ impl CellCombinationLogic for ArrowCombinationLogic<'_> {
 
 type ArrowCombinationLogicCache = HashMap<CellsCacheKey, CellCombinationsRunnerResult>;
 
+// TODO: think about whether this factory approach is worth it or just put the cache in the solver
 pub struct ArrowCombinationLogicFactory {
   cache: ArrowCombinationLogicCache,
 }

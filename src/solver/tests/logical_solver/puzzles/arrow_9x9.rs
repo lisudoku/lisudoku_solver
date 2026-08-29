@@ -71,7 +71,7 @@ fn check_arrow_9x9_1_solve() {
           arrow_cells: vec![ CellPosition::new(7, 2), CellPosition::new(7, 3) ],
         },
         Arrow {
-          circle_cells: vec![ CellPosition::new(8, 8), CellPosition::new(8, 7) ], // reversed
+          circle_cells: vec![ CellPosition::new(8, 7), CellPosition::new(8, 8) ],
           arrow_cells: vec![
             CellPosition::new(8, 6), CellPosition::new(8, 5), CellPosition::new(8, 4),
           ],
