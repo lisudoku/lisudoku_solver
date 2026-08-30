@@ -51,7 +51,7 @@ impl KropkiChainCandidates {
 
     let mut steps_by_cell: HashMap<CellPosition, SolutionStep> = HashMap::new();
 
-    let areas = solver.puzzle.all_region_areas_except_kropki();
+    let areas = solver.puzzle.all_region_areas();
 
     for area in areas {
       let mut dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
