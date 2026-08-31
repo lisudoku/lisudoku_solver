@@ -95,7 +95,16 @@ impl ConstraintBuilder for ArrowConstraintBuilder {
       return None
     }
 
-    let arrows = constraints.arrows.clone().unwrap();
+    let arrows = constraints.arrows
+      .clone()
+      .unwrap()
+      .iter()
+      .map(|arrow| {
+        let mut arrow = arrow.clone();
+        arrow.circle_cells.sort_by_key(|cell| *cell);
+        arrow
+      })
+      .collect();
 
     Some(Constraint::Arrow(ArrowConstraint{
       arrows,
