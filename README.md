@@ -27,3 +27,11 @@ cd pkg
 npm login
 npm publish
 ```
+
+## Profiling for performance optimization
+
+`cargo install samply`
+
+`cargo test check_kropki_9x9_3_solve --no-run` => it prints the binary name
+
+`samply record ./target/debug/deps/lisudoku_solver-37740d53752b58bd check_kropki_9x9_3_solve --nocapture`
