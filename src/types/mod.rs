@@ -11,6 +11,7 @@ pub use results::*;
 // Note: Area enum variants order matters!
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash, Ord, PartialOrd, Tsify)]
 #[tsify(into_wasm_abi)]
+#[serde(tag = "type", content = "value")]
 pub enum Area {
   Row(usize),
   Column(usize),
