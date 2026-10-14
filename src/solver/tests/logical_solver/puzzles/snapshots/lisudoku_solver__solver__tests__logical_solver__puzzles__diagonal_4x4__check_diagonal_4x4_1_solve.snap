@@ -12,7 +12,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -26,7 +27,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -38,7 +40,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -50,7 +53,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Row: 1
+    - type: Row
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -62,7 +66,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Column: 0
+    - type: Column
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -74,8 +79,9 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Row: 2
-    - PrimaryDiagonal
+    - type: Row
+      value: 2
+    - type: PrimaryDiagonal
   affectedCells: []
   grid: ~
   candidates: ~
@@ -87,7 +93,7 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - PrimaryDiagonal
+    - type: PrimaryDiagonal
   affectedCells: []
   grid: ~
   candidates: ~
@@ -101,7 +107,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -113,7 +120,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -125,7 +133,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Column: 2
+    - type: Column
+      value: 2
   affectedCells: []
   grid: ~
   candidates: ~
@@ -137,7 +146,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells: []
   grid: ~
   candidates: ~
@@ -149,7 +159,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Row: 2
+    - type: Row
+      value: 2
   affectedCells: []
   grid: ~
   candidates: ~
@@ -161,7 +172,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 2
+    - type: Region
+      value: 2
   affectedCells: []
   grid: ~
   candidates: ~

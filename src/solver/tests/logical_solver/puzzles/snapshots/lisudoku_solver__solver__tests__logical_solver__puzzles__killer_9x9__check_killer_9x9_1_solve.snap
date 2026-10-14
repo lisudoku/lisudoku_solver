@@ -741,7 +741,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 1
+    - type: KillerCage
+      value: 1
   affectedCells:
     - row: 0
       col: 2
@@ -753,7 +754,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 1
+    - type: KillerCage
+      value: 1
   affectedCells:
     - row: 0
       col: 3
@@ -768,7 +770,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 1
       col: 2
@@ -783,7 +786,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 2
       col: 2
@@ -798,7 +802,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 2
       col: 1
@@ -810,7 +815,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 5
@@ -822,7 +828,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 6
@@ -835,7 +842,8 @@ snapshot_kind: text
     - 4
     - 8
   areas:
-    - KillerCage: 7
+    - type: KillerCage
+      value: 7
   affectedCells:
     - row: 2
       col: 0
@@ -848,7 +856,8 @@ snapshot_kind: text
     - 4
     - 8
   areas:
-    - KillerCage: 7
+    - type: KillerCage
+      value: 7
   affectedCells:
     - row: 3
       col: 0
@@ -863,7 +872,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 1
       col: 3
@@ -878,7 +888,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 2
       col: 3
@@ -893,7 +904,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 3
       col: 3
@@ -908,7 +920,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 3
       col: 2
@@ -923,7 +936,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 3
       col: 1
@@ -935,7 +949,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 2
       col: 8
@@ -947,7 +962,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 3
       col: 8
@@ -962,7 +978,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 6
@@ -977,7 +994,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 7
@@ -992,7 +1010,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 8
@@ -1007,7 +1026,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 3
       col: 4
@@ -1022,7 +1042,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 4
       col: 3
@@ -1037,7 +1058,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 4
       col: 4
@@ -1052,7 +1074,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 4
       col: 5
@@ -1067,7 +1090,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 5
       col: 4
@@ -1080,7 +1104,8 @@ snapshot_kind: text
     - 4
     - 8
   areas:
-    - KillerCage: 14
+    - type: KillerCage
+      value: 14
   affectedCells:
     - row: 5
       col: 0
@@ -1093,7 +1118,8 @@ snapshot_kind: text
     - 4
     - 8
   areas:
-    - KillerCage: 14
+    - type: KillerCage
+      value: 14
   affectedCells:
     - row: 6
       col: 0
@@ -1106,7 +1132,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 7
@@ -1119,7 +1146,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 6
@@ -1132,7 +1160,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 5
@@ -1145,7 +1174,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 6
       col: 5
@@ -1158,7 +1188,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 7
       col: 5
@@ -1170,7 +1201,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 5
       col: 8
@@ -1182,7 +1214,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 6
       col: 8
@@ -1194,7 +1227,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 1
@@ -1206,7 +1240,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 2
@@ -1218,7 +1253,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 7
       col: 2
@@ -1236,7 +1272,8 @@ snapshot_kind: text
     - 6
     - 8
   areas:
-    - KillerCage: 20
+    - type: KillerCage
+      value: 20
   affectedCells:
     - row: 8
       col: 2
@@ -1254,7 +1291,8 @@ snapshot_kind: text
     - 6
     - 8
   areas:
-    - KillerCage: 20
+    - type: KillerCage
+      value: 20
   affectedCells:
     - row: 8
       col: 3
@@ -1266,7 +1304,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 6
       col: 4
@@ -1278,7 +1317,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 7
       col: 4
@@ -1290,7 +1330,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 8
       col: 4
@@ -1302,7 +1343,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 5
@@ -1314,7 +1356,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 6
@@ -1331,7 +1374,8 @@ snapshot_kind: text
     - 7
     - 8
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells:
     - row: 0
       col: 2
@@ -1346,7 +1390,8 @@ snapshot_kind: text
     - 6
     - 7
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells:
     - row: 2
       col: 0
@@ -1363,7 +1408,8 @@ snapshot_kind: text
     - 5
     - 6
   areas:
-    - KillerCage: 1
+    - type: KillerCage
+      value: 1
   affectedCells:
     - row: 0
       col: 3
@@ -1378,7 +1424,8 @@ snapshot_kind: text
     - 3
     - 5
   areas:
-    - KillerCage: 7
+    - type: KillerCage
+      value: 7
   affectedCells:
     - row: 3
       col: 0
@@ -1392,7 +1439,8 @@ snapshot_kind: text
     - 7
     - 8
   areas:
-    - Region: 2
+    - type: Region
+      value: 2
   affectedCells:
     - row: 0
       col: 6
@@ -1406,7 +1454,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - Region: 2
+    - type: Region
+      value: 2
   affectedCells:
     - row: 2
       col: 8
@@ -1420,7 +1469,8 @@ snapshot_kind: text
     - 2
     - 3
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 5
@@ -1434,7 +1484,8 @@ snapshot_kind: text
     - 3
     - 4
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 3
       col: 8
@@ -1449,7 +1500,8 @@ snapshot_kind: text
     - 6
     - 7
   areas:
-    - Region: 6
+    - type: Region
+      value: 6
   affectedCells:
     - row: 6
       col: 0
@@ -1464,7 +1516,8 @@ snapshot_kind: text
     - 3
     - 6
   areas:
-    - KillerCage: 14
+    - type: KillerCage
+      value: 14
   affectedCells:
     - row: 5
       col: 0
@@ -1478,7 +1531,8 @@ snapshot_kind: text
     - 6
     - 7
   areas:
-    - Region: 8
+    - type: Region
+      value: 8
   affectedCells:
     - row: 6
       col: 8
@@ -1492,7 +1546,8 @@ snapshot_kind: text
     - 2
     - 6
   areas:
-    - Region: 8
+    - type: Region
+      value: 8
   affectedCells:
     - row: 8
       col: 6
@@ -1506,7 +1561,8 @@ snapshot_kind: text
     - 5
     - 9
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 5
       col: 8
@@ -1520,7 +1576,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 5
@@ -1533,7 +1590,8 @@ snapshot_kind: text
     - 1
     - 3
   areas:
-    - Row: 4
+    - type: Row
+      value: 4
   affectedCells:
     - row: 4
       col: 3
@@ -1546,7 +1604,8 @@ snapshot_kind: text
     - 1
     - 3
   areas:
-    - Row: 4
+    - type: Row
+      value: 4
   affectedCells:
     - row: 4
       col: 4
@@ -1559,7 +1618,8 @@ snapshot_kind: text
     - 1
     - 3
   areas:
-    - Row: 4
+    - type: Row
+      value: 4
   affectedCells:
     - row: 4
       col: 5
@@ -1573,7 +1633,8 @@ snapshot_kind: text
     - 4
     - 5
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 3
       col: 4
@@ -1587,7 +1648,8 @@ snapshot_kind: text
     - 4
     - 5
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 5
       col: 4
@@ -1600,7 +1662,8 @@ snapshot_kind: text
     - 2
     - 4
   areas:
-    - Column: 4
+    - type: Column
+      value: 4
   affectedCells:
     - row: 4
       col: 4
@@ -1612,7 +1675,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 4
       col: 3
@@ -1624,7 +1688,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 4
       col: 5
@@ -1677,7 +1742,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 6
@@ -1689,7 +1755,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 7
@@ -1701,7 +1768,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 8
@@ -1717,8 +1785,10 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Column: 3
-    - Region: 7
+    - type: Column
+      value: 3
+    - type: Region
+      value: 7
   affectedCells:
     - row: 6
       col: 5
@@ -1736,8 +1806,10 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 7
-    - KillerCage: 15
+    - type: Region
+      value: 7
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 5
       col: 1
@@ -1753,7 +1825,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells:
     - row: 5
       col: 6
@@ -1775,7 +1848,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 14
+    - type: KillerCage
+      value: 14
   affectedCells:
     - row: 6
       col: 0
@@ -1787,7 +1861,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 7
@@ -1799,7 +1874,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 6
@@ -1811,7 +1887,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 5
@@ -1823,7 +1900,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 6
       col: 5
@@ -1835,7 +1913,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 7
       col: 5
@@ -1890,7 +1969,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 5
       col: 8
@@ -1902,7 +1982,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 1
@@ -1914,7 +1995,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 2
@@ -1926,7 +2008,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 7
       col: 2
@@ -1938,7 +2021,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Region: 6
+    - type: Region
+      value: 6
   affectedCells:
     - row: 8
       col: 2
@@ -1950,7 +2034,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 20
+    - type: KillerCage
+      value: 20
   affectedCells:
     - row: 8
       col: 3
@@ -1999,7 +2084,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 2
       col: 1
@@ -2011,7 +2097,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 5
@@ -2023,7 +2110,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 6
@@ -2069,7 +2157,8 @@ snapshot_kind: text
     - 2
     - 6
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 6
       col: 4
@@ -2083,7 +2172,8 @@ snapshot_kind: text
     - 3
     - 6
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 7
       col: 4
@@ -2097,7 +2187,8 @@ snapshot_kind: text
     - 3
     - 6
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 8
       col: 4
@@ -2109,7 +2200,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 5
@@ -2123,7 +2215,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 3
       col: 6
@@ -2143,7 +2236,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 2
       col: 8
@@ -2157,7 +2251,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 5
       col: 1
@@ -2177,7 +2272,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 1
+    - type: KillerCage
+      value: 1
   affectedCells:
     - row: 0
       col: 2
@@ -2228,7 +2324,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 5
@@ -2240,7 +2337,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 7
+    - type: KillerCage
+      value: 7
   affectedCells:
     - row: 3
       col: 0
@@ -2253,7 +2351,8 @@ snapshot_kind: text
     - 5
     - 8
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 1
@@ -2299,7 +2398,8 @@ snapshot_kind: text
     - 1
     - 4
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 0
       col: 4
@@ -2312,7 +2412,8 @@ snapshot_kind: text
     - 1
     - 4
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 1
       col: 4
@@ -2325,7 +2426,8 @@ snapshot_kind: text
     - 1
     - 4
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 2
       col: 4
@@ -2337,7 +2439,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 5
       col: 1
@@ -2349,7 +2452,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 5
       col: 2
@@ -2394,7 +2498,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 0
       col: 0
@@ -2407,7 +2512,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 0
       col: 1
@@ -2419,7 +2525,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 1
       col: 0
@@ -2432,7 +2539,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 1
       col: 1
@@ -2444,7 +2552,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 11
+    - type: KillerCage
+      value: 11
   affectedCells:
     - row: 4
       col: 1
@@ -2456,7 +2565,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 11
+    - type: KillerCage
+      value: 11
   affectedCells:
     - row: 4
       col: 2
@@ -2494,7 +2604,8 @@ snapshot_kind: text
     - 4
     - 6
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 0
       col: 1
@@ -2507,7 +2618,8 @@ snapshot_kind: text
     - 4
     - 6
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 1
       col: 1
@@ -2519,7 +2631,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 2
       col: 8
@@ -2531,7 +2644,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 6
       col: 3
@@ -2543,7 +2657,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 7
       col: 3
@@ -2557,7 +2672,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells:
     - row: 0
       col: 0
@@ -2575,7 +2691,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 0
       col: 1
@@ -2588,7 +2705,8 @@ snapshot_kind: text
     - 3
     - 5
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 1
       col: 1
@@ -2603,7 +2721,8 @@ snapshot_kind: text
     - 6
     - 9
   areas:
-    - KillerCage: 11
+    - type: KillerCage
+      value: 11
   affectedCells:
     - row: 4
       col: 1
@@ -2617,7 +2736,8 @@ snapshot_kind: text
     - 6
     - 9
   areas:
-    - KillerCage: 11
+    - type: KillerCage
+      value: 11
   affectedCells:
     - row: 4
       col: 2
@@ -2629,7 +2749,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 7
       col: 0
@@ -2641,7 +2762,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 7
       col: 1
@@ -2653,7 +2775,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 8
       col: 1
@@ -2690,7 +2813,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 5
@@ -2702,7 +2826,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 11
+    - type: KillerCage
+      value: 11
   affectedCells:
     - row: 4
       col: 2
@@ -2733,7 +2858,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 1
       col: 2
@@ -2745,7 +2871,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 2
       col: 2
@@ -2793,7 +2920,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 7
       col: 3
@@ -2807,7 +2935,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Column: 0
+    - type: Column
+      value: 0
   affectedCells:
     - row: 6
       col: 1
@@ -2826,7 +2955,8 @@ snapshot_kind: text
     - 5
     - 8
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 2
@@ -2839,7 +2969,8 @@ snapshot_kind: text
     - 5
     - 8
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 7
       col: 2
@@ -2852,7 +2983,8 @@ snapshot_kind: text
     - 4
     - 6
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 7
       col: 0
@@ -2866,7 +2998,8 @@ snapshot_kind: text
     - 6
     - 9
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 7
       col: 1
@@ -2879,7 +3012,8 @@ snapshot_kind: text
     - 4
     - 6
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 8
       col: 1
@@ -2891,7 +3025,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 22
+    - type: KillerCage
+      value: 22
   affectedCells:
     - row: 8
       col: 6
@@ -2944,7 +3079,8 @@ snapshot_kind: text
     - 2
     - 4
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 5
       col: 1
@@ -2956,7 +3092,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 5
       col: 2
@@ -3007,7 +3144,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 5
@@ -3019,7 +3157,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 5
       col: 8
@@ -3031,7 +3170,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 6
       col: 4
@@ -3043,7 +3183,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 7
       col: 4
@@ -3078,7 +3219,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 1
       col: 4
@@ -3090,7 +3232,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 2
       col: 4
@@ -3102,7 +3245,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 19
+    - type: KillerCage
+      value: 19
   affectedCells:
     - row: 7
       col: 1
@@ -3135,7 +3279,8 @@ snapshot_kind: text
     - 3
     - 5
   areas:
-    - KillerCage: 24
+    - type: KillerCage
+      value: 24
   affectedCells:
     - row: 7
       col: 7
@@ -3149,7 +3294,8 @@ snapshot_kind: text
     - 3
     - 5
   areas:
-    - KillerCage: 24
+    - type: KillerCage
+      value: 24
   affectedCells:
     - row: 7
       col: 8
@@ -3163,7 +3309,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells:
     - row: 3
       col: 3
@@ -3185,7 +3332,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells:
     - row: 3
       col: 3
@@ -3207,7 +3355,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 6
       col: 1
@@ -3236,7 +3385,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 7
       col: 3
@@ -3248,7 +3398,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 21
+    - type: KillerCage
+      value: 21
   affectedCells:
     - row: 7
       col: 4
@@ -3294,7 +3445,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 6
+    - type: Region
+      value: 6
   affectedCells:
     - row: 8
       col: 7
@@ -3310,7 +3462,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 1
       col: 2
@@ -3322,7 +3475,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 2
       col: 2
@@ -3334,7 +3488,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 24
+    - type: KillerCage
+      value: 24
   affectedCells:
     - row: 7
       col: 7
@@ -3346,7 +3501,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 24
+    - type: KillerCage
+      value: 24
   affectedCells:
     - row: 7
       col: 8
@@ -3378,7 +3534,8 @@ snapshot_kind: text
     - 1
     - 2
   areas:
-    - KillerCage: 5
+    - type: KillerCage
+      value: 5
   affectedCells:
     - row: 1
       col: 6
@@ -3390,7 +3547,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 5
       col: 2
@@ -3404,7 +3562,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Column: 1
+    - type: Column
+      value: 1
   affectedCells:
     - row: 5
       col: 8
@@ -3416,7 +3575,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 6
       col: 8
@@ -3430,7 +3590,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells: []
   grid: ~
   candidates: ~
@@ -3442,7 +3603,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 7
+    - type: Region
+      value: 7
   affectedCells:
     - row: 7
       col: 6
@@ -3466,7 +3628,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Region: 7
+    - type: Region
+      value: 7
   affectedCells:
     - row: 6
       col: 2
@@ -3490,7 +3653,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 18
+    - type: KillerCage
+      value: 18
   affectedCells:
     - row: 7
       col: 2
@@ -3502,7 +3666,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 23
+    - type: KillerCage
+      value: 23
   affectedCells:
     - row: 7
       col: 6
@@ -3529,7 +3694,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Region: 6
+    - type: Region
+      value: 6
   affectedCells:
     - row: 6
       col: 6
@@ -3545,7 +3711,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Row: 5
+    - type: Row
+      value: 5
   affectedCells:
     - row: 3
       col: 3
@@ -3560,7 +3727,8 @@ snapshot_kind: text
     - 3
     - 6
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 1
       col: 3
@@ -3604,7 +3772,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 8
+    - type: KillerCage
+      value: 8
   affectedCells:
     - row: 2
       col: 3
@@ -3616,7 +3785,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 1
       col: 5
@@ -3628,7 +3798,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 2
       col: 5
@@ -3640,7 +3811,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 3
       col: 6
@@ -3652,7 +3824,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 3
       col: 7
@@ -3681,7 +3854,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 3
       col: 8
@@ -3695,7 +3869,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 3
       col: 8
@@ -3707,7 +3882,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 10
+    - type: KillerCage
+      value: 10
   affectedCells:
     - row: 2
       col: 8
@@ -3750,7 +3926,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 1
       col: 4
@@ -3763,7 +3940,8 @@ snapshot_kind: text
     - 5
     - 8
   areas:
-    - KillerCage: 5
+    - type: KillerCage
+      value: 5
   affectedCells:
     - row: 1
       col: 6
@@ -3775,7 +3953,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 5
+    - type: KillerCage
+      value: 5
   affectedCells:
     - row: 2
       col: 7
@@ -3787,7 +3966,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - KillerCage: 24
+    - type: KillerCage
+      value: 24
   affectedCells:
     - row: 7
       col: 7
@@ -3818,7 +3998,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 1
       col: 5
@@ -3830,7 +4011,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 2
       col: 5
@@ -3858,7 +4040,8 @@ snapshot_kind: text
     - 7
     - 9
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 6
@@ -3870,7 +4053,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 23
+    - type: KillerCage
+      value: 23
   affectedCells:
     - row: 6
       col: 7
@@ -3882,7 +4066,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - KillerCage: 23
+    - type: KillerCage
+      value: 23
   affectedCells:
     - row: 6
       col: 6
@@ -3918,7 +4103,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 12
+    - type: KillerCage
+      value: 12
   affectedCells:
     - row: 4
       col: 7
@@ -3948,7 +4134,8 @@ snapshot_kind: text
     - 2
     - 8
   areas:
-    - KillerCage: 5
+    - type: KillerCage
+      value: 5
   affectedCells:
     - row: 2
       col: 6
@@ -3960,7 +4147,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 7
@@ -3973,7 +4161,8 @@ snapshot_kind: text
     - 2
     - 4
   areas:
-    - KillerCage: 16
+    - type: KillerCage
+      value: 16
   affectedCells:
     - row: 5
       col: 5
@@ -4002,7 +4191,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 17
+    - type: KillerCage
+      value: 17
   affectedCells:
     - row: 5
       col: 8
@@ -4042,7 +4232,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 5
+    - type: KillerCage
+      value: 5
   affectedCells:
     - row: 2
       col: 6
@@ -4080,7 +4271,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 24
+    - type: KillerCage
+      value: 24
   affectedCells:
     - row: 8
       col: 7
@@ -4094,7 +4286,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Row: 5
+    - type: Row
+      value: 5
   affectedCells:
     - row: 6
       col: 6
@@ -4109,7 +4302,8 @@ snapshot_kind: text
     - 5
     - 9
   areas:
-    - KillerCage: 23
+    - type: KillerCage
+      value: 23
   affectedCells:
     - row: 6
       col: 7
@@ -4121,7 +4315,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 23
+    - type: KillerCage
+      value: 23
   affectedCells:
     - row: 6
       col: 6
@@ -4146,7 +4341,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 5
+    - type: KillerCage
+      value: 5
   affectedCells:
     - row: 2
       col: 7
@@ -4171,7 +4367,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - KillerCage: 6
+    - type: KillerCage
+      value: 6
   affectedCells:
     - row: 1
       col: 8
@@ -4206,7 +4403,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 2
+    - type: KillerCage
+      value: 2
   affectedCells:
     - row: 1
       col: 2
@@ -4218,7 +4416,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 6
+    - type: KillerCage
+      value: 6
   affectedCells:
     - row: 0
       col: 7
@@ -4230,7 +4429,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 6
+    - type: KillerCage
+      value: 6
   affectedCells:
     - row: 0
       col: 8
@@ -4242,7 +4442,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 6
+    - type: KillerCage
+      value: 6
   affectedCells:
     - row: 1
       col: 7
@@ -4254,7 +4455,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 3
       col: 6
@@ -4281,7 +4483,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - KillerCage: 0
+    - type: KillerCage
+      value: 0
   affectedCells:
     - row: 1
       col: 0
@@ -4293,7 +4496,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 4
+    - type: KillerCage
+      value: 4
   affectedCells:
     - row: 0
       col: 6
@@ -4340,7 +4544,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - KillerCage: 9
+    - type: KillerCage
+      value: 9
   affectedCells:
     - row: 2
       col: 5
@@ -4354,7 +4559,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Column: 0
+    - type: Column
+      value: 0
   affectedCells:
     - row: 0
       col: 4
@@ -4366,7 +4572,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 3
+    - type: KillerCage
+      value: 3
   affectedCells:
     - row: 1
       col: 4
@@ -4391,7 +4598,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4425,7 +4633,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - KillerCage: 6
+    - type: KillerCage
+      value: 6
   affectedCells:
     - row: 0
       col: 7
@@ -4450,7 +4659,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Row: 0
+    - type: Row
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4462,7 +4672,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Column: 4
+    - type: Column
+      value: 4
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4474,7 +4685,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells:
     - row: 4
       col: 5
@@ -4486,7 +4698,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 13
+    - type: KillerCage
+      value: 13
   affectedCells:
     - row: 4
       col: 3
@@ -4500,7 +4713,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Column: 5
+    - type: Column
+      value: 5
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4512,7 +4726,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4535,7 +4750,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 2
+    - type: Region
+      value: 2
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4558,7 +4774,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Row: 8
+    - type: Row
+      value: 8
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4570,7 +4787,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Column: 8
+    - type: Column
+      value: 8
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4582,7 +4800,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Region: 5
+    - type: Region
+      value: 5
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4594,7 +4813,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 5
+    - type: Region
+      value: 5
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4606,7 +4826,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Column: 6
+    - type: Column
+      value: 6
   affectedCells:
     - row: 7
       col: 3
@@ -4618,7 +4839,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - KillerCage: 15
+    - type: KillerCage
+      value: 15
   affectedCells:
     - row: 6
       col: 3
@@ -4632,7 +4854,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 8
+    - type: Region
+      value: 8
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4644,7 +4867,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Row: 6
+    - type: Row
+      value: 6
   affectedCells: []
   grid: ~
   candidates: ~
@@ -4656,7 +4880,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 7
+    - type: Region
+      value: 7
   affectedCells: []
   grid: ~
   candidates: ~

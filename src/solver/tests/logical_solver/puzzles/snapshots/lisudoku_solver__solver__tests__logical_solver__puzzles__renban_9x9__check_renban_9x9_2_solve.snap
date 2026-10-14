@@ -261,7 +261,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 0
       col: 7
@@ -273,7 +274,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 0
       col: 8
@@ -285,7 +287,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 2
       col: 8
@@ -297,7 +300,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Renban: 2
+    - type: Renban
+      value: 2
   affectedCells:
     - row: 4
       col: 4
@@ -309,7 +313,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Renban: 3
+    - type: Renban
+      value: 3
   affectedCells:
     - row: 6
       col: 0
@@ -321,7 +326,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Renban: 3
+    - type: Renban
+      value: 3
   affectedCells:
     - row: 7
       col: 0
@@ -333,7 +339,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Renban: 3
+    - type: Renban
+      value: 3
   affectedCells:
     - row: 8
       col: 1
@@ -346,7 +353,8 @@ snapshot_kind: text
     - 1
     - 6
   areas:
-    - Renban: 3
+    - type: Renban
+      value: 3
   affectedCells:
     - row: 8
       col: 2
@@ -385,7 +393,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Region: 2
+    - type: Region
+      value: 2
   affectedCells:
     - row: 0
       col: 3
@@ -407,7 +416,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Column: 6
+    - type: Column
+      value: 6
   affectedCells:
     - row: 4
       col: 8
@@ -429,7 +439,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Column: 6
+    - type: Column
+      value: 6
   affectedCells:
     - row: 3
       col: 8
@@ -451,7 +462,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - Column: 6
+    - type: Column
+      value: 6
   affectedCells:
     - row: 6
       col: 8
@@ -472,7 +484,8 @@ snapshot_kind: text
     - 8
     - 9
   areas:
-    - Renban: 3
+    - type: Renban
+      value: 3
   affectedCells:
     - row: 6
       col: 0
@@ -484,7 +497,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Renban: 3
+    - type: Renban
+      value: 3
   affectedCells:
     - row: 8
       col: 1
@@ -557,7 +571,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Region: 6
+    - type: Region
+      value: 6
   affectedCells:
     - row: 8
       col: 3
@@ -581,7 +596,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Row: 6
+    - type: Row
+      value: 6
   affectedCells:
     - row: 0
       col: 4
@@ -599,7 +615,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Row: 6
+    - type: Row
+      value: 6
   affectedCells:
     - row: 0
       col: 3
@@ -617,7 +634,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Row: 6
+    - type: Row
+      value: 6
   affectedCells:
     - row: 7
       col: 8
@@ -635,7 +653,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Column: 2
+    - type: Column
+      value: 2
   affectedCells:
     - row: 4
       col: 7
@@ -649,7 +668,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - Column: 2
+    - type: Column
+      value: 2
   affectedCells:
     - row: 0
       col: 3
@@ -667,7 +687,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 0
       col: 8
@@ -679,7 +700,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 1
       col: 8
@@ -691,7 +713,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 2
       col: 8
@@ -705,7 +728,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Column: 2
+    - type: Column
+      value: 2
   affectedCells:
     - row: 4
       col: 1
@@ -724,7 +748,8 @@ snapshot_kind: text
     - 7
     - 8
   areas:
-    - Renban: 2
+    - type: Renban
+      value: 2
   affectedCells:
     - row: 4
       col: 4
@@ -738,7 +763,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Column: 1
+    - type: Column
+      value: 1
   affectedCells:
     - row: 0
       col: 8
@@ -751,7 +777,8 @@ snapshot_kind: text
     - 7
     - 9
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 1
       col: 8
@@ -763,7 +790,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Renban: 0
+    - type: Renban
+      value: 0
   affectedCells:
     - row: 2
       col: 8
@@ -820,7 +848,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 2
+    - type: Region
+      value: 2
   affectedCells:
     - row: 0
       col: 0
@@ -840,7 +869,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells:
     - row: 3
       col: 0
@@ -856,7 +886,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - Row: 1
+    - type: Row
+      value: 1
   affectedCells:
     - row: 5
       col: 4
@@ -868,7 +899,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Renban: 1
+    - type: Renban
+      value: 1
   affectedCells:
     - row: 2
       col: 5
@@ -901,7 +933,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -913,7 +946,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells:
     - row: 5
       col: 0
@@ -927,7 +961,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Row: 1
+    - type: Row
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -939,7 +974,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Row: 2
+    - type: Row
+      value: 2
   affectedCells:
     - row: 7
       col: 4
@@ -953,7 +989,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Row: 7
+    - type: Row
+      value: 7
   affectedCells: []
   grid: ~
   candidates: ~
@@ -965,7 +1002,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Column: 1
+    - type: Column
+      value: 1
   affectedCells:
     - row: 4
       col: 4
@@ -979,7 +1017,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Renban: 2
+    - type: Renban
+      value: 2
   affectedCells:
     - row: 4
       col: 3
@@ -993,7 +1032,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Column: 1
+    - type: Column
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1020,7 +1060,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Column: 7
+    - type: Column
+      value: 7
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1032,7 +1073,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - Column: 7
+    - type: Column
+      value: 7
   affectedCells:
     - row: 4
       col: 3
@@ -1045,7 +1087,8 @@ snapshot_kind: text
     - 4
     - 5
   areas:
-    - Renban: 2
+    - type: Renban
+      value: 2
   affectedCells:
     - row: 5
       col: 3
@@ -1059,7 +1102,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Column: 7
+    - type: Column
+      value: 7
   affectedCells:
     - row: 8
       col: 8
@@ -1084,7 +1128,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 5
       col: 8
@@ -1096,7 +1141,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Renban: 2
+    - type: Renban
+      value: 2
   affectedCells:
     - row: 4
       col: 3
@@ -1135,7 +1181,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 3
       col: 0
@@ -1153,7 +1200,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1165,7 +1213,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Column: 3
+    - type: Column
+      value: 3
   affectedCells:
     - row: 7
       col: 4
@@ -1185,7 +1234,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 8
       col: 5
@@ -1199,7 +1249,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 4
+    - type: Region
+      value: 4
   affectedCells:
     - row: 4
       col: 0
@@ -1215,7 +1266,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1227,7 +1279,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells:
     - row: 8
       col: 5
@@ -1241,7 +1294,8 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Column: 5
+    - type: Column
+      value: 5
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1253,7 +1307,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1265,7 +1320,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Row: 3
+    - type: Row
+      value: 3
   affectedCells:
     - row: 5
       col: 8
@@ -1279,7 +1335,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1291,7 +1348,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 3
+    - type: Region
+      value: 3
   affectedCells:
     - row: 4
       col: 8
@@ -1305,7 +1363,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Row: 4
+    - type: Row
+      value: 4
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1317,7 +1376,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 5
+    - type: Region
+      value: 5
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1329,7 +1389,8 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 7
+    - type: Region
+      value: 7
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1341,7 +1402,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 7
+    - type: Region
+      value: 7
   affectedCells:
     - row: 7
       col: 8
@@ -1355,7 +1417,8 @@ snapshot_kind: text
   values:
     - 2
   areas:
-    - Row: 7
+    - type: Row
+      value: 7
   affectedCells: []
   grid: ~
   candidates: ~
@@ -1367,7 +1430,8 @@ snapshot_kind: text
   values:
     - 3
   areas:
-    - Region: 8
+    - type: Region
+      value: 8
   affectedCells: []
   grid: ~
   candidates: ~

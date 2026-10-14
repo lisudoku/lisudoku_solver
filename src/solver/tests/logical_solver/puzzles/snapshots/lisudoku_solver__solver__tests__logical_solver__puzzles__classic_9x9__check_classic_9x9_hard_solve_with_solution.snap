@@ -10,9 +10,12 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Row: 5
-    - Column: 3
-    - Region: 4
+    - type: Row
+      value: 5
+    - type: Column
+      value: 3
+    - type: Region
+      value: 4
   affectedCells: []
   grid: ~
   candidates: ~
@@ -28,7 +31,8 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -44,7 +48,8 @@ snapshot_kind: text
   values:
     - 4
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -60,7 +65,8 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -76,7 +82,8 @@ snapshot_kind: text
   values:
     - 1
   areas:
-    - Region: 1
+    - type: Region
+      value: 1
   affectedCells: []
   grid: ~
   candidates: ~
@@ -94,7 +101,8 @@ snapshot_kind: text
   values:
     - 8
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -347,8 +355,10 @@ snapshot_kind: text
   values:
     - 7
   areas:
-    - Region: 0
-    - Row: 1
+    - type: Region
+      value: 0
+    - type: Row
+      value: 1
   affectedCells:
     - row: 1
       col: 6
@@ -367,7 +377,8 @@ snapshot_kind: text
     - 4
     - 7
   areas:
-    - Region: 0
+    - type: Region
+      value: 0
   affectedCells: []
   grid: ~
   candidates: ~
@@ -381,8 +392,10 @@ snapshot_kind: text
   values:
     - 5
   areas:
-    - Region: 0
-    - Row: 2
+    - type: Region
+      value: 0
+    - type: Row
+      value: 2
   affectedCells:
     - row: 2
       col: 7
@@ -400,8 +413,10 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Region: 0
-    - Column: 0
+    - type: Region
+      value: 0
+    - type: Column
+      value: 0
   affectedCells:
     - row: 8
       col: 0
@@ -421,10 +436,14 @@ snapshot_kind: text
   values:
     - 6
   areas:
-    - Row: 1
-    - Row: 3
-    - Column: 4
-    - Column: 8
+    - type: Row
+      value: 1
+    - type: Row
+      value: 3
+    - type: Column
+      value: 4
+    - type: Column
+      value: 8
   affectedCells:
     - row: 8
       col: 4
@@ -469,8 +488,10 @@ snapshot_kind: text
   values:
     - 9
   areas:
-    - Row: 5
-    - Row: 7
+    - type: Row
+      value: 5
+    - type: Row
+      value: 7
   affectedCells:
     - row: 4
       col: 8
