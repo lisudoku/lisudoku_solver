@@ -104,114 +104,129 @@ impl SudokuConstraints {
     }
   }
 
-  #[cfg(test)]
   pub fn with_fixed_numbers(mut self, fixed_numbers: Vec<FixedNumber>) -> Self {
     self.fixed_numbers = Some(fixed_numbers);
     self
   }
 
-  #[cfg(test)]
-  pub fn with_fixed_numbers_grid(mut self, fixed_numbers_grid: Grid) -> Self {
+  pub fn with_fixed_numbers_grid(mut self, fixed_numbers_grid: &Grid) -> Self {
     self.fixed_numbers = Some(fixed_numbers_grid.to_fixed_numbers());
     self
   }
 
-  #[cfg(test)]
   pub fn with_regions(mut self, regions: Vec<Region>) -> Self {
     self.regions = Some(regions);
     self
   }
 
-  #[cfg(test)]
   pub fn with_extra_regions(mut self, extra_regions: Vec<Region>) -> Self {
     self.extra_regions = Some(extra_regions);
     self
   }
 
-  #[cfg(test)]
   pub fn with_killer_cages(mut self, killer_cages: Vec<KillerCage>) -> Self {
     self.killer_cages = Some(killer_cages);
     self
   }
 
-  #[cfg(test)]
   pub fn with_kropki_dots(mut self, kropki_dots: Vec<KropkiDot>) -> Self {
     self.kropki_dots = Some(kropki_dots);
     self
   }
 
-  #[cfg(test)]
   pub fn with_kropki_negative(mut self) -> Self {
     self.kropki_negative = Some(true);
     self
   }
 
-  #[cfg(test)]
+  pub fn unset_kropki_negative(mut self) -> Self {
+    self.kropki_negative = None;
+    self
+  }
+
   pub fn with_odd_cells(mut self, odd_cells: Vec<CellPosition>) -> Self {
     self.odd_cells = Some(odd_cells);
     self
   }
 
-  #[cfg(test)]
   pub fn with_even_cells(mut self, even_cells: Vec<CellPosition>) -> Self {
     self.even_cells = Some(even_cells);
     self
   }
 
-  #[cfg(test)]
   pub fn with_palindromes(mut self, palindromes: Vec<Palindrome>) -> Self {
     self.palindromes = Some(palindromes);
     self
   }
 
-  #[cfg(test)]
   pub fn with_renbans(mut self, renbans: Vec<Renban>) -> Self {
     self.renbans = Some(renbans);
     self
   }
 
-  #[cfg(test)]
   pub fn with_top_bottom(mut self) -> Self {
     self.top_bottom = Some(true);
     self
   }
 
-  #[cfg(test)]
+  pub fn unset_top_bottom(mut self) -> Self {
+    self.top_bottom = None;
+    self
+  }
+
   pub fn with_anti_king(mut self) -> Self {
     self.anti_king = Some(true);
     self
   }
 
-  #[cfg(test)]
+  pub fn unset_anti_king(mut self) -> Self {
+    self.anti_king = None;
+    self
+  }
+
   pub fn with_anti_knight(mut self) -> Self {
     self.anti_knight = Some(true);
     self
   }
 
-  #[cfg(test)]
+  pub fn unset_anti_knight(mut self) -> Self {
+    self.anti_knight = None;
+    self
+  }
+
   pub fn with_primary_diagonal(mut self) -> Self {
     self.primary_diagonal = Some(true);
     self
   }
 
-  #[cfg(test)]
+  pub fn unset_primary_diagonal(mut self) -> Self {
+    self.primary_diagonal = None;
+    self
+  }
+
   pub fn with_secondary_diagonal(mut self) -> Self {
     self.secondary_diagonal = Some(true);
     self
   }
 
-  #[cfg(test)]
+  pub fn unset_secondary_diagonal(mut self) -> Self {
+    self.secondary_diagonal = None;
+    self
+  }
+
   pub fn with_diagonals(self) -> Self {
     self.with_primary_diagonal().with_secondary_diagonal()
   }
 
-  #[cfg(test)]
+  pub fn unset_diagonals(self) -> Self {
+    self.unset_primary_diagonal().unset_secondary_diagonal()
+  }
+
   pub fn with_thermos(mut self, thermos: Vec<Thermo>) -> Self {
     self.thermos = Some(thermos);
     self
   }
 
-  #[cfg(test)]
   pub fn with_arrows(mut self, arrows: Vec<Arrow>) -> Self {
     self.arrows = Some(arrows);
     self
@@ -318,6 +333,10 @@ pub struct Region(pub Vec<CellPosition>);
 pub struct Grid(pub Vec<Vec<u32>>);
 
 impl Grid {
+  pub fn new(grid_size: usize) -> Self {
+    Self(vec![ vec![ 0; grid_size ]; grid_size ])
+  }
+
   pub fn from_string(grid_str_input: &str) -> Self {
     // Remove all whitespace so the function is easier to use
     let grid_str: String = grid_str_input.chars().filter(|c| !c.is_whitespace()).collect();
@@ -402,7 +421,6 @@ pub enum KropkiDotType {
 }
 
 impl KropkiDot {
-  #[cfg(test)]
   pub fn consecutive(cell_1: CellPosition, cell_2: CellPosition) -> KropkiDot {
     KropkiDot {
       dot_type: KropkiDotType::Consecutive,
@@ -411,7 +429,6 @@ impl KropkiDot {
     }
   }
 
-  #[cfg(test)]
   pub fn double(cell_1: CellPosition, cell_2: CellPosition) -> KropkiDot {
     KropkiDot {
       dot_type: KropkiDotType::Double,

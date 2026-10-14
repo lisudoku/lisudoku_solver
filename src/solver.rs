@@ -11,6 +11,7 @@ use self::logical_solver::arrow_candidates::ArrowCombinationLogicFactory;
 use self::logical_solver::combinations::cell_combination_logic::CellsCacheKey;
 pub use self::checker::SolvedState;
 pub use self::logical_solver::technique::Technique;
+pub use self::brute_solver::BruteSolveSettings;
 
 pub(crate) mod checker;
 pub(crate) mod logical_solver;

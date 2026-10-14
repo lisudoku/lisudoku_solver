@@ -33,11 +33,11 @@ impl SolvedState {
 }
 
 impl Solver {
-  pub(crate) fn check_solved(&self) -> SolvedState {
+  pub fn check_solved(&self) -> SolvedState {
     self.check_grid_valid(false)
   }
 
-  pub(crate) fn check_partially_solved(&self) -> SolvedState {
+  pub fn check_partially_solved(&self) -> SolvedState {
     self.check_grid_valid(true)
   }
 

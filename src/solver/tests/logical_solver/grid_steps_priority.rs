@@ -127,7 +127,7 @@ fn check_grid_steps_priority() {
   for case in cases {
     let constraints = SudokuConstraints::new(4)
       .with_fixed_numbers_grid(
-        Grid::from_string(case.grid)
+        &Grid::from_string(case.grid)
       );
     let mut solver = Solver::new(constraints);
 

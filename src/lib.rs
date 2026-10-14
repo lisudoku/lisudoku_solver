@@ -2,7 +2,7 @@ extern crate console_error_panic_hook;
 
 use types::SolutionType;
 use wasm_bindgen::prelude::*;
-use crate::{solver::checker::SolvedState, types::{Grid, SudokuBruteSolveResult, SudokuConstraints, SudokuLogicalSolveResult}};
+use crate::{solver::{BruteSolveSettings, checker::SolvedState}, types::{Grid, SudokuBruteSolveResult, SudokuConstraints, SudokuLogicalSolveResult}};
 
 pub mod solver;
 pub mod types;
@@ -34,7 +34,7 @@ pub fn wasm_brute_solve(constraints: SudokuConstraints) -> SudokuBruteSolveResul
   console_error_panic_hook::set_once();
 
   let mut solver = solver::Solver::new(constraints);
-  solver.brute_solve(true)
+  solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None })
 }
 
 // TODO: Try changing return type to Result<SudokuLogicalSolveResult, JsError> ?

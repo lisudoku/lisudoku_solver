@@ -418,7 +418,7 @@ fn check_classic_9x9_2_conflicts_solve() {
 fn check_classic_9x9_hard_empty_rectangles_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers_grid(
-      Grid(vec![
+      &Grid(vec![
         vec![ 0, 0, 0, 9, 0, 0, 6, 0, 0 ],
         vec![ 4, 0, 9, 0, 0, 0, 8, 0, 0 ],
         vec![ 2, 0, 7, 6, 0, 0, 5, 0, 4 ],

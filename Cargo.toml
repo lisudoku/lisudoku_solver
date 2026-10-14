@@ -27,10 +27,12 @@ derive_more = { version = "2.0.1", features = ["deref", "deref_mut"] }
 enum_dispatch = "0.3.13"
 strum = { version = "0.28", features = ["derive"] }
 bit-set = "0.11.1"
+rand = "0.10.2"
 
 [dev-dependencies]
 insta = { version = "1.42.2", features = ["yaml"] }
 ntest = "0.9.3"
+url = "2"
 
 [profile.release]
 debug = true
