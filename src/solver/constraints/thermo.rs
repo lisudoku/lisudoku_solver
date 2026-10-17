@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
 use std::cmp::{min, max};
 
 #[derive(Clone, Default, Debug)]
@@ -9,7 +9,7 @@ pub(crate) struct ThermoConstraint {
 
 impl ConstraintDefinition for ThermoConstraint {
   // TODO: maybe check candidates
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for thermo_index in 0..self.thermos.len() {
       let mut crt_max_value: u32 = 0;
 
@@ -21,7 +21,7 @@ impl ConstraintDefinition for ThermoConstraint {
           continue
         }
         if value <= crt_max_value {
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::AreaConstraint,
               area: thermo_area,
@@ -33,7 +33,7 @@ impl ConstraintDefinition for ThermoConstraint {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> { vec![] }

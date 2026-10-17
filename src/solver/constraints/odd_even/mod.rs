@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}, odd_even::{even::EvenConstraintLogic, odd::OddConstraintLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}, odd_even::{even::EvenConstraintLogic, odd::OddConstraintLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType}};
 use std::slice::Iter;
 use derive_more::Deref;
 
@@ -22,11 +22,11 @@ pub(crate) trait OddEvenBaseLogic {
 pub(crate) struct OddEvenBaseConstraint<L: OddEvenBaseLogic>(L);
 
 impl<L: OddEvenBaseLogic> ConstraintDefinition for OddEvenBaseConstraint<L> {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for cell in self.cells() {
       let value = grid[cell.row][cell.col];
       if value != 0 && !self.is_value_valid(value) {
-        return SolvedState::unsolved(
+        return GridCheckResult::unsolved(
           InvalidStateReason {
             state_type: InvalidStateType::CellInvalidValue,
             area: Area::Cell(cell.row, cell.col),
@@ -36,7 +36,7 @@ impl<L: OddEvenBaseLogic> ConstraintDefinition for OddEvenBaseConstraint<L> {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> { vec![] }

@@ -1,10 +1,10 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellDirection, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellDirection, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct AntiKingConstraint;
 
 impl ConstraintDefinition for AntiKingConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for cell in CellPosition::all_cells_in_grid_size(grid.len()) {
       let value = grid[cell.row][cell.col];
       if value == 0 {
@@ -17,7 +17,7 @@ impl ConstraintDefinition for AntiKingConstraint {
           continue
         }
         if value == peer_value {
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::CellInvalidValue,
               area: Area::Cell(cell.row, cell.col),
@@ -28,7 +28,7 @@ impl ConstraintDefinition for AntiKingConstraint {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> { vec![] }

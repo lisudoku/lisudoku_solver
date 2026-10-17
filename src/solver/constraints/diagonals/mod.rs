@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}, diagonals::{primary_diagonal::PrimaryDiagonalLogic, secondary_diagonal::SecondaryDiagonalLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}, diagonals::{primary_diagonal::PrimaryDiagonalLogic, secondary_diagonal::SecondaryDiagonalLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid}};
 use derive_more::Deref;
 
 mod primary_diagonal;
@@ -23,8 +23,8 @@ pub(crate) trait DiagonalBaseLogic {
 pub(crate) struct DiagonalBaseConstraint<L: DiagonalBaseLogic>(L);
 
 impl<L: DiagonalBaseLogic> ConstraintDefinition for DiagonalBaseConstraint<L> {
-  fn check_grid_special_validity(&self, _grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
-    SolvedState::solved()
+  fn check_grid_special_validity(&self, _grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> {

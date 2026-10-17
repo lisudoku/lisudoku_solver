@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{SolveState, GridCheckResult}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_anti_king_correct() {
@@ -13,7 +13,7 @@ fn check_anti_king_correct() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -29,7 +29,7 @@ fn check_anti_king_wrong_1() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::CellInvalidValue,
         area: Area::Cell(0, 1),
@@ -52,7 +52,7 @@ fn check_anti_king_wrong_2() {
   let partially_solved = solve_state.check_partially_solved();
   assert_eq!(
     partially_solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::CellNoCandidates,
         area: Area::Cell(1, 1),

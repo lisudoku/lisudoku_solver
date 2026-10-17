@@ -1,4 +1,4 @@
-use crate::solver::SolvedState;
+use crate::solver::GridCheckResult;
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
 use crate::solver::types::CandidateSet;
@@ -37,13 +37,13 @@ impl Technique for Candidates {
     ]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> SolvedState {
+  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
     solver.state.candidates_active = true;
     solver.state.candidates = step.candidates.as_ref().unwrap().into_iter()
       .map(|row| row.into_iter().map(|col|
         CandidateSet::from_iter(col.iter().copied())
       ).collect())
       .collect();
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 }

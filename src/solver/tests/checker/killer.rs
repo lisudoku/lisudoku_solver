@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KillerCage, Region, SudokuConstraints}};
+use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KillerCage, Region, SudokuConstraints}};
 
 #[test]
 fn check_killer_low_sum() {
@@ -25,7 +25,7 @@ fn check_killer_low_sum() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::KillerCage(0),
@@ -61,7 +61,7 @@ fn check_killer_high_sum() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::KillerCage(0),
@@ -97,7 +97,7 @@ fn check_killer_unique_digits() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaValueConflict,
         area: Area::KillerCage(0),
@@ -131,7 +131,7 @@ fn check_killer_correct() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -158,7 +158,7 @@ fn check_killer_partially_correct() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_partially_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -185,7 +185,7 @@ fn check_killer_partially_correct_exact_sum() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_partially_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -214,7 +214,7 @@ fn check_killer_partially_incorrect_high_sum() {
   let solved = solve_state.check_partially_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::KillerCage(0),

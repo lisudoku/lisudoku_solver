@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Renban, SudokuConstraints}};
+use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Renban, SudokuConstraints}};
 
 #[test]
 fn check_renban_correct() {
@@ -16,7 +16,7 @@ fn check_renban_correct() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -37,7 +37,7 @@ fn check_renban_wrong_value_conflict() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaValueConflict,
         area: Area::Renban(0),
@@ -68,7 +68,7 @@ fn check_renban_wrong_value_conflict_2() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaValueConflict,
         area: Area::Renban(0),
@@ -96,7 +96,7 @@ fn check_renban_wrong_not_consecutive() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Renban(0),
@@ -124,7 +124,7 @@ fn check_renban_wrong_partial_not_consecutive() {
   let solved = solve_state.check_partially_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Renban(0),
@@ -153,7 +153,7 @@ fn check_renban_correct_partial_with_fixed_value() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_partially_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -175,5 +175,5 @@ fn check_renban_correct_partial_with_no_value() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_partially_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }

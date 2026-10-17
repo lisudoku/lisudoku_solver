@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState, logical::{caches::LogicalCaches, techniques::{Technique, combinations::cell_combination_logic::CellsCacheKey}}, types::CandidateSet}, types::{Area, CellPosition, SolutionStep, SolutionType, SudokuConstraints, SudokuLogicalSolveResult}};
+use crate::{solver::{SolveState, GridCheckResult, logical::{caches::LogicalCaches, techniques::{Technique, combinations::cell_combination_logic::CellsCacheKey}}, types::CandidateSet}, types::{Area, CellPosition, SolutionStep, SolutionType, SudokuConstraints, SudokuLogicalSolveResult}};
 use std::{collections::HashMap, rc::Rc};
 use itertools::Itertools;
 
@@ -227,7 +227,7 @@ impl LogicalSolver {
   }
 
   /// Updates grid and candidates with the deduction from `step`
-  pub(crate) fn apply_rule(&mut self, step: &SolutionStep) -> SolvedState {
+  pub(crate) fn apply_rule(&mut self, step: &SolutionStep) -> GridCheckResult {
     if DISPLAY_STEPS {
       println!(
         "{:?} ({}) ({}) ({}): {}",

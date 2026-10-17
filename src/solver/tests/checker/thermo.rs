@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
+use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_wrong_thermo() {
@@ -22,7 +22,7 @@ fn check_wrong_thermo() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Thermo(0),

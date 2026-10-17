@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Palindrome}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Palindrome}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct PalindromeConstraint {
@@ -6,7 +6,7 @@ pub(crate) struct PalindromeConstraint {
 }
 
 impl ConstraintDefinition for PalindromeConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for palindrome_index in 0..self.palindromes.len() {
       let area = Area::Palindrome(palindrome_index);
       let cells = self.area_cells(&area);
@@ -15,7 +15,7 @@ impl ConstraintDefinition for PalindromeConstraint {
       let mut right = values.len() - 1;
       while left < right {
         if values[left] != 0 && values[right] != 0 && values[left] != values[right] {
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::AreaConstraint,
               area: area.clone(),
@@ -28,7 +28,7 @@ impl ConstraintDefinition for PalindromeConstraint {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> { vec![] }

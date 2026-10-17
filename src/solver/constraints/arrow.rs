@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct ArrowConstraint {
@@ -32,16 +32,16 @@ impl ArrowConstraint {
 }
 
 impl ConstraintDefinition for ArrowConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for (arrow_index, arrow) in self.arrows.iter().enumerate() {
       let (arrow_sum, arrow_full) = Self::arrow_arrow_sum(arrow, grid);
       let (circle_number, circle_full) = Self::arrow_circle_number(arrow, grid);
 
       if arrow_full && circle_full {
         if arrow_sum == circle_number {
-          return SolvedState::solved()
+          return GridCheckResult::solved()
         }
-        return SolvedState::unsolved(
+        return GridCheckResult::unsolved(
           InvalidStateReason {
             state_type: InvalidStateType::AreaConstraint,
             area: Area::Arrow(arrow_index),
@@ -52,10 +52,10 @@ impl ConstraintDefinition for ArrowConstraint {
 
       if circle_full {
         if arrow_sum <= circle_number {
-          return SolvedState::solved()
+          return GridCheckResult::solved()
         }
 
-        return SolvedState::unsolved(
+        return GridCheckResult::unsolved(
           InvalidStateReason {
             state_type: InvalidStateType::AreaConstraint,
             area: Area::Arrow(arrow_index),
@@ -65,7 +65,7 @@ impl ConstraintDefinition for ArrowConstraint {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> { vec![] }

@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KillerCage, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KillerCage, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct KillerConstraint {
@@ -7,7 +7,7 @@ pub(crate) struct KillerConstraint {
 }
 
 impl ConstraintDefinition for KillerConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for killer_cage_index in 0..self.killer_cages.len() {
       let killer_cage_area = Area::KillerCage(killer_cage_index);
       let cells = self.area_cells(&killer_cage_area);
@@ -26,7 +26,7 @@ impl ConstraintDefinition for KillerConstraint {
       let Some(killer_sum) = killer_cage.sum else { continue };
 
       if sum != killer_sum && !any_zero || sum > killer_sum {
-        return SolvedState::unsolved(
+        return GridCheckResult::unsolved(
           InvalidStateReason {
             state_type: InvalidStateType::AreaConstraint,
             area: killer_cage_area.clone(),
@@ -36,7 +36,7 @@ impl ConstraintDefinition for KillerConstraint {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn region_areas(&self) -> Vec<Area> {

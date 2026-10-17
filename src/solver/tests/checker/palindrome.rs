@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Palindrome, SudokuConstraints}};
+use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Palindrome, SudokuConstraints}};
 
 #[test]
 fn check_palindrome_correct_even() {
@@ -16,7 +16,7 @@ fn check_palindrome_correct_even() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -35,7 +35,7 @@ fn check_palindrome_correct_odd() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -56,7 +56,7 @@ fn check_palindrome_wrong_edge() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Palindrome(0),
@@ -87,7 +87,7 @@ fn check_palindrome_wrong_partial_edge() {
   let solved = solve_state.check_partially_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Palindrome(0),
@@ -116,5 +116,5 @@ fn check_palindrome_correct_partial() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_partially_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }

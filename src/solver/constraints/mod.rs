@@ -1,4 +1,4 @@
-use crate::{solver::{SolvedState, constraints::{anti_king::AntiKingConstraint, anti_knight::AntiKnightConstraint, arrow::ArrowConstraint, context::{ConstraintCellPeersContext}, diagonals::{PrimaryDiagonalConstraint, SecondaryDiagonalConstraint}, fixed_numbers::FixedNumbersConstraint, killer::KillerConstraint, kropki::KropkiConstraint, odd_even::{EvenConstraint, OddConstraint}, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::CandidateSet}, types::{Area, CellPosition, Grid, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{anti_king::AntiKingConstraint, anti_knight::AntiKnightConstraint, arrow::ArrowConstraint, context::{ConstraintCellPeersContext}, diagonals::{PrimaryDiagonalConstraint, SecondaryDiagonalConstraint}, fixed_numbers::FixedNumbersConstraint, killer::KillerConstraint, kropki::KropkiConstraint, odd_even::{EvenConstraint, OddConstraint}, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::CandidateSet}, types::{Area, CellPosition, Grid, SudokuConstraints}};
 use enum_dispatch::enum_dispatch;
 
 pub mod kind;
@@ -38,7 +38,7 @@ pub(crate) trait ConstraintDefinition {
 
   /// Only checks "special" constraints because peer constraints are checked outside.
   /// Some constraints can also check candidates in partial solutions.
-  fn check_grid_special_validity(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> SolvedState;
+  fn check_grid_special_validity(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult;
 
   /// Returns all cells within the given <area>
   fn area_cells(&self, area: &Area) -> Vec<CellPosition>;

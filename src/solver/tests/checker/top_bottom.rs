@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{SolveState, GridCheckResult}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_top_bottom_solved() {
@@ -11,7 +11,7 @@ fn check_top_bottom_solved() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -27,7 +27,7 @@ fn check_top_bottom_wrong_one_sequence() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Grid,
@@ -50,7 +50,7 @@ fn check_top_bottom_wrong_both() {
   let solved = solve_state.check_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Grid,
@@ -71,7 +71,7 @@ fn check_top_bottom_empty_correct() {
   ]);
   let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
   let solved = solve_state.check_partially_solved();
-  assert_eq!(solved, SolvedState::solved());
+  assert_eq!(solved, GridCheckResult::solved());
 }
 
 #[test]
@@ -87,7 +87,7 @@ fn check_top_bottom_empty_wrong() {
   let solved = solve_state.check_partially_solved();
   assert_eq!(
     solved,
-    SolvedState::unsolved(
+    GridCheckResult::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
         area: Area::Grid,

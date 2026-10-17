@@ -2,13 +2,13 @@ extern crate console_error_panic_hook;
 
 use types::SolutionType;
 use wasm_bindgen::prelude::*;
-use crate::{solver::{SolveState, SolvedState, brute::{BruteSolveSettings, BruteSolver}, logical::logical_solver::LogicalSolver}, types::{Grid, SudokuBruteSolveResult, SudokuConstraints, SudokuLogicalSolveResult}};
+use crate::{solver::{SolveState, GridCheckResult, brute::{BruteSolveSettings, BruteSolver}, logical::logical_solver::LogicalSolver}, types::{Grid, SudokuBruteSolveResult, SudokuConstraints, SudokuLogicalSolveResult}};
 
 pub mod solver;
 pub mod types;
 
 #[wasm_bindgen]
-pub fn wasm_check_solved(constraints: SudokuConstraints, grid: Grid) -> SolvedState {
+pub fn wasm_check_solved(constraints: SudokuConstraints, grid: Grid) -> GridCheckResult {
   // panic::set_hook(Box::new(console_error_panic_hook::hook));
   // Try this instead
   console_error_panic_hook::set_once();

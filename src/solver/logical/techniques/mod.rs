@@ -30,7 +30,7 @@ pub mod palindrome_values;
 pub mod palindrome_candidates;
 pub mod adhoc_naked_set;
 
-use crate::{solver::{SolvedState, logical::logical_solver::LogicalSolver, types::CandidateSet}, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, Rule, SolutionStep}};
+use crate::{solver::{GridCheckResult, logical::logical_solver::LogicalSolver, types::CandidateSet}, types::{Area, CellPosition, InvalidStateReason, InvalidStateType, Rule, SolutionStep}};
 
 pub trait Technique {
   // It is a grid step if it fills in a value in the grid
@@ -79,7 +79,7 @@ pub trait Technique {
   // This is the default base implementation, but can be overridden
   // Return value indicates whether applying this step leads to a contradiction
   // (overriding cell value, things that check_partially_solved wouldn't catch)
-  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> SolvedState {
+  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
     if self.is_grid_step() {
       if solver.state.candidates_active {
         assert_eq!(step.cells.len(), 1);
@@ -94,7 +94,7 @@ pub trait Technique {
         // So if we find a contradiction we should stop
 
         if solver.state.grid[row][col] != 0 && solver.state.grid[row][col] != value {
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::CellInvalidValue,
               area: Area::Cell(cell.row, cell.col),
@@ -127,7 +127,7 @@ pub trait Technique {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
   fn apply_corresponding_indices(&self) -> bool { false }

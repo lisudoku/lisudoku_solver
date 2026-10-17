@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use crate::solver::SolvedState;
+use crate::solver::GridCheckResult;
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
 use crate::solver::types::CandidateSet;
@@ -67,12 +67,12 @@ impl Technique for HiddenSet {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> SolvedState {
+  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
     for &CellPosition { row, col } in &step.cells {
       let value_set = CandidateSet::from_iter(step.values.iter().copied());
       solver.state.candidates[row][col] = solver.state.candidates[row][col].intersection(&value_set);
     }
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 }
 

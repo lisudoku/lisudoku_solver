@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use crate::solver::SolvedState;
+use crate::solver::GridCheckResult;
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
 use crate::solver::types::CandidateSet;
@@ -63,11 +63,11 @@ impl Technique for XYWing {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> SolvedState {
+  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
     for &CellPosition { row, col } in &step.affected_cells {
       // Remove Z as candidate
       solver.state.candidates[row][col].remove(&step.values[2]);
     }
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 }

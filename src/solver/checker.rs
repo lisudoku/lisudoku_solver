@@ -10,22 +10,22 @@ use std::{format};
 #[derive(Serialize, Deserialize, Debug, PartialEq, Tsify)]
 #[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
-pub struct SolvedState {
+pub struct GridCheckResult {
   pub solved: bool,
   #[tsify(optional)]
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
-impl SolvedState {
-  pub fn solved() -> SolvedState {
-    SolvedState {
+impl GridCheckResult {
+  pub fn solved() -> GridCheckResult {
+    GridCheckResult {
       solved: true,
       invalid_state_reason: None,
     }
   }
 
-  pub fn unsolved(invalid_state_reason: InvalidStateReason) -> SolvedState {
-    SolvedState {
+  pub fn unsolved(invalid_state_reason: InvalidStateReason) -> GridCheckResult {
+    GridCheckResult {
       solved: false,
       invalid_state_reason: Some(invalid_state_reason),
     }
@@ -33,15 +33,15 @@ impl SolvedState {
 }
 
 impl SolveState {
-  pub fn check_solved(&self) -> SolvedState {
+  pub fn check_solved(&self) -> GridCheckResult {
     self.check_grid_valid(false)
   }
 
-  pub fn check_partially_solved(&self) -> SolvedState {
+  pub fn check_partially_solved(&self) -> GridCheckResult {
     self.check_grid_valid(true)
   }
 
-  fn check_grid_valid(&self, allow_empty: bool) -> SolvedState {
+  fn check_grid_valid(&self, allow_empty: bool) -> GridCheckResult {
     let mut cached_candidates: Vec<Vec<CandidateSet>> = vec![
       vec![ CandidateSet::new(); self.puzzle.grid_size ];
       self.puzzle.grid_size
@@ -52,7 +52,7 @@ impl SolveState {
       let value = self.grid[cell.row][cell.col];
       if value == 0 {
         if !allow_empty {
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::CellEmpty,
               area: Area::Cell(cell.row, cell.col),
@@ -64,7 +64,7 @@ impl SolveState {
         let cell_candidates = self.compute_cell_candidates(&cell);
         cached_candidates[cell.row][cell.col] = cell_candidates.clone();
         if cell_candidates.is_empty() {
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::CellNoCandidates,
               area: Area::Cell(cell.row, cell.col),
@@ -73,7 +73,7 @@ impl SolveState {
           )
         }
       } else if value < 1 || value > self.puzzle.grid_size as u32 {
-        return SolvedState::unsolved(
+        return GridCheckResult::unsolved(
           InvalidStateReason {
             state_type: InvalidStateType::CellInvalidValue,
             area: Area::Cell(cell.row, cell.col),
@@ -99,10 +99,10 @@ impl SolveState {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 
-  fn check_region_area_valid(&self, area: &Area) -> SolvedState {
+  fn check_region_area_valid(&self, area: &Area) -> GridCheckResult {
     let mut values = CandidateSet::new();
     let mut candidates_and_values = CandidateSet::new();
     let area_cells = self.puzzle.area_cells(area);
@@ -117,7 +117,7 @@ impl SolveState {
         continue
       }
       if values.contains(&value) {
-        return SolvedState::unsolved(
+        return GridCheckResult::unsolved(
           InvalidStateReason {
             state_type: InvalidStateType::AreaValueConflict,
             area: area.clone(),
@@ -142,7 +142,7 @@ impl SolveState {
         vec![]
       };
 
-      return SolvedState::unsolved(
+      return GridCheckResult::unsolved(
         InvalidStateReason {
           state_type: InvalidStateType::AreaCandidates,
           area: area.clone(),
@@ -175,7 +175,7 @@ impl SolveState {
 
         if value_index + 1 > used_cells_set.len() {
           // There are more values than target cells
-          return SolvedState::unsolved(
+          return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::AreaCandidates,
               area: area.clone(),
@@ -186,6 +186,6 @@ impl SolveState {
       }
     }
 
-    SolvedState::solved()
+    GridCheckResult::solved()
   }
 }
