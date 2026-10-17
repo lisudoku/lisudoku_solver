@@ -169,4 +169,10 @@ impl SolveState {
   pub fn count_empty_cells_in_list(&self, cells: &Vec<CellPosition>) -> usize {
     cells.into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).count()
   }
+
+  pub fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
+    for cell in cells {
+      self.candidates[cell.row][cell.col].remove(&value);
+    }
+  }
 }

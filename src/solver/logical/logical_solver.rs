@@ -279,12 +279,6 @@ impl LogicalSolver {
       .collect()
   }
 
-  pub fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
-    for cell in cells {
-      self.state.candidates[cell.row][cell.col].remove(&value);
-    }
-  }
-
   fn compute_empty_cell_count(&self) -> usize {
     self
       .state

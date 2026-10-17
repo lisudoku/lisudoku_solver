@@ -111,7 +111,7 @@ pub trait Technique {
 
         if solver.state.candidates_active {
           solver.state.candidates[row][col].clear();
-          solver.update_candidates(&step.affected_cells, value);
+          solver.state.update_candidates(&step.affected_cells, value);
         }
       }
     } else if self.apply_corresponding_indices() {
