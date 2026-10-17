@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{Area, CellPosition, Grid, Rule, SolutionStep, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{Area, CellPosition, Grid, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_grid_steps_priority() {
@@ -129,9 +129,9 @@ fn check_grid_steps_priority() {
       .with_fixed_numbers_grid(
         &Grid::from_string(case.grid)
       );
-    let mut solver = Solver::new(constraints);
+    let mut solver = LogicalSolver::new(constraints);
 
-    let result = solver.logical_solve();
+    let result = solver.solve();
     assert!(!result.steps.is_empty(), "didn't find solution for grid {}", case.grid);
     let step = result.steps.first().unwrap();
     assert_eq!(

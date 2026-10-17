@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{technique::Technique}}, types::{CellPosition, FixedNumber, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{CellPosition, FixedNumber, SudokuConstraints}};
 
 #[test]
 fn check_thermo_steps() {
@@ -22,21 +22,21 @@ fn check_thermo_steps() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
-  let steps = crate::solver::logical_solver::thermo_steps::Thermo.run(&solver);
+  let steps = crate::solver::logical::techniques::thermo_steps::Thermo.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
   assert_eq!(step.cells, vec![ CellPosition::new(6, 0) ]);
   assert_eq!(step.values, vec![4]);
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
 
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == rule_value);
 }
 
@@ -61,8 +61,8 @@ fn check_full_thermo() {
         ]),
       ]
     );
-  let solver = Solver::new(constraints);
+  let solver = LogicalSolver::new(constraints);
 
-  let steps = crate::solver::logical_solver::thermo_steps::Thermo.run(&solver);
+  let steps = crate::solver::logical::techniques::thermo_steps::Thermo.run(&solver);
   assert!(steps.is_empty());
 }

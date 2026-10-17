@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, Grid, KillerCage, Region, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, Grid, KillerCage, Region, SolutionType, SudokuConstraints}};
 
 // https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
 #[test]
@@ -167,8 +167,8 @@ fn check_killer_9x9_1_solve() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -322,8 +322,8 @@ fn check_killer_9x9_2_solve() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

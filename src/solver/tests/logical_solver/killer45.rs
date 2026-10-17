@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, killer45::Killer45, technique::Technique}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, killer45::Killer45}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -16,7 +16,7 @@ fn check_killer45_row() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
@@ -27,9 +27,9 @@ fn check_killer45_row() {
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 5) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 4, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::Row(0) ]);
-  assert!(solver.candidates[0][5].contains(&1));
+  assert!(solver.state.candidates[0][5].contains(&1));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[0][5];
+  let final_candidates = &solver.state.candidates[0][5];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&1));
 }
@@ -52,7 +52,7 @@ fn check_killer45_region() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
@@ -63,9 +63,9 @@ fn check_killer45_region() {
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 4) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4, 5, 6, 7, 8, 9 ]);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
-  assert!(solver.candidates[4][4].contains(&2));
+  assert!(solver.state.candidates[4][4].contains(&2));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[4][4];
+  let final_candidates = &solver.state.candidates[4][4];
   assert_eq!(final_candidates.len(), 2);
   assert!(!final_candidates.contains(&2));
 }
@@ -84,7 +84,7 @@ fn check_killer45_col_with_fixed_digits() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
@@ -95,9 +95,9 @@ fn check_killer45_col_with_fixed_digits() {
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 1) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::Column(1) ]);
-  assert!(solver.candidates[4][1].contains(&1));
+  assert!(solver.state.candidates[4][1].contains(&1));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[4][1];
+  let final_candidates = &solver.state.candidates[4][1];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&1));
 }
@@ -142,7 +142,7 @@ fn check_killer45_col_partial_cages() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
@@ -153,9 +153,9 @@ fn check_killer45_col_partial_cages() {
   assert_eq!(step.areas, vec![ Area::Column(3) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(1, 3) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 4, 8, 9 ]);
-  assert!(solver.candidates[1][3].contains(&1));
+  assert!(solver.state.candidates[1][3].contains(&1));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[1][3];
+  let final_candidates = &solver.state.candidates[1][3];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&1));
 }

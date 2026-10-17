@@ -1,4 +1,4 @@
-use crate::{solver::{BruteSolveSettings, Solver}, types::{CellPosition, FixedNumber, Grid, SudokuConstraints, Thermo}};
+use crate::{solver::brute::{BruteSolveSettings, BruteSolver}, types::{CellPosition, FixedNumber, Grid, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_4x4_solve() {
@@ -11,8 +11,8 @@ fn check_4x4_solve() {
         FixedNumber::new(2, 2, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 1);
   assert_eq!(
     result.solution.unwrap(),
@@ -34,8 +34,8 @@ fn check_4x4_multiple_solutions() {
         FixedNumber::new(1, 3, 2),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 2);
 }
 
@@ -60,8 +60,8 @@ fn check_6x6_solve() {
         FixedNumber::new(5, 5, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 1);
   assert_eq!(
     result.solution.unwrap(),
@@ -117,8 +117,8 @@ fn check_9x9_easy_solve() {
         FixedNumber::new(8, 8, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 1);
   assert_eq!(
     result.solution.unwrap(),
@@ -183,19 +183,30 @@ fn check_6x6_thermo_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let expected_solution = Grid(vec![
+    vec![ 1, 2, 3, 4, 5, 6 ],
+    vec![ 4, 5, 6, 3, 2, 1 ],
+    vec![ 5, 6, 1, 2, 3, 4 ],
+    vec![ 2, 3, 4, 1, 6, 5 ],
+    vec![ 3, 4, 5, 6, 1, 2 ],
+    vec![ 6, 1, 2, 5, 4, 3 ],
+  ]);
+  let mut solver = BruteSolver::new(constraints);
+
+  // with logic
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 1);
   assert_eq!(
     result.solution.unwrap(),
-    Grid(vec![
-      vec![ 1, 2, 3, 4, 5, 6 ],
-      vec![ 4, 5, 6, 3, 2, 1 ],
-      vec![ 5, 6, 1, 2, 3, 4 ],
-      vec![ 2, 3, 4, 1, 6, 5 ],
-      vec![ 3, 4, 5, 6, 1, 2 ],
-      vec![ 6, 1, 2, 5, 4, 3 ],
-    ]),
+    expected_solution,
+  );
+
+  // no logic
+  let result = solver.solve(BruteSolveSettings{ use_logic: false, randomize: false, solution_count_limit: None });
+  assert_eq!(result.solution_count, 1);
+  assert_eq!(
+    result.solution.unwrap(),
+    expected_solution,
   );
 }
 
@@ -273,8 +284,8 @@ fn check_9x9_thermo_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 1);
   assert_eq!(result.solution.as_ref().unwrap().len(), 9);
 }
@@ -300,8 +311,8 @@ fn check_9x9_thermo_no_solution() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: false, solution_count_limit: None });
   assert_eq!(result.solution_count, 0);
   assert_eq!(result.solution, None);
 }

@@ -1,0 +1,68 @@
+use std::collections::HashSet;
+use std::mem::swap;
+use itertools::Itertools;
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{CellPosition, Rule, SolutionStep}};
+
+pub struct TurbotFish;
+
+// Finds 2 strong links that have one of their ends see each other.
+impl Technique for TurbotFish {
+  fn get_rule(&self) -> Rule { Rule::TurbotFish }
+
+  fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
+    if !solver.state.candidates_active {
+      return vec![]
+    }
+
+    let strong_links = solver.all_strong_links();
+    let strong_links_by_value = solver.all_strong_links_by_value();
+
+    for (area1, value, a1, a2) in &strong_links {
+      for (area2, _, b1, b2) in &strong_links_by_value[value] {
+        if area1 == area2 || a1 == b1 || a1 == b2 || a2 == b1 || a2 == b2 {
+          continue
+        }
+        let a1b1 = solver.state.puzzle.cells_are_peers(a1, b1);
+        let a1b2 = solver.state.puzzle.cells_are_peers(a1, b2);
+        let a2b1 = solver.state.puzzle.cells_are_peers(a2, b1);
+        let a2b2 = solver.state.puzzle.cells_are_peers(a2, b2);
+
+        // There has to be exactly one pair of cells that see each other
+        if a1b1 as u32 + a1b2 as u32 + a2b1 as u32 + a2b2 as u32 != 1 {
+          continue
+        }
+
+        // The cells that see each other should be a1 - b1
+        let mut a1 = *a1;
+        let mut a2 = *a2;
+        let mut b1 = *b1;
+        let mut b2 = *b2;
+        if a2b1 || a2b2 {
+          swap(&mut a1, &mut a2);
+        }
+        if a1b2 || a2b2 {
+          swap(&mut b1, &mut b2);
+        }
+
+        let a_peers: HashSet<CellPosition> = solver.state.cell_peers_with_candidate(&a2, *value).into_iter().collect();
+        let b_peers: HashSet<CellPosition> = solver.state.cell_peers_with_candidate(&b2, *value).into_iter().collect();
+        let common_peers: Vec<CellPosition> = a_peers.intersection(&b_peers).sorted().cloned().collect();
+
+        if common_peers.is_empty() {
+          continue
+        }
+
+        return vec![
+          self.build_solution_step(
+            vec![ a1, a2, b1, b2 ],
+            vec![ *value ],
+            vec![ area1.clone(), area2.clone() ],
+            common_peers,
+          )
+        ]
+      }
+    }
+
+    vec![]
+  }
+}

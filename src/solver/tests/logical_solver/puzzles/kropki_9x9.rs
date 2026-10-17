@@ -1,6 +1,6 @@
 use ntest::timeout;
 
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1_IB.pdf
 #[test]
@@ -56,8 +56,8 @@ fn check_kropki_9x9_1_solve() {
     )
     .with_kropki_negative();
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -117,8 +117,8 @@ fn check_kropki_9x9_2_solve() {
       ]
     );
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -188,8 +188,8 @@ fn check_kropki_9x9_3_solve() {
     )
     .with_kropki_negative();
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

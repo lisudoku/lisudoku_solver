@@ -1,4 +1,4 @@
-use crate::{solver::{checker::SolvedState, constraints::{CandidateMode, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}, diagonals::{primary_diagonal::PrimaryDiagonalLogic, secondary_diagonal::SecondaryDiagonalLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid}};
+use crate::{solver::{SolvedState, constraints::{CandidateMode, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}, diagonals::{primary_diagonal::PrimaryDiagonalLogic, secondary_diagonal::SecondaryDiagonalLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid}};
 use derive_more::Deref;
 
 mod primary_diagonal;

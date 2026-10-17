@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_kropki_4x4_1_solve() {
@@ -16,8 +16,8 @@ fn check_kropki_4x4_1_solve() {
       ]
     );
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -48,7 +48,7 @@ fn check_kropki_4x4_no_solution_solve() {
       ]
     );
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }

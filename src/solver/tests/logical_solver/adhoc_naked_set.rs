@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{adhoc_naked_set::AdhocNakedSet, candidates::Candidates, technique::Technique, thermo_candidates::ThermoCandidates}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, Rule, SolutionStep, SudokuConstraints, Thermo}};
+use crate::{solver::{logical::{logical_solver::LogicalSolver, techniques::{Technique, adhoc_naked_set::AdhocNakedSet, candidates::Candidates, thermo_candidates::ThermoCandidates}}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, Rule, SolutionStep, SudokuConstraints, Thermo}};
 use std::vec;
 use ntest::timeout;
 
@@ -8,7 +8,7 @@ fn check_adhoc_naked_sets_antiknight_4x4() {
     FixedNumber::new(2, 0, 1), FixedNumber::new(2, 1, 2), FixedNumber::new(3, 2, 2),
   ];
   let constraints = SudokuConstraints::new(4).with_fixed_numbers(fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -29,9 +29,9 @@ fn check_adhoc_naked_sets_antiknight_4x4() {
     )
   );
 
-  let initial_candidates = solver.candidates[1][0].clone();
+  let initial_candidates = solver.state.candidates[1][0].clone();
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[1][0];
+  let final_candidates = &solver.state.candidates[1][0];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 
@@ -44,7 +44,7 @@ fn check_adhoc_naked_sets_diagonal_full_4x4() {
     3420
   ").to_fixed_numbers();
   let constraints = SudokuConstraints::new(4).with_fixed_numbers(fixed_numbers).with_diagonals();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -67,7 +67,7 @@ fn check_adhoc_naked_sets_thermo_4x4_1() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -82,9 +82,9 @@ fn check_adhoc_naked_sets_thermo_4x4_1() {
   assert_eq!(step.values, vec![ 3, 4 ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 2) ]);
 
-  let initial_candidates = solver.candidates[2][2].clone();
+  let initial_candidates = solver.state.candidates[2][2].clone();
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][2];
+  let final_candidates = &solver.state.candidates[2][2];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 
@@ -98,7 +98,7 @@ fn check_adhoc_naked_sets_diagonal_6x6_1() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(fixed_numbers)
     .with_diagonals();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -113,9 +113,9 @@ fn check_adhoc_naked_sets_diagonal_6x6_1() {
   assert_eq!(step.values, vec![ 5, 6 ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 5) ]);
 
-  let initial_candidates = solver.candidates[2][5].clone();
+  let initial_candidates = solver.state.candidates[2][5].clone();
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][5];
+  let final_candidates = &solver.state.candidates[2][5];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 
@@ -135,7 +135,7 @@ fn check_adhoc_naked_sets_thermo_6x6_peers() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   solver.apply_rules(&mut ThermoCandidates.run(&solver));
 
@@ -154,9 +154,9 @@ fn check_adhoc_naked_sets_thermo_6x6_peers() {
   assert_eq!(step.values, vec![ 4, 5, 6 ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 3) ]);
 
-  let initial_candidates = solver.candidates[2][3].clone();
+  let initial_candidates = solver.state.candidates[2][3].clone();
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][3];
+  let final_candidates = &solver.state.candidates[2][3];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 1);
 }
 
@@ -168,7 +168,7 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
     FixedNumber::new(6, 7, 3), FixedNumber::new(5, 5, 6), FixedNumber::new(5, 6, 7),
   ];
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -186,9 +186,9 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
     CellPosition::new(6, 4), CellPosition::new(7, 4), CellPosition::new(8, 4),
   ]);
 
-  let initial_candidates = solver.candidates[8][4].clone();
+  let initial_candidates = solver.state.candidates[8][4].clone();
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[8][4];
+  let final_candidates = &solver.state.candidates[8][4];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 
@@ -196,7 +196,7 @@ fn check_adhoc_naked_sets_antiknight_9x9() {
 #[timeout(1000)]
 fn check_adhoc_naked_sets_empty_antiknight_9x9() {
   let constraints = SudokuConstraints::new(9).with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = AdhocNakedSet.run(&solver);
@@ -219,14 +219,14 @@ fn check_adhoc_naked_sets_contest_puzzle_antiknight_9x9() {
     200150000
   ").to_fixed_numbers();
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers).with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   // Exclude Common Peer Eliminations
-  solver.candidates[0][0].remove(&7);
-  solver.candidates[0][0].remove(&8);
-  solver.candidates[0][1].remove(&7);
-  solver.candidates[0][1].remove(&8);
+  solver.state.candidates[0][0].remove(&7);
+  solver.state.candidates[0][0].remove(&8);
+  solver.state.candidates[0][1].remove(&7);
+  solver.state.candidates[0][1].remove(&8);
 
   let steps = AdhocNakedSet.run(&solver);
   assert_eq!(steps.len(), 1);
@@ -244,6 +244,6 @@ fn check_adhoc_naked_sets_contest_puzzle_antiknight_9x9() {
   assert_eq!(step.affected_cells, vec![ CellPosition::new(3, 0) ]);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[3][0];
+  let final_candidates = &solver.state.candidates[3][0];
   assert_eq!(final_candidates, &CandidateSet::from([4]));
 }

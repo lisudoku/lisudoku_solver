@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 // https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
 #[test]
@@ -39,8 +39,8 @@ fn check_kropki_6x6_1_solve() {
       ]
     );
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -85,8 +85,8 @@ fn check_kropki_6x6_negative_condition_solve() {
     )
     .with_kropki_negative();
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

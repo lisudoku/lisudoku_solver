@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
+use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_wrong_thermo() {
@@ -18,8 +18,8 @@ fn check_wrong_thermo() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(

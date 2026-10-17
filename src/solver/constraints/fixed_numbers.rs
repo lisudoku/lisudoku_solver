@@ -1,4 +1,4 @@
-use crate::{solver::{checker::SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, SudokuConstraints}};
+use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub struct FixedNumbersConstraint {

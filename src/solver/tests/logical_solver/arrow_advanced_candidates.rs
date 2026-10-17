@@ -1,4 +1,4 @@
-use crate::{types::{FixedNumber, SudokuConstraints, CellPosition, Rule, Area, Arrow}, solver::{logical_solver::{arrow_candidates::ArrowCandidates, candidates::Candidates, arrow_advanced_candidates::ArrowAdvancedCandidates, technique::Technique}, Solver}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, arrow_advanced_candidates::ArrowAdvancedCandidates, arrow_candidates::ArrowCandidates, candidates::Candidates}}, types::{Area, Arrow, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_arrow_advanced_candidates() {
@@ -20,7 +20,7 @@ fn check_arrow_advanced_candidates() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = ArrowCandidates.run(&solver);
@@ -33,8 +33,8 @@ fn check_arrow_advanced_candidates() {
   assert_eq!(step.values, vec![9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(7, 7) ]);
-  assert!(solver.candidates[7][7].contains(&9));
+  assert!(solver.state.candidates[7][7].contains(&9));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[7][7].contains(&9));
+  assert!(!solver.state.candidates[7][7].contains(&9));
 }

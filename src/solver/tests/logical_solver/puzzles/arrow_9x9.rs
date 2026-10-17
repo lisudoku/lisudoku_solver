@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{Arrow, CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{Arrow, CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound7_IB.pdf puzzle 8
 #[test]
@@ -78,8 +78,8 @@ fn check_arrow_9x9_1_solve() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -168,8 +168,8 @@ fn check_arrow_9x9_2_solve() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -262,8 +262,8 @@ fn check_arrow_9x9_3_solve() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

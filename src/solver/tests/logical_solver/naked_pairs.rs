@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, naked_set::NakedSet, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, naked_set::NakedSet}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_naked_pairs_with_affected_cells() {
@@ -15,7 +15,7 @@ fn check_naked_pairs_with_affected_cells() {
         FixedNumber::new(6, 2, 6),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSet::new(2).run(&solver);
@@ -31,10 +31,10 @@ fn check_naked_pairs_with_affected_cells() {
       vec![CellPosition::new(1, 1)],
     ),
   );
-  let initial_candidates = solver.candidates[1][1].clone();
+  let initial_candidates = solver.state.candidates[1][1].clone();
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[1][1];
+  let final_candidates = &solver.state.candidates[1][1];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 2);
 }
 
@@ -56,7 +56,7 @@ fn check_naked_pairs_no_affected_cells() {
         FixedNumber::new(2, 5, 5),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSet::new(2).run(&solver);

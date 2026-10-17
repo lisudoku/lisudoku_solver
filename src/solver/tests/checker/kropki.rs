@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KropkiDot, SudokuConstraints}};
+use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KropkiDot, SudokuConstraints}};
 
 #[test]
 fn check_kropki_fully_correct() {
@@ -28,8 +28,8 @@ fn check_kropki_fully_correct() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }
 
@@ -61,8 +61,8 @@ fn check_kropki_partially_correct() {
     vec![ 1, 0, 0, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_partially_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_partially_solved();
   assert_eq!(solved, SolvedState::solved());
 }
 
@@ -80,8 +80,8 @@ fn check_kropki_consecutive_incorrect() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -108,8 +108,8 @@ fn check_kropki_double_incorrect() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -137,8 +137,8 @@ fn check_kropki_negative_condition_incorrect() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -181,7 +181,7 @@ fn check_kropki_negative_condition_correct() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }

@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, hidden_singles::HiddenSingles, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, hidden_singles::HiddenSingles}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -10,7 +10,7 @@ fn check_hidden_single_in_region() {
         FixedNumber::new(3, 1, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -22,11 +22,11 @@ fn check_hidden_single_in_region() {
   ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == 1);
 }
 
@@ -43,7 +43,7 @@ fn check_hidden_single_on_row() {
         FixedNumber::new(6, 1, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -56,11 +56,11 @@ fn check_hidden_single_on_row() {
   ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == 1);
 }
 
@@ -75,7 +75,7 @@ fn check_hidden_single_on_col() {
         FixedNumber::new(4, 0, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -89,11 +89,11 @@ fn check_hidden_single_on_col() {
   assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == 1);
 }
 
@@ -106,7 +106,7 @@ fn check_hidden_single_in_region_with_candidates() {
         FixedNumber::new(3, 1, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = HiddenSingles.run(&solver);
@@ -115,11 +115,11 @@ fn check_hidden_single_in_region_with_candidates() {
   assert_eq!(step.cells.len(), 1);
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == rule_value);
 }
 
@@ -136,7 +136,7 @@ fn check_hidden_single_using_anti_knight_1() {
       ]
     )
     .with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -155,11 +155,11 @@ fn check_hidden_single_using_anti_knight_1() {
     )
   );
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == 1);
 }
 
@@ -176,7 +176,7 @@ fn check_hidden_single_using_anti_knight_2() {
       ]
     )
     .with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -190,11 +190,11 @@ fn check_hidden_single_using_anti_knight_2() {
   assert!(steps.into_iter().find(|step| *step == expected_step).is_some());
   let mut step = expected_step.clone();
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == 5);
 }
 
@@ -205,7 +205,7 @@ fn check_hidden_single_anti_king() {
       vec![ FixedNumber::new(3, 1, 2), FixedNumber::new(5, 0, 3) ]
     )
     .with_anti_king();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = HiddenSingles.run(&solver);
   assert!(!steps.is_empty());
@@ -214,10 +214,10 @@ fn check_hidden_single_anti_king() {
   assert_eq!(step.cells, vec![ CellPosition::new(5, 2), CellPosition::new(3, 1) ]);
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == 2);
 }

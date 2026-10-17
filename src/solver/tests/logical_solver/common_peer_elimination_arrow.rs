@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, Arrow}, solver::{Solver, logical_solver::{technique::Technique, candidates::Candidates, arrow_candidates::ArrowCandidates, common_peer_elimination_arrow::CommonPeerEliminationArrow}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, arrow_candidates::ArrowCandidates, candidates::Candidates, common_peer_elimination_arrow::CommonPeerEliminationArrow}}, types::{Area, Arrow, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_arrow_common_peer_elimination() {
@@ -19,7 +19,7 @@ fn check_arrow_common_peer_elimination() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = ArrowCandidates.run(&solver);
@@ -34,8 +34,8 @@ fn check_arrow_common_peer_elimination() {
     CellPosition::new(1, 6), CellPosition::new(1, 8), CellPosition::new(2, 2),
   ]);
   assert_eq!(step.values, vec![ 1, 1, 1 ]);
-  assert!(solver.candidates[2][2].contains(&1));
+  assert!(solver.state.candidates[2][2].contains(&1));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[2][2].contains(&1));
+  assert!(!solver.state.candidates[2][2].contains(&1));
 }

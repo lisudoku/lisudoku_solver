@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, hidden_set::HiddenSet}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, hidden_set::HiddenSet}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_hidden_triples() {
@@ -14,7 +14,7 @@ fn check_hidden_triples() {
         FixedNumber::new(0, 3, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = HiddenSet::new(3).run(&solver);
@@ -23,14 +23,14 @@ fn check_hidden_triples() {
   assert_eq!(step.rule, Rule::HiddenTriples);
   assert_eq!(step.cells, vec![ CellPosition::new(0, 0), CellPosition::new(1, 0), CellPosition::new(2, 0) ]);
   assert_eq!(step.values, vec![ 1, 2, 3 ]);
-  assert_eq!(solver.candidates[0][0].len(), 8);
-  assert_eq!(solver.candidates[1][0].len(), 9);
-  assert_eq!(solver.candidates[2][0].len(), 9);
+  assert_eq!(solver.state.candidates[0][0].len(), 8);
+  assert_eq!(solver.state.candidates[1][0].len(), 9);
+  assert_eq!(solver.state.candidates[2][0].len(), 9);
 
   solver.apply_rule(&mut step);
-  assert_eq!(solver.candidates[0][0].len(), 2);
-  assert_eq!(solver.candidates[1][0].len(), 3);
-  assert_eq!(solver.candidates[2][0].len(), 3);
+  assert_eq!(solver.state.candidates[0][0].len(), 2);
+  assert_eq!(solver.state.candidates[1][0].len(), 3);
+  assert_eq!(solver.state.candidates[2][0].len(), 3);
 }
 
 #[test]
@@ -64,7 +64,7 @@ fn check_hidden_triples_no_affected_cells() {
         FixedNumber::new(2, 8, 5),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = HiddenSet::new(3).run(&solver);

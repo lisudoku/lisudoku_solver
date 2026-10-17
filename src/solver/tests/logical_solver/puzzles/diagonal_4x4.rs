@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_diagonal_4x4_1_solve() {
@@ -11,8 +11,8 @@ fn check_diagonal_4x4_1_solve() {
       ]
     )
     .with_primary_diagonal();
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -37,8 +37,8 @@ fn check_diagonal_4x4_2_solve() {
       ]
     )
     .with_secondary_diagonal();
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

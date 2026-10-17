@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, killer_candidates::KillerCandidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, killer_candidates::KillerCandidates}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -12,7 +12,7 @@ fn check_killer_candidates_single_unfixed() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -23,9 +23,9 @@ fn check_killer_candidates_single_unfixed() {
   assert_eq!(step.affected_cells[0], CellPosition::new(8, 8));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 2, 3, 4, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
-  assert!(solver.candidates[8][8].contains(&1));
+  assert!(solver.state.candidates[8][8].contains(&1));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[8][8];
+  let final_candidates = &solver.state.candidates[8][8];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&4));
 }
@@ -42,7 +42,7 @@ fn check_killer_candidates_single_fixed() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -60,7 +60,7 @@ fn check_killer_candidates_pair_1() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -71,9 +71,9 @@ fn check_killer_candidates_pair_1() {
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
-  assert!(solver.candidates[0][0].contains(&4));
+  assert!(solver.state.candidates[0][0].contains(&4));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[0][0];
+  let final_candidates = &solver.state.candidates[0][0];
   assert_eq!(final_candidates.len(), 2);
   assert!(!final_candidates.contains(&4));
 
@@ -97,7 +97,7 @@ fn check_killer_candidates_pair_2() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = KillerCandidates.run(&solver);
@@ -108,9 +108,9 @@ fn check_killer_candidates_pair_2() {
   assert_eq!(step.affected_cells, vec![ CellPosition::new(8, 0) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4 ]);
   assert_eq!(step.areas, vec![ Area::KillerCage(0) ]);
-  assert!(solver.candidates[8][0].contains(&2));
+  assert!(solver.state.candidates[8][0].contains(&2));
   solver.apply_rule(&step);
-  let final_candidates = &solver.candidates[8][0];
+  let final_candidates = &solver.state.candidates[8][0];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&2));
 

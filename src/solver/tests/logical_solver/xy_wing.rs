@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, xy_wing::XYWing}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, xy_wing::XYWing}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_xy_wing() {
@@ -25,7 +25,7 @@ fn check_xy_wing() {
         FixedNumber::new(8, 7, 8),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
@@ -42,12 +42,12 @@ fn check_xy_wing() {
   assert_eq!(step.affected_cells, vec![
     CellPosition::new(7, 7), // sees both XZ and YZ and it has Z as a candidate
   ]);
-  let initial_candidates = solver.candidates[7][7].clone();
+  let initial_candidates = solver.state.candidates[7][7].clone();
   assert!(initial_candidates.contains(&3));
   assert_eq!(initial_candidates.len(), 2);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[7][7];
+  let final_candidates = &solver.state.candidates[7][7];
   assert!(!final_candidates.contains(&3));
   assert_eq!(final_candidates.len(), 1);
 }
@@ -78,7 +78,7 @@ fn check_xy_wing_no_affected_cells() {
         FixedNumber::new(8, 8, 3), // this eliminates the affected cell
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
@@ -107,7 +107,7 @@ fn check_xy_wing_on_row_no_affected_cells() {
         FixedNumber::new(3, 2, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);

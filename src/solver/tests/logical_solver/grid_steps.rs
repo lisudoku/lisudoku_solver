@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_grid_steps_without_candidates() {
@@ -11,7 +11,7 @@ fn check_grid_steps_without_candidates() {
         FixedNumber::new(2, 2, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
@@ -19,12 +19,12 @@ fn check_grid_steps_without_candidates() {
   assert!(step.affected_cells.is_empty());
   let CellPosition { row, col } = step.cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
 
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == rule_value);
 }
 
@@ -39,7 +39,7 @@ fn check_grid_steps_with_candidates() {
         FixedNumber::new(2, 2, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
@@ -50,13 +50,13 @@ fn check_grid_steps_with_candidates() {
   let CellPosition { row, col } = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.grid[row][col];
-  let initial_candidates = solver.candidates[cand_row][cand_col].clone();
+  let initial_value = solver.state.grid[row][col];
+  let initial_candidates = solver.state.candidates[cand_row][cand_col].clone();
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
-  let final_candidates = &solver.candidates[cand_row][cand_col];
+  let final_value = solver.state.grid[row][col];
+  let final_candidates = &solver.state.candidates[cand_row][cand_col];
   assert!(final_value == rule_value);
   assert!(final_candidates.len() < initial_candidates.len());
 }
@@ -74,7 +74,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
       ]
     )
     .with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
@@ -92,13 +92,13 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   );
   let CellPosition { row, col } = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
-  let initial_value = solver.grid[row][col];
-  let initial_candidates = solver.candidates[cand_row][cand_col].clone();
+  let initial_value = solver.state.grid[row][col];
+  let initial_candidates = solver.state.candidates[cand_row][cand_col].clone();
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
-  let final_candidates = &solver.candidates[cand_row][cand_col];
+  let final_value = solver.state.grid[row][col];
+  let final_candidates = &solver.state.candidates[cand_row][cand_col];
   assert!(final_value == 4);
   assert_eq!(final_candidates.len(), initial_candidates.len() - 1);
 }
@@ -127,7 +127,7 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
@@ -143,8 +143,8 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
     CellPosition::new(0, 2), CellPosition::new(1, 2), CellPosition::new(2, 2),
     CellPosition::new(3, 2), CellPosition::new(3, 1), CellPosition::new(3, 3),
   ]);
-  assert!(solver.candidates[3][1].contains(&6));
+  assert!(solver.state.candidates[3][1].contains(&6));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[3][1].contains(&6));
+  assert!(!solver.state.candidates[3][1].contains(&6));
 }

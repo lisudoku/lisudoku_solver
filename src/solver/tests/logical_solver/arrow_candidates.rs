@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, CellPosition, Rule, Area, Arrow, FixedNumber}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, arrow_candidates::ArrowCandidates}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, arrow_candidates::ArrowCandidates, candidates::Candidates}}, types::{Area, Arrow, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -12,7 +12,7 @@ fn check_arrow_candidates_simple() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -23,30 +23,30 @@ fn check_arrow_candidates_simple() {
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 0));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[0][0].contains(&9));
+  assert!(solver.state.candidates[0][0].contains(&9));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][0].contains(&9));
-  assert_eq!(solver.candidates[0][0].len(), 8);
+  assert!(!solver.state.candidates[0][0].contains(&9));
+  assert_eq!(solver.state.candidates[0][0].len(), 8);
 
   let step = &steps[1];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 1));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[0][1].contains(&9));
+  assert!(solver.state.candidates[0][1].contains(&9));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][1].contains(&9));
-  assert_eq!(solver.candidates[0][1].len(), 8);
+  assert!(!solver.state.candidates[0][1].contains(&9));
+  assert_eq!(solver.state.candidates[0][1].len(), 8);
 
   let step = &steps[2];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 2));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 2]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[0][2].contains(&1));
+  assert!(solver.state.candidates[0][2].contains(&1));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][2].contains(&1));
-  assert_eq!(solver.candidates[0][2].len(), 7);
+  assert!(!solver.state.candidates[0][2].contains(&1));
+  assert_eq!(solver.state.candidates[0][2].len(), 7);
 }
 
 #[test]
@@ -63,7 +63,7 @@ fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -74,20 +74,20 @@ fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
   assert_eq!(step.affected_cells[0], CellPosition::new(1, 2));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![3, 4, 5, 6]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[1][2].contains(&3));
+  assert!(solver.state.candidates[1][2].contains(&3));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[1][2].contains(&3));
-  assert_eq!(solver.candidates[1][2].len(), 1);
+  assert!(!solver.state.candidates[1][2].contains(&3));
+  assert_eq!(solver.state.candidates[1][2].len(), 1);
 
   let step = &steps[1];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(2, 3));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![2, 3, 4, 5, 6]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[2][3].contains(&2));
+  assert!(solver.state.candidates[2][3].contains(&2));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[2][3].contains(&2));
-  assert_eq!(solver.candidates[2][3].len(), 1);
+  assert!(!solver.state.candidates[2][3].contains(&2));
+  assert_eq!(solver.state.candidates[2][3].len(), 1);
 }
 
 #[test]
@@ -107,7 +107,7 @@ fn check_arrow_candidates_2_digit_circle_horizontal() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -118,10 +118,10 @@ fn check_arrow_candidates_2_digit_circle_horizontal() {
   assert_eq!(step.affected_cells[0], CellPosition::new(1, 0));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[1][0].contains(&5));
+  assert!(solver.state.candidates[1][0].contains(&5));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[1][0].contains(&5));
-  assert_eq!(solver.candidates[1][0].len(), 3);
+  assert!(!solver.state.candidates[1][0].contains(&5));
+  assert_eq!(solver.state.candidates[1][0].len(), 3);
 }
 
 #[test]
@@ -141,7 +141,7 @@ fn check_arrow_candidates_2_digit_circle_vertical() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -152,10 +152,10 @@ fn check_arrow_candidates_2_digit_circle_vertical() {
   assert_eq!(step.affected_cells[0], CellPosition::new(3, 2));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[3][2].contains(&4));
+  assert!(solver.state.candidates[3][2].contains(&4));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[3][2].contains(&4));
-  assert_eq!(solver.candidates[3][2].len(), 2);
+  assert!(!solver.state.candidates[3][2].contains(&4));
+  assert_eq!(solver.state.candidates[3][2].len(), 2);
 }
 
 #[test]
@@ -175,7 +175,7 @@ fn check_arrow_candidates_long() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = ArrowCandidates.run(&solver);
@@ -186,58 +186,58 @@ fn check_arrow_candidates_long() {
   assert_eq!(step.affected_cells[0], CellPosition::new(1, 1));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![3, 4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[1][1].contains(&3));
+  assert!(solver.state.candidates[1][1].contains(&3));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[1][1].contains(&3));
-  assert_eq!(solver.candidates[1][1].len(), 2);
+  assert!(!solver.state.candidates[1][1].contains(&3));
+  assert_eq!(solver.state.candidates[1][1].len(), 2);
 
   let step = &steps[1];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(2, 2));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![3, 4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[2][2].contains(&3));
+  assert!(solver.state.candidates[2][2].contains(&3));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[2][2].contains(&3));
-  assert_eq!(solver.candidates[2][2].len(), 2);
+  assert!(!solver.state.candidates[2][2].contains(&3));
+  assert_eq!(solver.state.candidates[2][2].len(), 2);
 
   let step = &steps[2];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(3, 3));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[3][3].contains(&4));
+  assert!(solver.state.candidates[3][3].contains(&4));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[3][3].contains(&4));
-  assert_eq!(solver.candidates[3][3].len(), 2);
+  assert!(!solver.state.candidates[3][3].contains(&4));
+  assert_eq!(solver.state.candidates[3][3].len(), 2);
   
   let step = &steps[3];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(4, 4));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![2, 3, 4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[4][4].contains(&2));
+  assert!(solver.state.candidates[4][4].contains(&2));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[4][4].contains(&2));
-  assert_eq!(solver.candidates[4][4].len(), 1);
+  assert!(!solver.state.candidates[4][4].contains(&2));
+  assert_eq!(solver.state.candidates[4][4].len(), 1);
 
   let step = &steps[4];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(5, 5));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![4, 5, 6, 7, 8, 9]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[5][5].contains(&4));
+  assert!(solver.state.candidates[5][5].contains(&4));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[5][5].contains(&4));
-  assert_eq!(solver.candidates[5][5].len(), 2);
+  assert!(!solver.state.candidates[5][5].contains(&4));
+  assert_eq!(solver.state.candidates[5][5].len(), 2);
 
   let step = &steps[5];
   assert_eq!(step.rule, Rule::ArrowCandidates);
   assert_eq!(step.affected_cells[0], CellPosition::new(0, 0));
   assert_eq!(step.values.iter().copied().collect_vec(), vec![2, 3, 4, 5, 6, 7, 8]);
   assert_eq!(step.areas, vec![ Area::Arrow(0) ]);
-  assert!(solver.candidates[0][0].contains(&8));
+  assert!(solver.state.candidates[0][0].contains(&8));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][0].contains(&8));
-  assert_eq!(solver.candidates[0][0].len(), 1);
+  assert!(!solver.state.candidates[0][0].contains(&8));
+  assert_eq!(solver.state.candidates[0][0].len(), 1);
 }

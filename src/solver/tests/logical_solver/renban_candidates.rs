@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, renban_candidates::RenbanCandidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Renban, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, renban_candidates::RenbanCandidates}}, types::{Area, CellPosition, FixedNumber, Renban, Rule, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -14,7 +14,7 @@ fn check_renban_candidates_in_area() {
       vec![FixedNumber::new(1, 1, 4)]
     )
     .with_renbans(renbans.clone());
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = RenbanCandidates.run(&solver);
@@ -26,10 +26,10 @@ fn check_renban_candidates_in_area() {
     assert_eq!(step.affected_cells, vec![cell]);
     assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 2, 3]);
     assert_eq!(step.areas, vec![ Area::Renban(0) ]);
-    assert!(solver.candidates[cell.row][cell.col].contains(&3));
+    assert!(solver.state.candidates[cell.row][cell.col].contains(&3));
     solver.apply_rule(&step);
-    assert!(!solver.candidates[cell.row][cell.col].contains(&3));
-    assert_eq!(solver.candidates[cell.row][cell.col].len(), 5);
+    assert!(!solver.state.candidates[cell.row][cell.col].contains(&3));
+    assert_eq!(solver.state.candidates[cell.row][cell.col].len(), 5);
   }
 }
 
@@ -46,7 +46,7 @@ fn check_renban_candidates_fixed_value() {
       vec![FixedNumber::new(0, 0, 5)]
     )
     .with_renbans(renbans.clone());
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = RenbanCandidates.run(&solver);
@@ -58,9 +58,9 @@ fn check_renban_candidates_fixed_value() {
     assert_eq!(step.affected_cells, vec![cell]);
     assert_eq!(step.values.iter().copied().collect_vec(), vec![1, 9]);
     assert_eq!(step.areas, vec![ Area::Renban(0) ]);
-    assert!(solver.candidates[cell.row][cell.col].contains(&9));
+    assert!(solver.state.candidates[cell.row][cell.col].contains(&9));
     solver.apply_rule(&step);
-    assert!(!solver.candidates[cell.row][cell.col].contains(&9));
-    assert_eq!(solver.candidates[cell.row][cell.col].len(), 6);
+    assert!(!solver.state.candidates[cell.row][cell.col].contains(&9));
+    assert_eq!(solver.state.candidates[cell.row][cell.col].len(), 6);
   }
 }

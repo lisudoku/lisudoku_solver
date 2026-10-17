@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, naked_singles::NakedSingle, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Grid, Rule, SolutionStep, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, naked_singles::NakedSingle}}, types::{Area, CellPosition, FixedNumber, Grid, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_naked_single_without_candidates() {
@@ -11,7 +11,7 @@ fn check_naked_single_without_candidates() {
         FixedNumber::new(2, 2, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = NakedSingle.run(&solver);
   assert!(!steps.is_empty());
@@ -22,13 +22,13 @@ fn check_naked_single_without_candidates() {
   assert_eq!(step.areas, vec![Area::Row(1), Area::Column(0)]);
 
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
   let rule_value = step.values[0];
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == rule_value);
-  assert!(solver.candidates[row][col].is_empty());
+  assert!(solver.state.candidates[row][col].is_empty());
 }
 
 #[test]
@@ -42,7 +42,7 @@ fn check_naked_single_with_candidates() {
         FixedNumber::new(2, 2, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSingle.run(&solver);
@@ -60,13 +60,13 @@ fn check_naked_single_with_candidates() {
   );
 
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
   let rule_value = step.values[0];
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == rule_value);
-  assert!(solver.candidates[row][col].is_empty());
+  assert!(solver.state.candidates[row][col].is_empty());
 }
 
 #[test]
@@ -85,7 +85,7 @@ fn check_naked_single_using_anti_knight_without_candidates() {
   let constraints = SudokuConstraints::new(grid_size)
     .with_fixed_numbers(fixed_numbers)
     .with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   let steps = NakedSingle.run(&solver);
   assert!(!steps.is_empty());
@@ -95,13 +95,13 @@ fn check_naked_single_using_anti_knight_without_candidates() {
   assert_eq!(step.areas, vec![Area::Row(2), Area::Column(2), Area::Region(0), Area::Cell(4, 3)]);
 
   let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.grid[row][col];
+  let initial_value = solver.state.grid[row][col];
   assert!(initial_value == 0);
   let rule_value = step.values[0];
   solver.apply_rule(&mut step);
-  let final_value = solver.grid[row][col];
+  let final_value = solver.state.grid[row][col];
   assert!(final_value == rule_value);
-  assert!(solver.candidates[row][col].is_empty());
+  assert!(solver.state.candidates[row][col].is_empty());
 }
 
 #[test]
@@ -116,7 +116,7 @@ fn check_naked_single_using_anti_knight_lots_of_peers_without_candidates() {
   let constraints = SudokuConstraints::new(grid_size)
     .with_fixed_numbers(fixed_numbers)
     .with_anti_knight();
-  let solver = Solver::new(constraints);
+  let solver = LogicalSolver::new(constraints);
 
   let steps = NakedSingle.run(&solver);
   assert!(!steps.is_empty());

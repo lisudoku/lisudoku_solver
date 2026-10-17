@@ -1,6 +1,6 @@
 use ntest::timeout;
 
-use crate::{solver::{Solver, logical_solver::nishio_forcing_chains::NishioForcingChains}, types::{FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::nishio_forcing_chains::NishioForcingChains}, types::{FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
 use std::rc::Rc;
 
 #[test]
@@ -44,8 +44,8 @@ fn check_classic_9x9_easy_solve() {
         FixedNumber::new(8, 8, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -99,8 +99,8 @@ fn check_classic_9x9_medium_solve() {
         FixedNumber::new(8, 7, 7),
       ]
     );
-  let mut solver = Solver::new(constraints).with_enriched_steps(true);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_enriched_steps(true);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.clone().unwrap(),
@@ -158,8 +158,8 @@ fn check_classic_9x9_hard_solve() {
         FixedNumber::new(8, 7, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -208,8 +208,8 @@ fn check_classic_9x9_hard_xy_wing_solve() {
         FixedNumber::new(8, 8, 9),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -258,8 +258,8 @@ fn check_classic_9x9_hard_x_wing_solve() {
         FixedNumber::new(8, 8, 4),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -307,8 +307,8 @@ fn check_classic_9x9_hard_solve_with_solution() {
         FixedNumber::new(8, 7, 2),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   // TODO: why no full?
   insta::assert_yaml_snapshot!(result.steps);
@@ -350,8 +350,8 @@ fn check_classic_9x9_1_solve() {
   ];
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(fixed_numbers.iter().copied().collect());
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -371,8 +371,8 @@ fn check_classic_9x9_1_solve() {
 
   let fixed_numbers: Vec<FixedNumber> = fixed_numbers.iter().copied().filter(|fixed_number| *fixed_number != FixedNumber::new(4, 1, 5)).collect();
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers);
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
 }
 
@@ -409,8 +409,8 @@ fn check_classic_9x9_2_conflicts_solve() {
         FixedNumber::new(8, 8, 9),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }
 
@@ -430,8 +430,8 @@ fn check_classic_9x9_hard_empty_rectangles_solve() {
         vec![ 0, 3, 0, 5, 0, 6, 0, 0, 0 ],
       ])
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -454,8 +454,8 @@ fn check_classic_9x9_hard_empty_rectangles_solve() {
 #[timeout(8000)]
 fn check_classic_9x9_empty_grid() {
   let constraints = SudokuConstraints::new(9);
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 1);
   assert_eq!(result.steps.first().unwrap().rule, Rule::Candidates);

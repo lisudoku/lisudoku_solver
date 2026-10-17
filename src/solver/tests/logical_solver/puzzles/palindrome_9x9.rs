@@ -1,5 +1,5 @@
 use std::rc::Rc;
-use crate::{solver::{Solver, logical_solver::nishio_forcing_chains::NishioForcingChains}, types::{CellPosition, FixedNumber, Grid, Palindrome, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::nishio_forcing_chains::NishioForcingChains}, types::{CellPosition, FixedNumber, Grid, Palindrome, Rule, SolutionType, SudokuConstraints}};
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issue-1926328789 WSC IB
 #[test]
@@ -31,9 +31,9 @@ fn check_palindrome_9x9_1_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
 
-  let result = solver.logical_solve();
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -81,8 +81,8 @@ fn check_palindrome_9x9_2_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -133,8 +133,8 @@ fn check_palindrome_9x9_3_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -184,8 +184,8 @@ fn check_palindrome_9x9_4_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -235,8 +235,8 @@ fn check_palindrome_9x9_5_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -286,8 +286,8 @@ fn check_palindrome_9x9_6_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

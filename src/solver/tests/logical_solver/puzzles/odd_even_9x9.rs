@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // https://github.com/lisudoku/lisudoku_solver/issues/32
 #[test]
@@ -36,8 +36,8 @@ fn check_odd_even_9x9_1_solve() {
     .with_odd_cells(
       vec![ CellPosition::new(3, 6), CellPosition::new(6, 3) ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -94,8 +94,8 @@ fn check_odd_even_9x9_2_solve() {
         CellPosition::new(6, 1), CellPosition::new(7, 2), CellPosition::new(8, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

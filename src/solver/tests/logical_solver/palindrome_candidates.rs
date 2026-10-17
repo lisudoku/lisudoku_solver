@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, palindrome_candidates::PalindromeCandidates, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Palindrome, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, palindrome_candidates::PalindromeCandidates}}, types::{Area, CellPosition, FixedNumber, Palindrome, Rule, SudokuConstraints}};
 
 #[test]
 fn check_palindrome_candidates() {
@@ -13,7 +13,7 @@ fn check_palindrome_candidates() {
         ])
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = PalindromeCandidates.run(&solver);
@@ -24,16 +24,16 @@ fn check_palindrome_candidates() {
   assert_eq!(step.affected_cells, vec![CellPosition::new(0, 0)]);
   assert_eq!(step.values, vec![2]);
   assert_eq!(step.areas, vec![ Area::Palindrome(0) ]);
-  assert!(solver.candidates[0][0].contains(&2));
+  assert!(solver.state.candidates[0][0].contains(&2));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][0].contains(&2));
+  assert!(!solver.state.candidates[0][0].contains(&2));
 
   let step = &steps[1];
   assert_eq!(step.rule, Rule::PalindromeCandidates);
   assert_eq!(step.affected_cells, vec![CellPosition::new(0, 2)]);
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![ Area::Palindrome(0) ]);
-  assert!(solver.candidates[0][2].contains(&1));
+  assert!(solver.state.candidates[0][2].contains(&1));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][2].contains(&1));
+  assert!(!solver.state.candidates[0][2].contains(&1));
 }

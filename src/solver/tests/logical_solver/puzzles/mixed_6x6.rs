@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, Grid, KropkiDot, Region, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, Grid, KropkiDot, Region, SolutionType, SudokuConstraints}};
 
 // https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
 #[test]
@@ -66,8 +66,8 @@ fn check_mixed_6x6_irregular_kropki_solve() {
         KropkiDot::double(CellPosition::new(5, 4), CellPosition::new(5, 5)),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

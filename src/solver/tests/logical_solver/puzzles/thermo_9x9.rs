@@ -1,6 +1,6 @@
 use ntest::timeout;
 
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints, Thermo}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints, Thermo}};
 
 #[test]
 #[timeout(2000)]
@@ -77,10 +77,10 @@ fn check_9x9_thermo_medium_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert!(solver.candidates_active);
+  assert!(solver.state.candidates_active);
   assert_eq!(
     result.solution.unwrap(),
     Grid(vec![
@@ -119,8 +119,8 @@ fn check_9x9_thermo_no_solution() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }
 
@@ -171,8 +171,8 @@ fn check_9x9_thermo_hard_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

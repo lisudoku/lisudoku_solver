@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, top_bottom_candidates::TopBottomCandidates}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, top_bottom_candidates::TopBottomCandidates}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_top_bottom_candidates_ascending_row1() {
@@ -7,7 +7,7 @@ fn check_top_bottom_candidates_ascending_row1() {
       vec![ FixedNumber::new(1, 3, 2) ]
     )
     .with_top_bottom();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -18,10 +18,10 @@ fn check_top_bottom_candidates_ascending_row1() {
   assert_eq!(step.areas, vec![Area::Row(0), Area::Row(1)]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]);
 
-  assert!(solver.candidates[0][0].contains(&1));
+  assert!(solver.state.candidates[0][0].contains(&1));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][0].contains(&1));
-  assert_eq!(solver.candidates[0][0].len(), 3);
+  assert!(!solver.state.candidates[0][0].contains(&1));
+  assert_eq!(solver.state.candidates[0][0].len(), 3);
 }
 
 #[test]
@@ -33,7 +33,7 @@ fn check_top_bottom_candidates_ascending_row4() {
       ]
     )
     .with_top_bottom();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -44,10 +44,10 @@ fn check_top_bottom_candidates_ascending_row4() {
   assert_eq!(step.areas, vec![Area::Row(3), Area::Row(2)]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(3, 0) ]);
 
-  assert!(solver.candidates[3][0].contains(&4));
+  assert!(solver.state.candidates[3][0].contains(&4));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[3][0].contains(&4));
-  assert_eq!(solver.candidates[3][0].len(), 3);
+  assert!(!solver.state.candidates[3][0].contains(&4));
+  assert_eq!(solver.state.candidates[3][0].len(), 3);
 }
 
 #[test]
@@ -57,7 +57,7 @@ fn check_top_bottom_candidates_descending_row3() {
       vec![ FixedNumber::new(3, 3, 1) ]
     )
     .with_top_bottom();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -68,10 +68,10 @@ fn check_top_bottom_candidates_descending_row3() {
   assert_eq!(step.areas, vec![Area::Row(2), Area::Row(3)]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 0), CellPosition::new(2, 1) ]);
 
-  assert!(solver.candidates[2][0].contains(&2));
+  assert!(solver.state.candidates[2][0].contains(&2));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[2][0].contains(&2));
-  assert_eq!(solver.candidates[2][0].len(), 3);
+  assert!(!solver.state.candidates[2][0].contains(&2));
+  assert_eq!(solver.state.candidates[2][0].len(), 3);
 }
 
 #[test]
@@ -83,7 +83,7 @@ fn check_top_bottom_candidates_descending_row1() {
       ]
     )
     .with_top_bottom();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
 
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   let steps = TopBottomCandidates::new(false).run(&solver);
@@ -94,8 +94,8 @@ fn check_top_bottom_candidates_descending_row1() {
   assert_eq!(step.areas, vec![Area::Row(0), Area::Row(1)]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 2), CellPosition::new(0, 3) ]);
 
-  assert!(solver.candidates[0][2].contains(&4));
+  assert!(solver.state.candidates[0][2].contains(&4));
   solver.apply_rule(&step);
-  assert!(!solver.candidates[0][2].contains(&4));
-  assert_eq!(solver.candidates[0][2].len(), 3);
+  assert!(!solver.state.candidates[0][2].contains(&4));
+  assert_eq!(solver.state.candidates[0][2].len(), 3);
 }

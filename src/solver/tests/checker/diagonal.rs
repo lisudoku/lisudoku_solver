@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{SolveState, SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_wrong_primary_diagonal() {
@@ -9,8 +9,8 @@ fn check_wrong_primary_diagonal() {
     vec![ 1, 4, 2, 3 ],
     vec![ 3, 2, 4, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -32,8 +32,8 @@ fn check_wrong_secondary_diagonal() {
     vec![ 1, 4, 2, 3 ],
     vec![ 3, 2, 4, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -55,7 +55,7 @@ fn check_correct_both_diagonals() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }

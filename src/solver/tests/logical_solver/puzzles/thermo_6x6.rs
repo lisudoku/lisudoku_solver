@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints, Thermo}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_thermo_6x6_1_solve() {
@@ -47,10 +47,10 @@ fn check_thermo_6x6_1_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
-  assert!(!solver.candidates_active);
+  assert!(!solver.state.candidates_active);
   assert_eq!(
     result.solution.unwrap(),
     Grid(vec![
@@ -104,8 +104,8 @@ fn check_thermo_6x6_2_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
   // Returns found steps even if no solution
   assert!(!result.steps.is_empty());
@@ -146,8 +146,8 @@ fn check_thermo_6x6_3_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }
 
@@ -183,8 +183,8 @@ fn check_thermo_6x6_4_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }
 
@@ -222,8 +222,8 @@ fn check_thermo_6x6_5_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }
 
@@ -261,8 +261,8 @@ fn check_thermo_6x6_6_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -312,8 +312,8 @@ fn check_thermo_6x6_7_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

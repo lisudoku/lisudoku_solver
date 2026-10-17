@@ -3,7 +3,9 @@ use std::collections::HashSet;
 use std::mem::swap;
 // use std::rc::Rc;
 use itertools::Itertools;
-use lisudoku_solver::solver::{Solver, BruteSolveSettings, /* Technique, ArrowCandidates, Candidates, EmptyRectangles, HiddenSet, HiddenSingles, Killer45, KillerCandidates, KropkiChainCandidates, LockedCandidates, NakedSet, NakedSingle, NishioForcingChains, PalindromeCandidates, PalindromeValues, RenbanCandidates, Thermo, ThermoCandidates, TopBottomCandidates, TurbotFish */};
+use lisudoku_solver::solver::brute::{BruteSolveSettings, BruteSolver};
+use lisudoku_solver::solver::logical::logical_solver::LogicalSolver;
+use lisudoku_solver::solver::{/* Technique, ArrowCandidates, Candidates, EmptyRectangles, HiddenSet, HiddenSingles, Killer45, KillerCandidates, KropkiChainCandidates, LockedCandidates, NakedSet, NakedSingle, NishioForcingChains, PalindromeCandidates, PalindromeValues, RenbanCandidates, Thermo, ThermoCandidates, TopBottomCandidates, TurbotFish */};
 use lisudoku_solver::types::{Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, Palindrome, Region, Renban, SolutionType, SudokuConstraints};
 use rand::RngExt;
 use rand::seq::{IndexedRandom, SliceRandom};
@@ -39,12 +41,12 @@ fn main() {
 }
 
 fn random_grid(constraints: &SudokuConstraints) -> Grid {
-  let mut solver = Solver::new(constraints.clone())
+  let mut solver = BruteSolver::new(constraints.clone())
   // TODO: on slow cases profile and try with even less techniques?
     // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), Rc::new(EmptyRectangles)])
   ;
   // TODO: why use-Logic true, where is it false? I think I tried it and it didn't make a difference?
-  let result = solver.brute_solve(BruteSolveSettings{ use_logic: true, randomize: true, solution_count_limit: Some(1) });
+  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: true, solution_count_limit: Some(1) });
   assert!(result.solution.is_some());
   let Some(grid) = result.solution else { panic!("no solution?!") };
   grid
@@ -75,13 +77,13 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
 // }
 
 fn is_constraints_solvable(constraints: &SudokuConstraints) -> bool {
-  let mut logical_solver = Solver::new(constraints.clone())
+  let mut logical_solver = LogicalSolver::new(constraints.clone())
   // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), /*Rc::new(EmptyRectangles)*/])
   // temp for EASY
   // .with_techniques(easy_techniques())
   // .with_techniques(easy_medium_techniques())
   ;
-  let logical_solution = logical_solver.logical_solve();
+  let logical_solution = logical_solver.solve();
   logical_solution.solution_type == SolutionType::Full
 }
 
@@ -98,23 +100,15 @@ fn is_odd_even_solvable(restricted_cells: &Vec<CellPosition>, constraints: &Sudo
 }
 
 fn is_extra_regions_solvable(extra_regions: &Vec<Region>, constraints: &SudokuConstraints) -> bool {
-  let mut logical_solver = Solver::new(
-    constraints.clone().with_extra_regions(extra_regions.clone())
+  is_constraints_solvable(
+    &constraints.clone().with_extra_regions(extra_regions.clone())
   )
-  // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), Rc::new(EmptyRectangles)])
-  ;
-  let logical_solution = logical_solver.logical_solve();
-  logical_solution.solution_type == SolutionType::Full
 }
 
 fn is_thermo_solvable(thermos: &Vec<lisudoku_solver::types::Thermo>, constraints: &SudokuConstraints) -> bool {
-  let mut logical_solver = Solver::new(
-    constraints.clone().with_thermos(thermos.clone())
+  is_constraints_solvable(
+    &constraints.clone().with_thermos(thermos.clone())
   )
-  // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), Rc::new(EmptyRectangles)])
-  ;
-  let logical_solution = logical_solver.logical_solve();
-  logical_solution.solution_type == SolutionType::Full
 }
 
 fn is_renban_solvable(renbans: &Vec<Renban>, constraints: &SudokuConstraints) -> bool {
@@ -146,13 +140,9 @@ fn generate_classic(existing_constraints: &SudokuConstraints) {
 }
 
 fn is_kropki_solvable(kropki_dots: &Vec<KropkiDot>, constraints: &SudokuConstraints) -> bool {
-  let mut logical_solver = Solver::new(
-    constraints.clone().with_kropki_dots(kropki_dots.clone())
+  is_constraints_solvable(
+    &constraints.clone().with_kropki_dots(kropki_dots.clone())
   )
-  // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), Rc::new(EmptyRectangles)])
-  ;
-  let logical_solution = logical_solver.logical_solve();
-  logical_solution.solution_type == SolutionType::Full
 }
 
 fn generate_kropki(existing_constraints: &SudokuConstraints) {

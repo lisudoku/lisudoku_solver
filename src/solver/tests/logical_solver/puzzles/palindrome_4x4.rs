@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Grid, Palindrome, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, Palindrome, Rule, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_palindrome_4x4_1_solve() {
@@ -18,12 +18,12 @@ fn check_palindrome_4x4_1_solve() {
       ]
     );
 
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert!(result.steps.iter().any(|step| step.rule == Rule::PalindromeValues));
   assert!(result.steps.iter().all(|step| step.rule != Rule::PalindromeCandidates));
-  assert!(!solver.candidates_active);
+  assert!(!solver.state.candidates_active);
   assert_eq!(
     result.solution.unwrap(),
     Grid(vec![

@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, Thermo, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Thermo, SudokuConstraints}};
 
 // https://youtu.be/LwkNChSO2yE
 #[test]
@@ -46,9 +46,9 @@ fn check_mixed_9x9_1_hard_solve() {
         ]),
       ]
     );
-  let mut _solver = Solver::new(constraints);
+  let mut _solver = LogicalSolver::new(constraints);
   // TODO: this requires more complex rules to solve
-  // let result = solver.logical_solve();
+  // let result = solver.solve();
   // assert_eq!(result.solution_type, SolutionType::Full);
   // assert_eq!(result.solution.unwrap(), vec![
   //   vec![ 9, 2, 6, 4, 7, 3, 8, 5, 1 ],

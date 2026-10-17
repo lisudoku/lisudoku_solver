@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, empty_reclanges::EmptyRectangles, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, empty_reclanges::EmptyRectangles}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_empty_rectangles_with_affected_cells_1() {
@@ -11,7 +11,7 @@ fn check_empty_rectangles_with_affected_cells_1() {
         FixedNumber::new(7, 6, 8), FixedNumber::new(8, 6, 9),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = EmptyRectangles.run(&solver);
@@ -27,12 +27,12 @@ fn check_empty_rectangles_with_affected_cells_1() {
       vec![CellPosition::new(6, 0)],
     ),
   );
-  assert_eq!(solver.candidates[6][0].len(), 9);
-  assert!(solver.candidates[6][0].contains(&1));
+  assert_eq!(solver.state.candidates[6][0].len(), 9);
+  assert!(solver.state.candidates[6][0].contains(&1));
 
   solver.apply_rule(&mut step);
-  assert_eq!(solver.candidates[6][0].len(), 8);
-  assert!(!solver.candidates[6][0].contains(&1));
+  assert_eq!(solver.state.candidates[6][0].len(), 8);
+  assert!(!solver.state.candidates[6][0].contains(&1));
 }
 
 #[test]
@@ -45,7 +45,7 @@ fn check_empty_rectangles_with_affected_cells_2() {
         FixedNumber::new(6, 7, 8), FixedNumber::new(6, 8, 9),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = EmptyRectangles.run(&solver);
@@ -54,12 +54,12 @@ fn check_empty_rectangles_with_affected_cells_2() {
   assert_eq!(step.rule, Rule::EmptyRectangles);
   assert_eq!(step.cells, vec![ CellPosition::new(6, 0), CellPosition::new(6, 6) ]);
   assert_eq!(step.values, vec![ 1 ]);
-  assert_eq!(solver.candidates[0][6].len(), 9);
-  assert!(solver.candidates[0][6].contains(&1));
+  assert_eq!(solver.state.candidates[0][6].len(), 9);
+  assert!(solver.state.candidates[0][6].contains(&1));
 
   solver.apply_rule(&mut step);
-  assert_eq!(solver.candidates[0][6].len(), 8);
-  assert!(!solver.candidates[0][6].contains(&1));
+  assert_eq!(solver.state.candidates[0][6].len(), 8);
+  assert!(!solver.state.candidates[0][6].contains(&1));
 }
 
 #[test]
@@ -71,7 +71,7 @@ fn check_empty_rectangles_with_no_affected_cells_1() {
         FixedNumber::new(4, 7, 1), FixedNumber::new(6, 8, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = EmptyRectangles.run(&solver);
@@ -87,7 +87,7 @@ fn check_empty_rectangles_with_no_affected_cells_2() {
         FixedNumber::new(7, 5, 1), FixedNumber::new(8, 6, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = EmptyRectangles.run(&solver);

@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_classic_6x6_1_solve() {
@@ -21,8 +21,8 @@ fn check_classic_6x6_1_solve() {
         FixedNumber::new(5, 5, 3),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -56,8 +56,8 @@ fn check_classic_6x6_2_hard_solve() {
         FixedNumber::new(5, 5, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -94,8 +94,8 @@ fn check_classic_6x6_3_hard_solve() {
         FixedNumber::new(5, 3, 6),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

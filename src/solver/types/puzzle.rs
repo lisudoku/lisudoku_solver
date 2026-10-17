@@ -1,4 +1,4 @@
-use crate::{solver::constraints::{CandidateMode, Constraint, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, arrow::ArrowConstraint, context::ConstraintCellPeersContext, fixed_numbers::FixedNumbersConstraint, killer::KillerConstraint, kind::ConstraintKind, kropki::KropkiConstraint, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::{Area, CellPosition, ConstraintError, SudokuConstraints}};
+use crate::{solver::constraints::{CandidateMode, Constraint, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, arrow::ArrowConstraint, context::ConstraintCellPeersContext, killer::KillerConstraint, kind::ConstraintKind, kropki::KropkiConstraint, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::{Area, CellPosition, ConstraintError, SudokuConstraints}};
 use std::{cell::RefCell, collections::{HashMap, HashSet}};
 use itertools::Itertools;
 use strum::{EnumCount, IntoEnumIterator};
@@ -266,11 +266,6 @@ impl Puzzle {
 
   pub fn palindrome(&self) -> Option<&PalindromeConstraint> {
     let Some(Constraint::Palindrome(constraint)) = self.constraint(ConstraintKind::Palindrome) else { return None };
-    Some(constraint)
-  }
-
-  pub fn fixed_number(&self) -> Option<&FixedNumbersConstraint> {
-    let Some(Constraint::FixedNumbers(constraint)) = self.constraint(ConstraintKind::FixedNumber) else { return None };
     Some(constraint)
   }
 

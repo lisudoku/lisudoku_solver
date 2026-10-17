@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, common_peer_elimination::CommonPeerElimination, technique::Technique}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, common_peer_elimination::CommonPeerElimination}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_anti_knight_common_peer_elimination_1() {
@@ -12,7 +12,7 @@ fn check_anti_knight_common_peer_elimination_1() {
       ]
     )
     .with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
@@ -28,10 +28,10 @@ fn check_anti_knight_common_peer_elimination_1() {
     CellPosition::new(2, 4), CellPosition::new(4, 6),
   ]);
   assert_eq!(step.values, vec![ 5 ]);
-  assert!(solver.candidates[4][6].contains(&5));
+  assert!(solver.state.candidates[4][6].contains(&5));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[4][6].contains(&5));
+  assert!(!solver.state.candidates[4][6].contains(&5));
 }
 
 #[test]
@@ -49,7 +49,7 @@ fn check_anti_knight_common_peer_elimination_2() {
       ]
     )
     .with_anti_knight();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
@@ -66,10 +66,10 @@ fn check_anti_knight_common_peer_elimination_2() {
     CellPosition::new(5, 7), CellPosition::new(6, 4), CellPosition::new(6, 6),
     CellPosition::new(7, 5),
   ]);
-  assert!(solver.candidates[6][6].contains(&8));
+  assert!(solver.state.candidates[6][6].contains(&8));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[6][6].contains(&8));
+  assert!(!solver.state.candidates[6][6].contains(&8));
 }
 
 #[test]
@@ -92,7 +92,7 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
@@ -108,8 +108,8 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
       vec![CellPosition::new(3, 2)],
     ),
   );
-  assert!(solver.candidates[3][2].contains(&1));
+  assert!(solver.state.candidates[3][2].contains(&1));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[3][2].contains(&1));
+  assert!(!solver.state.candidates[3][2].contains(&1));
 }

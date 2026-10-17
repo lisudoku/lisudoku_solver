@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, naked_set::NakedSet}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, naked_set::NakedSet}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_naked_triples() {
@@ -23,7 +23,7 @@ fn check_naked_triples() {
         FixedNumber::new(8, 4, 4),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSet::new(3).run(&solver);
@@ -33,10 +33,10 @@ fn check_naked_triples() {
   assert_eq!(step.cells, vec![ CellPosition::new(0, 2), CellPosition::new(0, 3), CellPosition::new(0, 4) ]);
   assert_eq!(step.values.iter().cloned().collect::<Vec<u32>>(), vec![ 1, 2, 3 ]);
   assert!(step.affected_cells.len() == 6);
-  let initial_candidates = solver.candidates[0][8].clone();
+  let initial_candidates = solver.state.candidates[0][8].clone();
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[0][8];
+  let final_candidates = &solver.state.candidates[0][8];
   assert_eq!(final_candidates.len(), initial_candidates.len() - 3);
 }
 
@@ -71,7 +71,7 @@ fn check_naked_triples_no_affected_cells() {
         FixedNumber::new(2, 8, 8),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NakedSet::new(3).run(&solver);

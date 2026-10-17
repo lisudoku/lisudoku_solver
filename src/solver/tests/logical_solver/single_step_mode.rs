@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, SolutionType, FixedNumber, Rule}, solver::{Solver, logical_solver::{hidden_singles::HiddenSingles, naked_singles::NakedSingle, technique::Technique}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, hidden_singles::HiddenSingles, naked_singles::NakedSingle}}, types::{FixedNumber, Rule, SolutionType, SudokuConstraints}};
 use std::rc::Rc;
 use itertools::Itertools;
 
@@ -13,8 +13,8 @@ fn check_single_step_mode_all_techniques() {
     );
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle), Rc::new(HiddenSingles) ];
-  let mut solver = Solver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
+  let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 7);
@@ -34,8 +34,8 @@ fn check_single_step_mode_hidden_singles() {
     );
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(HiddenSingles) ];
-  let mut solver = Solver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
+  let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 5);
@@ -53,8 +53,8 @@ fn check_single_step_mode_naked_singles() {
     );
 
   let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle) ];
-  let mut solver = Solver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
+  let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 2);

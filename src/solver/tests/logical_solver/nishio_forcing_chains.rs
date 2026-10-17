@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, logical_solver::{candidates::Candidates, nishio_forcing_chains::NishioForcingChains, technique::Technique, thermo_candidates::ThermoCandidates}}, types::{Area, CellPosition, FixedNumber, InvalidStateType, Palindrome, Rule, SudokuConstraints, Thermo}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, nishio_forcing_chains::NishioForcingChains, thermo_candidates::ThermoCandidates}}, types::{Area, CellPosition, FixedNumber, InvalidStateType, Palindrome, Rule, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_nishio_forcing_chain_valid() {
@@ -18,14 +18,14 @@ fn check_nishio_forcing_chain_valid() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
   solver.apply_rules(&ThermoCandidates.run(&solver));
 
   let mut steps = NishioForcingChains.run(&solver);
   assert_eq!(steps.len(), 3);
 
-  let initial_candidates = solver.candidates[0][6].clone();
+  let initial_candidates = solver.state.candidates[0][6].clone();
   assert!(initial_candidates.contains(&2));
   assert_eq!(initial_candidates.len(), 4);
 
@@ -43,7 +43,7 @@ fn check_nishio_forcing_chain_valid() {
 
   assert_eq!(steps.iter().flat_map(|step| step.values.to_vec()).collect::<Vec<_>>(), vec![2, 3, 4]);
 
-  let final_candidates = &solver.candidates[0][6];
+  let final_candidates = &solver.state.candidates[0][6];
   assert!(!final_candidates.contains(&2));
   assert_eq!(final_candidates.len(), 1);
 }
@@ -64,7 +64,7 @@ fn check_nishio_forcing_chain_contradiction() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = NishioForcingChains.run(&solver);

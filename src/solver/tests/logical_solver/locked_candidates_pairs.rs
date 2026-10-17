@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, locked_candidates::LockedCandidates}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, locked_candidates::LockedCandidates}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_locked_candidates_pairs() {
@@ -12,7 +12,7 @@ fn check_locked_candidates_pairs() {
         FixedNumber::new(3, 0, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -25,12 +25,12 @@ fn check_locked_candidates_pairs() {
   assert_eq!(step.affected_cells, vec![
     CellPosition::new(2, 6), CellPosition::new(2, 7), CellPosition::new(2, 8),
   ]);
-  let initial_candidates = solver.candidates[2][6].clone();
+  let initial_candidates = solver.state.candidates[2][6].clone();
   assert!(initial_candidates.contains(&1));
   assert_eq!(initial_candidates.len(), 9);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][6];
+  let final_candidates = &solver.state.candidates[2][6];
   assert!(!final_candidates.contains(&1));
   assert_eq!(final_candidates.len(), 8);
 }
@@ -48,7 +48,7 @@ fn check_locked_candidates_pairs_no_affected_cells() {
         FixedNumber::new(3, 0, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -68,7 +68,7 @@ fn check_locked_candidates_pairs_on_primary_diagonal() {
       ]
     )
     .with_primary_diagonal();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -82,18 +82,18 @@ fn check_locked_candidates_pairs_on_primary_diagonal() {
     CellPosition::new(4, 4), CellPosition::new(5, 5),
     CellPosition::new(6, 6), CellPosition::new(7, 7), CellPosition::new(8, 8),
   ]);
-  let initial_candidates_1 = solver.candidates[4][4].clone();
+  let initial_candidates_1 = solver.state.candidates[4][4].clone();
   assert!(initial_candidates_1.contains(&1));
   assert_eq!(initial_candidates_1.len(), 9);
-  let initial_candidates_2 = solver.candidates[8][8].clone();
+  let initial_candidates_2 = solver.state.candidates[8][8].clone();
   assert!(initial_candidates_2.contains(&1));
   assert_eq!(initial_candidates_2.len(), 9);
 
   solver.apply_rule(&mut step);
-  let final_candidates_1 = &solver.candidates[4][4];
+  let final_candidates_1 = &solver.state.candidates[4][4];
   assert!(!final_candidates_1.contains(&1));
   assert_eq!(final_candidates_1.len(), 8);
-  let final_candidates_2 = &solver.candidates[8][8];
+  let final_candidates_2 = &solver.state.candidates[8][8];
   assert!(!final_candidates_2.contains(&1));
   assert_eq!(final_candidates_2.len(), 8);
 }
@@ -111,7 +111,7 @@ fn check_locked_candidates_pairs_on_secondary_diagonal() {
       ]
     )
     .with_secondary_diagonal();
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(2).run(&solver);
@@ -125,18 +125,18 @@ fn check_locked_candidates_pairs_on_secondary_diagonal() {
     CellPosition::new(4, 4), CellPosition::new(5, 3),
     CellPosition::new(6, 2), CellPosition::new(7, 1), CellPosition::new(8, 0),
   ]);
-  let initial_candidates_1 = solver.candidates[4][4].clone();
+  let initial_candidates_1 = solver.state.candidates[4][4].clone();
   assert!(initial_candidates_1.contains(&1));
   assert_eq!(initial_candidates_1.len(), 9);
-  let initial_candidates_2 = solver.candidates[8][0].clone();
+  let initial_candidates_2 = solver.state.candidates[8][0].clone();
   assert!(initial_candidates_2.contains(&1));
   assert_eq!(initial_candidates_2.len(), 9);
 
   solver.apply_rule(&mut step);
-  let final_candidates_1 = &solver.candidates[4][4];
+  let final_candidates_1 = &solver.state.candidates[4][4];
   assert!(!final_candidates_1.contains(&1));
   assert_eq!(final_candidates_1.len(), 8);
-  let final_candidates_2 = &solver.candidates[8][0];
+  let final_candidates_2 = &solver.state.candidates[8][0];
   assert!(!final_candidates_2.contains(&1));
   assert_eq!(final_candidates_2.len(), 8);
 }

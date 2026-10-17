@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{Arrow, CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{Arrow, CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_arrow_4x4_1_solve() {
@@ -22,8 +22,8 @@ fn check_arrow_4x4_1_solve() {
         },
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),

@@ -1,5 +1,5 @@
-use crate::solver::Solver;
 use crate::solver::constraints::{ConstraintDefinition};
+use crate::solver::solve_state::SolveState;
 use crate::solver::types::{CandidateSet, CellPositionSet};
 use crate::types::{Area, InvalidStateReason, InvalidStateType};
 use itertools::Itertools;
@@ -32,7 +32,7 @@ impl SolvedState {
   }
 }
 
-impl Solver {
+impl SolveState {
   pub fn check_solved(&self) -> SolvedState {
     self.check_grid_valid(false)
   }

@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Renban, SudokuConstraints}};
+use crate::{solver::{SolveState, SolvedState}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, Renban, SudokuConstraints}};
 
 #[test]
 fn check_renban_correct() {
@@ -14,8 +14,8 @@ fn check_renban_correct() {
     vec![ 4, 3, 1, 2 ],
     vec![ 2, 1, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }
 
@@ -33,8 +33,8 @@ fn check_renban_wrong_value_conflict() {
     vec![ 4, 3, 1, 2 ],
     vec![ 2, 1, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -64,8 +64,8 @@ fn check_renban_wrong_value_conflict_2() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -92,8 +92,8 @@ fn check_renban_wrong_not_consecutive() {
     vec![ 4, 3, 1, 2 ],
     vec![ 2, 1, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -120,10 +120,10 @@ fn check_renban_wrong_partial_not_consecutive() {
     vec![ 4, 3, 1, 2 ],
     vec![ 2, 1, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let partially_solved = solver.check_partially_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_partially_solved();
   assert_eq!(
-    partially_solved,
+    solved,
     SolvedState::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,
@@ -151,9 +151,9 @@ fn check_renban_correct_partial_with_fixed_value() {
     vec![ 4, 0, 1, 2 ],
     vec![ 0, 0, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let partially_solved = solver.check_partially_solved();
-  assert_eq!(partially_solved, SolvedState::solved());
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_partially_solved();
+  assert_eq!(solved, SolvedState::solved());
 }
 
 #[test]
@@ -173,7 +173,7 @@ fn check_renban_correct_partial_with_no_value() {
     vec![ 4, 0, 1, 2 ],
     vec![ 0, 0, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let partially_solved = solver.check_partially_solved();
-  assert_eq!(partially_solved, SolvedState::solved());
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_partially_solved();
+  assert_eq!(solved, SolvedState::solved());
 }

@@ -1,4 +1,4 @@
-use crate::{solver::{checker::SolvedState, constraints::{CandidateMode, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}, odd_even::{even::EvenConstraintLogic, odd::OddConstraintLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType}};
+use crate::{solver::{SolvedState, constraints::{CandidateMode, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}, odd_even::{even::EvenConstraintLogic, odd::OddConstraintLogic}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType}};
 use std::slice::Iter;
 use derive_more::Deref;
 

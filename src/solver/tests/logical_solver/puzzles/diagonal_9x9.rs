@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // TODO: uncomment after implementing more rules
 // // https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
@@ -31,8 +31,8 @@ use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConst
 //   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.primary_diagonal = true;
 //   constraints.secondary_diagonal = true;
-//   let mut solver = Solver::new(constraints);
-//   let result = solver.logical_solve();
+//   let mut solver = LogicalSolver::new(constraints);
+//   let result = solver.solve();
 //   assert_eq!(result.solution_type, SolutionType::Full);
 //   assert_eq!(result.solution.unwrap(), vec![
 //     vec![ 2, 5, 9, 6, 1, 3, 8, 4, 7 ],
@@ -75,8 +75,8 @@ fn check_diagonal_9x9_2_medium_solve() {
       ]
     )
     .with_diagonals();
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -118,8 +118,8 @@ fn check_diagonal_9x9_2_medium_solve() {
 //   let mut constraints = SudokuConstraints::new(grid_size).with_fixed_numbers(fixed_numbers);
 //   constraints.primary_diagonal = true;
 //   constraints.secondary_diagonal = true;
-//   let mut solver = Solver::new(constraints);
-//   let result = solver.logical_solve();
+//   let mut solver = LogicalSolver::new(constraints);
+//   let result = solver.solve();
 //   assert_eq!(result.solution_type, SolutionType::Full);
 //   assert_eq!(result.solution.unwrap(), vec![
 //     vec![ 3, 7, 1, 8, 6, 5, 2, 9, 4 ],

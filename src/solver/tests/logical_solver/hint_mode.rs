@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, KropkiDot, Palindrome, Rule, SolutionType, SudokuConstraints, Thermo}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, KropkiDot, Palindrome, Rule, SolutionType, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_hint_mode_kropki() {
@@ -15,8 +15,8 @@ fn check_hint_mode_kropki() {
       ]
     );
 
-  let mut solver = Solver::new(constraints).with_hint_mode(true);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_hint_mode(true);
+  let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   // at most 5 steps (1 + 3 kropki + single)
@@ -45,8 +45,8 @@ fn check_hint_mode_palindrome() {
       ]
     );
 
-  let mut solver = Solver::new(constraints).with_hint_mode(true);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_hint_mode(true);
+  let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 1); // because palindrome values is a grid step
@@ -108,8 +108,8 @@ fn check_hint_mode_nishio() {
       ]
     );
 
-  let mut solver = Solver::new(constraints).with_hint_mode(true);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints).with_hint_mode(true);
+  let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert!(result.steps.len() >= 10); // ballpark check

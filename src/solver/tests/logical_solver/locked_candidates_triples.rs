@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, locked_candidates::LockedCandidates}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, locked_candidates::LockedCandidates}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 #[test]
 fn check_locked_candidates_triples() {
@@ -12,7 +12,7 @@ fn check_locked_candidates_triples() {
         FixedNumber::new(8, 8, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(3).run(&solver);
@@ -27,12 +27,12 @@ fn check_locked_candidates_triples() {
   assert_eq!(step.affected_cells, vec![
     CellPosition::new(2, 6), CellPosition::new(2, 7),
   ]);
-  let initial_candidates = solver.candidates[2][6].clone();
+  let initial_candidates = solver.state.candidates[2][6].clone();
   assert!(initial_candidates.contains(&1));
   assert_eq!(initial_candidates.len(), 9);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[2][6];
+  let final_candidates = &solver.state.candidates[2][6];
   assert!(!final_candidates.contains(&1));
   assert_eq!(final_candidates.len(), 8);
 }
@@ -49,7 +49,7 @@ fn check_locked_candidates_triples_no_affected_cells() {
         FixedNumber::new(1, 3, 1),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = LockedCandidates::new(3).run(&solver);

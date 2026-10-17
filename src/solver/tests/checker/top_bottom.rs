@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{SolveState, SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_top_bottom_solved() {
@@ -9,8 +9,8 @@ fn check_top_bottom_solved() {
     vec![ 3, 1, 4, 2 ],
     vec![ 4, 2, 3, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }
 
@@ -23,8 +23,8 @@ fn check_top_bottom_wrong_one_sequence() {
     vec![ 1, 3, 2, 4 ],
     vec![ 2, 4, 1, 3 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -46,8 +46,8 @@ fn check_top_bottom_wrong_both() {
     vec![ 1, 2, 3, 4 ],
     vec![ 4, 3, 2, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -69,9 +69,9 @@ fn check_top_bottom_empty_correct() {
     vec![ 0, 0, 0, 0 ],
     vec![ 0, 0, 0, 0 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let partially_solved = solver.check_partially_solved();
-  assert_eq!(partially_solved, SolvedState::solved());
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_partially_solved();
+  assert_eq!(solved, SolvedState::solved());
 }
 
 #[test]
@@ -83,10 +83,10 @@ fn check_top_bottom_empty_wrong() {
     vec![ 0, 0, 0, 0 ],
     vec![ 0, 0, 0, 0 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let partially_solved = solver.check_partially_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_partially_solved();
   assert_eq!(
-    partially_solved,
+    solved,
     SolvedState::unsolved(
       InvalidStateReason {
         state_type: InvalidStateType::AreaConstraint,

@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area, KropkiDot}, solver::{Solver, logical_solver::{kropki_chain_candidates::KropkiChainCandidates, technique::Technique, candidates::Candidates, kropki_advanced_candidates::KropkiAdvancedCandidates}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, kropki_advanced_candidates::KropkiAdvancedCandidates, kropki_chain_candidates::KropkiChainCandidates}}, types::{Area, CellPosition, FixedNumber, KropkiDot, Rule, SudokuConstraints}};
 
 #[test]
 fn check_kropki_advanced_candidates_1() {
@@ -26,7 +26,7 @@ fn check_kropki_advanced_candidates_1() {
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -40,27 +40,27 @@ fn check_kropki_advanced_candidates_1() {
   assert_eq!(step.values, vec![ 1 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(1, 0) ]);
-  assert!(solver.candidates[1][0].contains(&1));
+  assert!(solver.state.candidates[1][0].contains(&1));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[1][0].contains(&1));
+  assert!(!solver.state.candidates[1][0].contains(&1));
 
   let mut step = &steps[1];
   assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
   assert_eq!(step.values, vec![ 2 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 0) ]);
-  assert!(solver.candidates[2][0].contains(&2));
+  assert!(solver.state.candidates[2][0].contains(&2));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[2][0].contains(&2));
+  assert!(!solver.state.candidates[2][0].contains(&2));
 
   let mut step = &steps[2];
   assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
   assert_eq!(step.values, vec![ 3 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(3, 0) ]);
-  assert!(solver.candidates[3][0].contains(&3));
+  assert!(solver.state.candidates[3][0].contains(&3));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[3][0].contains(&3));
+  assert!(!solver.state.candidates[3][0].contains(&3));
 }
 
 #[test]
@@ -89,7 +89,7 @@ fn check_kropki_advanced_candidates_2() {
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -103,27 +103,27 @@ fn check_kropki_advanced_candidates_2() {
   assert_eq!(step.values, vec![ 9 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(1, 0) ]);
-  assert!(solver.candidates[1][0].contains(&9));
+  assert!(solver.state.candidates[1][0].contains(&9));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[1][0].contains(&9));
+  assert!(!solver.state.candidates[1][0].contains(&9));
 
   let mut step = &steps[1];
   assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
   assert_eq!(step.values, vec![ 8 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 0) ]);
-  assert!(solver.candidates[2][0].contains(&8));
+  assert!(solver.state.candidates[2][0].contains(&8));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[2][0].contains(&8));
+  assert!(!solver.state.candidates[2][0].contains(&8));
 
   let mut step = &steps[2];
   assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
   assert_eq!(step.values, vec![ 7 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(3, 0) ]);
-  assert!(solver.candidates[3][0].contains(&7));
+  assert!(solver.state.candidates[3][0].contains(&7));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[3][0].contains(&7));
+  assert!(!solver.state.candidates[3][0].contains(&7));
 }
 
 #[test]
@@ -149,7 +149,7 @@ fn check_kropki_advanced_candidates_3() {
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -163,27 +163,27 @@ fn check_kropki_advanced_candidates_3() {
   assert_eq!(step.values, vec![ 2 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(1, 0) ]);
-  assert!(solver.candidates[1][0].contains(&2));
+  assert!(solver.state.candidates[1][0].contains(&2));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[1][0].contains(&2));
+  assert!(!solver.state.candidates[1][0].contains(&2));
 
   let mut step = &steps[1];
   assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
   assert_eq!(step.values, vec![ 3 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 0) ]);
-  assert!(solver.candidates[2][0].contains(&3));
+  assert!(solver.state.candidates[2][0].contains(&3));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[2][0].contains(&3));
+  assert!(!solver.state.candidates[2][0].contains(&3));
 
   let mut step = &steps[2];
   assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
   assert_eq!(step.values, vec![ 4 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(3, 0) ]);
-  assert!(solver.candidates[3][0].contains(&4));
+  assert!(solver.state.candidates[3][0].contains(&4));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[3][0].contains(&4));
+  assert!(!solver.state.candidates[3][0].contains(&4));
 }
 
 #[test]
@@ -210,7 +210,7 @@ fn check_kropki_advanced_candidates_4() {
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = KropkiChainCandidates::new(false).run(&solver);
@@ -223,7 +223,7 @@ fn check_kropki_advanced_candidates_4() {
   assert_eq!(step.values, vec![ 4 ]);
   assert_eq!(step.areas, vec![ Area::KropkiDot(0), Area::KropkiDot(1) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(2, 0) ]);
-  assert!(solver.candidates[2][0].contains(&4));
+  assert!(solver.state.candidates[2][0].contains(&4));
   solver.apply_rule(&mut step);
-  assert!(!solver.candidates[2][0].contains(&4));
+  assert!(!solver.state.candidates[2][0].contains(&4));
 }

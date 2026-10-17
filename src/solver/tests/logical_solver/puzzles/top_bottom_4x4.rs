@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 #[test]
 fn check_top_bottom_4x4_1() {
@@ -10,8 +10,8 @@ fn check_top_bottom_4x4_1() {
       ]
     )
     .with_top_bottom();
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -34,7 +34,7 @@ fn check_top_bottom_4x4_no_solution() {
       ]
     )
     .with_top_bottom();
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }

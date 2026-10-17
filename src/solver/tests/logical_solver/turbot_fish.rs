@@ -1,4 +1,4 @@
-use crate::{types::{SudokuConstraints, FixedNumber, CellPosition, Rule, Area}, solver::{Solver, logical_solver::{candidates::Candidates, technique::Technique, turbot_fish::TurbotFish}}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, turbot_fish::TurbotFish}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints}};
 
 // https://www.sudopedia.org/wiki/2-String_Kite
 #[test]
@@ -26,7 +26,7 @@ fn check_turbot_fish_2_string_kite() {
         FixedNumber::new(8, 5, 8),
       ]
     );
-  let mut solver = Solver::new(constraints);
+  let mut solver = LogicalSolver::new(constraints);
   solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
 
   let steps = TurbotFish.run(&solver);
@@ -42,12 +42,12 @@ fn check_turbot_fish_2_string_kite() {
   ]);
   assert_eq!(step.values, vec![ 8 ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(6, 6) ]);
-  let initial_candidates = solver.candidates[6][6].clone();
+  let initial_candidates = solver.state.candidates[6][6].clone();
   assert!(initial_candidates.contains(&8));
   assert_eq!(initial_candidates.len(), 8);
 
   solver.apply_rule(&mut step);
-  let final_candidates = &solver.candidates[6][6];
+  let final_candidates = &solver.state.candidates[6][6];
   assert!(!final_candidates.contains(&8));
   assert_eq!(final_candidates.len(), 7);
 }

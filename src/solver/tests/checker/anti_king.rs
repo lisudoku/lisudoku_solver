@@ -1,4 +1,4 @@
-use crate::{solver::{Solver, checker::SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{SolveState, SolvedState}, types::{Area, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[test]
 fn check_anti_king_correct() {
@@ -11,8 +11,8 @@ fn check_anti_king_correct() {
     vec![ 5, 1, 4, 6, 3, 2 ],
     vec![ 3, 6, 2, 5, 4, 1 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(solved, SolvedState::solved());
 }
 
@@ -25,8 +25,8 @@ fn check_anti_king_wrong_1() {
     vec![ 4, 3, 1, 2 ],
     vec![ 2, 1, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let solved = solver.check_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let solved = solve_state.check_solved();
   assert_eq!(
     solved,
     SolvedState::unsolved(
@@ -48,8 +48,8 @@ fn check_anti_king_wrong_2() {
     vec![ 4, 0, 0, 2 ],
     vec![ 2, 1, 3, 4 ],
   ]);
-  let solver = Solver::new(constraints).with_grid(grid);
-  let partially_solved = solver.check_partially_solved();
+  let solve_state = SolveState::from_constraints_and_grid(constraints, grid);
+  let partially_solved = solve_state.check_partially_solved();
   assert_eq!(
     partially_solved,
     SolvedState::unsolved(

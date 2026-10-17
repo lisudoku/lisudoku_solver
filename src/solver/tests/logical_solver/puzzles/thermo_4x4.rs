@@ -1,4 +1,4 @@
-use crate::{solver::Solver, types::{CellPosition, FixedNumber, SolutionType, SudokuConstraints, Thermo}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, SolutionType, SudokuConstraints, Thermo}};
 
 // https://github.com/lisudoku/lisudoku_solver/issues/6
 #[test]
@@ -21,7 +21,7 @@ fn check_thermo_4x4_edge_1_solve() {
         ]),
       ]
     );
-  let mut solver = Solver::new(constraints);
-  let result = solver.logical_solve();
+  let mut solver = LogicalSolver::new(constraints);
+  let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::None);
 }
