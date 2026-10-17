@@ -265,7 +265,7 @@ impl LogicalSolver {
     }
   }
 
-  /// Returns cells that are seen by all <cells> with any of <values> candidates
+  /// Returns cells that are seen by all `cells` with any of `values` candidates
   pub fn cells_peers_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
     self
       .state
