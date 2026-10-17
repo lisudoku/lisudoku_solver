@@ -42,15 +42,13 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: Thermo
+- rule: NakedSingle
   cells:
     - row: 8
       col: 0
   values:
     - 8
-  areas:
-    - type: Thermo
-      value: 1
+  areas: []
   affectedCells: []
   grid: ~
   candidates: ~
@@ -120,15 +118,13 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: Thermo
+- rule: NakedSingle
   cells:
     - row: 5
       col: 0
   values:
     - 5
-  areas:
-    - type: Thermo
-      value: 1
+  areas: []
   affectedCells: []
   grid: ~
   candidates: ~
@@ -239,15 +235,13 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: Thermo
+- rule: NakedSingle
   cells:
     - row: 3
       col: 6
   values:
     - 9
-  areas:
-    - type: Thermo
-      value: 4
+  areas: []
   affectedCells: []
   grid: ~
   candidates: ~

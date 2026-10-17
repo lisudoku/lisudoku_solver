@@ -1,4 +1,4 @@
-use crate::{solver::{checker::SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
+use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
 use std::cmp::{min, max};
 
 #[derive(Clone, Default, Debug)]
@@ -54,6 +54,7 @@ impl ConstraintDefinition for ThermoConstraint {
     ).collect()
   }
 
+  // This restriction is not the strictest possible, this is supposed to be just a simple and obvious check
   fn restrict_cell_special_candidates(&self, cell: &CellPosition, grid: &Grid, candidates: &mut CandidateSet) {
     for area in self.cell_region_areas(cell, PeerMode::Full, CandidateMode::Full) {
       let cells = self.area_cells(&area);
@@ -62,12 +63,12 @@ impl ConstraintDefinition for ThermoConstraint {
       let mut max_before = 0;
       let mut min_after = grid.len() as u32 + 1;
 
-      for cell in cells {
-        if cell.row == cell.row && cell.col == cell.col {
+      for thermo_cell in cells {
+        if thermo_cell == *cell {
           after = true;
           continue
         }
-        let value = grid[cell.row][cell.col];
+        let value = grid[thermo_cell.row][thermo_cell.col];
         if value == 0 {
           continue
         }
