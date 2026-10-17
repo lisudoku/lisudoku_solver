@@ -12,7 +12,7 @@ use itertools::Itertools;
 use std::collections::{HashSet, VecDeque, HashMap};
 
 // X can't be a candidate in this cell because it violates the dot chain
-pub struct KropkiChainCandidates {
+pub(crate) struct KropkiChainCandidates {
   chain_limit: bool,
 }
 
@@ -138,7 +138,7 @@ impl KropkiChainCandidates {
     combinations_list
   }
 
-  pub fn mark_kropki_valid_candidates(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> (Vec<CandidateSet>, Vec<Vec<u32>>) {
+  pub(crate) fn mark_kropki_valid_candidates(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> (Vec<CandidateSet>, Vec<Vec<u32>>) {
     let mut kropki_chain_combinatons_logic_factory = solver.caches.kropki_chain_combinatons_logic_factory.borrow_mut();
     let combination_logic = kropki_chain_combinatons_logic_factory.create(cells, solver);
     let mut combinations_runner = CellCombinationsRunner::new(
@@ -237,7 +237,7 @@ impl<'a> KropkiComponents<'a> {
   }
 }
 
-pub struct KropkiChainCombinationsLogic<'a> {
+pub(crate) struct KropkiChainCombinationsLogic<'a> {
   cells: &'a Vec<CellPosition>,
   cache: &'a mut KropkiChainCombinationLogicCache,
   solver: &'a LogicalSolver,
@@ -301,7 +301,7 @@ impl CellCombinationLogic for KropkiChainCombinationsLogic<'_> {
 type KropkiChainCombinationLogicCache = HashMap<CellsCacheKey, CellCombinationsRunnerResult>;
 
 // TODO: think about whether this factory approach is worth it or just put the cache in the solver
-pub struct KropkiChainCombinationLogicFactory {
+pub(crate) struct KropkiChainCombinationLogicFactory {
   cache: KropkiChainCombinationLogicCache,
 }
 

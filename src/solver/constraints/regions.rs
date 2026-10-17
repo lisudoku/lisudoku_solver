@@ -1,7 +1,7 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, Region, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct RegionsConstraint {
+pub(crate) struct RegionsConstraint {
   regions: Vec<Region>,
   regions_by_cell: Vec<Vec<Vec<usize>>>,
   row_regions: Vec<Region>,
@@ -76,7 +76,7 @@ impl RegionsConstraint {
   }
 }
 
-pub struct RegionsConstraintBuilder;
+pub(crate) struct RegionsConstraintBuilder;
 
 impl ConstraintBuilder for RegionsConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -104,4 +104,4 @@ impl ConstraintBuilder for RegionsConstraintBuilder {
   }
 }
 
-pub static REGIONS_CONSTRAINT_BUILDER: RegionsConstraintBuilder = RegionsConstraintBuilder;
+pub(crate) static REGIONS_CONSTRAINT_BUILDER: RegionsConstraintBuilder = RegionsConstraintBuilder;

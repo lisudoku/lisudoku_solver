@@ -1,7 +1,7 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellDirection, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct AntiKingConstraint;
+pub(crate) struct AntiKingConstraint;
 
 impl ConstraintDefinition for AntiKingConstraint {
   fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
@@ -71,7 +71,7 @@ const KING_MOVES: [CellDirection; 8] = [
   CellDirection { row: 1, col: 1 },
 ];
 
-pub struct AntiKingConstraintBuilder;
+pub(crate) struct AntiKingConstraintBuilder;
 
 impl ConstraintBuilder for AntiKingConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -83,4 +83,4 @@ impl ConstraintBuilder for AntiKingConstraintBuilder {
   }
 }
 
-pub static ANTI_KING_CONSTRAINT_BUILDER: AntiKingConstraintBuilder = AntiKingConstraintBuilder;
+pub(crate) static ANTI_KING_CONSTRAINT_BUILDER: AntiKingConstraintBuilder = AntiKingConstraintBuilder;

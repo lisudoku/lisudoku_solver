@@ -266,7 +266,7 @@ impl LogicalSolver {
   }
 
   /// Returns cells that are seen by all `cells` with any of `values` candidates
-  pub fn cells_peers_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
+  pub(crate) fn cells_peers_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
     self
       .state
       .cell_peers_with_candidates(&cells[0], values)
@@ -293,11 +293,11 @@ impl LogicalSolver {
       .sum()
   }
 
-  pub fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
+  pub(crate) fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
     cells.iter().any(|cell| !self.state.candidates[cell.row][cell.col].is_disjoint(&values))
   }
 
-  pub fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
+  pub(crate) fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
     cells.iter().any(|cell| self.state.candidates[cell.row][cell.col].difference(&values).len() > 0)
   }
 
@@ -317,7 +317,7 @@ impl LogicalSolver {
     }
   }
 
-  pub fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<CandidateSet>) -> Vec<(CellPosition, Vec<u32>)> {
+  pub(crate) fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<CandidateSet>) -> Vec<(CellPosition, Vec<u32>)> {
     cells.into_iter().enumerate().filter_map(|(cell_index, &cell)| {
       let cell_candidates = &self.state.candidates[cell.row][cell.col];
       let valid_cell_candidates = &valid_candidates[cell_index];
@@ -339,7 +339,7 @@ impl LogicalSolver {
     }).collect()
   }
 
-  pub fn all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
+  pub(crate) fn all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
     self.state.puzzle.all_house_areas().iter().flat_map(|area| {
       let value_cells = self.state.compute_cells_by_value_in_area(area, &self.state.candidates);
 
@@ -354,7 +354,7 @@ impl LogicalSolver {
     }).collect()
   }
 
-  pub fn all_strong_links_by_value(&self) -> HashMap<u32, Vec<(Area, u32, CellPosition, CellPosition)>> {
+  pub(crate) fn all_strong_links_by_value(&self) -> HashMap<u32, Vec<(Area, u32, CellPosition, CellPosition)>> {
     self.all_strong_links()
       .iter()
       .cloned()
@@ -365,11 +365,11 @@ impl LogicalSolver {
       .collect()
   }
 
-  pub fn candidates_to_set(&self, cell: CellPosition) -> u32 {
+  pub(crate) fn candidates_to_set(&self, cell: CellPosition) -> u32 {
     self.state.candidates[cell.row][cell.col].to_bitmask()
   }
 
-  pub fn cells_to_cache_key(&self, cells: &Vec<CellPosition>) -> CellsCacheKey {
+  pub(crate) fn cells_to_cache_key(&self, cells: &Vec<CellPosition>) -> CellsCacheKey {
     cells.into_iter().map(|cell| {
       (
         cell.row as u32 * (self.state.puzzle.grid_size as u32 + 1) + cell.col as u32,

@@ -1,8 +1,8 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Palindrome}};
 
 #[derive(Clone, Default, Debug)]
-pub struct PalindromeConstraint {
-  pub palindromes: Vec<Palindrome>,
+pub(crate) struct PalindromeConstraint {
+  pub(crate) palindromes: Vec<Palindrome>,
 }
 
 impl ConstraintDefinition for PalindromeConstraint {
@@ -48,7 +48,7 @@ impl ConstraintDefinition for PalindromeConstraint {
   }
 }
 
-pub struct PalindromeConstraintBuilder;
+pub(crate) struct PalindromeConstraintBuilder;
 
 impl ConstraintBuilder for PalindromeConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -64,4 +64,4 @@ impl ConstraintBuilder for PalindromeConstraintBuilder {
   }
 }
 
-pub static PALINDROME_CONSTRAINT_BUILDER: PalindromeConstraintBuilder = PalindromeConstraintBuilder;
+pub(crate) static PALINDROME_CONSTRAINT_BUILDER: PalindromeConstraintBuilder = PalindromeConstraintBuilder;

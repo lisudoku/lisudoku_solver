@@ -3,7 +3,7 @@ use crate::solver::logical::techniques::Technique;
 use crate::solver::types::CandidateSet;
 use crate::types::{Area, CellPosition, Grid, Rule, SolutionStep};
 
-pub struct TopBottomCandidates {
+pub(crate) struct TopBottomCandidates {
   // True if we only want to check the validity of the constraint
   checker_mode: bool,
 }
@@ -30,7 +30,7 @@ impl TopBottomCandidates {
     TopBottomCandidates { checker_mode }
   }
 
-  pub fn run_with_data(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> Vec<SolutionStep> {
+  pub(crate) fn run_with_data(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> Vec<SolutionStep> {
     let steps = self.check_paths(true, grid, candidates);
     if !steps.is_empty() {
       return steps

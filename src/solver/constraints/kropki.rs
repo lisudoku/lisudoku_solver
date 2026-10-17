@@ -4,7 +4,7 @@ use std::{collections::HashSet, mem::swap};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct KropkiConstraint {
-  pub kropki_dots: Vec<KropkiDot>,
+  pub(crate) kropki_dots: Vec<KropkiDot>,
   kropki_dots_by_cell: Vec<Vec<Vec<usize>>>,
 }
 
@@ -63,7 +63,7 @@ impl ConstraintDefinition for KropkiConstraint {
   fn cell_peers(&self, _cell: &CellPosition, _ctx: &ConstraintCellPeersContext) -> Vec<CellPosition> { vec![] }
 }
 
-pub struct KropkiConstraintBuilder;
+pub(crate) struct KropkiConstraintBuilder;
 
 impl ConstraintBuilder for KropkiConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -111,4 +111,4 @@ impl ConstraintBuilder for KropkiConstraintBuilder {
   }
 }
 
-pub static KROPKI_CONSTRAINT_BUILDER: KropkiConstraintBuilder = KropkiConstraintBuilder;
+pub(crate) static KROPKI_CONSTRAINT_BUILDER: KropkiConstraintBuilder = KropkiConstraintBuilder;

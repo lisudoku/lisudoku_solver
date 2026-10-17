@@ -2,8 +2,8 @@ use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, Const
 use std::cmp::{min, max};
 
 #[derive(Clone, Default, Debug)]
-pub struct ThermoConstraint {
-  pub thermos: Vec<Thermo>,
+pub(crate) struct ThermoConstraint {
+  pub(crate) thermos: Vec<Thermo>,
   thermos_by_cell: Vec<Vec<Vec<usize>>>,
 }
 
@@ -93,7 +93,7 @@ impl ConstraintDefinition for ThermoConstraint {
   }
 }
 
-pub struct ThermoConstraintBuilder;
+pub(crate) struct ThermoConstraintBuilder;
 
 impl ConstraintBuilder for ThermoConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -117,4 +117,4 @@ impl ConstraintBuilder for ThermoConstraintBuilder {
   }
 }
 
-pub static THERMO_CONSTRAINT_BUILDER: ThermoConstraintBuilder = ThermoConstraintBuilder;
+pub(crate) static THERMO_CONSTRAINT_BUILDER: ThermoConstraintBuilder = ThermoConstraintBuilder;

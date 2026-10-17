@@ -1,8 +1,8 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KillerCage, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct KillerConstraint {
-  pub killer_cages: Vec<KillerCage>,
+pub(crate) struct KillerConstraint {
+  pub(crate) killer_cages: Vec<KillerCage>,
   killer_cages_by_cell: Vec<Vec<Vec<usize>>>,
 }
 
@@ -79,7 +79,7 @@ impl ConstraintDefinition for KillerConstraint {
   }
 }
 
-pub struct KillerConstraintBuilder;
+pub(crate) struct KillerConstraintBuilder;
 
 impl ConstraintBuilder for KillerConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -102,4 +102,4 @@ impl ConstraintBuilder for KillerConstraintBuilder {
   }
 }
 
-pub static KILLER_CONSTRAINT_BUILDER: KillerConstraintBuilder = KillerConstraintBuilder;
+pub(crate) static KILLER_CONSTRAINT_BUILDER: KillerConstraintBuilder = KillerConstraintBuilder;

@@ -23,10 +23,10 @@ pub struct State {
   pub used_candidates_at: Vec<u32>,
 }
 
-pub type CellCombinationsRunnerResult = (Vec<CandidateSet>, Vec<Vec<u32>>);
+pub(crate) type CellCombinationsRunnerResult = (Vec<CandidateSet>, Vec<Vec<u32>>);
 
 impl<'a> CellCombinationsRunner<'a> {
-  pub fn new(solver: &'a LogicalSolver, combinations_logic: Box<dyn CellCombinationLogic + 'a>) -> CellCombinationsRunner<'a> {
+  pub(crate) fn new(solver: &'a LogicalSolver, combinations_logic: Box<dyn CellCombinationLogic + 'a>) -> CellCombinationsRunner<'a> {
     let cells = combinations_logic.cells();
     let cell_count = cells.len();
 
@@ -55,7 +55,7 @@ impl<'a> CellCombinationsRunner<'a> {
     }
   }
 
-  pub fn run(&mut self) -> CellCombinationsRunnerResult {
+  pub(crate) fn run(&mut self) -> CellCombinationsRunnerResult {
     // The cache is never cleared, so the results could become outdated.
     // However, it doesn't cause issues because the invalid combinations can be later ignored.
     if let Some(cached_result) = self.combinations_logic.cached_result() {

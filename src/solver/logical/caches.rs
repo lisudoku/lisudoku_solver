@@ -2,14 +2,14 @@ use crate::{solver::logical::techniques::{advanced_candidates::CellEliminationsR
 use std::{cell::RefCell, collections::HashMap};
 
 pub(crate) struct LogicalCaches {
-  pub arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
-  pub cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
-  pub area_kropki_ccs_cache: RefCell<HashMap<(Area, KropkiDotType, bool), Vec<(Vec<CellPosition>,Vec<usize>)>>>,
-  pub kropki_chain_combinatons_logic_factory: RefCell<KropkiChainCombinationLogicFactory>,
+  pub(crate) arrow_combinatons_logic_factory: RefCell<ArrowCombinationLogicFactory>,
+  pub(crate) cell_eliminations_cache: RefCell<HashMap<CellsCacheKey, CellEliminationsResult>>,
+  pub(crate) area_kropki_ccs_cache: RefCell<HashMap<(Area, KropkiDotType, bool), Vec<(Vec<CellPosition>,Vec<usize>)>>>,
+  pub(crate) kropki_chain_combinatons_logic_factory: RefCell<KropkiChainCombinationLogicFactory>,
 }
 
 impl LogicalCaches {
-  pub fn new() -> LogicalCaches {
+  pub(crate) fn new() -> LogicalCaches {
     LogicalCaches{
       arrow_combinatons_logic_factory: RefCell::new(ArrowCombinationLogicFactory::new()),
       cell_eliminations_cache: RefCell::new(HashMap::new()),

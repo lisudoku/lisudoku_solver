@@ -1,8 +1,8 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct ArrowConstraint {
-  pub arrows: Vec<Arrow>,
+pub(crate) struct ArrowConstraint {
+  pub(crate) arrows: Vec<Arrow>,
 }
 
 impl ArrowConstraint {
@@ -87,7 +87,7 @@ impl ConstraintDefinition for ArrowConstraint {
   fn cell_peers(&self, _cell: &CellPosition, _ctx: &ConstraintCellPeersContext) -> Vec<CellPosition> { vec![] }
 }
 
-pub struct ArrowConstraintBuilder;
+pub(crate) struct ArrowConstraintBuilder;
 
 impl ConstraintBuilder for ArrowConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -112,4 +112,4 @@ impl ConstraintBuilder for ArrowConstraintBuilder {
   }
 }
 
-pub static ARROW_CONSTRAINT_BUILDER: ArrowConstraintBuilder = ArrowConstraintBuilder;
+pub(crate) static ARROW_CONSTRAINT_BUILDER: ArrowConstraintBuilder = ArrowConstraintBuilder;

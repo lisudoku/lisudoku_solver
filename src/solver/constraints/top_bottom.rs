@@ -1,7 +1,7 @@
-use crate::{solver::{checker::SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, logical_solver::{top_bottom_candidates::TopBottomCandidates}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, logical::techniques::{top_bottom_candidates::TopBottomCandidates}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct TopBottomConstraint;
+pub(crate) struct TopBottomConstraint;
 
 impl ConstraintDefinition for TopBottomConstraint {
   fn check_grid_special_validity(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> SolvedState {
@@ -35,7 +35,7 @@ impl ConstraintDefinition for TopBottomConstraint {
   }
 }
 
-pub struct TopBottomConstraintBuilder;
+pub(crate) struct TopBottomConstraintBuilder;
 
 impl ConstraintBuilder for TopBottomConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -47,4 +47,4 @@ impl ConstraintBuilder for TopBottomConstraintBuilder {
   }
 }
 
-pub static TOP_BOTTOM_CONSTRAINT_BUILDER: TopBottomConstraintBuilder = TopBottomConstraintBuilder;
+pub(crate) static TOP_BOTTOM_CONSTRAINT_BUILDER: TopBottomConstraintBuilder = TopBottomConstraintBuilder;

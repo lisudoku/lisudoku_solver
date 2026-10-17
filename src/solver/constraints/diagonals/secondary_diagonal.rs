@@ -1,7 +1,7 @@
 use crate::{solver::constraints::{Constraint, ConstraintBuilder, diagonals::{DiagonalBaseConstraint, DiagonalBaseLogic}}, types::{Area, CellPosition, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct SecondaryDiagonalLogic {
+pub(crate) struct SecondaryDiagonalLogic {
   grid_size: usize,
 }
 
@@ -19,7 +19,7 @@ impl DiagonalBaseLogic for SecondaryDiagonalLogic {
   }
 }
 
-pub struct SecondaryDiagonalConstraintBuilder;
+pub(crate) struct SecondaryDiagonalConstraintBuilder;
 
 impl ConstraintBuilder for SecondaryDiagonalConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -33,4 +33,4 @@ impl ConstraintBuilder for SecondaryDiagonalConstraintBuilder {
   }
 }
 
-pub static SECONDARY_DIAGONAL_CONSTRAINT_BUILDER: SecondaryDiagonalConstraintBuilder = SecondaryDiagonalConstraintBuilder;
+pub(crate) static SECONDARY_DIAGONAL_CONSTRAINT_BUILDER: SecondaryDiagonalConstraintBuilder = SecondaryDiagonalConstraintBuilder;

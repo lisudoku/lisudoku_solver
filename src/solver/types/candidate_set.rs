@@ -6,32 +6,32 @@ use itertools::Itertools;
 /// I tried reusing BitSet here but it turned out slower.
 
 #[derive(Default, Clone, PartialEq, Copy)]
-pub struct CandidateSet {
+pub(crate) struct CandidateSet {
   mask: u16,
 }
 
 impl CandidateSet {
-  pub fn new() -> CandidateSet {
+  pub(crate) fn new() -> CandidateSet {
     Self::default()
   }
 
-  pub fn all_candidates(grid_size: u32) -> CandidateSet {
+  pub(crate) fn all_candidates(grid_size: u32) -> CandidateSet {
     CandidateSet::from_iter(1..=grid_size)
   }
 
-  pub fn is_empty(&self) -> bool {
+  pub(crate) fn is_empty(&self) -> bool {
     self.mask == 0
   }
 
-  pub fn clear(&mut self) {
+  pub(crate) fn clear(&mut self) {
     self.mask = 0;
   }
 
-  pub fn contains(&self, value: &u32) -> bool {
+  pub(crate) fn contains(&self, value: &u32) -> bool {
     (self.mask & (1 << value)) > 0
   }
 
-  pub fn insert(&mut self, value: u32) -> bool {
+  pub(crate) fn insert(&mut self, value: u32) -> bool {
     if self.contains(&value) {
       return false
     }
@@ -39,7 +39,7 @@ impl CandidateSet {
     true
   }
 
-  pub fn remove(&mut self, value: &u32) -> bool {
+  pub(crate) fn remove(&mut self, value: &u32) -> bool {
     if !self.contains(value) {
       return false
     }
@@ -49,7 +49,7 @@ impl CandidateSet {
 
   /// Retains only the elements specified by the predicate.
   /// In other words, remove all elements e for which f(&e) returns false.
-  pub fn retain<F>(&mut self, f: F)
+  pub(crate) fn retain<F>(&mut self, f: F)
   where
     F: FnMut(&u32) -> bool,
   {
@@ -57,41 +57,41 @@ impl CandidateSet {
     self.mask = other.mask;
   }
 
-  pub fn extend<I: IntoIterator<Item = u32>>(&mut self, iter: I) {
+  pub(crate) fn extend<I: IntoIterator<Item = u32>>(&mut self, iter: I) {
     self.mask = self.union(&CandidateSet::from_iter(iter)).mask;
   }
 
-  pub fn is_disjoint(&self, other: &CandidateSet) -> bool {
+  pub(crate) fn is_disjoint(&self, other: &CandidateSet) -> bool {
     (self.mask & other.mask) == 0
   }
 
-  pub fn is_subset(&self, other: &CandidateSet) -> bool {
+  pub(crate) fn is_subset(&self, other: &CandidateSet) -> bool {
     (self.mask & other.mask) == self.mask
   }
 
-  pub fn union(&self, other: &CandidateSet) -> CandidateSet {
+  pub(crate) fn union(&self, other: &CandidateSet) -> CandidateSet {
     CandidateSet {
       mask: self.mask | other.mask,
     }
   }
 
-  pub fn intersection(&self, other: &CandidateSet) -> CandidateSet {
+  pub(crate) fn intersection(&self, other: &CandidateSet) -> CandidateSet {
     CandidateSet {
       mask: self.mask & other.mask,
     }
   }
 
-  pub fn difference(&self, other: &CandidateSet) -> CandidateSet {
+  pub(crate) fn difference(&self, other: &CandidateSet) -> CandidateSet {
     CandidateSet {
       mask: self.mask & (self.mask ^ other.mask),
     }
   }
 
-  pub fn len(&self) -> usize {
+  pub(crate) fn len(&self) -> usize {
     self.mask.count_ones() as usize
   }
 
-  pub fn to_bitmask(&self) -> u32 {
+  pub(crate) fn to_bitmask(&self) -> u32 {
     self.mask as u32
   }
 }
@@ -112,7 +112,7 @@ impl<const N: usize> From<[u32; N]> for CandidateSet {
   }
 }
 
-pub struct SetBitsIter {
+pub(crate) struct SetBitsIter {
     remaining: u16,
 }
 

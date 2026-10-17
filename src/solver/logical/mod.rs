@@ -1,4 +1,6 @@
-pub mod logical_solver;
+pub(crate) mod logical_solver;
 pub mod techniques;
-pub mod builder;
+mod builder;
 mod caches;
+
+pub use logical_solver::LogicalSolver;

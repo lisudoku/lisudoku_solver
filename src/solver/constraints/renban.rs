@@ -1,8 +1,8 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Renban}};
 
 #[derive(Clone, Default, Debug)]
-pub struct RenbanConstraint {
-  pub renbans: Vec<Renban>,
+pub(crate) struct RenbanConstraint {
+  pub(crate) renbans: Vec<Renban>,
   renbans_by_cell: Vec<Vec<Vec<usize>>>,
 }
 
@@ -78,7 +78,7 @@ impl ConstraintDefinition for RenbanConstraint {
   }
 }
 
-pub struct RenbanConstraintBuilder;
+pub(crate) struct RenbanConstraintBuilder;
 
 impl ConstraintBuilder for RenbanConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -102,4 +102,4 @@ impl ConstraintBuilder for RenbanConstraintBuilder {
   }
 }
 
-pub static RENBAN_CONSTRAINT_BUILDER: RenbanConstraintBuilder = RenbanConstraintBuilder;
+pub(crate) static RENBAN_CONSTRAINT_BUILDER: RenbanConstraintBuilder = RenbanConstraintBuilder;

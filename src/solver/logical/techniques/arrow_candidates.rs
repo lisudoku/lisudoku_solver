@@ -7,7 +7,7 @@ use super::combinations::cell_combinations_runner::{State, CellCombinationsRunne
 use std::collections::HashMap;
 
 // X can't be a candidate in this cell because it violates the arrow sum
-pub struct ArrowCandidates;
+pub(crate) struct ArrowCandidates;
 
 impl Technique for ArrowCandidates {
   fn is_candidate_validity_update_step(&self) -> bool { true }
@@ -49,7 +49,7 @@ impl Technique for ArrowCandidates {
 // A little confusing since the below logic doesn't strictly apply to arrow_candidates, but also advanced candidates...
 // basically everything that uses arrow_combinatons_logic_factory
 
-pub struct ArrowCombinationLogic<'a> {
+pub(crate) struct ArrowCombinationLogic<'a> {
   arrow: &'a Arrow,
   cache: &'a mut HashMap<CellsCacheKey, CellCombinationsRunnerResult>,
   solver: &'a LogicalSolver,
@@ -164,13 +164,13 @@ pub struct ArrowCombinationLogicFactory {
 }
 
 impl<'a> ArrowCombinationLogicFactory {
-  pub fn new() -> ArrowCombinationLogicFactory {
+  pub(crate) fn new() -> ArrowCombinationLogicFactory {
     ArrowCombinationLogicFactory {
       cache: HashMap::new(),
     }
   }
 
-  pub fn create(&'a mut self, arrow: &'a Arrow, solver: &'a LogicalSolver) -> ArrowCombinationLogic<'a> {
+  pub(crate) fn create(&'a mut self, arrow: &'a Arrow, solver: &'a LogicalSolver) -> ArrowCombinationLogic<'a> {
     ArrowCombinationLogic::new(arrow, solver, &mut self.cache)
   }
 }

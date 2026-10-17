@@ -2,9 +2,9 @@ use crate::types::CellPosition;
 
 use super::cell_combinations_runner::{State, CellCombinationsRunner, CellCombinationsRunnerResult};
 
-pub type CellsCacheKey = Vec<(u32, u32, u32)>;
+pub(crate) type CellsCacheKey = Vec<(u32, u32, u32)>;
 
-pub trait CellCombinationLogic {
+pub(crate) trait CellCombinationLogic {
   fn cells(&self) -> Vec<CellPosition>;
 
   fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool;

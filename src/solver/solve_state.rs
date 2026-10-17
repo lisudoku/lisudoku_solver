@@ -34,7 +34,7 @@ impl SolveState {
   }
 
   /// Returns a nxn grid containing each cell's candidate set
-  pub fn compute_all_cell_candidates(&self) -> Vec<Vec<CandidateSet>> {
+  pub(crate) fn compute_all_cell_candidates(&self) -> Vec<Vec<CandidateSet>> {
     if self.candidates_active {
       return self.candidates.clone();
     }
@@ -49,7 +49,7 @@ impl SolveState {
   }
 
   /// Returns a <cell>'s candidate set (cached)
-  pub fn compute_cell_candidates(&self, cell: &CellPosition) -> CandidateSet {
+  pub(crate) fn compute_cell_candidates(&self, cell: &CellPosition) -> CandidateSet {
     if self.grid[cell.row][cell.col] != 0 {
       return CandidateSet::new()
     }
@@ -63,7 +63,7 @@ impl SolveState {
 
   /// Computes and returns a <cell>'s candidate set.
   /// Note: We don't apply all restrictions at this level (e.g. thermo, palindrome)
-  pub fn recompute_cell_candidates(&self, cell: &CellPosition) -> CandidateSet {
+  pub(crate) fn recompute_cell_candidates(&self, cell: &CellPosition) -> CandidateSet {
     let mut candidates = self.full_candidate_set();
 
     for peer in self.puzzle.all_cell_peers(cell, PeerMode::Full, CandidateMode::Simple) {
@@ -80,31 +80,31 @@ impl SolveState {
     candidates
   }
 
-  pub fn full_candidate_set(&self) -> CandidateSet {
+  pub(crate) fn full_candidate_set(&self) -> CandidateSet {
     CandidateSet::all_candidates(self.puzzle.grid_size as u32)
   }
 
-  pub fn area_values(&self, area: &Area) -> Vec<u32> {
+  pub(crate) fn area_values(&self, area: &Area) -> Vec<u32> {
     self.puzzle.area_cells(&area).into_iter().map(|cell| {
       let value = self.grid[cell.row][cell.col];
       value
     }).collect()
   }
 
-  pub fn filter_empty_cells(&self, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
+  pub(crate) fn filter_empty_cells(&self, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
     cells.into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).copied().collect()
   }
 
-  pub fn area_empty_cells(&self, area: &Area) -> Vec<CellPosition> {
+  pub(crate) fn area_empty_cells(&self, area: &Area) -> Vec<CellPosition> {
     self.puzzle.area_cells(area).into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).collect()
   }
 
-  pub fn all_empty_cells(&self) -> Vec<CellPosition> {
+  pub(crate) fn all_empty_cells(&self) -> Vec<CellPosition> {
     self.puzzle.all_grid_cells().into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).collect()
   }
 
   /// Returns the candidate set for the given <area>
-  pub fn compute_area_candidates_union(&self, area: &Area) -> CandidateSet {
+  pub(crate) fn compute_area_candidates_union(&self, area: &Area) -> CandidateSet {
     let mut area_candidates = CandidateSet::new();
     for cell in self.puzzle.area_cells(area) {
       let cell_candidates = self.compute_cell_candidates(&cell);
@@ -113,11 +113,11 @@ impl SolveState {
     area_candidates
   }
 
-  pub fn area_cells_with_candidate(&self, area: &Area, value: u32) -> Vec<CellPosition> {
+  pub(crate) fn area_cells_with_candidate(&self, area: &Area, value: u32) -> Vec<CellPosition> {
     self.area_cells_with_candidates(area, &CandidateSet::from_iter([ value ].into_iter()))
   }
 
-  pub fn filter_cells_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
+  pub(crate) fn filter_cells_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
     cells
       .iter()
       .filter(|&cell| !self.compute_cell_candidates(cell).is_disjoint(values))
@@ -150,27 +150,27 @@ impl SolveState {
       .collect()
   }
 
-  pub fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> HashMap<u32, Vec<CellPosition>> {
+  pub(crate) fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> HashMap<u32, Vec<CellPosition>> {
     let cells = self.puzzle.area_cells(area);
     self.compute_cells_by_value(&cells, candidates)
   }
 
-  pub fn cell_peers_with_candidate(&self, cell: &CellPosition, candidate_value: u32) -> Vec<CellPosition> {
+  pub(crate) fn cell_peers_with_candidate(&self, cell: &CellPosition, candidate_value: u32) -> Vec<CellPosition> {
     let candidates = CandidateSet::from([ candidate_value ]);
     self.cell_peers_with_candidates(cell, &candidates)
   }
 
   /// Returns cells that <cell> sees which have any of <values> candidates
-  pub fn cell_peers_with_candidates(&self, cell: &CellPosition, values: &CandidateSet) -> Vec<CellPosition> {
+  pub(crate) fn cell_peers_with_candidates(&self, cell: &CellPosition, values: &CandidateSet) -> Vec<CellPosition> {
     let peers = self.puzzle.all_cell_peers_unconstrained(cell);
     self.filter_cells_with_any_candidates(&peers, values)
   }
 
-  pub fn count_empty_cells_in_list(&self, cells: &Vec<CellPosition>) -> usize {
+  pub(crate) fn count_empty_cells_in_list(&self, cells: &Vec<CellPosition>) -> usize {
     cells.into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).count()
   }
 
-  pub fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
+  pub(crate) fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
     for cell in cells {
       self.candidates[cell.row][cell.col].remove(&value);
     }

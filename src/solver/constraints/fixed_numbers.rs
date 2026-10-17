@@ -1,9 +1,9 @@
 use crate::{solver::{SolvedState, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
-pub struct FixedNumbersConstraint {
+pub(crate) struct FixedNumbersConstraint {
   #[allow(dead_code)]
-  pub fixed_numbers: Vec<FixedNumber>,
+  pub(crate) fixed_numbers: Vec<FixedNumber>,
 }
 
 impl ConstraintDefinition for FixedNumbersConstraint {
@@ -23,7 +23,7 @@ impl ConstraintDefinition for FixedNumbersConstraint {
 }
 
 impl FixedNumbersConstraint {
-  pub fn build_initial_grid_from_fixed_numbers(fixed_numbers: &Vec<FixedNumber>, grid_size: usize) -> Grid {
+  pub(crate) fn build_initial_grid_from_fixed_numbers(fixed_numbers: &Vec<FixedNumber>, grid_size: usize) -> Grid {
     let mut initial_grid = vec![ vec![ 0; grid_size ]; grid_size ];
     for fixed_number in fixed_numbers.iter() {
       initial_grid[fixed_number.position.row][fixed_number.position.col] = fixed_number.value;
@@ -32,7 +32,7 @@ impl FixedNumbersConstraint {
   }
 }
 
-pub struct FixedNumbersConstraintBuilder;
+pub(crate) struct FixedNumbersConstraintBuilder;
 
 impl ConstraintBuilder for FixedNumbersConstraintBuilder {
   fn from_input(&self, constraints: &SudokuConstraints) -> Option<Constraint> {
@@ -47,4 +47,4 @@ impl ConstraintBuilder for FixedNumbersConstraintBuilder {
   }
 }
 
-pub static FIXED_NUMBERS_CONSTRAINT_BUILDER: FixedNumbersConstraintBuilder = FixedNumbersConstraintBuilder;
+pub(crate) static FIXED_NUMBERS_CONSTRAINT_BUILDER: FixedNumbersConstraintBuilder = FixedNumbersConstraintBuilder;

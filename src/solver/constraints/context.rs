@@ -1,7 +1,7 @@
 use crate::{solver::constraints::{CandidateMode, PeerMode}};
 
-pub struct ConstraintCellPeersContext {
-  pub grid_size: usize,
-  pub peer_mode: PeerMode,
-  pub candidate_mode: CandidateMode,
+pub(crate) struct ConstraintCellPeersContext {
+  pub(crate) grid_size: usize,
+  pub(crate) peer_mode: PeerMode,
+  pub(crate) candidate_mode: CandidateMode,
 }
