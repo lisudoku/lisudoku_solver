@@ -4,7 +4,7 @@ use std::mem::swap;
 // use std::rc::Rc;
 use itertools::Itertools;
 use lisudoku_solver::solver::brute::{BruteSolveSettings, BruteSolver};
-use lisudoku_solver::solver::logical::logical_solver::LogicalSolver;
+use lisudoku_solver::solver::logical::LogicalSolver;
 use lisudoku_solver::solver::{/* Technique, ArrowCandidates, Candidates, EmptyRectangles, HiddenSet, HiddenSingles, Killer45, KillerCandidates, KropkiChainCandidates, LockedCandidates, NakedSet, NakedSingle, NishioForcingChains, PalindromeCandidates, PalindromeValues, RenbanCandidates, Thermo, ThermoCandidates, TopBottomCandidates, TurbotFish */};
 use lisudoku_solver::types::{Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, Palindrome, Region, Renban, SolutionType, SudokuConstraints};
 use rand::RngExt;
