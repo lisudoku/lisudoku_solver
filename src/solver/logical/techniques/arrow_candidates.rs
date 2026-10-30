@@ -65,7 +65,7 @@ impl<'a> ArrowCombinationLogic<'_> {
     let mut circle_sum_max: u32 = 0;
 
     for cell in cells {
-      let value = solver.state.grid[cell.row][cell.col];
+      let value = solver.state.value_at(cell);
       let candidate_set = solver.state.candidates[cell.row][cell.col];
       let max_value = if value == 0 { candidate_set.into_iter().max().unwrap_or(solver.state.puzzle.grid_size as u32) } else { value };
       let min_value = if value == 0 { candidate_set.into_iter().min().unwrap_or(1) } else { value };

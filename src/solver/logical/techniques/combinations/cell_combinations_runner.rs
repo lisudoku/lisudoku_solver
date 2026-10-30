@@ -46,7 +46,7 @@ impl<'a> CellCombinationsRunner<'a> {
       combinations_logic,
       state: State {
         used_candidates: vec![ 0; cell_count ],
-        temp_grid: solver.state.grid.clone(),
+        temp_grid: solver.state.grid().clone(),
         affected_by,
         used_candidates_at: vec![ 0; solver.state.puzzle.grid_size + 1 ],
       },

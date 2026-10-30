@@ -50,8 +50,8 @@ impl ThermoCandidates {
     let max_value: u32 = solver.state.puzzle.grid_size as u32 + 1;
     let mut current_min = 0;
     thermo.iter().map(|cell| {
-      if solver.state.grid[cell.row][cell.col] != 0 {
-        current_min = solver.state.grid[cell.row][cell.col];
+      if solver.state.value_at(cell) != 0 {
+        current_min = solver.state.value_at(cell);
       } else {
         let cell_candidates = solver.state.compute_cell_candidates(cell);
 
@@ -72,8 +72,8 @@ impl ThermoCandidates {
   pub fn find_thermo_upper_bounds(solver: &LogicalSolver, thermo: &Thermo) -> Vec<u32> {
     let mut current_max = solver.state.puzzle.grid_size as u32 + 1;
     thermo.iter().rev().map(|cell| {
-      if solver.state.grid[cell.row][cell.col] != 0 {
-        current_max = solver.state.grid[cell.row][cell.col];
+      if solver.state.value_at(cell) != 0 {
+        current_max = solver.state.value_at(cell);
       } else {
         let cell_candidates = solver.state.compute_cell_candidates(cell);
 

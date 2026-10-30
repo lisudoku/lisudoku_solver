@@ -51,6 +51,7 @@ pub(crate) trait ConstraintDefinition {
 
   /// Removes invalid cell candidates based on the current constraint.
   /// Only handles "special" rules because peers (returned by `cell_peers`) are enforced outside.
+  /// Constraints that have custom cell_peers implementation should include that logic here.
   fn restrict_cell_special_candidates(&self, cell: &CellPosition, grid: &Grid, candidates: &mut CandidateSet);
 
   /// Returns cells that are considered peers of the given <cell>.

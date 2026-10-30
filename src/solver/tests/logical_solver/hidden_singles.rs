@@ -21,12 +21,12 @@ fn check_hidden_single_in_region() {
     CellPosition::new(0, 0), CellPosition::new(3, 1), CellPosition::new(1, 3),
   ]);
   assert!(step.affected_cells.is_empty());
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == 1);
 }
 
@@ -55,12 +55,12 @@ fn check_hidden_single_on_row() {
     CellPosition::new(0, 0), CellPosition::new(6, 1), CellPosition::new(5, 2), CellPosition::new(2, 8),
   ]);
   assert!(step.affected_cells.is_empty());
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == 1);
 }
 
@@ -88,12 +88,12 @@ fn check_hidden_single_on_col() {
   ]);
   assert_eq!(step.cells.len(), step.cells.iter().unique().count());
   assert!(step.affected_cells.is_empty());
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == 1);
 }
 
@@ -113,13 +113,13 @@ fn check_hidden_single_in_region_with_candidates() {
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
   assert_eq!(step.cells.len(), 1);
-  let CellPosition { row, col } = step.cells[0];
+  let cell = step.cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.state.grid[row][col];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == rule_value);
 }
 
@@ -154,12 +154,12 @@ fn check_hidden_single_using_anti_knight_1() {
       vec![],
     )
   );
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == 1);
 }
 
@@ -189,12 +189,12 @@ fn check_hidden_single_using_anti_knight_2() {
   );
   assert!(steps.into_iter().find(|step| *step == expected_step).is_some());
   let mut step = expected_step.clone();
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == 5);
 }
 
@@ -213,11 +213,11 @@ fn check_hidden_single_anti_king() {
   assert_eq!(step.values, vec![2]);
   assert_eq!(step.cells, vec![ CellPosition::new(5, 2), CellPosition::new(3, 1) ]);
   assert!(step.affected_cells.is_empty());
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == 2);
 }

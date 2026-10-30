@@ -1,5 +1,4 @@
 use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Thermo}};
-use std::cmp::{min, max};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct ThermoConstraint {
@@ -74,13 +73,14 @@ impl ConstraintDefinition for ThermoConstraint {
         }
 
         if after {
-          min_after = min(min_after, value);
+          min_after = value;
+          break
         } else {
-          max_before = max(max_before, value);
+          max_before = value;
         }
       }
 
-      candidates.retain(|value| *value > max_before && *value < min_after);
+      candidates.retain_range(max_before + 1, min_after - 1);
     }
   }
 

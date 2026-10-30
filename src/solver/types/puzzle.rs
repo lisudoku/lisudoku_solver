@@ -1,19 +1,21 @@
-use crate::{solver::constraints::{CandidateMode, Constraint, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, arrow::ArrowConstraint, context::ConstraintCellPeersContext, killer::KillerConstraint, kind::ConstraintKind, kropki::KropkiConstraint, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::{Area, CellPosition, ConstraintError, SudokuConstraints}};
-use std::{cell::RefCell, collections::{HashMap, HashSet}};
+use crate::{solver::{constraints::{CandidateMode, Constraint, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, arrow::ArrowConstraint, context::ConstraintCellPeersContext, killer::KillerConstraint, kind::ConstraintKind, kropki::KropkiConstraint, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::area_id_mapper::AreaIdMapper}, types::{Area, CellPosition, ConstraintError, SudokuConstraints}};
+use std::{cell::{OnceCell, RefCell}, collections::{HashMap, HashSet}};
 use itertools::Itertools;
 use strum::{EnumCount, IntoEnumIterator};
 
 /// Validated constraint set derived from SudokuConstraints, without grid state.
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub(crate) struct Puzzle {
   pub grid_size: usize,
   pub constraints: Vec<Constraint>,
   pub constraints_by_kind: [Option<usize>; ConstraintKind::COUNT],
+  pub(crate) cell_area_ids: Vec<Vec<usize>>,
+  area_id_mapper: RefCell<AreaIdMapper>,
   common_region_areas_cache: RefCell<HashMap<Vec<CellPosition>, Vec<Area>>>,
-  all_region_areas_cache: RefCell<Option<Vec<Area>>>,
-  all_house_areas_cache: RefCell<Option<Vec<Area>>>,
+  all_region_areas_cache: OnceCell<Vec<Area>>,
+  all_house_areas_cache: OnceCell<Vec<Area>>,
   all_cell_peers_cache: RefCell<HashMap<(CellPosition, PeerMode, CandidateMode), Vec<CellPosition>>>,
-  area_cells_cache: RefCell<HashMap<Area, Vec<CellPosition>>>,
+  area_cells_cache: RefCell<Vec<Option<Vec<CellPosition>>>>,
   cell_only_special_peers_cache: RefCell<HashMap<CellPosition, Vec<CellPosition>>>,
 }
 
@@ -23,6 +25,14 @@ impl TryFrom<SudokuConstraints> for Puzzle {
   fn try_from(input: SudokuConstraints) -> Result<Self, Self::Error> {
     if ![4, 6, 9].contains(&input.grid_size) {
       return Err(ConstraintError::InvalidValue { field: "grid_size", message: "Can only be 4, 6 or 9" })
+    }
+    for fixed_number in input.fixed_numbers.iter().flatten() {
+      if fixed_number.value  < 1 || fixed_number.value  > input.grid_size as u32 {
+        return Err(ConstraintError::InvalidValue {
+          field: "fixed_numbers",
+          message: "Given digits must be between 1 and grid_size",
+        })
+      }
     }
 
     /* TODO: add exhaustive validations:
@@ -39,47 +49,73 @@ impl TryFrom<SudokuConstraints> for Puzzle {
       constraints.push(constraint);
     }
 
-    Ok(Puzzle {
+    let mut puzzle = Puzzle {
       grid_size: input.grid_size,
       constraints,
       constraints_by_kind,
+      cell_area_ids: vec![], // temporary
+      area_id_mapper: RefCell::new(AreaIdMapper::default()),
       common_region_areas_cache: RefCell::new(HashMap::new()),
-      all_region_areas_cache: RefCell::new(None),
-      all_house_areas_cache: RefCell::new(None),
+      all_region_areas_cache: OnceCell::new(),
+      all_house_areas_cache: OnceCell::new(),
       all_cell_peers_cache: RefCell::new(HashMap::new()),
-      area_cells_cache: RefCell::new(HashMap::new()),
+      area_cells_cache: RefCell::new(vec![]),
       cell_only_special_peers_cache: RefCell::new(HashMap::new()),
-    })
+    };
+
+    puzzle.initialize_derived_fields();
+
+    Ok(puzzle)
   }
 }
 
 impl Puzzle {
-  pub fn all_region_areas(&self) -> Vec<Area> {
-    if let Some(cached_result) = self.all_region_areas_cache.borrow().clone() {
-      return cached_result
+  pub(crate) fn initialize_derived_fields(&mut self) {
+    self.area_cells_cache = RefCell::new(vec![
+      None; self.all_region_areas().count()
+    ]);
+
+    let mut cell_area_ids: Vec<Vec<usize>> = vec![vec![]; self.grid_size * self.grid_size];
+    for area in self.all_region_areas() {
+      let area_id = self.area_to_id(&area).expect("region areas should have valid area ids");
+      for cell in self.area_cells(&area) {
+        let cell_index = cell.to_index(self.grid_size);
+        cell_area_ids[cell_index].push(area_id);
+      }
     }
-
-    let areas: Vec<Area> = self.constraints.iter().flat_map(|constraint|
-      constraint.region_areas()
-    ).collect();
-
-    *self.all_region_areas_cache.borrow_mut() = Some(areas.clone());
-
-    areas
+    self.cell_area_ids = cell_area_ids;
   }
 
-  pub fn all_house_areas(&self) -> Vec<Area> {
-    if let Some(cached_result) = self.all_house_areas_cache.borrow().clone() {
-      return cached_result
-    }
+  fn area_to_id(&self, area: &Area) -> Option<usize> {
+    self.area_id_mapper.borrow_mut().area_to_id(area)
+  }
 
-    let areas: Vec<Area> = self.constraints.iter().flat_map(|constraint| {
-      constraint.house_areas(self.grid_size)
-    }).collect();
+  pub fn all_region_areas(&self) -> impl Iterator<Item = Area> + '_ {
+    self.all_region_areas_cache
+      .get_or_init(|| {
+        self.constraints
+          .iter()
+          .flat_map(|constraint|
+            constraint.region_areas()
+          )
+          .collect()
+      })
+      .iter()
+      .cloned()
+  }
 
-    *self.all_house_areas_cache.borrow_mut() = Some(areas.clone());
-
-    areas
+  pub fn all_house_areas(&self) -> impl Iterator<Item = Area> + '_ {
+    self.all_house_areas_cache
+      .get_or_init(|| {
+        self.constraints
+          .iter()
+          .flat_map(|constraint| {
+            constraint.house_areas(self.grid_size)
+          })
+          .collect()
+      })
+      .iter()
+      .cloned()
   }
 
   /// Returns the list of cells that are peers of the given <cell>
@@ -194,14 +230,22 @@ impl Puzzle {
 
   /// Returns the list of cells in an `area`
   pub fn area_cells(&self, area: &Area) -> Vec<CellPosition> {
-    if let Some(cached_result) = self.area_cells_cache.borrow().get(area).cloned() {
-      return cached_result
+    let area_id_opt = self.area_to_id(area);
+    if let Some(area_id) = area_id_opt {
+      let mut cache = self.area_cells_cache.borrow_mut();
+      if area_id >= cache.len() {
+        cache.resize(area_id + 1, None);
+      } else {
+        if let Some(cached_result) = cache[area_id].clone() {
+          return cached_result
+        }
+      }
     }
 
     let cells = match area {
       Area::Adhoc(cells) => cells.clone(),
       Area::Cell(row, col) => vec![CellPosition::new(*row, *col)],
-      Area::Grid => self.all_grid_cells(),
+      Area::Grid => self.all_grid_cells().collect(),
 
       Area::Row(_)
       | Area::Column(_)
@@ -221,12 +265,14 @@ impl Puzzle {
       },
     };
 
-    self.area_cells_cache.borrow_mut().insert(area.clone(), cells.clone());
+    if let Some(area_id) = area_id_opt {
+      self.area_cells_cache.borrow_mut()[area_id] = Some(cells.clone());
+    }
 
     cells
   }
 
-  pub fn all_grid_cells(&self) -> Vec<CellPosition> {
+  pub fn all_grid_cells(&self) -> impl Iterator<Item = CellPosition> + '_ {
     CellPosition::all_cells_in_grid_size(self.grid_size)
   }
 

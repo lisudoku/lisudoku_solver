@@ -34,7 +34,7 @@ impl ConstraintDefinition for KropkiConstraint {
   }
 
   fn region_areas(&self) -> Vec<Area> {
-    // We don't consider them `areas` in general. For example, no point in looking for hidden singles
+    // We don't consider them areas in general. For example, no point in looking for hidden singles
     // or other techniques within kropki dot areas.
     vec![]
   }
@@ -46,6 +46,8 @@ impl ConstraintDefinition for KropkiConstraint {
     vec![kropki_dot.cell_1, kropki_dot.cell_2]
   }
 
+  // Even though we don't consider kropki dots areas, this can be useful to
+  // find all dots that affect a cell.
   fn cell_region_areas(&self, cell: &CellPosition, peer_mode: PeerMode, candidate_mode: CandidateMode) -> Vec<Area> {
     if peer_mode == PeerMode::Classic || candidate_mode == CandidateMode::Simple {
       return vec![]

@@ -24,8 +24,8 @@ impl Technique for PalindromeCandidates {
       while left < right {
         let cell_left = cells[left];
         let cell_right = cells[right];
-        if solver.state.grid[cell_left.row][cell_left.col] == 0 &&
-           solver.state.grid[cell_right.row][cell_right.col] == 0 {
+        if solver.state.value_at(&cell_left) == 0 &&
+           solver.state.value_at(&cell_right) == 0 {
           let candidates_left = &solver.state.candidates[cell_left.row][cell_left.col];
           let candidates_right = &solver.state.candidates[cell_right.row][cell_right.col];
 

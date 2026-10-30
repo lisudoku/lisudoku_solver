@@ -1,8 +1,10 @@
 use bit_set::BitSet;
+use itertools::Itertools;
+use std::fmt;
 
 use crate::types::CellPosition;
 
-#[derive(Default, Clone, PartialEq, Debug)]
+#[derive(Default, Clone, PartialEq)]
 pub struct CellPositionSet {
   grid_size: usize,
   set: BitSet,
@@ -16,20 +18,20 @@ impl CellPositionSet {
     }
   }
 
-  fn cell_to_index(cell: CellPosition, grid_size: usize) -> usize {
-    cell.row * grid_size + cell.col
-  }
-
-  fn index_to_cell(index: usize, grid_size: usize) -> CellPosition {
-    CellPosition::new(index / grid_size, index % grid_size)
-  }
-
   pub fn len(&self) -> usize {
     self.set.count()
   }
 
+  pub fn is_empty(&self) -> bool {
+    self.set.is_empty()
+  }
+
   pub fn insert(&mut self, cell: CellPosition) {
-    self.set.insert(Self::cell_to_index(cell, self.grid_size));
+    self.set.insert(cell.to_index(self.grid_size));
+  }
+
+  pub fn remove(&mut self, cell: &CellPosition) {
+    self.set.remove(cell.to_index(self.grid_size));
   }
 
   pub fn union_with(&mut self, other: &CellPositionSet) {
@@ -46,7 +48,7 @@ impl Iterator for CellPositionSetIter<'_> {
   type Item = CellPosition;
 
   fn next(&mut self) -> Option<Self::Item> {
-    self.indices.next().map(|index| CellPositionSet::index_to_cell(index, self.grid_size))
+    self.indices.next().map(|index| CellPosition::from_index(index, self.grid_size))
   }
 }
 
@@ -59,5 +61,14 @@ impl<'a> IntoIterator for &'a CellPositionSet {
       grid_size: self.grid_size,
       indices: self.set.iter(),
     }
+  }
+}
+
+impl fmt::Debug for CellPositionSet {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    f.write_fmt(format_args!(
+      "CellPositionSet: {}",
+      self.into_iter().collect_vec().into_iter().map(|cell| cell.to_string()).join(","),
+    ))
   }
 }

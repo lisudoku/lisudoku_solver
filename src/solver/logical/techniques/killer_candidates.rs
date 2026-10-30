@@ -22,13 +22,13 @@ impl Technique for KillerCandidates {
       let empty_cells: Vec<CellPosition> = killer_cage.region
         .iter()
         .copied()
-        .filter(|cell| solver.state.grid[cell.row][cell.col] == 0)
+        .filter(|cell| solver.state.value_at(cell) == 0)
         .collect();
       if empty_cells.is_empty() {
         continue
       }
 
-      let sum: u32 = killer_cage.region.iter().map(|cell| solver.state.grid[cell.row][cell.col]).sum();
+      let sum: u32 = killer_cage.region.iter().map(|cell| solver.state.value_at(cell)).sum();
       let total_sum = killer_cage.sum.unwrap();
       let rest_sum: u32 = total_sum - sum;
 

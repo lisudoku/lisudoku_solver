@@ -19,8 +19,7 @@ impl Technique for NakedSet {
       return vec![]
     }
 
-    let areas = solver.state.puzzle.all_region_areas();
-    for area in areas {
+    for area in solver.state.puzzle.all_region_areas() {
       let steps = self.run_in_area(area, solver);
       if !steps.is_empty() {
         return steps;

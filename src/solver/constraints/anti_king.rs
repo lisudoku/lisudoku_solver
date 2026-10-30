@@ -37,7 +37,22 @@ impl ConstraintDefinition for AntiKingConstraint {
 
   fn cell_region_areas(&self, _cell: &CellPosition, _peer_mode: PeerMode, _candidate_mode: CandidateMode) -> Vec<Area> { vec![] }
 
-  fn restrict_cell_special_candidates(&self, _cell: &CellPosition, _grid: &Grid, _candidates: &mut CandidateSet) {}
+  fn restrict_cell_special_candidates(&self, cell: &CellPosition, grid: &Grid, candidates: &mut CandidateSet) {
+    let peers = self.cell_peers(
+      cell,
+      &ConstraintCellPeersContext{
+        grid_size: grid.len(),
+        peer_mode: PeerMode::Full,
+        candidate_mode: CandidateMode::Full,
+      },
+    );
+    for peer in peers {
+      let value = grid[peer.row][peer.col];
+      if value != 0 {
+        candidates.remove(&value);
+      }
+    }
+  }
 
   fn cell_peers(&self, cell: &CellPosition, ctx: &ConstraintCellPeersContext) -> Vec<CellPosition> {
     if ctx.peer_mode == PeerMode::Classic {

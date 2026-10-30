@@ -4,6 +4,7 @@ use super::combinations::cell_combination_logic::CellCombinationLogic;
 use super::combinations::cell_combinations_runner::{CellCombinationsRunner, State};
 
 impl LogicalSolver {
+  /// Tries value combinations in `cells` and returns the list of values that cannot appear in any valid sum.
   pub(crate) fn detect_invalid_sum_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
     let mut combinations_runner = CellCombinationsRunner::new(
       &self, Box::new(SumCombinationsLogic::new(cells, sum))

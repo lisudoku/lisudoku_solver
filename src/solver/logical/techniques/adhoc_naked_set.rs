@@ -21,7 +21,7 @@ impl Technique for AdhocNakedSet {
     for starting_cell in cells {
       let special_peers: Vec<CellPosition> = solver.state.puzzle.cell_only_special_peers(&starting_cell)
         .into_iter()
-        .filter(|cell| solver.state.grid[cell.row][cell.col] == 0)
+        .filter(|cell| solver.state.value_at(cell) == 0)
         .collect();
 
       if special_peers.is_empty() {
@@ -30,7 +30,7 @@ impl Technique for AdhocNakedSet {
 
       let peers: Vec<CellPosition> = solver.state.puzzle.all_cell_peers_unconstrained(&starting_cell)
         .into_iter()
-        .filter(|cell| solver.state.grid[cell.row][cell.col] == 0)
+        .filter(|cell| solver.state.value_at(cell) == 0)
         .collect();
 
       // Do not even bother when there's too many peers because it hurts performance

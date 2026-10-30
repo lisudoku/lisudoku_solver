@@ -16,7 +16,10 @@ impl CandidateSet {
   }
 
   pub(crate) fn all_candidates(grid_size: u32) -> CandidateSet {
-    CandidateSet::from_iter(1..=grid_size)
+    // Creates a mask containing all values from 1 to grid_size
+    CandidateSet{
+      mask: (1 << (grid_size + 1)) - 2,
+    }
   }
 
   pub(crate) fn is_empty(&self) -> bool {
@@ -31,20 +34,12 @@ impl CandidateSet {
     (self.mask & (1 << value)) > 0
   }
 
-  pub(crate) fn insert(&mut self, value: u32) -> bool {
-    if self.contains(&value) {
-      return false
-    }
+  pub(crate) fn insert(&mut self, value: u32) {
     self.mask |= 1 << value;
-    true
   }
 
-  pub(crate) fn remove(&mut self, value: &u32) -> bool {
-    if !self.contains(value) {
-      return false
-    }
-    self.mask ^= 1 << value;
-    true
+  pub(crate) fn remove(&mut self, value: &u32) {
+    self.mask &= !(1 << value);
   }
 
   /// Retains only the elements specified by the predicate.
@@ -57,8 +52,14 @@ impl CandidateSet {
     self.mask = other.mask;
   }
 
-  pub(crate) fn extend<I: IntoIterator<Item = u32>>(&mut self, iter: I) {
-    self.mask = self.union(&CandidateSet::from_iter(iter)).mask;
+  /// start and end are inclusive
+  pub(crate) fn retain_range(&mut self, start: u32, end: u32) {
+    if start > end {
+      self.mask = 0;
+      return
+    }
+    let range_mask = (1 << (end + 1)) - (1 << start);
+    self.mask &= range_mask;
   }
 
   pub(crate) fn is_disjoint(&self, other: &CandidateSet) -> bool {
@@ -83,12 +84,16 @@ impl CandidateSet {
 
   pub(crate) fn difference(&self, other: &CandidateSet) -> CandidateSet {
     CandidateSet {
-      mask: self.mask & (self.mask ^ other.mask),
+      mask: self.mask & !other.mask,
     }
   }
 
   pub(crate) fn len(&self) -> usize {
     self.mask.count_ones() as usize
+  }
+
+  pub(crate) fn has_count_one(&self) -> bool {
+    self.mask.count_ones() == 1
   }
 
   pub(crate) fn to_bitmask(&self) -> u32 {

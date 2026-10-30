@@ -22,9 +22,7 @@ impl Technique for CommonPeerEliminationKropki {
 
     let mut steps: Vec<SolutionStep> = vec![];
 
-    let areas = solver.state.puzzle.all_region_areas();
-
-    for area in areas {
+    for area in solver.state.puzzle.all_region_areas() {
       let dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
       for dot_type in dot_types {
         let kropki_ccs = KropkiChainCandidates::compute_area_kropki_ccs(solver, &area, dot_type, false);

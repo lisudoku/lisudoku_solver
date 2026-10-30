@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, GridCheckResult, logical::{caches::LogicalCaches, techniques::{Technique, combinations::cell_combination_logic::CellsCacheKey}}, types::CandidateSet}, types::{Area, CellPosition, SolutionStep, SolutionType, SudokuConstraints, SudokuLogicalSolveResult}};
+use crate::{solver::{GridCheckResult, SolveState, logical::{caches::LogicalCaches, techniques::{Technique, combinations::cell_combination_logic::CellsCacheKey}}, types::CandidateSet}, types::{Area, CellPosition, SolutionStep, SolutionType, SudokuConstraints, SudokuLogicalSolveResult}};
 use std::{collections::HashMap, rc::Rc};
 use itertools::Itertools;
 
@@ -12,6 +12,9 @@ pub struct LogicalSolver {
   pub(crate) hint_mode: bool,
   pub(crate) step_count_limit: Option<usize>,
   pub(crate) enriched_steps_enabled: bool,
+  /// Skips as many non-essential things as possible,
+  /// used for constraints propagation inside brute-force solver
+  pub(crate) performance_mode: bool,
 }
 
 impl LogicalSolver {
@@ -27,6 +30,7 @@ impl LogicalSolver {
       hint_mode: false,
       step_count_limit: None,
       enriched_steps_enabled: false,
+      performance_mode: false,
     }
   }
 
@@ -34,20 +38,21 @@ impl LogicalSolver {
     let mut solution_type = SolutionType::Full;
     let mut solution_steps = vec![];
     let mut solution_steps_group_count = 0;
+    let mut found_grid_step = false;
 
-    let mut empty_cell_count = self.compute_empty_cell_count();
-
-    while empty_cell_count > 0 {
+    while self.state.any_empty_cells() {
       // TODO: only check cells impacted by latest change
 
-      // Note: this check is needed on each step because
-      // apply_rule only checks some contradictions
-      let check = self.state.check_partially_solved();
-      if !check.solved {
-        return SudokuLogicalSolveResult::no_solution(
-          check.invalid_state_reason.unwrap(),
-          solution_steps,
-        )
+      if !self.performance_mode {
+        // Note: this check is needed on each step because
+        // apply_rule only checks some contradictions
+        let check = self.state.check_partially_solved();
+        if !check.solved {
+          return SudokuLogicalSolveResult::no_solution(
+            check.invalid_state_reason.unwrap(),
+            solution_steps,
+          )
+        }
       }
 
       // Note: some rules can find multiple steps at once
@@ -65,7 +70,6 @@ impl LogicalSolver {
         steps.drain(1..);
       }
 
-      let mut found_grid_step = false;
       for mut step in steps.into_iter() {
         if step.is_grid_step() {
           found_grid_step = true;
@@ -96,26 +100,26 @@ impl LogicalSolver {
         // Found the first filled digit, it's enough for a hint
         break
       }
-
-      empty_cell_count = self.compute_empty_cell_count();
     }
 
     // Check whether final state is valid
-    let check = self.state.check_partially_solved();
-    if !check.solved {
-      return SudokuLogicalSolveResult::no_solution(
-        check.invalid_state_reason.unwrap(),
-        solution_steps,
-      )
+    if !self.performance_mode || (!solution_steps.is_empty() && found_grid_step) {
+      let check = self.state.check_partially_solved();
+      if !check.solved {
+        return SudokuLogicalSolveResult::no_solution(
+          check.invalid_state_reason.unwrap(),
+          solution_steps,
+        )
+      }
     }
 
-    if empty_cell_count > 0 {
+    if self.state.any_empty_cells() {
       solution_type = SolutionType::Partial;
     }
 
     let res = SudokuLogicalSolveResult {
       solution_type,
-      solution: Some(self.state.grid.clone()),
+      solution: if self.performance_mode { None } else { Some(self.state.grid().clone()) },
       steps: solution_steps,
       invalid_state_reason: None,
     };
@@ -191,8 +195,16 @@ impl LogicalSolver {
     for technique in &techniques {
       let steps = technique.run(&self);
       all_steps.extend(steps);
+      if self.performance_mode && !all_steps.is_empty() {
+        // In this case we don't care which is the simplest, return the first one found
+        return all_steps[..1].to_vec()
+      }
     }
 
+    // Careful, returning multiple grid steps at the same time can cause bugs
+    // because after applying them the latter ones might become invalid.
+    // This can be prevented by checking validity after applying all of them, but
+    // you pay the performance cost, so it depends on the context.
     if !all_steps.is_empty() && self.step_count_limit.is_none() {
       // In this mode we only want to return one step so pick the simplest
       let best_step = all_steps.into_iter().min_by_key(|step| {
@@ -279,20 +291,6 @@ impl LogicalSolver {
       .collect()
   }
 
-  fn compute_empty_cell_count(&self) -> usize {
-    self
-      .state
-      .grid
-      .iter()
-      .map(|row| {
-        row
-          .iter()
-          .map(|cell| if *cell == 0 { 1 } else { 0 })
-          .sum::<usize>()
-      })
-      .sum()
-  }
-
   pub(crate) fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
     cells.iter().any(|cell| !self.state.candidates[cell.row][cell.col].is_disjoint(&values))
   }
@@ -305,9 +303,9 @@ impl LogicalSolver {
     if !self.state.candidates_active {
       return
     }
-    for cell in &self.state.all_empty_cells() {
-      let &CellPosition { row, col } = cell;
-      let recomputed_cell_candidates = self.state.recompute_cell_candidates(cell);
+    for cell in self.state.all_empty_cells() {
+      let CellPosition { row, col } = cell;
+      let recomputed_cell_candidates = self.state.recompute_cell_candidates(&cell);
       if !self.state.candidates[row][col].is_subset(&recomputed_cell_candidates) {
         println!("==> Invalid candidates for ({},{})!", row, col);
         println!("Saved candidates: {:?}", self.state.candidates[row][col]);
@@ -340,17 +338,16 @@ impl LogicalSolver {
   }
 
   pub(crate) fn all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
-    self.state.puzzle.all_house_areas().iter().flat_map(|area| {
-      let value_cells = self.state.compute_cells_by_value_in_area(area, &self.state.candidates);
-
-      value_cells.into_iter().sorted().filter_map(|(value, cells)| {
-        if cells.len() != 2 {
-          return None
-        }
-        return Some(
-          (area.clone(), value, cells[0], cells[1])
-        )
-      })
+    self.state.puzzle.all_house_areas().flat_map(|area| {
+      self.state.compute_cells_by_value_in_area(&area, &self.state.candidates)
+        .filter_map(move |(value, cells)| {
+          if cells.len() != 2 {
+            return None
+          }
+          return Some(
+            (area.clone(), value, cells[0], cells[1])
+          )
+        })
     }).collect()
   }
 
@@ -373,14 +370,14 @@ impl LogicalSolver {
     cells.into_iter().map(|cell| {
       (
         cell.row as u32 * (self.state.puzzle.grid_size as u32 + 1) + cell.col as u32,
-        self.state.grid[cell.row][cell.col],
+        self.state.value_at(cell),
         self.candidates_to_set(*cell),
       )
     }).collect()
   }
 
   fn enrich_solution_step(&self, step: &mut SolutionStep) {
-    step.grid = Some(self.state.grid.clone());
+    step.grid = Some(self.state.grid().clone());
     if self.state.candidates_active {
       let candidates: Vec<Vec<Vec<u32>>> = self.state.candidates.iter().map(|row|
         row.iter().map(|cell|
@@ -400,6 +397,7 @@ impl Clone for LogicalSolver {
       hint_mode: self.hint_mode.clone(),
       step_count_limit: self.step_count_limit.clone(),
       enriched_steps_enabled: self.enriched_steps_enabled,
+      performance_mode: self.performance_mode,
       caches: self.caches.clone(),
     }
   }

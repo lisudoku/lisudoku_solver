@@ -16,9 +16,16 @@ impl Technique for NakedSingle {
   }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
-    solver.state.all_empty_cells().into_iter().filter_map(|cell| {
-      self.find_naked_single_in_cell(cell, solver)
-    }).collect()
+    let mut steps = vec![];
+    for cell in solver.state.all_empty_cells() {
+      let step_opt = self.find_naked_single_in_cell(cell, solver);
+      let Some(step) = step_opt else { continue };
+      steps.push(step);
+      if solver.performance_mode {
+        return steps
+      }
+    }
+    steps
   }
 }
 
@@ -26,12 +33,18 @@ impl NakedSingle {
   fn find_naked_single_in_cell(&self, cell: CellPosition, solver: &LogicalSolver) -> Option<SolutionStep> {
     let cell_candidates = solver.state.compute_cell_candidates(&cell);
 
-    if cell_candidates.len() != 1 {
+    if solver.performance_mode && cell_candidates.is_empty() {
+      // Break early since cell has no candidates.
+      // Only relevant in performance_mode because otherwise we run the checker on each step.
+      return Some(self.build_invalid_cell_step(&cell))
+    }
+
+    if !cell_candidates.has_count_one() {
       return None
     }
 
     // Compute areas even if candidates are active
-    let areas = self.compute_naked_single_areas(&cell, solver);
+    let areas = if solver.performance_mode { vec![] } else { self.compute_naked_single_areas(&cell, solver) };
 
     let value = cell_candidates.into_iter().next().unwrap();
     return Some(

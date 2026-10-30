@@ -38,7 +38,7 @@ impl Technique for NishioForcingChains {
       .collect();
 
     for cell in cells {
-      let invalid_values: Vec<(u32, InvalidStateReason)> = (&solver.state.candidates[cell.row][cell.col]).into_iter().sorted().filter_map(|value| {
+      let invalid_values: Vec<(u32, InvalidStateReason)> = (&solver.state.candidates[cell.row][cell.col]).into_iter().filter_map(|value| {
         let mut temp_solver: LogicalSolver = solver
           .clone()
           .with_techniques(temp_techniques.clone())
@@ -48,7 +48,7 @@ impl Technique for NishioForcingChains {
           // parent solve might have hint mode, but we want it off here
           .with_hint_mode(false);
 
-        temp_solver.state.grid[cell.row][cell.col] = value;
+        temp_solver.state.set_value(&cell, value);
         temp_solver.state.candidates_active = false; // force to recalculate all candidates
         temp_solver.apply_rule(&mut Candidates.run(&temp_solver).first().unwrap());
 

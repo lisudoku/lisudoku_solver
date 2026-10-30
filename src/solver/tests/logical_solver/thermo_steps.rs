@@ -29,14 +29,14 @@ fn check_thermo_steps() {
   let mut step = steps.first().unwrap();
   assert_eq!(step.cells, vec![ CellPosition::new(6, 0) ]);
   assert_eq!(step.values, vec![4]);
-  let CellPosition { row, col } = step.cells[0];
+  let cell = step.cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.state.grid[row][col];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
 
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == rule_value);
 }
 

@@ -21,7 +21,7 @@ impl Technique for TopBottomCandidates {
 
     let candidates = solver.state.compute_all_cell_candidates();
 
-    self.run_with_data(&solver.state.grid, &candidates)
+    self.run_with_data(solver.state.grid(), &candidates)
   }
 }
 

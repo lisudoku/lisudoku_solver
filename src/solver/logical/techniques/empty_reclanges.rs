@@ -1,7 +1,6 @@
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{Area, CellPosition, Rule, SolutionStep}};
 use std::mem::swap;
 use std::collections::HashMap;
-use itertools::Itertools;
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{Area, CellPosition, Rule, SolutionStep}};
 
 pub struct EmptyRectangles;
 
@@ -21,7 +20,7 @@ impl Technique for EmptyRectangles {
     for region_area in constraint.original_region_areas() {
       let value_cells = solver.state.compute_cells_by_value_in_area(&region_area, &solver.state.candidates);
 
-      for (value, region_cells) in value_cells.into_iter().sorted() {
+      for (value, region_cells) in value_cells {
         if region_cells.len() < 3 {
           continue
         }
@@ -58,7 +57,7 @@ impl Technique for EmptyRectangles {
             }
 
             let common_cell = CellPosition::new(c2.row, selected_col);
-            if solver.state.grid[common_cell.row][common_cell.col] == 0 &&
+            if solver.state.value_at(&common_cell) == 0 &&
                solver.state.candidates[common_cell.row][common_cell.col].contains(&value) &&
                !region_cells.contains(&common_cell) {
               return vec![
@@ -90,7 +89,7 @@ impl Technique for EmptyRectangles {
             }
 
             let common_cell = CellPosition::new(selected_row, c2.col);
-            if solver.state.grid[common_cell.row][common_cell.col] == 0 &&
+            if solver.state.value_at(&common_cell) == 0 &&
                solver.state.candidates[common_cell.row][common_cell.col].contains(&value) &&
                !region_cells.contains(&common_cell) {
               return vec![

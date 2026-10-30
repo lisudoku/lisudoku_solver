@@ -42,11 +42,13 @@ fn main() {
 
 fn random_grid(constraints: &SudokuConstraints) -> Grid {
   let mut solver = BruteSolver::new(constraints.clone())
+    // .with_logic()
+    .with_randomize()
+    .with_solution_limit(1);
   // TODO: on slow cases profile and try with even less techniques?
     // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), Rc::new(EmptyRectangles)])
-  ;
   // TODO: why use-Logic true, where is it false? I think I tried it and it didn't make a difference?
-  let result = solver.solve(BruteSolveSettings{ use_logic: true, randomize: true, solution_count_limit: Some(1) });
+  let result = solver.solve();
   assert!(result.solution.is_some());
   let Some(grid) = result.solution else { panic!("no solution?!") };
   grid

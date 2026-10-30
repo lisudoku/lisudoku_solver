@@ -59,14 +59,14 @@ impl ConstraintDefinition for KillerConstraint {
     ).collect()
   }
 
-  fn restrict_cell_special_candidates(&self, cell: &CellPosition, _grid: &Grid, candidates: &mut CandidateSet) {
+  fn restrict_cell_special_candidates(&self, cell: &CellPosition, grid: &Grid, candidates: &mut CandidateSet) {
     for area in self.cell_region_areas(cell, PeerMode::Full, CandidateMode::Full) {
       let Area::KillerCage(killer_cage_index) = area else { return };
       let killer_cage = &self.killer_cages[killer_cage_index];
 
       let Some(sum) = killer_cage.sum else { continue; };
 
-      candidates.retain(|value| *value <= sum);
+      candidates.retain_range(1, sum.min(grid.len() as u32));
     }
   }
 

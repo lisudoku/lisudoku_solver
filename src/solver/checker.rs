@@ -1,6 +1,6 @@
 use crate::solver::constraints::{ConstraintDefinition};
 use crate::solver::solve_state::SolveState;
-use crate::solver::types::{CandidateSet, CellPositionSet};
+use crate::solver::types::CandidateSet;
 use crate::types::{Area, InvalidStateReason, InvalidStateType};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
@@ -34,24 +34,23 @@ impl GridCheckResult {
 
 impl SolveState {
   pub fn check_solved(&self) -> GridCheckResult {
-    self.check_grid_valid(false)
-  }
-
-  pub fn check_partially_solved(&self) -> GridCheckResult {
     self.check_grid_valid(true)
   }
 
-  fn check_grid_valid(&self, allow_empty: bool) -> GridCheckResult {
+  pub fn check_partially_solved(&self) -> GridCheckResult {
+    self.check_grid_valid(false)
+  }
+
+  fn check_grid_valid(&self, check_full: bool) -> GridCheckResult {
     let mut cached_candidates: Vec<Vec<CandidateSet>> = vec![
       vec![ CandidateSet::new(); self.puzzle.grid_size ];
       self.puzzle.grid_size
     ];
 
-    // Check that all cell values are valid and they still have candidates
-    for cell in self.puzzle.all_grid_cells() {
-      let value = self.grid[cell.row][cell.col];
-      if value == 0 {
-        if !allow_empty {
+    if check_full {
+      for cell in self.puzzle.all_grid_cells() {
+        let value = self.value_at(&cell);
+        if value == 0 {
           return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::CellEmpty,
@@ -59,28 +58,31 @@ impl SolveState {
               values: vec![],
             }
           )
-        }
-
-        let cell_candidates = self.compute_cell_candidates(&cell);
-        cached_candidates[cell.row][cell.col] = cell_candidates.clone();
-        if cell_candidates.is_empty() {
+        } else if value < 1 || value > self.puzzle.grid_size as u32 {
           return GridCheckResult::unsolved(
             InvalidStateReason {
-              state_type: InvalidStateType::CellNoCandidates,
+              state_type: InvalidStateType::CellInvalidValue,
               area: Area::Cell(cell.row, cell.col),
-              values: vec![],
+              values: vec![value],
             }
           )
         }
-      } else if value < 1 || value > self.puzzle.grid_size as u32 {
+      }
+    }
+
+    // Check that all empty cell values are valid amd still have candidates
+    for cell in self.all_empty_cells() {
+      let cell_candidates = self.compute_cell_candidates(&cell);
+      if cell_candidates.is_empty() {
         return GridCheckResult::unsolved(
           InvalidStateReason {
-            state_type: InvalidStateType::CellInvalidValue,
+            state_type: InvalidStateType::CellNoCandidates,
             area: Area::Cell(cell.row, cell.col),
             values: vec![],
           }
         )
       }
+      cached_candidates[cell.row][cell.col] = cell_candidates;
     }
 
     // Check areas and special constraint rules
@@ -93,7 +95,7 @@ impl SolveState {
         }
       }
 
-      let check = constraint.check_grid_special_validity(&self.grid, &cached_candidates);
+      let check = constraint.check_grid_special_validity(self.grid(), &cached_candidates);
       if !check.solved {
         return check
       }
@@ -107,12 +109,14 @@ impl SolveState {
     let mut candidates_and_values = CandidateSet::new();
     let area_cells = self.puzzle.area_cells(area);
     let mut area_cell_candidates: Vec<CandidateSet> = Vec::with_capacity(area_cells.len());
+    assert!(area_cells.len() < 16);
 
+    // Check value duplicates and compute candidates
     for cell in &area_cells {
-      let value = self.grid[cell.row][cell.col];
+      let value = self.value_at(cell);
       if value == 0 {
         let cell_candidates = self.compute_cell_candidates(cell);
-        candidates_and_values.extend(&cell_candidates);
+        candidates_and_values = candidates_and_values.union(&cell_candidates);
         area_cell_candidates.push(cell_candidates);
         continue
       }
@@ -128,15 +132,14 @@ impl SolveState {
       values.insert(value);
     }
 
-    candidates_and_values.extend(values);
+    candidates_and_values = candidates_and_values.union(&values);
 
     // There's less candidate values than area cells so there is no solution
     if candidates_and_values.len() < area_cells.len() {
-      let values = if area_cells.len() == self.puzzle.grid_size {
+      let values = if area_cells.len() == self.puzzle.grid_size && !self.performance_mode {
         self.full_candidate_set()
           .difference(&candidates_and_values)
           .into_iter()
-          .sorted()
           .collect()
       } else {
         vec![]
@@ -152,28 +155,37 @@ impl SolveState {
     }
 
     if area_cells.len() == self.puzzle.grid_size {
-      // It's a full area, so we need to place all values
-      // Check if all remaining candidate subsets fit into the remaining cells
+      // `area` is a house area, so we need to place all values.
+      // Check if all remaining candidate subsets fit into the remaining cells.
 
-      let mut value_cells: Vec<CellPositionSet> = vec![
-        CellPositionSet::new(self.puzzle.grid_size);
+      let mut cell_indices_with_value: Vec<CandidateSet> = vec![
+        CandidateSet::new();
         self.puzzle.grid_size
       ];
-      for (index, cell) in self.filter_empty_cells(&area_cells).into_iter().enumerate() {
-        for value in &area_cell_candidates[index] {
-          value_cells[value as usize - 1].insert(cell);
+      for (index, cell_candidates) in area_cell_candidates.iter().enumerate() {
+        for value in cell_candidates {
+          cell_indices_with_value[value as usize - 1].insert(index as u32);
         }
       }
 
-      let mut used_cells_set: CellPositionSet = CellPositionSet::new(self.puzzle.grid_size);
-      let mut values = vec![];
+      let mut used_cell_indices_set = CandidateSet::new();
 
-      let value_cell_entries = value_cells.into_iter().enumerate().filter(|e| e.1.len() > 0).sorted_by_key(|e| e.1.len());
+      // Sorting value groups by size in increasing order to try to maximize
+      // the overlap between groups. It's just a heuristic, but good enough for now.
+      let value_cell_entries = cell_indices_with_value
+        .into_iter()
+        .enumerate()
+        .filter(|e| !e.1.is_empty())
+        .sorted_by_key(|e| e.1.len());
+      let mut values: Vec<u32> = vec![];
+
       for (value_index, (value, value_cells)) in value_cell_entries.enumerate() {
-        used_cells_set.union_with(&value_cells);
-        values.push(value as u32 + 1);
+        used_cell_indices_set = used_cell_indices_set.union(&value_cells);
+        if !self.performance_mode {
+          values.push(value as u32 + 1);
+        }
 
-        if value_index + 1 > used_cells_set.len() {
+        if value_index + 1 > used_cell_indices_set.len() {
           // There are more values than target cells
           return GridCheckResult::unsolved(
             InvalidStateReason {
@@ -186,6 +198,16 @@ impl SolveState {
       }
     }
 
+    GridCheckResult::solved()
+  }
+
+  pub(crate) fn check_all_grid_special_validity(&self) -> GridCheckResult {
+    for constraint in &self.puzzle.constraints {
+      let check = constraint.check_grid_special_validity(self.grid(), &self.candidates);
+      if !check.solved {
+        return check
+      }
+    }
     GridCheckResult::solved()
   }
 }

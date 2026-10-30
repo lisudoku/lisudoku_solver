@@ -21,14 +21,14 @@ fn check_naked_single_without_candidates() {
   assert_eq!(step.values, vec![3]);
   assert_eq!(step.areas, vec![Area::Row(1), Area::Column(0)]);
 
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
   let rule_value = step.values[0];
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == rule_value);
-  assert!(solver.state.candidates[row][col].is_empty());
+  assert!(solver.state.candidates[cell.row][cell.col].is_empty());
 }
 
 #[test]
@@ -59,14 +59,14 @@ fn check_naked_single_with_candidates() {
     ),
   );
 
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
   let rule_value = step.values[0];
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == rule_value);
-  assert!(solver.state.candidates[row][col].is_empty());
+  assert!(solver.state.candidates[cell.row][cell.col].is_empty());
 }
 
 #[test]
@@ -94,14 +94,14 @@ fn check_naked_single_using_anti_knight_without_candidates() {
   assert_eq!(step.values, vec![9]);
   assert_eq!(step.areas, vec![Area::Row(2), Area::Column(2), Area::Region(0), Area::Cell(4, 3)]);
 
-  let CellPosition { row, col } = step.cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let cell = step.cells[0];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
   let rule_value = step.values[0];
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == rule_value);
-  assert!(solver.state.candidates[row][col].is_empty());
+  assert!(solver.state.candidates[cell.row][cell.col].is_empty());
 }
 
 #[test]

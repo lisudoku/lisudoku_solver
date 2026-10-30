@@ -1,0 +1,13 @@
+mod classic;
+mod anti_knight;
+mod anti_king;
+mod thermo;
+mod extra_regions;
+mod arrow;
+mod top_bottom;
+mod palindrome;
+mod kropki;
+mod diagonal;
+mod odd_even;
+mod killer;
+mod renban;

@@ -1,3 +1,3 @@
 mod brute_solver;
 
-pub use brute_solver::{BruteSolver, BruteSolveSettings};
+pub use brute_solver::{BruteSolver, BruteSolverSettings};

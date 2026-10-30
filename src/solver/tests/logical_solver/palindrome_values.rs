@@ -24,16 +24,16 @@ fn check_palindrome_values() {
   assert_eq!(step.cells, vec![CellPosition::new(0, 4)]);
   assert_eq!(step.values, vec![1]);
   assert_eq!(step.areas, vec![ Area::Palindrome(0) ]);
-  assert_eq!(solver.state.grid[0][4], 0);
+  assert_eq!(solver.state.value_at(&CellPosition::new(0, 4)), 0);
   solver.apply_rule(&step);
-  assert_eq!(solver.state.grid[0][4], 1);
+  assert_eq!(solver.state.value_at(&CellPosition::new(0, 4)), 1);
 
   let step = &steps[1];
   assert_eq!(step.rule, Rule::PalindromeValues);
   assert_eq!(step.cells, vec![CellPosition::new(0, 1)]);
   assert_eq!(step.values, vec![2]);
   assert_eq!(step.areas, vec![ Area::Palindrome(0) ]);
-  assert_eq!(solver.state.grid[0][1], 0);
+  assert_eq!(solver.state.value_at(&CellPosition::new(0, 1)), 0);
   solver.apply_rule(&step);
-  assert_eq!(solver.state.grid[0][1], 2);
+  assert_eq!(solver.state.value_at(&CellPosition::new(0, 1)), 2);
 }

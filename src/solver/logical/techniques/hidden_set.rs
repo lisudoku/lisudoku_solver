@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use crate::solver::GridCheckResult;
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
@@ -21,9 +21,8 @@ impl Technique for HiddenSet {
       return vec![]
     }
 
-    let areas = solver.state.puzzle.all_house_areas();
-    for area in areas {
-      let value_cells = solver.state.compute_cells_by_value_in_area(&area, &solver.state.candidates);
+    for area in solver.state.puzzle.all_house_areas() {
+      let value_cells: HashMap<u32, Vec<CellPosition>> = solver.state.compute_cells_by_value_in_area(&area, &solver.state.candidates).collect();
 
       let area_values: Vec<u32> = solver.state.compute_area_candidates_union(&area).into_iter().sorted().collect();
       let value_combinations: Vec<_> = if self.set_size < area_values.len() {

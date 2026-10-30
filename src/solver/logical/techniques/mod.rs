@@ -74,6 +74,23 @@ pub trait Technique {
     self.build_solution_step(vec![], values, areas, affected_cells)
   }
 
+  fn build_invalid_cell_step(&self, cell: &CellPosition) -> SolutionStep {
+    SolutionStep{
+      rule: Rule::NakedSingle,
+      cells: vec![*cell],
+      values: vec![],
+      areas: vec![],
+      affected_cells: vec![],
+      grid: None,
+      candidates: None,
+      invalid_state_reason: Some(InvalidStateReason{
+        state_type: InvalidStateType::CellNoCandidates,
+        area: Area::Cell(cell.row, cell.col),
+        values: vec![],
+      }),
+    }
+  }
+
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep>;
 
   // This is the default base implementation, but can be overridden
@@ -81,6 +98,11 @@ pub trait Technique {
   // (overriding cell value, things that check_partially_solved wouldn't catch)
   fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
     if self.is_grid_step() {
+      // This can happen if naked single finds cell without candidates
+      if let Some(invalid_state_reason) = step.invalid_state_reason.clone() {
+        return GridCheckResult::unsolved(invalid_state_reason)
+      }
+
       if solver.state.candidates_active {
         assert_eq!(step.cells.len(), 1);
       }
@@ -93,7 +115,7 @@ pub trait Technique {
         // we could find naked and hidden single for the same cell
         // So if we find a contradiction we should stop
 
-        if solver.state.grid[row][col] != 0 && solver.state.grid[row][col] != value {
+        if solver.state.value_at(&cell) != 0 && solver.state.value_at(&cell) != value {
           return GridCheckResult::unsolved(
             InvalidStateReason {
               state_type: InvalidStateType::CellInvalidValue,
@@ -103,11 +125,15 @@ pub trait Technique {
           )
         }
       } else {
-        assert_eq!(solver.state.grid[row][col], 0, "Attempted to overwrite cell");
+        assert!(
+          solver.state.value_at(&cell) == 0,
+          "Attempted to overwrite non-empty cell from {} to {}",
+          solver.state.value_at(&cell), value,
+        );
       }
 
-      if solver.state.grid[row][col] == 0 {
-        solver.state.grid[row][col] = value;
+      if solver.state.value_at(&cell) == 0 {
+        solver.state.set_value(&cell, value);
 
         if solver.state.candidates_active {
           solver.state.candidates[row][col].clear();

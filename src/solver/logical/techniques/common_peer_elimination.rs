@@ -21,7 +21,7 @@ impl Technique for CommonPeerElimination {
 
     for area in solver.state.puzzle.all_house_areas() {
       let cells_by_value = solver.state.compute_cells_by_value_in_area(&area, &solver.state.candidates);
-      for (value, cells) in cells_by_value.into_iter().sorted() {
+      for (value, cells) in cells_by_value {
         let step = self.find_common_peer_elimination_cells_with_value(solver, &area, cells, value);
         if step.is_some() {
           return vec![ step.unwrap() ]

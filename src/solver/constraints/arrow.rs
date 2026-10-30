@@ -6,36 +6,36 @@ pub(crate) struct ArrowConstraint {
 }
 
 impl ArrowConstraint {
-  fn arrow_arrow_sum(arrow: &Arrow, grid: &Grid) -> (u32, bool) {
+  fn arrow_sum(arrow: &Arrow, grid: &Grid) -> (u32, bool, usize) {
     let mut sum: u32 = 0;
-    let mut full = true;
+    let mut used_cell_count = 0;
     for &CellPosition { row, col } in &arrow.arrow_cells {
       sum += grid[row][col];
-      if grid[row][col] == 0 {
-        full = false;
+      if grid[row][col] != 0 {
+        used_cell_count += 1;
       }
     }
-    (sum, full)
+    (sum, used_cell_count == arrow.arrow_cells.len(), used_cell_count)
   }
 
-  fn arrow_circle_number(arrow: &Arrow, grid: &Grid) -> (u32, bool) {
+  fn circle_number(arrow: &Arrow, grid: &Grid) -> (u32, bool, usize) {
     let mut value: u32 = 0;
-    let mut full = true;
+    let mut used_cell_count = 0;
     for &CellPosition { row, col } in &arrow.circle_cells {
       value = 10 * value + grid[row][col];
-      if grid[row][col] == 0 {
-        full = false;
+      if grid[row][col] != 0 {
+        used_cell_count += 1;
       }
     }
-    (value, full)
+    (value, used_cell_count == arrow.circle_cells.len(), used_cell_count)
   }
 }
 
 impl ConstraintDefinition for ArrowConstraint {
   fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
     for (arrow_index, arrow) in self.arrows.iter().enumerate() {
-      let (arrow_sum, arrow_full) = Self::arrow_arrow_sum(arrow, grid);
-      let (circle_number, circle_full) = Self::arrow_circle_number(arrow, grid);
+      let (arrow_sum, arrow_full, _) = Self::arrow_sum(arrow, grid);
+      let (circle_number, circle_full, _) = Self::circle_number(arrow, grid);
 
       if arrow_full && circle_full {
         if arrow_sum == circle_number {
@@ -95,7 +95,7 @@ impl ConstraintBuilder for ArrowConstraintBuilder {
       return None
     }
 
-    let arrows = constraints.arrows
+    let arrows: Vec<Arrow> = constraints.arrows
       .clone()
       .unwrap()
       .iter()

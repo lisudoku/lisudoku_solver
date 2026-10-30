@@ -3,7 +3,6 @@ use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
 use crate::solver::types::CandidateSet;
 use crate::types::{Rule, SolutionStep};
-use itertools::Itertools;
 
 pub struct Candidates;
 
@@ -19,8 +18,8 @@ impl Technique for Candidates {
       vec![ vec![]; solver.state.puzzle.grid_size ];
       solver.state.puzzle.grid_size
     ];
-    for cell in &solver.state.all_empty_cells() {
-      candidates[cell.row][cell.col] = solver.state.compute_cell_candidates(cell).into_iter().sorted().collect();
+    for cell in solver.state.all_empty_cells() {
+      candidates[cell.row][cell.col] = solver.state.compute_cell_candidates(&cell).into_iter().collect();
     }
 
     return vec![

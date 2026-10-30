@@ -3,6 +3,8 @@ use itertools::Itertools;
 use std::collections::HashSet;
 
 // Area A's cells must be 45 and after subtracting killer cages there is Y left.
+// After trying value combinations that sum up to Y eliminate values that do no appear
+// in any valid sum.
 pub struct Killer45;
 
 impl Technique for Killer45 {
@@ -33,6 +35,7 @@ impl Technique for Killer45 {
 impl Killer45 {
   // TODO: make it work for overlapping cages, currently it doesn't
   fn find_killer45_in_area(&self, solver: &LogicalSolver, area: &Area) -> Vec<SolutionStep> {
+    // TODO: could replace HashSet with CellPositionSet or CandidateSet with indices
     let mut area_cells_set: HashSet<CellPosition> = solver.state.puzzle.area_cells(area).into_iter().collect();
     let mut region_sum_left = solver.state.puzzle.grid_size as u32 * (solver.state.puzzle.grid_size as u32 + 1) / 2;
 
@@ -48,7 +51,7 @@ impl Killer45 {
 
     // Mark fixed digits
     for cell in &area_cells_set.iter().copied().collect_vec() {
-      let value = solver.state.grid[cell.row][cell.col];
+      let value = solver.state.value_at(cell);
       if value != 0 && area_cells_set.remove(cell) {
         region_sum_left -= value;
       }
@@ -80,7 +83,7 @@ impl Killer45 {
     let big_set: HashSet<CellPosition> = solver.state.puzzle.area_cells(big_area).into_iter().collect();
     let killer_cells_sum: u32 = killer_cage.region.iter().map(|&cell| {
       if !big_set.contains(&cell) {
-        solver.state.grid[cell.row][cell.col]
+        solver.state.value_at(&cell)
       } else {
         0
       }

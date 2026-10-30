@@ -17,14 +17,14 @@ fn check_grid_steps_without_candidates() {
   assert!(!steps.is_empty());
   let mut step = steps.into_iter().next().unwrap();
   assert!(step.affected_cells.is_empty());
-  let CellPosition { row, col } = step.cells[0];
+  let cell = step.cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.state.grid[row][col];
+  let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
 
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   assert!(final_value == rule_value);
 }
 
@@ -47,15 +47,15 @@ fn check_grid_steps_with_candidates() {
   let mut step = steps.into_iter().next().unwrap();
   assert!(!step.affected_cells.is_empty());
   assert!(step.affected_cells.len() <= 4);
-  let CellPosition { row, col } = step.cells[0];
+  let cell = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
   let rule_value = step.values[0];
-  let initial_value = solver.state.grid[row][col];
+  let initial_value = solver.state.value_at(&cell);
   let initial_candidates = solver.state.candidates[cand_row][cand_col].clone();
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   let final_candidates = &solver.state.candidates[cand_row][cand_col];
   assert!(final_value == rule_value);
   assert!(final_candidates.len() < initial_candidates.len());
@@ -90,14 +90,14 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
       vec![CellPosition::new(2, 3), CellPosition::new(4, 3), CellPosition::new(5, 3)],
     ),
   );
-  let CellPosition { row, col } = step.cells[0];
+  let cell = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
-  let initial_value = solver.state.grid[row][col];
+  let initial_value = solver.state.value_at(&cell);
   let initial_candidates = solver.state.candidates[cand_row][cand_col].clone();
   assert!(initial_value == 0);
 
   solver.apply_rule(&mut step);
-  let final_value = solver.state.grid[row][col];
+  let final_value = solver.state.value_at(&cell);
   let final_candidates = &solver.state.candidates[cand_row][cand_col];
   assert!(final_value == 4);
   assert_eq!(final_candidates.len(), initial_candidates.len() - 1);

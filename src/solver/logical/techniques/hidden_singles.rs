@@ -17,13 +17,13 @@ impl Technique for HiddenSingles {
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     let candidates = solver.state.compute_all_cell_candidates();
 
-    solver.state.puzzle.all_house_areas().into_iter().flat_map(|area| {
+    let all_hidden_singles = solver.state.puzzle.all_house_areas().flat_map(|area| {
       let hidden_singles = self.find_hidden_singles_in_area(solver, &area, &candidates);
 
       hidden_singles.into_iter().map(move |(found_cell, value)| {
         let mut cells: Vec<CellPosition> = vec![ found_cell ];
 
-        if !solver.state.candidates_active {
+        if !solver.performance_mode && !solver.state.candidates_active {
           let other_cells = self.find_hidden_single_covering_cells(solver, &area, &found_cell, value);
           cells.extend(other_cells.into_iter());
         }
@@ -35,14 +35,21 @@ impl Technique for HiddenSingles {
           &solver,
         )
       })
-    }).sorted_by_key(|step| self.complexity(step, solver)).unique_by(|step| step.cells[0]).collect()
+    });
+
+    if solver.performance_mode {
+      return all_hidden_singles.take(1).collect()
+    }
+    all_hidden_singles.sorted_by_key(|step| self.complexity(step, solver)).unique_by(|step| step.cells[0]).collect()
   }
 }
 
 impl HiddenSingles {
-  fn find_hidden_singles_in_area(&self, solver: &LogicalSolver, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> Vec<(CellPosition, u32)> {
+  fn find_hidden_singles_in_area<'a>(&'a self, solver: &'a LogicalSolver, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> impl Iterator<Item = (CellPosition, u32)> + 'a {
     let value_cells = solver.state.compute_cells_by_value_in_area(area, candidates);
-    value_cells.iter().filter(|(_value, cells)| cells.len() == 1).sorted().map(|(&value, cells)| (cells[0], value)).collect()
+    value_cells.filter_map(|(value, cells)| {
+      if cells.len() == 1 { Some((cells[0], value)) } else { None }
+    })
   }
 
   fn find_hidden_single_covering_cells(&self, solver: &LogicalSolver, area: &Area, found_cell: &CellPosition, value: u32) -> Vec<CellPosition> {
@@ -54,7 +61,7 @@ impl HiddenSingles {
       }
 
       for peer in solver.state.puzzle.all_cell_peers_unconstrained(cell) {
-        let peer_value = solver.state.grid[peer.row][peer.col];
+        let peer_value = solver.state.value_at(&peer);
         if peer_value != value {
           continue
         }

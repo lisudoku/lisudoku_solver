@@ -1,5 +1,4 @@
 use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{CellPosition, Rule, SolutionStep}};
-use itertools::Itertools;
 
 // In an area A, X candidate cells are all included in area B, so remove X from all other cells in B.
 // Example: In column C3, digit 3 must be in square S1. Therefore, 3 cannot be a candidate of any
@@ -16,11 +15,10 @@ impl Technique for LockedCandidates {
       return vec![]
     }
 
-    let areas = solver.state.puzzle.all_house_areas();
-    for area in areas {
+    for area in solver.state.puzzle.all_house_areas() {
       let value_cells = solver.state.compute_cells_by_value_in_area(&area, &solver.state.candidates);
 
-      for (value, cells) in value_cells.into_iter().sorted() {
+      for (value, cells) in value_cells {
         if cells.len() != self.set_size {
           continue
         }

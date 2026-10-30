@@ -71,12 +71,12 @@ pub struct SolutionStep {
   pub grid: Option<Grid>,
   #[tsify(optional)]
   pub candidates: Option<Vec<Vec<Vec<u32>>>>,
-  // Used for Rule::NishioForcingChains
+  // Used for NishioForcingChains and NakedSingles
   #[tsify(optional)]
   pub invalid_state_reason: Option<InvalidStateReason>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Copy, Clone, Eq, Hash, Tsify)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, PartialOrd, Ord, Copy, Clone, Eq, Hash, Tsify)]
 #[tsify(into_wasm_abi)]
 pub enum Rule {
   // Easy

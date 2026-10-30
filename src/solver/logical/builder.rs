@@ -17,6 +17,12 @@ impl LogicalSolver {
     self
   }
 
+  pub fn with_performance_mode(mut self) -> Self {
+    self.performance_mode = true;
+    self.state.performance_mode = true;
+    self
+  }
+
   pub fn with_techniques(mut self, techniques: Vec<Rc<dyn Technique>>) -> Self {
     self.techniques = techniques;
     self

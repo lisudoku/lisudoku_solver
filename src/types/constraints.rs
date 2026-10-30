@@ -281,16 +281,24 @@ impl CellPosition {
     }
   }
 
+  pub(crate) fn from_index(index: usize, grid_size: usize) -> Self {
+    Self::new(index / grid_size, index % grid_size)
+  }
+
+  pub(crate) fn to_index(&self, grid_size: usize) -> usize {
+    self.row * grid_size + self.col
+  }
+
   pub fn to_string(&self) -> String {
     format!("R{}C{}", self.row + 1, self.col + 1)
   }
 
-  pub fn all_cells_in_grid_size(grid_size: usize) -> Vec<CellPosition> {
-    (0..grid_size).flat_map(|row| {
-      (0..grid_size).map(|col| {
+  pub fn all_cells_in_grid_size(grid_size: usize) -> impl Iterator<Item = CellPosition> {
+    (0..grid_size).flat_map(move |row| {
+      (0..grid_size).map(move |col| {
         CellPosition::new(row, col)
-      }).collect::<Vec<CellPosition>>()
-    }).collect()
+      })
+    })
   }
 
   const ADJACENT_MOVES: [CellDirection; 4] = [
@@ -328,7 +336,7 @@ pub struct CellDirection {
 #[tsify(from_wasm_abi)]
 pub struct Region(pub Vec<CellPosition>);
 
-#[derive(Serialize, Deserialize/*, Debug */, Clone, PartialEq, Tsify, Deref, DerefMut)]
+#[derive(Serialize, Deserialize, Default, Clone, PartialEq, Tsify, Deref, DerefMut)]
 #[tsify(from_wasm_abi)]
 pub struct Grid(pub Vec<Vec<u32>>);
 

@@ -1,5 +1,4 @@
 use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{Area, CellPosition, Rule, SolutionStep}};
-use itertools::Itertools;
 
 pub struct XWing;
 
@@ -33,7 +32,7 @@ impl XWing {
   fn find_x_wing_in_areas(&self, solver: &LogicalSolver, areas: &Vec<Area>) -> Option<SolutionStep> {
     for area1 in areas {
       let value_cells = solver.state.compute_cells_by_value_in_area(area1, &solver.state.candidates);
-      for (value, area1_cells) in value_cells.into_iter().sorted() {
+      for (value, area1_cells) in value_cells {
         if area1_cells.len() != 2 {
           continue
         }
