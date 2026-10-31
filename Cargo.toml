@@ -29,6 +29,10 @@ strum = { version = "0.28", features = ["derive"] }
 bit-set = "0.11.1"
 rand = "0.10.2"
 
+# getrandom is a dependency of rand. Only enable the wasm feature for wasm build.
+[target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dependencies]
+getrandom = { version = "0.4", features = ["wasm_js"] }
+
 [dev-dependencies]
 insta = { version = "1.42.2", features = ["yaml"] }
 ntest = "0.9.3"
