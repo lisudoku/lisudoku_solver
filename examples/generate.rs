@@ -1,43 +1,49 @@
 #![allow(unused)]
 use std::collections::HashSet;
 use std::mem::swap;
-// use std::rc::Rc;
 use itertools::Itertools;
-use lisudoku_solver::solver::brute::{BruteSolveSettings, BruteSolver};
+use lisudoku_solver::solver::brute::BruteSolver;
 use lisudoku_solver::solver::logical::LogicalSolver;
-use lisudoku_solver::solver::{/* Technique, ArrowCandidates, Candidates, EmptyRectangles, HiddenSet, HiddenSingles, Killer45, KillerCandidates, KropkiChainCandidates, LockedCandidates, NakedSet, NakedSingle, NishioForcingChains, PalindromeCandidates, PalindromeValues, RenbanCandidates, Thermo, ThermoCandidates, TopBottomCandidates, TurbotFish */};
+use lisudoku_solver::solver::logical::techniques::nishio_forcing_chains::NishioForcingChains;
+use lisudoku_solver::solver::logical::techniques::turbot_fish::TurbotFish;
+use std::rc::Rc;
+use lisudoku_solver::solver::logical::techniques::{Technique};
 use lisudoku_solver::types::{Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, Palindrome, Region, Renban, SolutionType, SudokuConstraints};
 use rand::RngExt;
 use rand::seq::{IndexedRandom, SliceRandom};
 use url::Url;
 
 fn main() {
-    // generate_classic(&SudokuConstraints::new(9));
-    // generate_kropki(&SudokuConstraints::new(9));
-    // generate_kropki(&SudokuConstraints::new(9).with_kropki_negative());
-    // generate_kropki(&SudokuConstraints::new(6));
-    // generate_palindrome(&SudokuConstraints::new(9));
-    // generate_palindrome(&SudokuConstraints::new(6));
-    // generate_palindrome(&SudokuConstraints::new(4));
-    // generate_thermo(&SudokuConstraints::new(9));
-    // generate_thermo(&SudokuConstraints::new(6));
-    // generate_irregular(&SudokuConstraints::new(9));
-    // generate_odd_even(&SudokuConstraints::new(9));
-    // generate_renban(&SudokuConstraints::new(9));
-    // generate_renban(&SudokuConstraints::new(6));
-    // generate_renban(&SudokuConstraints::new(4));
-    // generate_killer(&SudokuConstraints::new(9));
-    // generate_killer(&SudokuConstraints::new(6));
-    // generate_killer(&SudokuConstraints::new(4));
-    // generate_extra_regions(&SudokuConstraints::new(9));
-    // generate_extra_regions(&SudokuConstraints::new(6));
-    // generate_anti_knight(&SudokuConstraints::new(9));
-    // generate_anti_king(&SudokuConstraints::new(6));
-    // generate_diagonal(&SudokuConstraints::new(9));
-    // generate_top_bottom(&SudokuConstraints::new(9));
-    // generate_top_bottom(&SudokuConstraints::new(6));
-    // generate_arrow(&SudokuConstraints::new(9));
-    generate_arrow(&SudokuConstraints::new(6));
+  let cells = CellPosition::all_cells_in_grid_size(9).into_iter().filter(|cell| cell.row.abs_diff(cell.col) <= 1).collect_vec();
+  // let cells = CellPosition::all_cells_in_grid_size(9).into_iter().filter(|cell| (cell.row + cell.col).abs_diff(8) <= 1).collect_vec();
+  // let cells = CellPosition::all_cells_in_grid_size(9).into_iter().filter(|cell| cell.row == cell.col || cell.row + cell.col == 8).collect_vec();
+
+  // generate_classic(&SudokuConstraints::new(9));
+  // generate_kropki(&SudokuConstraints::new(9));
+  // generate_kropki(&SudokuConstraints::new(9).with_kropki_negative());
+  // generate_kropki(&SudokuConstraints::new(6));
+  // generate_palindrome(&SudokuConstraints::new(9));
+  // generate_palindrome(&SudokuConstraints::new(6));
+  // generate_palindrome(&SudokuConstraints::new(4));
+  // generate_thermo(&SudokuConstraints::new(9));
+  // generate_thermo(&SudokuConstraints::new(6));
+  // generate_irregular(&SudokuConstraints::new(9));
+  // generate_odd_even(&SudokuConstraints::new(9));
+  // generate_renban(&SudokuConstraints::new(9));
+  // generate_renban(&SudokuConstraints::new(6));
+  // generate_renban(&SudokuConstraints::new(4));
+  // generate_killer(&SudokuConstraints::new(9));
+  // generate_killer(&SudokuConstraints::new(6));
+  // generate_killer(&SudokuConstraints::new(4));
+  // generate_extra_regions(&SudokuConstraints::new(9));
+  // generate_extra_regions(&SudokuConstraints::new(6));
+  generate_anti_knight(&SudokuConstraints::new(9), cells);
+  // generate_anti_king(&SudokuConstraints::new(9), cells);
+  // generate_diagonal(&SudokuConstraints::new(9));
+  // generate_top_bottom(&SudokuConstraints::new(9));
+  // generate_top_bottom(&SudokuConstraints::new(6));
+  // generate_arrow(&SudokuConstraints::new(9));
+  // generate_arrow(&SudokuConstraints::new(6));
 }
 
 fn random_grid(constraints: &SudokuConstraints) -> Grid {
@@ -80,13 +86,23 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
 
 fn is_constraints_solvable(constraints: &SudokuConstraints) -> bool {
   let mut logical_solver = LogicalSolver::new(constraints.clone())
-  // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), /*Rc::new(EmptyRectangles)*/])
+  .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), /*Rc::new(EmptyRectangles)*/])
   // temp for EASY
   // .with_techniques(easy_techniques())
   // .with_techniques(easy_medium_techniques())
   ;
   let logical_solution = logical_solver.solve();
   logical_solution.solution_type == SolutionType::Full
+}
+
+fn print_technique_tally(constraints: &SudokuConstraints) {
+  let mut logical_solver = LogicalSolver::new(constraints.clone());
+  let logical_solution = logical_solver.solve();
+  println!("-----------------");
+  println!("{}", logical_solution.steps.len());
+  for (rule, rule_steps_count) in &logical_solution.steps.iter().counts_by(|step| step.rule) {
+    println!("{}x {}", rule_steps_count, rule);
+  }
 }
 
 fn is_grid_solvable(grid: &Grid, constraints: &SudokuConstraints) -> bool {
@@ -125,6 +141,18 @@ fn is_arrow_solvable(arrows: &Vec<Arrow>, constraints: &SudokuConstraints) -> bo
   )
 }
 
+// experiment
+fn generate_classic_constraints_with_fixed_cells(existing_constraints: &SudokuConstraints, cells: Vec<CellPosition>) -> SudokuConstraints {
+  let mut grid = random_grid(existing_constraints);
+  println!("{}\n", grid.to_string(Some("\n")));
+
+  simplify_grid_with_constraints_with_fixed_cells(&mut grid, existing_constraints, cells);
+
+  assert!(is_grid_solvable(&grid, existing_constraints));
+
+  existing_constraints.clone().with_fixed_numbers_grid(&grid)
+}
+
 fn generate_classic_constraints(existing_constraints: &SudokuConstraints) -> SudokuConstraints {
   let mut grid = random_grid(existing_constraints);
   println!("{}\n", grid.to_string(Some("\n")));
@@ -152,52 +180,49 @@ fn generate_kropki(existing_constraints: &SudokuConstraints) {
   println!("{}\n", grid.to_string(Some("\n")));
 
   let mut full_kropki_dots: Vec<KropkiDot> = vec![];
-  // CellPosition::all_cells_in_grid_size
-  for row in 0..existing_constraints.grid_size {
-    for col in 0..existing_constraints.grid_size {
-      if col + 1 < existing_constraints.grid_size {
-        let mut val1 = grid[row][col];
-        let mut val2 = grid[row][col + 1];
-        if val1 < val2 {
-          swap(&mut val1, &mut val2);
-        }
-        if val1 - val2 == 1 {
-          full_kropki_dots.push(
-            KropkiDot::consecutive(
-              CellPosition::new(row, col),
-              CellPosition::new(row, col + 1),
-            )
-          );
-        } else if val2 * 2 == val1 {
-          full_kropki_dots.push(
-            KropkiDot::double(
-              CellPosition::new(row, col),
-              CellPosition::new(row, col + 1),
-            )
-          );
-        }
+  for CellPosition { row, col } in CellPosition::all_cells_in_grid_size(existing_constraints.grid_size) {
+    if col + 1 < existing_constraints.grid_size {
+      let mut val1 = grid[row][col];
+      let mut val2 = grid[row][col + 1];
+      if val1 < val2 {
+        swap(&mut val1, &mut val2);
       }
-      if row + 1 < existing_constraints.grid_size {
-        let mut val1 = grid[row][col];
-        let mut val2 = grid[row + 1][col];
-        if val1 < val2 {
-          swap(&mut val1, &mut val2);
-        }
-        if val1 - val2 == 1 {
-          full_kropki_dots.push(
-            KropkiDot::consecutive(
-              CellPosition::new(row, col),
-              CellPosition::new(row + 1, col),
-            )
-          );
-        } else if val2 * 2 == val1 {
-          full_kropki_dots.push(
-            KropkiDot::double(
-              CellPosition::new(row, col),
-              CellPosition::new(row + 1, col),
-            )
-          );
-        }
+      if val1 - val2 == 1 {
+        full_kropki_dots.push(
+          KropkiDot::consecutive(
+            CellPosition::new(row, col),
+            CellPosition::new(row, col + 1),
+          )
+        );
+      } else if val2 * 2 == val1 {
+        full_kropki_dots.push(
+          KropkiDot::double(
+            CellPosition::new(row, col),
+            CellPosition::new(row, col + 1),
+          )
+        );
+      }
+    }
+    if row + 1 < existing_constraints.grid_size {
+      let mut val1 = grid[row][col];
+      let mut val2 = grid[row + 1][col];
+      if val1 < val2 {
+        swap(&mut val1, &mut val2);
+      }
+      if val1 - val2 == 1 {
+        full_kropki_dots.push(
+          KropkiDot::consecutive(
+            CellPosition::new(row, col),
+            CellPosition::new(row + 1, col),
+          )
+        );
+      } else if val2 * 2 == val1 {
+        full_kropki_dots.push(
+          KropkiDot::double(
+            CellPosition::new(row, col),
+            CellPosition::new(row + 1, col),
+          )
+        );
       }
     }
   }
@@ -337,23 +362,20 @@ fn generate_palindrome(existing_constraints: &SudokuConstraints) {
     else if existing_constraints.grid_size == 4 { 10 }
     else { panic!() };
 
-  // CellPosition::all_cells_in_grid_size
-  for row in 0..existing_constraints.grid_size {
-    for col in 0..existing_constraints.grid_size {
-      let cell = CellPosition::new(row, col);
-      let palindrome = search_palindrome(&cell, &cell, &grid);
-      println!("odd palindrome length {}", palindrome.len());
-      if palindrome.len() < upper_bound && palindrome_is_better(&palindrome, &longest_palindrome) {
-        longest_palindrome = palindrome;
-      }
+  for CellPosition { row, col } in CellPosition::all_cells_in_grid_size(existing_constraints.grid_size) {
+    let cell = CellPosition::new(row, col);
+    let palindrome = search_palindrome(&cell, &cell, &grid);
+    println!("odd palindrome length {}", palindrome.len());
+    if palindrome.len() < upper_bound && palindrome_is_better(&palindrome, &longest_palindrome) {
+      longest_palindrome = palindrome;
+    }
 
-      for peer in neighbours(&cell, existing_constraints.grid_size) {
-        if grid[cell.row][cell.col] == grid[peer.row][peer.col] {
-          let palindrome = search_palindrome(&cell, &peer, &grid);
-          println!("even palindrome length {}", palindrome.len());
-          if palindrome.len() < upper_bound && palindrome_is_better(&palindrome, &longest_palindrome) {
-            longest_palindrome = palindrome;
-          }
+    for peer in neighbours(&cell, existing_constraints.grid_size) {
+      if grid[cell.row][cell.col] == grid[peer.row][peer.col] {
+        let palindrome = search_palindrome(&cell, &peer, &grid);
+        println!("even palindrome length {}", palindrome.len());
+        if palindrome.len() < upper_bound && palindrome_is_better(&palindrome, &longest_palindrome) {
+          longest_palindrome = palindrome;
         }
       }
     }
@@ -394,12 +416,9 @@ fn simplify_grid_with_constraints(grid: &mut Grid, constraints: &SudokuConstrain
   assert!(is_grid_solvable(&grid, constraints));
 
   let mut cells: Vec<CellPosition> = vec![];
-  // CellPosition::all_cells_in_grid_size
-  for row in 0..constraints.grid_size {
-    for col in 0..constraints.grid_size {
-      if grid[row][col] != 0 {
-        cells.push(CellPosition::new(row, col));
-      }
+  for CellPosition { row, col } in CellPosition::all_cells_in_grid_size(constraints.grid_size) {
+    if grid[row][col] != 0 {
+      cells.push(CellPosition::new(row, col));
     }
   }
   cells.shuffle(&mut rand::rng());
@@ -412,6 +431,38 @@ fn simplify_grid_with_constraints(grid: &mut Grid, constraints: &SudokuConstrain
       println!("SUCCESS!");
       println!("{}\n", grid.to_string(Some("\n")));
       println!("{}", constraints_to_url(&constraints.clone().with_fixed_numbers_grid(grid)));
+    } else {
+      println!("FAIL!");
+      grid[row][col] = value;
+    }
+  }
+
+  assert!(is_grid_solvable(&grid, constraints));
+}
+
+fn simplify_grid_with_constraints_with_fixed_cells(grid: &mut Grid, constraints: &SudokuConstraints, mut fixed_cells: Vec<CellPosition>) {
+  println!("Simplifying grid...");
+  assert!(is_grid_solvable(&grid, constraints));
+
+  let mut cells: Vec<CellPosition> = vec![];
+  for cell in CellPosition::all_cells_in_grid_size(constraints.grid_size) {
+    if grid[cell.row][cell.col] != 0 && !fixed_cells.contains(&cell) {
+      cells.push(cell);
+    }
+  }
+  cells.shuffle(&mut rand::rng());
+  fixed_cells.shuffle(&mut rand::rng());
+  cells.extend(fixed_cells);
+
+  for CellPosition { row, col } in cells {
+    let value = grid[row][col];
+    assert_ne!(value, 0);
+    grid[row][col] = 0;
+    if is_grid_solvable(&grid, constraints) {
+      println!("SUCCESS!");
+      println!("{}\n", grid.to_string(Some("\n")));
+      println!("{}", constraints_to_url(&constraints.clone().with_fixed_numbers_grid(grid)));
+      print_technique_tally(&constraints.clone().with_fixed_numbers_grid(grid));
     } else {
       println!("FAIL!");
       grid[row][col] = value;
@@ -541,7 +592,7 @@ fn generate_irregular_regions(existing_constraints: &SudokuConstraints) -> Vec<R
 
   for region_index in 0..existing_constraints.grid_size {
     // Find starting cell (first one in row major order so it's at the "edge")
-    let start_cell = CellPosition::all_cells_in_grid_size(existing_constraints.grid_size).into_iter().find(|cell| {
+    let start_cell = CellPosition::all_cells_in_grid_size(existing_constraints.grid_size).find(|cell| {
       if region_grid[cell.row][cell.col] != 0 {
         return false
       }
@@ -590,7 +641,7 @@ fn cell_disconnects_grid(grid: &Grid, next_cell: &CellPosition, cell_count_left:
   let mut components: Vec<usize> = vec![];
 
   loop {
-    let Some(start_cell) = CellPosition::all_cells_in_grid_size(grid.len()).into_iter().find(|cell| {
+    let Some(start_cell) = CellPosition::all_cells_in_grid_size(grid.len()).find(|cell| {
       grid[cell.row][cell.col] == 0 && visited[cell.row][cell.col] == 0 && cell != next_cell
     }) else { break };
 
@@ -656,9 +707,9 @@ fn generate_odd_even(existing_constraints: &SudokuConstraints) {
   let mut grid = full_grid.clone();
   println!("{}\n", grid.to_string(Some("\n")));
 
-  let constraints = constraint_with_odd_even_cells(existing_constraints.clone(), &CellPosition::all_cells_in_grid_size(existing_constraints.grid_size), &full_grid).with_fixed_numbers_grid(&grid);
+  let constraints = constraint_with_odd_even_cells(existing_constraints.clone(), &CellPosition::all_cells_in_grid_size(existing_constraints.grid_size).collect_vec(), &full_grid).with_fixed_numbers_grid(&grid);
 
-  let mut restricted_cells = CellPosition::all_cells_in_grid_size(constraints.grid_size);
+  let mut restricted_cells = CellPosition::all_cells_in_grid_size(constraints.grid_size).collect_vec();
   assert!(is_odd_even_solvable(&restricted_cells, &constraints, &full_grid));
 
   simplify_grid_with_constraints(&mut grid, &constraints);
@@ -784,7 +835,7 @@ fn generate_killer_regions(existing_constraints: &SudokuConstraints) -> Vec<Regi
 
   while covered_cell_count < total_cell_count {
     // Find starting cell (first one in row major order so it's at the "edge")
-    let start_cell = CellPosition::all_cells_in_grid_size(existing_constraints.grid_size).into_iter().find(|cell| {
+    let start_cell = CellPosition::all_cells_in_grid_size(existing_constraints.grid_size).find(|cell| {
       if killer_grid[cell.row][cell.col] != 0 {
         return false
       }
@@ -885,7 +936,6 @@ fn generate_extra_regions(existing_constraints: &SudokuConstraints) {
   assert!(is_grid_solvable(&grid, &constraints));
 
   let mut cells: Vec<CellPosition> = CellPosition::all_cells_in_grid_size(constraints.grid_size)
-    .into_iter()
     .filter(|cell| grid[cell.row][cell.col] != 0)
     .collect();
   cells.shuffle(&mut rand::rng());
@@ -940,24 +990,28 @@ fn generate_extra_regions(existing_constraints: &SudokuConstraints) {
   println!("{}", constraints_to_url(&constraints));
 }
 
-fn generate_anti_knight(existing_constraints: &SudokuConstraints) {
-  let constraints = generate_classic_constraints(&existing_constraints.clone().with_anti_knight());
+fn generate_anti_knight(existing_constraints: &SudokuConstraints, cells: Vec<CellPosition>) {
+  let constraints = generate_classic_constraints_with_fixed_cells(&existing_constraints.clone().with_anti_knight(), cells);
 
   assert!(is_constraints_solvable(&constraints));
   assert!(!is_constraints_solvable(&constraints.clone().unset_anti_knight()));
 
   // TODO: check that any of the grid steps (and not only?) uses antiknight constraint
 
+  print_technique_tally(&constraints);
+
   println!("{}", constraints_to_url(&constraints));
 }
 
-fn generate_anti_king(existing_constraints: &SudokuConstraints) {
-  let constraints = generate_classic_constraints(&existing_constraints.clone().with_anti_king());
+fn generate_anti_king(existing_constraints: &SudokuConstraints, fixed_cells: Vec<CellPosition>) {
+  let constraints = generate_classic_constraints_with_fixed_cells(&existing_constraints.clone().with_anti_king(), fixed_cells);
 
   assert!(is_constraints_solvable(&constraints));
   assert!(!is_constraints_solvable(&constraints.clone().unset_anti_king()));
 
   // TODO: check that any of the grid steps (and not only?) uses antiknight constraint
+
+  print_technique_tally(&constraints);
 
   println!("{}", constraints_to_url(&constraints));
 }
@@ -1037,7 +1091,6 @@ fn generate_arrow(existing_constraints: &SudokuConstraints) {
   assert!(is_grid_solvable(&grid, &constraints));
 
   let mut cells: Vec<CellPosition> = CellPosition::all_cells_in_grid_size(constraints.grid_size)
-    .into_iter()
     .filter(|cell| grid[cell.row][cell.col] != 0)
     .collect();
   cells.shuffle(&mut rand::rng());
