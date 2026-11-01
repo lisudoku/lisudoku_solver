@@ -2469,6 +2469,32 @@ snapshot_kind: text
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
     - 8
   areas:
     - type: KropkiDot
@@ -2528,6 +2554,38 @@ snapshot_kind: text
   cells: []
   values:
     - 1
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 38
+    - type: KropkiDot
+      value: 39
+  affectedCells:
+    - row: 7
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 38
+    - type: KropkiDot
+      value: 39
+  affectedCells:
+    - row: 8
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
   areas:
     - type: KropkiDot
       value: 1
@@ -2560,6 +2618,58 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 3
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 21
+  affectedCells:
+    - row: 5
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 21
+  affectedCells:
+    - row: 5
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 8
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -2806,6 +2916,34 @@ snapshot_kind: text
   cells: []
   values:
     - 4
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 3
+  affectedCells:
+    - row: 2
+      col: 3
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 3
+  affectedCells:
+    - row: 3
+      col: 3
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
   areas:
     - type: KropkiDot
       value: 19
@@ -2854,6 +2992,20 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 39
+  affectedCells:
+    - row: 8
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
@@ -2898,6 +3050,23 @@ snapshot_kind: text
   affectedCells:
     - row: 5
       col: 3
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+    - 7
+    - 9
+  areas:
+    - type: Region
+      value: 8
+    - type: KropkiDot
+      value: 36
+  affectedCells:
+    - row: 6
+      col: 7
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -3124,10 +3293,26 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 2
+    - 3
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 137
+  affectedCells:
+    - row: 7
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
 - rule: KropkiChainCandidates
   cells: []
   values:
     - 1
+    - 3
   areas:
     - type: Column
       value: 3
@@ -3218,8 +3403,6 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 4
-    - 7
     - 8
     - 9
   areas:
@@ -3291,7 +3474,6 @@ snapshot_kind: text
 - rule: KropkiChainCandidates
   cells: []
   values:
-    - 3
     - 8
     - 9
   areas:
@@ -3635,13 +3817,41 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 7
+    - 5
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 61
+  affectedCells:
+    - row: 1
+      col: 3
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 5
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 69
+  affectedCells:
+    - row: 2
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
   areas:
     - type: KropkiDot
       value: 71
   affectedCells:
     - row: 2
-      col: 3
+      col: 4
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -3658,392 +3868,18 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: KropkiDot
-      value: 61
-  affectedCells:
-    - row: 1
-      col: 3
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: KropkiDot
-      value: 69
-  affectedCells:
-    - row: 2
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: KropkiDot
-      value: 0
-  affectedCells:
-    - row: 1
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- rule: KropkiChainCandidates
   cells: []
   values:
     - 3
   areas:
+    - type: Region
+      value: 1
     - type: KropkiDot
       value: 5
   affectedCells:
     - row: 1
       col: 4
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 5
-  affectedCells:
-    - row: 2
-      col: 4
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 12
-  affectedCells:
-    - row: 3
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 2
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 17
-  affectedCells:
-    - row: 3
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 17
-  affectedCells:
-    - row: 4
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 20
-  affectedCells:
-    - row: 4
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 20
-  affectedCells:
-    - row: 5
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 21
-  affectedCells:
-    - row: 5
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 21
-  affectedCells:
-    - row: 5
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-    - 2
-  areas:
-    - type: KropkiDot
-      value: 34
-  affectedCells:
-    - row: 6
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-    - 2
-    - 3
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 34
-  affectedCells:
-    - row: 6
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 12
-  affectedCells:
-    - row: 3
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: KropkiDot
-      value: 0
-  affectedCells:
-    - row: 1
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 2
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 17
-  affectedCells:
-    - row: 3
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 17
-  affectedCells:
-    - row: 4
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 2
-      col: 3
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 5
-  affectedCells:
-    - row: 1
-      col: 4
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 5
-  affectedCells:
-    - row: 2
-      col: 4
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 4
-  affectedCells:
-    - row: 2
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 4
-  affectedCells:
-    - row: 3
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 20
-  affectedCells:
-    - row: 4
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 20
-  affectedCells:
-    - row: 5
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 2
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 43
-  affectedCells:
-    - row: 0
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 2
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 55
-  affectedCells:
-    - row: 1
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 2
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 57
-  affectedCells:
-    - row: 1
-      col: 2
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -4077,21 +3913,9 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 69
-  affectedCells:
-    - row: 2
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
     - 4
     - 8
+    - 9
   areas:
     - type: KropkiDot
       value: 72
@@ -4101,13 +3925,921 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 8
+    - 9
+  areas:
+    - type: Column
+      value: 5
+    - type: KropkiDot
+      value: 4
+  affectedCells:
+    - row: 3
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
 - rule: Kropki
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 64
+  affectedCells:
+    - row: 1
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 74
+  affectedCells:
+    - row: 2
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 86
+  affectedCells:
+    - row: 3
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 87
+  affectedCells:
+    - row: 4
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - type: Region
+      value: 2
+    - type: KropkiDot
+      value: 10
+  affectedCells:
+    - row: 1
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - type: Region
+      value: 5
+    - type: KropkiDot
+      value: 27
+  affectedCells:
+    - row: 4
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 99
+  affectedCells:
+    - row: 4
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+    - 5
+  areas:
+    - type: KropkiDot
+      value: 0
+  affectedCells:
+    - row: 1
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - type: KropkiDot
+      value: 0
+  affectedCells:
+    - row: 2
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 1
+  affectedCells:
+    - row: 2
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - type: KropkiDot
+      value: 6
+    - type: KropkiDot
+      value: 7
+  affectedCells:
+    - row: 0
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 6
+    - type: KropkiDot
+      value: 7
+  affectedCells:
+    - row: 1
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 10
+  affectedCells:
+    - row: 1
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 10
+  affectedCells:
+    - row: 2
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 11
+  affectedCells:
+    - row: 1
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 11
+  affectedCells:
+    - row: 2
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
   cells: []
   values:
     - 1
   areas:
     - type: KropkiDot
-      value: 80
+      value: 12
+  affectedCells:
+    - row: 3
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 17
+  affectedCells:
+    - row: 3
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 17
+  affectedCells:
+    - row: 4
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 20
+  affectedCells:
+    - row: 4
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 20
+  affectedCells:
+    - row: 5
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 3
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 5
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 4
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 3
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - type: KropkiDot
+      value: 27
+  affectedCells:
+    - row: 3
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 27
+  affectedCells:
+    - row: 4
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 7
+  affectedCells:
+    - row: 1
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 1
+  affectedCells:
+    - row: 2
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 21
+  affectedCells:
+    - row: 5
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 21
+  affectedCells:
+    - row: 5
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 3
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+  areas:
+    - type: KropkiDot
+      value: 34
+  affectedCells:
+    - row: 6
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+    - 3
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 34
+  affectedCells:
+    - row: 6
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 12
+  affectedCells:
+    - row: 3
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 2
+  affectedCells:
+    - row: 2
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+    - 5
+  areas:
+    - type: KropkiDot
+      value: 0
+  affectedCells:
+    - row: 1
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - type: KropkiDot
+      value: 0
+  affectedCells:
+    - row: 2
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 17
+  affectedCells:
+    - row: 3
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 17
+  affectedCells:
+    - row: 4
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 7
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 20
+  affectedCells:
+    - row: 4
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 20
+  affectedCells:
+    - row: 5
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 10
+  affectedCells:
+    - row: 1
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 10
+  affectedCells:
+    - row: 2
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - type: KropkiDot
+      value: 27
+  affectedCells:
+    - row: 3
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 27
+  affectedCells:
+    - row: 4
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+    - 3
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 8
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 2
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 2
+    - 3
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 8
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 3
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 1
+    - 2
+    - 5
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 8
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 4
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 5
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 26
+  affectedCells:
+    - row: 5
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 6
+    - 7
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 26
+  affectedCells:
+    - row: 6
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 11
+  affectedCells:
+    - row: 1
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 11
+  affectedCells:
+    - row: 2
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: Region
+      value: 2
+    - type: KropkiDot
+      value: 9
+  affectedCells:
+    - row: 0
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: Region
+      value: 0
+    - type: KropkiDot
+      value: 1
+  affectedCells:
+    - row: 2
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: Region
+      value: 5
+    - type: KropkiDot
+      value: 25
+  affectedCells:
+    - row: 5
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - type: Column
+      value: 0
+    - type: KropkiDot
+      value: 2
+  affectedCells:
+    - row: 3
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 2
+  areas:
+    - type: Region
+      value: 3
+    - type: KropkiDot
+      value: 12
+  affectedCells:
+    - row: 4
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 2
+    - 3
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 43
+  affectedCells:
+    - row: 0
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 2
+    - 3
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 55
+  affectedCells:
+    - row: 1
+      col: 0
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 2
+    - 3
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 57
+  affectedCells:
+    - row: 1
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 67
+  affectedCells:
+    - row: 2
+      col: 2
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 68
   affectedCells:
     - row: 3
       col: 1
@@ -4130,23 +4862,8 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 86
-  affectedCells:
-    - row: 3
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
     - 2
-    - 3
     - 4
-    - 8
   areas:
     - type: KropkiDot
       value: 99
@@ -4160,14 +4877,11 @@ snapshot_kind: text
   cells: []
   values:
     - 3
-    - 4
-    - 5
-    - 8
   areas:
     - type: KropkiDot
-      value: 111
+      value: 100
   affectedCells:
-    - row: 5
+    - row: 4
       col: 7
   grid: ~
   candidates: ~
@@ -4175,12 +4889,27 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 9
+    - 2
+    - 3
+    - 4
   areas:
     - type: KropkiDot
-      value: 123
+      value: 104
   affectedCells:
-    - row: 6
+    - row: 4
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 5
+  areas:
+    - type: KropkiDot
+      value: 111
+  affectedCells:
+    - row: 5
       col: 7
   grid: ~
   candidates: ~
@@ -4234,7 +4963,21 @@ snapshot_kind: text
   cells: []
   values:
     - 4
-    - 9
+  areas:
+    - type: Region
+      value: 5
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 3
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
   areas:
     - type: Region
       value: 5
@@ -4246,29 +4989,31 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: Kropki
+- rule: KropkiChainCandidates
   cells: []
   values:
-    - 6
+    - 5
   areas:
+    - type: Column
+      value: 8
     - type: KropkiDot
-      value: 61
+      value: 26
   affectedCells:
-    - row: 1
-      col: 3
+    - row: 6
+      col: 8
   grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
-    - 6
+    - 1
   areas:
     - type: KropkiDot
-      value: 64
+      value: 56
   affectedCells:
     - row: 1
-      col: 5
+      col: 0
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -4303,15 +5048,92 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 2
-    - 3
-    - 4
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 80
+  affectedCells:
+    - row: 3
+      col: 1
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 86
+  affectedCells:
+    - row: 3
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
   areas:
     - type: KropkiDot
       value: 88
   affectedCells:
     - row: 3
       col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 100
+  affectedCells:
+    - row: 4
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 104
+  affectedCells:
+    - row: 4
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 113
+  affectedCells:
+    - row: 6
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 2
+  areas:
+    - type: KropkiDot
+      value: 126
+  affectedCells:
+    - row: 7
+      col: 8
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -4335,9 +5157,24 @@ snapshot_kind: text
 - rule: KropkiChainCandidates
   cells: []
   values:
-    - 1
-    - 2
-    - 3
+    - 5
+  areas:
+    - type: Column
+      value: 5
+    - type: KropkiDot
+      value: 4
+  affectedCells:
+    - row: 2
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
+    - 5
+    - 9
   areas:
     - type: Column
       value: 7
@@ -4354,16 +5191,48 @@ snapshot_kind: text
 - rule: KropkiChainCandidates
   cells: []
   values:
-    - 1
-    - 2
-    - 3
+    - 4
   areas:
     - type: Region
-      value: 5
+      value: 8
     - type: KropkiDot
-      value: 24
+      value: 38
+    - type: KropkiDot
+      value: 39
   affectedCells:
-    - row: 4
+    - row: 7
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: Region
+      value: 8
+    - type: KropkiDot
+      value: 38
+    - type: KropkiDot
+      value: 39
+  affectedCells:
+    - row: 8
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - type: Region
+      value: 8
+    - type: KropkiDot
+      value: 36
+  affectedCells:
+    - row: 6
       col: 7
   grid: ~
   candidates: ~
@@ -4399,6 +5268,19 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 63
+  affectedCells:
+    - row: 1
+      col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
     - 2
     - 3
   areas:
@@ -4416,28 +5298,63 @@ snapshot_kind: text
     - 6
   areas:
     - type: KropkiDot
-      value: 74
+      value: 77
   affectedCells:
     - row: 2
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: KropkiDot
+      value: 89
+  affectedCells:
+    - row: 3
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 8
+  areas:
+    - type: KropkiDot
+      value: 102
+  affectedCells:
+    - row: 4
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 1
+  areas:
+    - type: KropkiDot
+      value: 137
+  affectedCells:
+    - row: 7
       col: 6
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- rule: Kropki
   cells: []
   values:
-    - 1
-    - 2
-    - 3
+    - 7
+    - 8
+    - 9
   areas:
-    - type: Region
-      value: 2
     - type: KropkiDot
-      value: 6
-    - type: KropkiDot
-      value: 7
+      value: 143
   affectedCells:
-    - row: 0
+    - row: 8
       col: 7
   grid: ~
   candidates: ~
@@ -4445,56 +5362,7 @@ snapshot_kind: text
 - rule: KropkiChainCandidates
   cells: []
   values:
-    - 3
-  areas:
-    - type: Region
-      value: 2
-    - type: KropkiDot
-      value: 10
-  affectedCells:
-    - row: 1
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
     - 1
-    - 2
-    - 3
-  areas:
-    - type: Region
-      value: 2
-    - type: KropkiDot
-      value: 6
-    - type: KropkiDot
-      value: 7
-  affectedCells:
-    - row: 1
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 1
-    - 6
-  areas:
-    - type: Region
-      value: 2
-    - type: KropkiDot
-      value: 9
-  affectedCells:
-    - row: 0
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
     - 6
     - 8
   areas:
@@ -4512,15 +5380,52 @@ snapshot_kind: text
   cells: []
   values:
     - 1
-    - 6
+    - 2
+    - 3
   areas:
     - type: Region
       value: 2
     - type: KropkiDot
-      value: 11
+      value: 6
+    - type: KropkiDot
+      value: 7
   affectedCells:
-    - row: 2
+    - row: 1
       col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+    - 8
+    - 9
+  areas:
+    - type: Region
+      value: 8
+    - type: KropkiDot
+      value: 37
+  affectedCells:
+    - row: 8
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 3
+  areas:
+    - type: Region
+      value: 2
+    - type: KropkiDot
+      value: 6
+    - type: KropkiDot
+      value: 7
+  affectedCells:
+    - row: 0
+      col: 7
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -4544,7 +5449,6 @@ snapshot_kind: text
 - rule: KropkiChainCandidates
   cells: []
   values:
-    - 4
     - 8
   areas:
     - type: Region
@@ -4562,9 +5466,38 @@ snapshot_kind: text
 - rule: KropkiChainCandidates
   cells: []
   values:
+    - 1
     - 2
+  areas:
+    - type: Region
+      value: 2
+    - type: KropkiDot
+      value: 11
+  affectedCells:
+    - row: 2
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: Region
+      value: 2
+    - type: KropkiDot
+      value: 9
+  affectedCells:
+    - row: 0
+      col: 6
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
     - 4
-    - 8
   areas:
     - type: Region
       value: 2
@@ -4611,21 +5544,19 @@ snapshot_kind: text
 - rule: Kropki
   cells: []
   values:
-    - 4
+    - 7
   areas:
     - type: KropkiDot
-      value: 52
+      value: 64
   affectedCells:
     - row: 1
-      col: 6
+      col: 5
   grid: ~
   candidates: ~
   invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
-    - 4
-    - 5
     - 6
   areas:
     - type: KropkiDot
@@ -4641,7 +5572,6 @@ snapshot_kind: text
   values:
     - 2
     - 3
-    - 4
     - 6
   areas:
     - type: KropkiDot
@@ -4649,768 +5579,6 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 8
-  areas:
-    - type: Region
-      value: 2
-    - type: KropkiDot
-      value: 10
-  affectedCells:
-    - row: 2
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: Column
-      value: 7
-    - type: KropkiDot
-      value: 8
-    - type: KropkiDot
-      value: 24
-  affectedCells:
-    - row: 3
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 4
-    - 8
-  areas:
-    - type: Column
-      value: 7
-    - type: KropkiDot
-      value: 8
-    - type: KropkiDot
-      value: 24
-  affectedCells:
-    - row: 4
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 6
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 54
-  affectedCells:
-    - row: 0
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 63
-  affectedCells:
-    - row: 1
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 2
-  areas:
-    - type: KropkiDot
-      value: 76
-  affectedCells:
-    - row: 3
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 89
-  affectedCells:
-    - row: 3
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: Region
-      value: 5
-    - type: KropkiDot
-      value: 27
-  affectedCells:
-    - row: 4
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 86
-  affectedCells:
-    - row: 3
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 88
-  affectedCells:
-    - row: 3
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 5
-    - 6
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 100
-  affectedCells:
-    - row: 4
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: Column
-      value: 5
-    - type: KropkiDot
-      value: 4
-  affectedCells:
-    - row: 2
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 8
-    - 9
-  areas:
-    - type: Column
-      value: 7
-    - type: KropkiDot
-      value: 8
-    - type: KropkiDot
-      value: 24
-  affectedCells:
-    - row: 2
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 7
-  areas:
-    - type: Region
-      value: 5
-    - type: KropkiDot
-      value: 24
-  affectedCells:
-    - row: 3
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 64
-  affectedCells:
-    - row: 1
-      col: 5
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 89
-  affectedCells:
-    - row: 3
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 102
-  affectedCells:
-    - row: 4
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 103
-  affectedCells:
-    - row: 5
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 0
-  affectedCells:
-    - row: 1
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 0
-  affectedCells:
-    - row: 2
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 12
-  affectedCells:
-    - row: 3
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 2
-  areas:
-    - type: KropkiDot
-      value: 12
-  affectedCells:
-    - row: 4
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 25
-  affectedCells:
-    - row: 5
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-    - 6
-    - 7
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 25
-  affectedCells:
-    - row: 5
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 2
-    - 5
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 36
-  affectedCells:
-    - row: 6
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-    - 4
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 36
-  affectedCells:
-    - row: 7
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 25
-  affectedCells:
-    - row: 5
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-    - 6
-    - 7
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 25
-  affectedCells:
-    - row: 5
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 12
-  affectedCells:
-    - row: 3
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 2
-  areas:
-    - type: KropkiDot
-      value: 12
-  affectedCells:
-    - row: 4
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 2
-  affectedCells:
-    - row: 2
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 2
-  affectedCells:
-    - row: 3
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 0
-  affectedCells:
-    - row: 1
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 0
-  affectedCells:
-    - row: 2
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 2
-      col: 3
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 3
-      col: 3
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 2
-    - 5
-    - 7
-  areas:
-    - type: KropkiDot
-      value: 36
-  affectedCells:
-    - row: 6
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-    - 4
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 36
-  affectedCells:
-    - row: 7
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-    - 6
-    - 7
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 26
-  affectedCells:
-    - row: 5
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 5
-    - 6
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 26
-  affectedCells:
-    - row: 6
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 2
-  areas:
-    - type: Region
-      value: 8
-    - type: KropkiDot
-      value: 38
-    - type: KropkiDot
-      value: 39
-  affectedCells:
-    - row: 7
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 1
-    - 2
-    - 4
-  areas:
-    - type: Region
-      value: 8
-    - type: KropkiDot
-      value: 38
-    - type: KropkiDot
-      value: 39
-  affectedCells:
-    - row: 8
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 43
-  affectedCells:
-    - row: 0
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 55
-  affectedCells:
-    - row: 1
-      col: 0
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 6
-  areas:
-    - type: KropkiDot
-      value: 57
-  affectedCells:
-    - row: 1
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 67
-  affectedCells:
-    - row: 2
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 8
-  areas:
-    - type: KropkiDot
-      value: 68
-  affectedCells:
-    - row: 3
-      col: 1
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 1
-    - 2
-    - 3
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 104
-  affectedCells:
-    - row: 4
-      col: 8
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 113
-  affectedCells:
-    - row: 6
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 1
-    - 2
-    - 3
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 137
-  affectedCells:
-    - row: 7
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 7
-    - 8
-    - 9
-  areas:
-    - type: KropkiDot
-      value: 143
-  affectedCells:
-    - row: 8
-      col: 7
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiChainCandidates
-  cells: []
-  values:
-    - 6
-    - 8
-    - 9
-  areas:
-    - type: Region
-      value: 8
-    - type: KropkiDot
-      value: 37
-  affectedCells:
-    - row: 8
-      col: 6
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: Kropki
-  cells: []
-  values:
-    - 1
-  areas:
-    - type: KropkiDot
-      value: 56
-  affectedCells:
-    - row: 1
-      col: 0
   grid: ~
   candidates: ~
   invalidStateReason: ~
@@ -5455,6 +5623,82 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - type: Column
+      value: 7
+    - type: KropkiDot
+      value: 8
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 3
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiChainCandidates
+  cells: []
+  values:
+    - 4
+  areas:
+    - type: Column
+      value: 7
+    - type: KropkiDot
+      value: 8
+    - type: KropkiDot
+      value: 24
+  affectedCells:
+    - row: 4
+      col: 7
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 6
+    - 7
+  areas:
+    - type: KropkiDot
+      value: 54
+  affectedCells:
+    - row: 0
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 7
+    - 8
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 89
+  affectedCells:
+    - row: 3
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: Kropki
+  cells: []
+  values:
+    - 9
+  areas:
+    - type: KropkiDot
+      value: 102
+  affectedCells:
+    - row: 4
+      col: 8
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
 - rule: Kropki
   cells: []
   values:
@@ -5465,6 +5709,32 @@ snapshot_kind: text
   affectedCells:
     - row: 8
       col: 5
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 6
+  areas:
+    - type: KropkiDot
+      value: 3
+  affectedCells:
+    - row: 2
+      col: 3
+  grid: ~
+  candidates: ~
+  invalidStateReason: ~
+- rule: KropkiAdvancedCandidates
+  cells: []
+  values:
+    - 5
+  areas:
+    - type: KropkiDot
+      value: 3
+  affectedCells:
+    - row: 3
+      col: 3
   grid: ~
   candidates: ~
   invalidStateReason: ~

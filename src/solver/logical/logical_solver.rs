@@ -315,10 +315,19 @@ impl LogicalSolver {
     }
   }
 
+  /// Returns the list of invalid candidates for each cell
   pub(crate) fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<CandidateSet>) -> Vec<(CellPosition, Vec<u32>)> {
     cells.into_iter().enumerate().filter_map(|(cell_index, &cell)| {
+      if self.state.value_at(&cell) != 0 {
+        return None
+      }
       let cell_candidates = &self.state.candidates[cell.row][cell.col];
       let valid_cell_candidates = &valid_candidates[cell_index];
+      assert!(
+        valid_cell_candidates.is_subset(cell_candidates),
+        "Cell {:?}: valid_candidates={:?} should be a subset of candidates={:?}",
+        cell, cell_candidates, valid_cell_candidates,
+      );
       if cell_candidates.len() == valid_cell_candidates.len() {
         return None
       }
@@ -368,10 +377,20 @@ impl LogicalSolver {
 
   pub(crate) fn cells_to_cache_key(&self, cells: &Vec<CellPosition>) -> CellsCacheKey {
     cells.into_iter().map(|cell| {
+      let cell_value = self.state.value_at(cell);
       (
         cell.row as u32 * (self.state.puzzle.grid_size as u32 + 1) + cell.col as u32,
-        self.state.value_at(cell),
-        self.candidates_to_set(*cell),
+        if cell_value == 0 { self.candidates_to_set(*cell) } else { cell_value },
+      )
+    }).collect()
+  }
+
+  pub(crate) fn cells_and_peers_to_cache_key(&self, cells: &[CellPosition], peers: &[CellPosition]) -> CellsCacheKey {
+    cells.into_iter().chain(peers).unique().map(|cell| {
+      let cell_value = self.state.value_at(cell);
+      (
+        cell.row as u32 * (self.state.puzzle.grid_size as u32 + 1) + cell.col as u32,
+        if cell_value == 0 { self.candidates_to_set(*cell) } else { cell_value },
       )
     }).collect()
   }

@@ -4,6 +4,7 @@ use crate::types::CellPosition;
 use std::collections::HashMap;
 use std::ops::{BitOrAssign, BitAnd};
 use super::combinations::cell_combination_logic::CellsCacheKey;
+use itertools::Itertools;
 
 pub type CellEliminationsResult = Vec<(CellPosition, Vec<u32>)>;
 
@@ -11,19 +12,26 @@ impl LogicalSolver {
   // Eliminate `combinations` that remove all candidates from any of `cells`
   // Returns cells that need to be updated
   pub(crate) fn eliminate_combinations(&self, combinations: &Vec<Vec<u32>>, cells: &Vec<CellPosition>) -> CellEliminationsResult {
-    let cache_key: CellsCacheKey = self.cells_to_cache_key(cells);
-    if let Some(cached_result) = self.caches.cell_eliminations_cache.borrow().get(&cache_key) {
-      return cached_result.to_owned()
-    }
-
     let cell_peers: Vec<Vec<CellPosition>> = cells.iter().map(|cell| {
       self.state.puzzle.all_cell_peers_unconstrained(cell)
     }).collect();
 
+    // TODO: rethink this, it's inefficient
+    let cache_key: CellsCacheKey = self.cells_and_peers_to_cache_key(cells, &cell_peers.iter().cloned().flatten().collect_vec());
+    if let Some(cached_result) = self.caches.cell_eliminations_cache.borrow().get(&cache_key) {
+      return cached_result.to_owned()
+    }
+
     let gs = self.state.puzzle.grid_size;
+    // TODO: use `CandidateSet`s
     let cand_sets: Vec<Vec<u32>> = (0..gs).map(|row| {
       (0..gs).map(|col| {
-        self.candidates_to_set(CellPosition::new(row, col))
+        let cell = CellPosition::new(row, col);
+        if self.state.value_at(&cell) == 0 {
+          self.candidates_to_set(cell)
+        } else {
+          0
+        }
       }).collect()
     }).collect();
 
@@ -31,14 +39,21 @@ impl LogicalSolver {
       let mut changed_cells: HashMap<CellPosition, u32> = HashMap::new();
       for cell_index in 0..cells.len() {
         let cell_value = combination[cell_index];
-        for peer_cell in &cell_peers[cell_index] {
-          if cand_sets[peer_cell.row][peer_cell.col].bitand(1 << cell_value) != 0 {
-            let entry = changed_cells.entry(*peer_cell).or_default();
+        if self.state.value_at(&cells[cell_index]) != 0 {
+          continue
+        }
+        for peer in &cell_peers[cell_index] {
+          if self.state.value_at(peer) != 0 {
+            continue
+          }
+          if cand_sets[peer.row][peer.col].bitand(1 << cell_value) != 0 {
+            let entry = changed_cells.entry(*peer).or_default();
             entry.bitor_assign(1 << cell_value);
           }
         }
       }
       changed_cells.into_iter().all(|(cell, candidate_updates)| {
+        assert!((candidate_updates & cand_sets[cell.row][cell.col]) == candidate_updates);
         candidate_updates != cand_sets[cell.row][cell.col]
       })
     }).collect();

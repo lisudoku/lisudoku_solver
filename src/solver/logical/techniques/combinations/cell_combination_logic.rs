@@ -2,7 +2,7 @@ use crate::types::CellPosition;
 
 use super::cell_combinations_runner::{State, CellCombinationsRunner, CellCombinationsRunnerResult};
 
-pub(crate) type CellsCacheKey = Vec<(u32, u32, u32)>;
+pub(crate) type CellsCacheKey = Vec<(u32, u32)>;
 
 pub(crate) trait CellCombinationLogic {
   fn cells(&self) -> Vec<CellPosition>;

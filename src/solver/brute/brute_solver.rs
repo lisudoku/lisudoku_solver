@@ -1,4 +1,4 @@
-use crate::{solver::{SolveState, logical::{logical_solver::LogicalSolver, techniques::{Technique, arrow_candidates::ArrowCandidates, candidates::Candidates, hidden_singles::HiddenSingles, killer_candidates::KillerCandidates, kropki_chain_candidates::KropkiChainCandidates, naked_singles::NakedSingle, palindrome_candidates::PalindromeCandidates, renban_candidates::RenbanCandidates, thermo_candidates::ThermoCandidates, top_bottom_candidates::TopBottomCandidates}}, types::CandidateSet}, types::{CellPosition, Grid, SolutionType, SudokuBruteSolveResult, SudokuConstraints}};
+use crate::{solver::{SolveState, logical::{logical_solver::LogicalSolver, techniques::{Technique, arrow_candidates::ArrowCandidates, candidates::Candidates, hidden_singles::HiddenSingles, killer_candidates::KillerCandidates, killer45::Killer45, kropki_chain_candidates::KropkiChainCandidates, naked_singles::NakedSingle, palindrome_candidates::PalindromeCandidates, palindrome_values::PalindromeValues, renban_candidates::RenbanCandidates, thermo_candidates::ThermoCandidates, top_bottom_candidates::TopBottomCandidates}}, types::CandidateSet}, types::{CellPosition, Grid, SolutionType, SudokuBruteSolveResult, SudokuConstraints}};
 use std::{mem, rc::Rc};
 use rand::seq::SliceRandom;
 
@@ -41,16 +41,20 @@ impl BruteSolver {
       extra_techniques.push(Rc::new(TopBottomCandidates::new(false)));
     }
     if state.puzzle.palindrome().is_some() {
+      extra_techniques.push(Rc::new(PalindromeValues));
       extra_techniques.push(Rc::new(PalindromeCandidates));
     }
     if state.puzzle.kropki().is_some() {
       extra_techniques.push(Rc::new(KropkiChainCandidates::new(false)));
+      // TODO: KropkiAdvancedCandidates very slow, not enabling for now
     }
     if state.puzzle.killer().is_some() {
       extra_techniques.push(Rc::new(KillerCandidates));
+      extra_techniques.push(Rc::new(Killer45));
     }
     if state.puzzle.arrow().is_some() {
       extra_techniques.push(Rc::new(ArrowCandidates));
+      // TODO: ArrowAdvancedCandidates very slow, not enabling for now
     }
     if state.puzzle.thermo().is_some() {
       extra_techniques.push(Rc::new(ThermoCandidates));

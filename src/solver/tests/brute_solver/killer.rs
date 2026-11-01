@@ -310,3 +310,163 @@ fn brute_solver_without_logic_finds_unique_solution_in_killer_6x6() {
   assert_eq!(result.solution_count, 1);
   assert_eq!(result.solution.unwrap(), solution);
 }
+
+// https://lisudoku.xyz/solver?import=N4Ig5gTglgJgylAXgUxALgJwBoQGsoA2ByEAwgIZjIDO6A2qBMmFAPYB29oAxqwegAYcEVgHdBAXyw8%2B6AIzCxk6SF780QkCPFo5EgLo5qAVwC28gBxTGzNpzQNVstAGZFOgdafqALO%2BUy6gCs%2FhoGRmbyQV5MLBxc3ugA7KGeKmroFqleGWhZWkq64SAm5rppNnH2jrkATKF66c4KBTq1Oc71rejtTepu3Wi9gT2hLsWl8kkxtvEOI64NHb5Lfeghg40LfoPthiWRuj4zVQm5AGyrCxvaPcvol7v3aClPa2iPt64Thy7DWrNqgtNF9xu8QYVjuDQtF9pMjic7GdmmNni0vlCFl0MWiYT8yrVzoi5jVnANQc8dhT3uTIfielsAad5okXqj3p86e9XjjuXi4YdaozYkiWbl8tSFhKuVL%2BRECRUmaLScFQpjWVTCtF3jctfTMMSgazsXr3ujCkT3iadJaFrSbc9rcl9bV%2FiKSQtOTptddQrbWV6Hs8eRbnoGXvq5BhDciVoN%2Fbl7c73pqdNMdaFpgKFTGxc4IWnngXMrjBlZs%2FIwZVlbLBumFiGdFZ3tKm5G3YDY%2Bgk3lKaFm76y5G9PoJEA%3D%3D
+fn killer_9x9_2_unique_solution() -> (SudokuConstraints, Grid) {
+  let constraints = SudokuConstraints::new(9)
+    .with_killer_cages(
+      vec![
+        KillerCage {
+          sum: Some(18),
+          region: Region(vec![
+            CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(1, 0),
+          ]),
+        },
+        KillerCage {
+          sum: Some(15),
+          region: Region(vec![
+            CellPosition::new(0, 3), CellPosition::new(0, 4), CellPosition::new(0, 5),
+          ]),
+        },
+        KillerCage {
+          sum: Some(10),
+          region: Region(vec![
+            CellPosition::new(0, 7), CellPosition::new(0, 8), CellPosition::new(1, 8),
+          ]),
+        },
+        KillerCage {
+          sum: Some(17),
+          region: Region(vec![
+            CellPosition::new(1, 2), CellPosition::new(2, 1), CellPosition::new(2, 2),
+            CellPosition::new(2, 3), CellPosition::new(3, 2),
+          ]),
+        },
+        KillerCage {
+          sum: Some(14),
+          region: Region(vec![
+            CellPosition::new(1, 3), CellPosition::new(1, 4), CellPosition::new(1, 5),
+            CellPosition::new(2, 4),
+          ]),
+        },
+        KillerCage {
+          sum: Some(32),
+          region: Region(vec![
+            CellPosition::new(1, 6), CellPosition::new(2, 5), CellPosition::new(2, 6),
+            CellPosition::new(2, 7), CellPosition::new(3, 6),
+          ]),
+        },
+        KillerCage {
+          sum: Some(14),
+          region: Region(vec![
+            CellPosition::new(3, 0), CellPosition::new(4, 0), CellPosition::new(5, 0),
+          ]),
+        },
+        KillerCage {
+          sum: Some(26),
+          region: Region(vec![
+            CellPosition::new(3, 1), CellPosition::new(4, 1), CellPosition::new(4, 2),
+            CellPosition::new(5, 1),
+          ]),
+        },
+        KillerCage {
+          sum: Some(21),
+          region: Region(vec![
+            CellPosition::new(3, 3), CellPosition::new(3, 4), CellPosition::new(4, 3),
+          ]),
+        },
+        KillerCage {
+          sum: Some(21),
+          region: Region(vec![
+            CellPosition::new(3, 7), CellPosition::new(4, 6), CellPosition::new(4, 7),
+            CellPosition::new(5, 7),
+          ]),
+        },
+        KillerCage {
+          sum: Some(20),
+          region: Region(vec![
+            CellPosition::new(3, 8), CellPosition::new(4, 8), CellPosition::new(5, 8),
+          ]),
+        },
+        KillerCage {
+          sum: Some(9),
+          region: Region(vec![
+            CellPosition::new(4, 5), CellPosition::new(5, 4), CellPosition::new(5, 5),
+          ]),
+        },
+        KillerCage {
+          sum: Some(22),
+          region: Region(vec![
+            CellPosition::new(5, 2), CellPosition::new(6, 1), CellPosition::new(6, 2),
+            CellPosition::new(6, 3), CellPosition::new(7, 2),
+          ]),
+        },
+        KillerCage {
+          sum: Some(19),
+          region: Region(vec![
+            CellPosition::new(5, 6), CellPosition::new(6, 5), CellPosition::new(6, 6),
+            CellPosition::new(6, 7), CellPosition::new(7, 6),
+          ]),
+        },
+        KillerCage {
+          sum: Some(20),
+          region: Region(vec![
+            CellPosition::new(6, 4), CellPosition::new(7, 3), CellPosition::new(7, 4),
+            CellPosition::new(7, 5),
+          ]),
+        },
+        KillerCage {
+          sum: Some(13),
+          region: Region(vec![
+            CellPosition::new(7, 0), CellPosition::new(8, 0), CellPosition::new(8, 1),
+          ]),
+        },
+        KillerCage {
+          sum: Some(12),
+          region: Region(vec![
+            CellPosition::new(7, 8), CellPosition::new(8, 7), CellPosition::new(8, 8),
+          ]),
+        },
+        KillerCage {
+          sum: Some(11),
+          region: Region(vec![
+            CellPosition::new(8, 3), CellPosition::new(8, 4), CellPosition::new(8, 5),
+          ]),
+        },
+      ]
+    );
+  let solution = Grid::from_string("
+    728465913
+    951382746
+    634719852
+    192847365
+    576931428
+    843526197
+    415678239
+    267193584
+    389254671
+  ");
+
+  (constraints, solution)
+}
+
+// Currently at 60+s
+#[test]
+#[ignore="solver needs more optimizations"]
+#[timeout(10_000)]
+fn brute_solver_without_logic_finds_unique_solution_in_killer_9x9_2() {
+  let (constraints, solution) = killer_9x9_2_unique_solution();
+  let mut solver = BruteSolver::new(constraints);
+  let result = solver.solve();
+  assert_eq!(result.solution_count, 1);
+  assert_eq!(result.solution.unwrap(), solution);
+}
+
+#[test]
+#[timeout(2_000)]
+fn brute_solver_with_logic_finds_unique_solution_in_killer_9x9_2() {
+  let (constraints, solution) = killer_9x9_2_unique_solution();
+  let mut solver = BruteSolver::new(constraints).with_logic();
+  let result = solver.solve();
+  assert_eq!(result.solution_count, 1);
+  assert_eq!(result.solution.unwrap(), solution);
+}

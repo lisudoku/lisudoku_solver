@@ -116,7 +116,7 @@ impl SolveState {
     candidates
   }
 
-  /// Returns a <cell>'s candidate set (cached)
+  /// Returns `cell`'s candidate set (cached)
   pub(crate) fn compute_cell_candidates(&self, cell: &CellPosition) -> CandidateSet {
     if self.grid[cell.row][cell.col] != 0 {
       return CandidateSet::new()

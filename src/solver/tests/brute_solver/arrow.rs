@@ -2,6 +2,7 @@ use crate::{solver::brute::BruteSolver, types::{Arrow, CellPosition, FixedNumber
 use ntest::timeout;
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound7.pdf puzzle 8
+// https://lisudoku.xyz/p/9q70tmwBmkpjvXIBck8j
 fn arrow_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(

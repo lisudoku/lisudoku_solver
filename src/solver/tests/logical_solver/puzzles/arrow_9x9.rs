@@ -189,6 +189,7 @@ fn check_arrow_9x9_2_solve() {
 }
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound7.pdf puzzle 8
+// https://lisudoku.xyz/p/9q70tmwBmkpjvXIBck8j
 #[test]
 fn check_arrow_9x9_3_solve() {
   let constraints = SudokuConstraints::new(9)
