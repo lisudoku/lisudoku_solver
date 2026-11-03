@@ -1,12 +1,13 @@
 use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, common_peer_elimination_kropki::CommonPeerEliminationKropki, kropki_chain_candidates::KropkiChainCandidates}}, types::{Area, CellPosition, FixedNumber, KropkiDot, Rule, SolutionStep, SudokuConstraints}};
 
+// N4IgZglgHgpgJgOQK4FsBGMBOBnEAuAbVAAcB7bCAFwlIDt9QBjUgG3wCYAaETUgd3wBWAL7cAbgEMWSGENElyVGvTxNW%2BAGzdeAvABZRISdNl528kGQrU6DEMzZnt%2FfAfFSZ%2BAOwWrS26r26nhaPC54Iu4m%2BADMwgC63ADmmBBwAMoQAF6mAJzcANa8xAUQACKklLiETDAsLACMdg74AAzOunHcjHUs7M3BDR2xhnCVACoAnsSmIADCdNgwjEjUYrIWPfVNgS147WGdhlt9A44HOq6jE9OzC7RLK2sb8cJAA%3D%3D%3D
 #[test]
 fn check_common_peer_elimination_kropki_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
       vec![
         FixedNumber::new(4, 2, 7), FixedNumber::new(5, 2, 5),
-        FixedNumber::new(5, 4, 2), FixedNumber::new(5, 5, 3), FixedNumber::new(4, 6, 2),
+        FixedNumber::new(4, 6, 2), FixedNumber::new(5, 6, 3),
       ]
     )
     .with_kropki_dots(
@@ -22,7 +23,7 @@ fn check_common_peer_elimination_kropki_1() {
   solver.apply_rules(&steps);
 
   let steps = CommonPeerEliminationKropki.run(&solver);
-  assert_eq!(steps.len(), 2);
+  assert_eq!(steps.len(), 1);
 
   let mut step = &steps[0];
   assert_eq!(
@@ -30,25 +31,19 @@ fn check_common_peer_elimination_kropki_1() {
     SolutionStep::new(
       Rule::CommonPeerEliminationKropki,
       vec![],
-      vec![2, 3, 3],
+      vec![2, 3, 2, 2, 2, 3, 2, 2],
       vec![Area::KropkiDot(0), Area::KropkiDot(1)],
-      vec![CellPosition::new(3, 2), CellPosition::new(3, 2), CellPosition::new(4, 1)],
+      vec![
+        CellPosition::new(3, 2), CellPosition::new(3, 2), CellPosition::new(3, 3),
+        CellPosition::new(3, 4), CellPosition::new(3, 5), CellPosition::new(4, 1),
+        CellPosition::new(5, 0), CellPosition::new(5, 1),
+      ],
     )
   );
-  assert!(solver.state.candidates[4][1].contains(&3));
+  let initial_count = solver.state.candidates[3][3].len();
+  assert!(solver.state.candidates[3][3].contains(&2));
 
   solver.apply_rule(&mut step);
-  assert!(!solver.state.candidates[4][1].contains(&3));
-
-  let step = &steps[1];
-  assert_eq!(
-    *step,
-    SolutionStep::new(
-      Rule::CommonPeerEliminationKropki,
-      vec![],
-      vec![2],
-      vec![Area::KropkiDot(0)],
-      vec![CellPosition::new(3, 2)],
-    ),
-  );
+  assert!(!solver.state.candidates[3][3].contains(&2));
+  assert_eq!(solver.state.candidates[3][3].len(), initial_count - 1);
 }

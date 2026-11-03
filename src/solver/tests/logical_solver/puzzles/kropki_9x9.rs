@@ -1,6 +1,5 @@
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, KropkiDot, Rule, SolutionType, SudokuConstraints}};
 use ntest::timeout;
-
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1_IB.pdf
 #[test]
@@ -206,4 +205,98 @@ fn check_kropki_9x9_3_solve() {
     ])
   );
   insta::assert_yaml_snapshot!("check_kropki_9x9_3_solve", result.steps);
+}
+
+// https://lisudoku.xyz/solver?import=N4Ig5gTglgJgylAXgUxALgJwBoQGsID2ADrlACIEAuAzugNqgDGyANiwIzpMEvrs6EA7ugAMAXxzM2AJi4hGPdNIEFhacThhUAKgE8iqNCADCBAHbVkjAK6UoAN1QSmrDnIW80AZhVqN811k0bk8fECE%2BCRAtSj0DdBAKawAjFicsFzZOYPlFNAA2X1EoqRYgkPQAdiL1KJi4wxNzSxs7RxBnAKz3PIAOGv9S8tzPfvDVSM0dfUbTCytbB3TMtxyPURr2EsCez35xtS2p2JmEpNTlrtWK9U3tmV2Ng6U66fijc7SOjKvsm%2F2Imgjldhus0MpnkDXid3k15q0lt8Vn8Rnw7pIdms8gCJuDoQ0EnMWot2p1SiiwRDAcCho9vOjom9Zs0Fm1LuS6WFqfcypyatJ8acjETWYiya4KXlqpCaZibtLAQLjgThSyEaSfhysZ4qbilSC6bq1F5BbDPuyJXzIfradr0FzcSblUK4cS2UjfnSAKz8nmgvI%2ByFOxkw5nwkkW7p2tAKvV%2Bumx42msNusWay3RnFJjEPaNG%2B3JwlqiMerU3B3Zg3RgAsNWD9RdIvVkeuqPpQfj0Yr6GrhY%2BBBSX3FUZugcBwdto5qvedsKbJeHrbBhQ7Od50ZXgJnIZVrtFGuRdJE087%2FxPs5T%2B5bkr256rN3zaG3DbNA4upYz5bvk7b3bQXr7Pdmw%2FEc2zGLdTzAmoAIvItw3dRcbzRSEYPvNss3QfJAPnBD01AyloMgsE%2F1Ql9L2AxC6VrFCiIDQjYNVeC00PDd6LQsFE3QUimTON8hzwpc8k3XFUJ%2FZcaiwhigIXASkLQcCRNo0YJOw4tcJYs9IUk9i8kfbSyLg1MD09VitKUqoVKk80QMEzxhLUbSxKEmpKlUpjjLLNtOIKcyYxctyjOvI9%2FLXf1b0hVypJw5iTJuY8It8%2BLAV6AKrxsuSMJjXzH0indGzUmLPOIkKdNCGoUqigqPM%2FNtqMBXKnM8OrcQqvK5yqoLowUtQGrlKDIVagzGMC9KrWS3zmrUQaeP7QdOqnAbfPs9BptDQy0rEABdMQgA
+#[test]
+#[timeout(5_000)]
+fn check_kropki_9x9_4_solve() {
+  let constraints = SudokuConstraints::new(9)
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
+        KropkiDot::double(CellPosition::new(0, 3), CellPosition::new(1, 3)),
+        KropkiDot::consecutive(CellPosition::new(0, 6), CellPosition::new(0, 7)),
+        KropkiDot::consecutive(CellPosition::new(0, 8), CellPosition::new(1, 8)),
+        KropkiDot::double(CellPosition::new(1, 0), CellPosition::new(1, 1)),
+        KropkiDot::double(CellPosition::new(1, 0), CellPosition::new(2, 0)),
+        KropkiDot::consecutive(CellPosition::new(1, 1), CellPosition::new(1, 2)),
+        KropkiDot::consecutive(CellPosition::new(1, 1), CellPosition::new(2, 1)),
+        KropkiDot::consecutive(CellPosition::new(1, 2), CellPosition::new(1, 3)),
+        KropkiDot::consecutive(CellPosition::new(1, 3), CellPosition::new(2, 3)),
+        KropkiDot::consecutive(CellPosition::new(1, 7), CellPosition::new(2, 7)),
+        KropkiDot::double(CellPosition::new(2, 2), CellPosition::new(3, 2)),
+        KropkiDot::consecutive(CellPosition::new(2, 3), CellPosition::new(3, 3)),
+        KropkiDot::consecutive(CellPosition::new(2, 5), CellPosition::new(3, 5)),
+        KropkiDot::consecutive(CellPosition::new(2, 7), CellPosition::new(3, 7)),
+        KropkiDot::consecutive(CellPosition::new(3, 1), CellPosition::new(3, 2)),
+        KropkiDot::consecutive(CellPosition::new(3, 3), CellPosition::new(3, 4)),
+        KropkiDot::double(CellPosition::new(3, 3), CellPosition::new(4, 3)),
+        KropkiDot::consecutive(CellPosition::new(3, 5), CellPosition::new(4, 5)),
+        KropkiDot::consecutive(CellPosition::new(3, 6), CellPosition::new(4, 6)),
+        KropkiDot::consecutive(CellPosition::new(4, 0), CellPosition::new(4, 1)),
+        KropkiDot::double(CellPosition::new(4, 1), CellPosition::new(4, 2)),
+        KropkiDot::consecutive(CellPosition::new(4, 3), CellPosition::new(5, 3)),
+        KropkiDot::consecutive(CellPosition::new(4, 8), CellPosition::new(5, 8)),
+        KropkiDot::consecutive(CellPosition::new(5, 1), CellPosition::new(6, 1)),
+        KropkiDot::consecutive(CellPosition::new(5, 2), CellPosition::new(5, 3)),
+        KropkiDot::consecutive(CellPosition::new(5, 4), CellPosition::new(5, 5)),
+        KropkiDot::double(CellPosition::new(5, 6), CellPosition::new(5, 7)),
+        KropkiDot::consecutive(CellPosition::new(5, 6), CellPosition::new(6, 6)),
+        KropkiDot::consecutive(CellPosition::new(5, 8), CellPosition::new(6, 8)),
+        KropkiDot::consecutive(CellPosition::new(6, 1), CellPosition::new(6, 2)),
+        KropkiDot::double(CellPosition::new(6, 6), CellPosition::new(6, 7)),
+        KropkiDot::consecutive(CellPosition::new(6, 6), CellPosition::new(7, 6)),
+        KropkiDot::consecutive(CellPosition::new(6, 7), CellPosition::new(7, 7)),
+        KropkiDot::consecutive(CellPosition::new(7, 0), CellPosition::new(7, 1)),
+        KropkiDot::consecutive(CellPosition::new(7, 0), CellPosition::new(8, 0)),
+        KropkiDot::consecutive(CellPosition::new(7, 1), CellPosition::new(7, 2)),
+        KropkiDot::consecutive(CellPosition::new(7, 3), CellPosition::new(8, 3)),
+        KropkiDot::consecutive(CellPosition::new(7, 4), CellPosition::new(8, 4)),
+        KropkiDot::consecutive(CellPosition::new(7, 8), CellPosition::new(8, 8)),
+        KropkiDot::double(CellPosition::new(8, 3), CellPosition::new(8, 4)),
+        KropkiDot::consecutive(CellPosition::new(8, 5), CellPosition::new(8, 6)),
+      ]
+    );
+
+  let mut solver = LogicalSolver::new(constraints).with_enriched_steps(true);
+  let mut result = solver.solve();
+  assert_eq!(result.solution_type, SolutionType::Full);
+  assert_eq!(
+    result.solution.unwrap(),
+    Grid::from_string("
+      165374982
+      487629153
+      293581647
+      976452831
+      542813796
+      318967425
+      821795364
+      654138279
+      739246518
+    "),
+  );
+  assert!(result.steps.iter().any(|step| step.rule == Rule::CommonPeerEliminationKropki));
+  // Check no duplicate eliminations
+  // TODO: extract to helper function, but not sure
+  for (prev_index, [prev_step, step]) in result.steps.array_windows().enumerate() {
+    if step.rule == Rule::KropkiAdvancedCandidates {
+      for cell in &step.affected_cells {
+        for value in &step.values {
+          assert!(
+            prev_step.candidates.as_ref().unwrap()[cell.row][cell.col].contains(&value),
+            "Step index {}\n{:?}\nCell {} does not have {} as candidate",
+            prev_index + 2, step, cell, value,
+          );
+        }
+      }
+    }
+  }
+  for step in &mut result.steps {
+    if step.rule != Rule::Candidates {
+      step.candidates = None;
+    }
+    step.grid = None;
+  }
+  insta::assert_yaml_snapshot!("check_kropki_9x9_4_solve", result.steps);
 }

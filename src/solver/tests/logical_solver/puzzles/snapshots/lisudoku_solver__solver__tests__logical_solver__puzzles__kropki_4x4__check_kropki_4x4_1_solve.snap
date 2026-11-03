@@ -177,32 +177,6 @@ snapshot_kind: text
 - rule: KropkiAdvancedCandidates
   cells: []
   values:
-    - 3
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 2
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 4
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 2
-      col: 3
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
     - 2
   areas:
     - type: KropkiDot
@@ -224,34 +198,6 @@ snapshot_kind: text
   affectedCells:
     - row: 3
       col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-    - 2
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 2
-      col: 2
-  grid: ~
-  candidates: ~
-  invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
-  cells: []
-  values:
-    - 1
-    - 2
-  areas:
-    - type: KropkiDot
-      value: 3
-  affectedCells:
-    - row: 2
-      col: 3
   grid: ~
   candidates: ~
   invalidStateReason: ~

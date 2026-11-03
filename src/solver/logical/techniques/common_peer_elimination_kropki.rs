@@ -1,5 +1,6 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
+use crate::solver::types::CandidateSet;
 use crate::types::{SolutionStep, Rule, KropkiDotType, Area};
 use super::common_peer_elimination::CommonPeerElimination;
 use super::kropki_chain_candidates::KropkiChainCandidates;
@@ -7,8 +8,12 @@ use super::kropki_chain_candidates::KropkiChainCandidates;
 // One of the kropki chain combinations would eliminate a cell's candidates, so that combination is invalid
 pub struct CommonPeerEliminationKropki;
 
+const DOT_TYPES: [KropkiDotType; 2] = [KropkiDotType::Consecutive, KropkiDotType::Double];
+
 impl Technique for CommonPeerEliminationKropki {
   fn get_rule(&self) -> Rule { Rule::CommonPeerEliminationKropki }
+
+  fn apply_corresponding_indices(&self) -> bool { true }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {
@@ -21,10 +26,11 @@ impl Technique for CommonPeerEliminationKropki {
     }
 
     let mut steps: Vec<SolutionStep> = vec![];
+    let grid_size = solver.state.puzzle.grid_size;
+    let mut cell_previous_invalid_values: Vec<CandidateSet> = vec![CandidateSet::new(); grid_size * grid_size];
 
     for area in solver.state.puzzle.all_region_areas() {
-      let dot_types = vec![ KropkiDotType::Consecutive, KropkiDotType::Double ];
-      for dot_type in dot_types {
+      for dot_type in DOT_TYPES {
         let kropki_ccs = KropkiChainCandidates::compute_area_kropki_ccs(solver, &area, dot_type, false);
         for (cells, kropki_dot_indices) in kropki_ccs {
           let combinations: Vec<Vec<u32>> = KropkiChainCandidates::find_kropki_ccs_combinations(solver, &cells);
@@ -35,12 +41,19 @@ impl Technique for CommonPeerEliminationKropki {
             continue
           }
 
-          // TODO: may eliminate same candidate twice?
+          let (cells, values): (Vec<_>, Vec<_>) = solver
+            .deduplicate_flat_eliminations(cell_eliminations, &mut cell_previous_invalid_values)
+            .unzip();
+
+          if cells.is_empty() {
+            continue
+          }
+
           steps.push(
             self.build_simple_solution_step(
-              cell_eliminations.iter().map(|(_, c)| c).copied().collect(), // values in the same order as affected_cells
+              values,
               kropki_dot_indices.into_iter().map(|index| Area::KropkiDot(index)).collect::<Vec<Area>>(),
-              cell_eliminations.iter().map(|(cell, _)| cell).copied().collect(),
+              cells,
             )
           );
         }

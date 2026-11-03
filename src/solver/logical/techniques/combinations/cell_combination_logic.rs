@@ -7,6 +7,7 @@ pub(crate) type CellsCacheKey = Vec<(u32, u32)>;
 pub(crate) trait CellCombinationLogic {
   fn cells(&self) -> Vec<CellPosition>;
 
+  /// Checks special validity, runner checks regular peer conflicts
   fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool;
 
   fn should_check_all_cells_in_set(&self) -> bool { false }

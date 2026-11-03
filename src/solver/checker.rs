@@ -145,6 +145,7 @@ impl SolveState {
         vec![]
       };
 
+      // Can't place `values` in `area`
       return GridCheckResult::unsolved(
         InvalidStateReason {
           state_type: InvalidStateType::AreaCandidates,

@@ -1,9 +1,8 @@
-use std::fmt;
-
 use derive_more::{Deref, DerefMut};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use tsify::Tsify;
+use std::fmt;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
 #[tsify(from_wasm_abi)]
@@ -289,10 +288,6 @@ impl CellPosition {
     self.row * grid_size + self.col
   }
 
-  pub fn to_string(&self) -> String {
-    format!("R{}C{}", self.row + 1, self.col + 1)
-  }
-
   pub fn all_cells_in_grid_size(grid_size: usize) -> impl Iterator<Item = CellPosition> {
     (0..grid_size).flat_map(move |row| {
       (0..grid_size).map(move |col| {
@@ -323,6 +318,12 @@ impl CellPosition {
       };
       Some(peer)
     }).collect()
+  }
+}
+
+impl fmt::Display for CellPosition {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(f, "R{}C{}", self.row + 1, self.col + 1)
   }
 }
 

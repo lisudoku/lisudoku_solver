@@ -227,3 +227,52 @@ fn check_kropki_advanced_candidates_4() {
   solver.apply_rule(&mut step);
   assert!(!solver.state.candidates[2][0].contains(&4));
 }
+
+// N4IgZglgHgpgJgOQK4FsBGMBOBnEAuAbVAAcB7bCAFwlIDt9QBjUgG3wCYAaETUgdw4BfbgDcAhiyQx8AFmElyVGvTxNW%2BAGzdeAvO2Ehxk6XgDs8kGQrU6DEMzZnt%2FIaIlT8ADgtWlt1fbqeJ7OuvpuxvgAnD6KNipqjiE8LnhyER54AMyx1sp2Dl6h%2BACsBkaZ6Qp5%2FolFKboa5e4mZZzVfgmBScVmzZF4TQC63ADmmBBwAMoQAF4mUdwA1rzESxAAIqSUuIRMMCwsAIwFQQAMvWcGjAcs7KeOR5cGcNsAKgCexCYgAMJ02BgjCQ1BE0gsN0OJwChTwFwa%2BCu3EhdweiN6Rxe7y%2BPy2SDQLHBQ0EQA
+#[test]
+fn kropki_advanced_candidates_no_duplicate_eliminations() {
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(2, 2, 4),
+        FixedNumber::new(2, 6, 7),
+        FixedNumber::new(2, 7, 8),
+        FixedNumber::new(2, 8, 9),
+        FixedNumber::new(4, 8, 3),
+        FixedNumber::new(5, 8, 4),
+        FixedNumber::new(6, 8, 5),
+        FixedNumber::new(7, 8, 6),
+      ]
+    )
+    .with_kropki_dots(
+      vec![
+        KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
+        KropkiDot::double(CellPosition::new(0, 0), CellPosition::new(1, 0)),
+      ]
+    );
+  let mut solver = LogicalSolver::new(constraints);
+  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+
+  // (0, 0) and (1, 0)
+  let steps = KropkiChainCandidates::new(false).run(&solver);
+  solver.apply_rules(&steps);
+
+  // (0, 1)
+  let steps2 = KropkiChainCandidates::new(false).run(&solver);
+  solver.apply_rules(&steps2);
+
+  let steps = KropkiAdvancedCandidates.run(&solver);
+  assert_eq!(steps.len(), 2);
+
+  let step = &steps[0];
+  assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
+  assert_eq!(step.values, vec![1]);
+  assert_eq!(step.areas, vec![Area::KropkiDot(0)]);
+  assert_eq!(step.affected_cells, vec![CellPosition::new(0, 0)]);
+
+  let step = &steps[1];
+  assert_eq!(step.rule, Rule::KropkiAdvancedCandidates);
+  assert_eq!(step.values, vec![1]);
+  assert_eq!(step.areas, vec![Area::KropkiDot(0)]);
+  assert_eq!(step.affected_cells, vec![CellPosition::new(0, 1)]);
+}

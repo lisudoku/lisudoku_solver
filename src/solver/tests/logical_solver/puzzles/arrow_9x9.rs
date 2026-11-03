@@ -1,4 +1,4 @@
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{Arrow, CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::logical_solver::LogicalSolver, types::{Arrow, CellPosition, FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound7_IB.pdf puzzle 8
 #[test]
@@ -100,6 +100,7 @@ fn check_arrow_9x9_1_solve() {
 
 // https://www.youtube.com/watch?v=vKEmgKgYg_U
 // Reaaally long arrow with 2 circle cells and 12 arrow cells
+// N4IghgThD2DuDOIBcBtUkawMIFMA2eiqoAxtHsgGwA0ImyADAL7WnnICst9SzAurRIBLCCTw5cBImhBkKSGnTjIAjEz4t0UOJMLIZczt2VI1rWeyQAWY7FWaL8gMy37A2SLET8e4o6qupuoOGDo%2B0mzyDIFODoamMXGWAEyJ5vEuSnbW6oKe4roR%2FryByUnyKqXB5qHY4fqRyDZZyLHplpk8bY1IqS057fJ9PBy5HqIF9X4ZVYNNVRo12nVSDcVc%2Fd3rgVblRv2j7sIT3qvTlhs8ZYtamIVr8QAcsz3P%2FWpH%2Bae%2BBpaKV3skAB2BYhZb3c7yS4mSiA6HZIFjY5eCG%2FeT%2FEyHMF3KZo5Ag%2FqwuZIN48RHE0kmR6Agk8anEjHZek9eHIZnFZp0wGdKmA4a84mVfrs%2BLRYWAsVkpFfVE9WmYwGU7JYpY4s54hIHQFCni7T4nWXFSUw6q3MLqnr87JEno862Azkm%2FUo3E9HUmRE3cDg13FO34vmBT15A2%2B%2BKOhHBdwAcwgQgAJgBlIQALxwyAAnEwgA%3D
 #[test]
 fn check_arrow_9x9_2_solve() {
   let constraints = SudokuConstraints::new(9)
@@ -168,8 +169,8 @@ fn check_arrow_9x9_2_solve() {
         },
       ]
     );
-  let mut solver = LogicalSolver::new(constraints);
-  let result = solver.solve();
+  let mut solver = LogicalSolver::new(constraints).with_enriched_steps(true);
+  let mut result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
     result.solution.unwrap(),
@@ -185,6 +186,27 @@ fn check_arrow_9x9_2_solve() {
       vec![ 7, 4, 3, 6, 8, 9, 5, 1, 2 ],
     ])
   );
+  // Check no duplicate eliminations
+  // TODO: extract to helper function, but not sure
+  for (prev_index, [prev_step, step]) in result.steps.array_windows().enumerate() {
+    if step.rule == Rule::ArrowAdvancedCandidates {
+      for cell in &step.affected_cells {
+        for value in &step.values {
+          assert!(
+            prev_step.candidates.as_ref().unwrap()[cell.row][cell.col].contains(&value),
+            "Step index {}\n{:?}\nCell {} does not have {} as candidate",
+            prev_index + 2, step, cell, value,
+          );
+        }
+      }
+    }
+  }
+  for step in &mut result.steps {
+    if step.rule != Rule::Candidates {
+      step.candidates = None;
+    }
+    step.grid = None;
+  }
   insta::assert_yaml_snapshot!(result.steps);
 }
 

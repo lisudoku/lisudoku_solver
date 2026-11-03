@@ -1,6 +1,7 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::Technique;
 use crate::solver::logical::techniques::combinations::cell_combinations_runner::CellCombinationsRunner;
+use crate::solver::types::CandidateSet;
 use crate::types::{SolutionStep, Rule, Area};
 use super::common_peer_elimination::CommonPeerElimination;
 
@@ -10,6 +11,8 @@ pub struct CommonPeerEliminationArrow;
 
 impl Technique for CommonPeerEliminationArrow {
   fn get_rule(&self) -> Rule { Rule::CommonPeerEliminationArrow }
+
+  fn apply_corresponding_indices(&self) -> bool { true }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {
@@ -21,7 +24,11 @@ impl Technique for CommonPeerEliminationArrow {
       return vec![]
     }
 
-    constraint.arrows.iter().enumerate().filter_map(|(arrow_index, arrow)| {
+    let mut steps: Vec<SolutionStep> = vec![];
+    let grid_size = solver.state.puzzle.grid_size;
+    let mut cell_previous_invalid_values: Vec<CandidateSet> = vec![CandidateSet::new(); grid_size * grid_size];
+
+    for (arrow_index, arrow) in constraint.arrows.iter().enumerate() {
       let cells = arrow.all_cells();
 
       let mut arrow_combinatons_logic_factory = solver.caches.arrow_combinatons_logic_factory.borrow_mut();
@@ -32,19 +39,22 @@ impl Technique for CommonPeerEliminationArrow {
       let cell_eliminations = CommonPeerElimination::find_cell_eliminations(cells, combinations, solver);
 
       if cell_eliminations.is_empty() {
-        return None
+        continue
       }
 
-      // TODO: may eliminate same candidate twice?
-      Some(
-        self.build_simple_solution_step(
-          cell_eliminations.iter().map(|(_, c)| c).copied().collect(), // values in the same order as affected_cells
-          vec![ Area::Arrow(arrow_index) ],
-          cell_eliminations.iter().map(|(cell, _)| cell).copied().collect(),
-        )
-      )
-    }).collect()
-  }
+      let (cells, values): (Vec<_>, Vec<_>) = solver
+        .deduplicate_flat_eliminations(cell_eliminations, &mut cell_previous_invalid_values)
+        .unzip();
 
-  fn apply_corresponding_indices(&self) -> bool { true }
+      steps.push(
+        self.build_simple_solution_step(
+          values,
+          vec![Area::Arrow(arrow_index)],
+          cells,
+        )
+      );
+    }
+
+    steps
+  }
 }

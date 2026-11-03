@@ -164,6 +164,7 @@ impl<'a> KropkiComponents<'a> {
     }
 
     let mut ccs = vec![];
+    // TODO: use CellPositionSet or CandidateSet
     let area_cells_set: HashSet<CellPosition> = area_cells.iter().copied().collect();
     let mut covered_cells = vec![ vec![ false; self.solver.state.puzzle.grid_size ]; self.solver.state.puzzle.grid_size ];
     for cell in &area_cells {

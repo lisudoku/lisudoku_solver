@@ -15,6 +15,7 @@ pub struct CellCombinationsRunner<'a> {
 }
 
 pub struct State {
+  // TODO: use CandidateSet for these fields
   pub used_candidates: Vec<u32>,
   pub temp_grid: Grid,
   // For each index a mask of previous positions that affect it

@@ -346,6 +346,36 @@ impl LogicalSolver {
     }).collect()
   }
 
+  pub(crate) fn deduplicate_eliminations<'a>(
+    &'a self,
+    invalid_candidates: Vec<(CellPosition, Vec<u32>)>,
+    cell_previous_invalid_values: &'a mut Vec<CandidateSet>,
+  ) -> impl Iterator<Item = (CellPosition, Vec<u32>)> + 'a {
+    let grid_size = self.state.puzzle.grid_size;
+    invalid_candidates.into_iter().filter_map(move |(cell, invalid_values)| {
+      let cell_index = cell.to_index(grid_size);
+      let new_invalid_values = CandidateSet::from_iter(invalid_values.into_iter()).difference(&cell_previous_invalid_values[cell_index]);
+      if new_invalid_values.is_empty() {
+        return None
+      }
+      cell_previous_invalid_values[cell_index] = cell_previous_invalid_values[cell_index].union(&new_invalid_values);
+      Some((cell, new_invalid_values.into_iter().collect_vec()))
+    })
+  }
+
+  pub(crate) fn deduplicate_flat_eliminations<'a>(
+    &'a self,
+    invalid_candidates: Vec<(CellPosition, u32)>,
+    cell_previous_invalid_values: &'a mut Vec<CandidateSet>,
+  ) -> impl Iterator<Item = (CellPosition, u32)> + 'a {
+    self.deduplicate_eliminations(
+      invalid_candidates.into_iter().into_group_map().into_iter().sorted().collect_vec(),
+      cell_previous_invalid_values,
+    ).flat_map(|(cell, invalid_values)| {
+      invalid_values.into_iter().map(move |value| (cell, value))
+    })
+  }
+
   pub(crate) fn all_strong_links(&self) -> Vec<(Area, u32, CellPosition, CellPosition)> {
     self.state.puzzle.all_house_areas().flat_map(|area| {
       self.state.compute_cells_by_value_in_area(&area, &self.state.candidates)
