@@ -59,7 +59,7 @@ impl ConstraintDefinition for KropkiConstraint {
   }
 
   fn restrict_cell_special_candidates(&self, _cell: &CellPosition, _grid: &Grid, _candidates: &mut CandidateSet) {
-    // Do not enforce candidates directly, use an explicit rule for that
+    // Do not enforce candidates directly, use an explicit techniques for that
   }
 
   fn cell_peers(&self, _cell: &CellPosition, _ctx: &ConstraintCellPeersContext) -> Vec<CellPosition> { vec![] }
@@ -106,10 +106,10 @@ impl ConstraintBuilder for KropkiConstraintBuilder {
       }
     }
 
-    Some(Constraint::Kropki(KropkiConstraint{
+    Some(KropkiConstraint{
       kropki_dots,
       kropki_dots_by_cell,
-    }))
+    }.into())
   }
 }
 

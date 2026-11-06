@@ -1,18 +1,22 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
-use crate::solver::logical::techniques::Technique;
+use crate::solver::logical::techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
-use crate::types::{Area, Rule, SolutionStep};
+use crate::types::{Area, SolutionStep};
 use combinations::Combinations;
 use itertools::Itertools;
 
 // Within a house, 2/3 cells have the same set of 2/3 candidates, remove those from all
 // other cells in the house
+
+#[derive(Clone, Debug)]
 pub struct NakedSet {
   set_size: usize,
 }
 
-impl Technique for NakedSet {
-  fn get_rule(&self) -> Rule { if self.set_size == 2 { Rule::NakedPairs } else { Rule::NakedTriples } }
+impl TechniqueDefinition for NakedSet {
+  fn kind(&self) -> TechniqueKind { if self.set_size == 2 { TechniqueKind::NakedPair } else { TechniqueKind::NakedTriple } }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {

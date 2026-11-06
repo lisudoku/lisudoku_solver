@@ -85,7 +85,7 @@ impl SolveState {
       cached_candidates[cell.row][cell.col] = cell_candidates;
     }
 
-    // Check areas and special constraint rules
+    // Check areas and special constraints
     for constraint in &self.puzzle.constraints {
       let constraint_region_areas = constraint.region_areas();
       for area in constraint_region_areas {

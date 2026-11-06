@@ -1,4 +1,4 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, common_peer_elimination::CommonPeerElimination}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, candidate_initialization::CandidateInitialization, common_peer_elimination::CommonPeerElimination}}, types::{Area, CellPosition, FixedNumber, SolutionStep, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_anti_knight_common_peer_elimination_1() {
@@ -13,12 +13,12 @@ fn check_anti_knight_common_peer_elimination_1() {
     )
     .with_anti_knight();
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::CommonPeerElimination);
+  assert_eq!(step.technique_kind, TechniqueKind::CommonPeerElimination);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
   assert_eq!(step.cells, vec![
     CellPosition::new(3, 4), CellPosition::new(4, 3), CellPosition::new(4, 4),
@@ -30,7 +30,7 @@ fn check_anti_knight_common_peer_elimination_1() {
   assert_eq!(step.values, vec![ 5 ]);
   assert!(solver.state.candidates[4][6].contains(&5));
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   assert!(!solver.state.candidates[4][6].contains(&5));
 }
 
@@ -50,12 +50,12 @@ fn check_anti_knight_common_peer_elimination_2() {
     )
     .with_anti_knight();
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::CommonPeerElimination);
+  assert_eq!(step.technique_kind, TechniqueKind::CommonPeerElimination);
   assert_eq!(step.values, vec![8]);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
   assert_eq!(step.cells, vec![
@@ -68,7 +68,7 @@ fn check_anti_knight_common_peer_elimination_2() {
   ]);
   assert!(solver.state.candidates[6][6].contains(&8));
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   assert!(!solver.state.candidates[6][6].contains(&8));
 }
 
@@ -93,7 +93,7 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = CommonPeerElimination.run(&solver);
   assert!(!steps.is_empty());
@@ -101,7 +101,7 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
   assert_eq!(
     *step,
     SolutionStep::new(
-      Rule::CommonPeerElimination,
+      TechniqueKind::CommonPeerElimination,
       vec![CellPosition::new(4, 3), CellPosition::new(4, 4), CellPosition::new(4, 5)],
       vec![1],
       vec![Area::Region(5)],
@@ -110,6 +110,6 @@ fn check_common_peer_elimination_overlapping_thermos_1() {
   );
   assert!(solver.state.candidates[3][2].contains(&1));
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   assert!(!solver.state.candidates[3][2].contains(&1));
 }

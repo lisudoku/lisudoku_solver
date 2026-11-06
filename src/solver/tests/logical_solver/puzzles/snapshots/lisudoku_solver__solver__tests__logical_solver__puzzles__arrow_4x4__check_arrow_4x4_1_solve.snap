@@ -3,7 +3,7 @@ source: src/solver/tests/logical_solver/puzzles/arrow_4x4.rs
 expression: result.steps
 snapshot_kind: text
 ---
-- rule: Candidates
+- techniqueKind: CandidateInitialization
   cells: []
   values: []
   areas: []
@@ -55,7 +55,7 @@ snapshot_kind: text
         - 2
         - 4
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 3
@@ -69,7 +69,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 2
@@ -83,7 +83,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 2
@@ -97,7 +97,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 2
@@ -111,7 +111,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 4
@@ -124,7 +124,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 4
@@ -137,7 +137,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowCandidates
+- techniqueKind: ArrowCandidateUpdate
   cells: []
   values:
     - 2
@@ -150,7 +150,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowAdvancedCandidates
+- techniqueKind: ArrowAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -164,7 +164,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowAdvancedCandidates
+- techniqueKind: ArrowAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -177,7 +177,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: ArrowAdvancedCandidates
+- techniqueKind: ArrowAdvancedCandidateUpdate
   cells: []
   values:
     - 4
@@ -190,7 +190,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 0
       col: 1
@@ -205,7 +205,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 1
       col: 2
@@ -218,7 +218,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 2
       col: 1
@@ -235,7 +235,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 3
       col: 0
@@ -250,7 +250,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 3
       col: 1
@@ -265,7 +265,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 1
       col: 1
@@ -280,7 +280,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 3
       col: 3
@@ -291,7 +291,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 3
       col: 2
@@ -306,7 +306,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 1
       col: 0
@@ -319,7 +319,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 0
       col: 0
@@ -332,7 +332,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 0
       col: 2
@@ -347,7 +347,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 1
       col: 3
@@ -360,7 +360,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 2
       col: 2
@@ -373,7 +373,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 2
       col: 3

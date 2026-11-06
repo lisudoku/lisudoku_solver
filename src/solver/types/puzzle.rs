@@ -166,11 +166,11 @@ impl Puzzle {
 
     let common_areas: Vec<Area> = self.constraints.iter().flat_map(|constraint| {
       let common_areas: Vec<Area> = constraint.cell_region_areas(&cell1, PeerMode::Full, CandidateMode::Simple);
-      let mut common_areas_set: HashSet<Area> = HashSet::from_iter(common_areas.into_iter());
+      let mut common_areas_set: HashSet<Area> = HashSet::from_iter(common_areas);
 
       for cell in cells[1..].iter() {
         let areas: Vec<Area> = constraint.cell_region_areas(&cell, PeerMode::Full, CandidateMode::Simple);
-        let areas_set: HashSet<Area> = HashSet::from_iter(areas.into_iter());
+        let areas_set: HashSet<Area> = HashSet::from_iter(areas);
         common_areas_set = common_areas_set.intersection(&areas_set).cloned().collect();
       }
 

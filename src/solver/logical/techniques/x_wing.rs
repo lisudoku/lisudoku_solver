@@ -1,9 +1,12 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{Area, CellPosition, Rule, SolutionStep}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase}}, types::{Area, CellPosition, SolutionStep}};
 
+#[derive(Clone, Debug)]
 pub struct XWing;
 
-impl Technique for XWing {
-  fn get_rule(&self) -> Rule { Rule::XWing }
+impl TechniqueDefinition for XWing {
+  fn kind(&self) -> TechniqueKind { TechniqueKind::XWing }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {

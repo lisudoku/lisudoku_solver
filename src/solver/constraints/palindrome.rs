@@ -58,9 +58,9 @@ impl ConstraintBuilder for PalindromeConstraintBuilder {
       return None
     }
 
-    Some(Constraint::Palindrome(PalindromeConstraint{
+    Some(PalindromeConstraint{
       palindromes,
-    }))
+    }.into())
   }
 }
 

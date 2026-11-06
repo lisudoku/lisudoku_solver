@@ -1,5 +1,4 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, hidden_singles::HiddenSingles, naked_singles::NakedSingle}}, types::{FixedNumber, Rule, SolutionType, SudokuConstraints}};
-use std::rc::Rc;
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{FixedNumber, SolutionType, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -12,15 +11,15 @@ fn check_single_step_mode_all_techniques() {
       ]
     );
 
-  let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle), Rc::new(HiddenSingles) ];
-  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
+  let technique_kinds: Vec<TechniqueKind> = vec![TechniqueKind::NakedSingle, TechniqueKind::HiddenSingle];
+  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(technique_kinds);
   let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 7);
-  let step_counts = result.steps.iter().counts_by(|step| step.rule);
-  assert_eq!(step_counts[&Rule::NakedSingle], 2);
-  assert_eq!(step_counts[&Rule::HiddenSingle], 5);
+  let step_counts = result.steps.iter().counts_by(|step| step.technique_kind);
+  assert_eq!(step_counts[&TechniqueKind::NakedSingle], 2);
+  assert_eq!(step_counts[&TechniqueKind::HiddenSingle], 5);
 }
 
 #[test]
@@ -33,13 +32,13 @@ fn check_single_step_mode_hidden_singles() {
       ]
     );
 
-  let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(HiddenSingles) ];
-  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
+  let technique_kinds: Vec<TechniqueKind> = vec![TechniqueKind::HiddenSingle];
+  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(technique_kinds);
   let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 5);
-  assert!(result.steps.iter().all(|step| step.rule == Rule::HiddenSingle));
+  assert!(result.steps.iter().all(|step| step.technique_kind == TechniqueKind::HiddenSingle));
 }
 
 #[test]
@@ -52,11 +51,11 @@ fn check_single_step_mode_naked_singles() {
       ]
     );
 
-  let techniques: Vec<Rc<dyn Technique>> = vec![ Rc::new(NakedSingle) ];
-  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(techniques);
+  let technique_kinds: Vec<TechniqueKind> = vec![TechniqueKind::NakedSingle];
+  let mut solver = LogicalSolver::new(constraints).with_step_count_limit(1).with_techniques(technique_kinds);
   let result = solver.solve();
 
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 2);
-  assert!(result.steps.iter().all(|step| step.rule == Rule::NakedSingle));
+  assert!(result.steps.iter().all(|step| step.technique_kind == TechniqueKind::NakedSingle));
 }

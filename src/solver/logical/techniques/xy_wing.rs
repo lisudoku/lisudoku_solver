@@ -1,14 +1,19 @@
 use itertools::Itertools;
-use crate::solver::GridCheckResult;
+use crate::solver::{GridCheckResult, SolveState};
 use crate::solver::logical::logical_solver::LogicalSolver;
-use crate::solver::logical::techniques::Technique;
+use crate::solver::logical::techniques::{StepApplication, TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
-use crate::types::{CellPosition, Rule, SolutionStep};
+use crate::types::{CellPosition, SolutionStep};
 
+#[derive(Clone, Debug)]
 pub struct XYWing;
 
-impl Technique for XYWing {
-  fn get_rule(&self) -> Rule { Rule::XYWing }
+impl TechniqueDefinition for XYWing {
+  fn kind(&self) -> TechniqueKind { TechniqueKind::XYWing }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
+
+  fn step_application(&self) -> StepApplication { StepApplication::Custom }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {
@@ -63,10 +68,10 @@ impl Technique for XYWing {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
+  fn apply(&self, step: &SolutionStep, state: &mut SolveState, _step_count_limit: Option<usize>) -> GridCheckResult {
     for &CellPosition { row, col } in &step.affected_cells {
       // Remove Z as candidate
-      solver.state.candidates[row][col].remove(&step.values[2]);
+      state.candidates[row][col].remove(&step.values[2]);
     }
     GridCheckResult::solved()
   }

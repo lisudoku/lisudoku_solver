@@ -110,10 +110,10 @@ impl ConstraintBuilder for ThermoConstraintBuilder {
       }
     }
 
-    Some(Constraint::Thermo(ThermoConstraint{
+    Some(ThermoConstraint{
       thermos,
       thermos_by_cell,
-    }))
+    }.into())
   }
 }
 

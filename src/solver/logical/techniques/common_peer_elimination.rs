@@ -1,18 +1,22 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
-use crate::solver::logical::techniques::Technique;
+use crate::solver::logical::techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
-use crate::types::{SolutionStep, CellPosition, Rule, Area};
+use crate::types::{SolutionStep, CellPosition, Area};
 use std::collections::{HashSet, HashMap};
 use itertools::Itertools;
 
 // Cell can’t be X because it eliminates all X candidates from a region
-// It is a more general version of the Locked Candidates
-// For diagonal puzzles the rule is called Crossover
-// For antiknight puzzles the rule is called L technique
+// It is a more general version of the Locked CandidateInitialization
+// For diagonal puzzles the technique is called Crossover
+// For antiknight puzzles the technique is called L technique
+
+#[derive(Clone, Debug)]
 pub struct CommonPeerElimination;
 
-impl Technique for CommonPeerElimination {
-  fn get_rule(&self) -> Rule { Rule::CommonPeerElimination }
+impl TechniqueDefinition for CommonPeerElimination {
+  fn kind(&self) -> TechniqueKind { TechniqueKind::CommonPeerElimination }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {

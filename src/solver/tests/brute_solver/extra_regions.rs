@@ -45,7 +45,7 @@ fn extra_regions_9x9_multiple_solutions_constraints() -> (SudokuConstraints, u32
   (constraints, 52_199)
 }
 
-// Currently at 3.5s (debug) and 0.5s (release)
+// Currently at 3.4s (debug) and 0.5s (release)
 #[test]
 #[timeout(9_000)]
 fn brute_solver_without_logic_finds_many_solutions_in_extra_regions_9x9() {
@@ -55,7 +55,7 @@ fn brute_solver_without_logic_finds_many_solutions_in_extra_regions_9x9() {
   assert_eq!(result.solution_count, expected_solution_count);
 }
 
-// Currently at 12s (debug) and 2.5s (release)
+// Currently at 10s (debug) and 2.5s (release)
 #[test]
 #[ignore="solver needs more optimizations"]
 #[timeout(10_000)]

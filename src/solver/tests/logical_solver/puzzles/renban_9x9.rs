@@ -1,4 +1,4 @@
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, Renban, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{CellPosition, FixedNumber, Grid, Renban, SolutionType, SudokuConstraints}};
 
 // https://logicmastersindia.com/live/?contest=SM202403
 #[test]
@@ -81,9 +81,9 @@ fn check_renban_9x9_1_solve() {
       vec![ 6, 9, 8, 3, 2, 7, 1, 4, 5 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::RenbanCandidates));
-  assert!(!rules.contains(&Rule::NishioForcingChains));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::RenbanCandidateUpdate));
+  assert!(!technique_kinds.contains(&TechniqueKind::NishioForcingChain));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -140,9 +140,9 @@ fn check_renban_9x9_2_solve() {
       vec![ 1, 8, 9, 2, 5, 6, 7, 4, 3 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::RenbanCandidates));
-  assert!(!rules.contains(&Rule::NishioForcingChains));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::RenbanCandidateUpdate));
+  assert!(!technique_kinds.contains(&TechniqueKind::NishioForcingChain));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -218,8 +218,8 @@ fn check_renban_9x9_3_solve() {
       vec![ 7, 8, 5, 1, 6, 4, 2, 3, 9 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::RenbanCandidates));
-  assert!(!rules.contains(&Rule::NishioForcingChains));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::RenbanCandidateUpdate));
+  assert!(!technique_kinds.contains(&TechniqueKind::NishioForcingChain));
   insta::assert_yaml_snapshot!(result.steps);
 }

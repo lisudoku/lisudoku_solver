@@ -94,7 +94,7 @@ impl ConstraintBuilder for AntiKingConstraintBuilder {
       return None
     }
 
-    Some(Constraint::AntiKing(AntiKingConstraint{}))
+    Some(AntiKingConstraint{}.into())
   }
 }
 

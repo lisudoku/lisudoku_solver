@@ -1,4 +1,4 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, killer45::Killer45}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, candidate_initialization::CandidateInitialization, killer45::Killer45}}, types::{Area, CellPosition, FixedNumber, KillerCage, Region, SudokuConstraints}};
 use itertools::Itertools;
 
 #[test]
@@ -18,17 +18,17 @@ fn check_killer45_row() {
     );
   let mut solver = LogicalSolver::new(constraints);
 
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
-  assert_eq!(step.rule, Rule::Killer45);
+  assert_eq!(step.technique_kind, TechniqueKind::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(0, 5) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 4, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::Row(0) ]);
   assert!(solver.state.candidates[0][5].contains(&1));
-  solver.apply_rule(&step);
+  solver.apply_step(&step);
   let final_candidates = &solver.state.candidates[0][5];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&1));
@@ -54,17 +54,17 @@ fn check_killer45_region() {
     );
   let mut solver = LogicalSolver::new(constraints);
 
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
-  assert_eq!(step.rule, Rule::Killer45);
+  assert_eq!(step.technique_kind, TechniqueKind::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 4) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 2, 4, 5, 6, 7, 8, 9 ]);
   assert_eq!(step.areas, vec![ Area::Region(4) ]);
   assert!(solver.state.candidates[4][4].contains(&2));
-  solver.apply_rule(&step);
+  solver.apply_step(&step);
   let final_candidates = &solver.state.candidates[4][4];
   assert_eq!(final_candidates.len(), 2);
   assert!(!final_candidates.contains(&2));
@@ -86,17 +86,17 @@ fn check_killer45_col_with_fixed_digits() {
     );
   let mut solver = LogicalSolver::new(constraints);
 
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
-  assert_eq!(step.rule, Rule::Killer45);
+  assert_eq!(step.technique_kind, TechniqueKind::Killer45);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(4, 1) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 5, 6 ]);
   assert_eq!(step.areas, vec![ Area::Column(1) ]);
   assert!(solver.state.candidates[4][1].contains(&1));
-  solver.apply_rule(&step);
+  solver.apply_step(&step);
   let final_candidates = &solver.state.candidates[4][1];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&1));
@@ -144,17 +144,17 @@ fn check_killer45_col_partial_cages() {
     );
   let mut solver = LogicalSolver::new(constraints);
 
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
   let steps = Killer45.run(&solver);
   assert!(!steps.is_empty());
   let step = steps.into_iter().next().unwrap();
 
-  assert_eq!(step.rule, Rule::Killer45);
+  assert_eq!(step.technique_kind, TechniqueKind::Killer45);
   assert_eq!(step.areas, vec![ Area::Column(3) ]);
   assert_eq!(step.affected_cells, vec![ CellPosition::new(1, 3) ]);
   assert_eq!(step.values.iter().copied().collect_vec(), vec![ 1, 3, 4, 8, 9 ]);
   assert!(solver.state.candidates[1][3].contains(&1));
-  solver.apply_rule(&step);
+  solver.apply_step(&step);
   let final_candidates = &solver.state.candidates[1][3];
   assert_eq!(final_candidates.len(), 1);
   assert!(!final_candidates.contains(&1));

@@ -87,9 +87,9 @@ impl ConstraintBuilder for AntiKnightConstraintBuilder {
       }
     }
 
-    Some(Constraint::AntiKnight(AntiKnightConstraint{
+    Some(AntiKnightConstraint{
       knight_peers,
-    }))
+    }.into())
   }
 }
 

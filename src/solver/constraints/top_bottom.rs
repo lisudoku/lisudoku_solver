@@ -1,11 +1,11 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, logical::techniques::{top_bottom_candidates::TopBottomCandidates}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, logical::techniques::{top_bottom_candidate_update::TopBottomCandidateUpdate}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct TopBottomConstraint;
 
 impl ConstraintDefinition for TopBottomConstraint {
   fn check_grid_special_validity(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
-    let valid = TopBottomCandidates::new(true).run_with_data(grid, candidates).is_empty();
+    let valid = TopBottomCandidateUpdate::new(true).run_with_data(grid, candidates).is_empty();
 
     if valid {
       return GridCheckResult::solved()
@@ -27,7 +27,7 @@ impl ConstraintDefinition for TopBottomConstraint {
   fn cell_region_areas(&self, _cell: &CellPosition, _peer_mode: PeerMode, _candidate_mode: CandidateMode) -> Vec<Area> { vec![] }
 
   fn restrict_cell_special_candidates(&self, _cell: &CellPosition, _grid: &Grid, _candidates: &mut CandidateSet) {
-    // Do not enforce candidates directly, use an explicit rule for that
+    // Do not enforce candidates directly, use an explicit technique for that
   }
 
   fn cell_peers(&self, _cell: &CellPosition, _ctx: &ConstraintCellPeersContext) -> Vec<CellPosition> {
@@ -43,7 +43,7 @@ impl ConstraintBuilder for TopBottomConstraintBuilder {
       return None
     }
 
-    Some(Constraint::TopBottom(TopBottomConstraint{}))
+    Some(TopBottomConstraint{}.into())
   }
 }
 

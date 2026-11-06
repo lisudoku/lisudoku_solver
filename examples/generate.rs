@@ -4,10 +4,9 @@ use std::mem::swap;
 use itertools::Itertools;
 use lisudoku_solver::solver::brute::BruteSolver;
 use lisudoku_solver::solver::logical::LogicalSolver;
-use lisudoku_solver::solver::logical::techniques::nishio_forcing_chains::NishioForcingChains;
+use lisudoku_solver::solver::logical::techniques::TechniqueKind;
+use lisudoku_solver::solver::logical::techniques::nishio_forcing_chain::NishioForcingChain;
 use lisudoku_solver::solver::logical::techniques::turbot_fish::TurbotFish;
-use std::rc::Rc;
-use lisudoku_solver::solver::logical::techniques::{Technique};
 use lisudoku_solver::types::{Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, Palindrome, Region, Renban, SolutionType, SudokuConstraints};
 use rand::RngExt;
 use rand::seq::{IndexedRandom, SliceRandom};
@@ -52,7 +51,7 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
     .with_randomize()
     .with_solution_limit(1);
   // TODO: on slow cases profile and try with even less techniques?
-    // .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), Rc::new(EmptyRectangles)])
+    // .without_techniques(vec![TechniqueKind::NishioForcingChain, TechniqueKind::TurbotFish, TechniqueKind::EmptyRectangle]);
   // TODO: why use-Logic true, where is it false? I think I tried it and it didn't make a difference?
   let result = solver.solve();
   assert!(result.solution.is_some());
@@ -61,23 +60,23 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
 }
 
 // fn easy_techniques() -> Vec<Rc<dyn Technique>> {
-//   vec![Rc::new(NakedSingle), Rc::new(HiddenSingles), Rc::new(Thermo), Rc::new(PalindromeValues)]
+//   vec![Rc::new(NakedSingle), Rc::new(HiddenSingle), Rc::new(Thermo), Rc::new(PalindromeValue)]
 // }
 
 // fn easy_medium_techniques() -> Vec<Rc<dyn Technique>> {
 //   vec![
-//     Rc::new(NakedSingle), Rc::new(HiddenSingles), Rc::new(Thermo), Rc::new(PalindromeValues),
-//     Rc::new(ThermoCandidates),
-//     Rc::new(KillerCandidates),
-//     Rc::new(KropkiChainCandidates::new(false)),
-//     Rc::new(KropkiChainCandidates::new(true)),
-//     Rc::new(TopBottomCandidates::new(false)),
-//     Rc::new(ArrowCandidates),
-//     Rc::new(RenbanCandidates),
-//     Rc::new(PalindromeCandidates),
-//     Rc::new(Candidates),
+//     Rc::new(NakedSingle), Rc::new(HiddenSingle), Rc::new(Thermo), Rc::new(PalindromeValue),
+//     Rc::new(ThermoCandidateUpdate),
+//     Rc::new(KillerCandidateUpdate),
+//     Rc::new(KropkiChainCandidateUpdate::new(false)),
+//     Rc::new(KropkiChainCandidateUpdate::new(true)),
+//     Rc::new(TopBottomCandidateUpdate::new(false)),
+//     Rc::new(ArrowCandidateUpdate),
+//     Rc::new(RenbanCandidateUpdate),
+//     Rc::new(PalindromeCandidateUpdate),
+//     Rc::new(CandidateInitialization),
 //     Rc::new(Killer45),
-//     Rc::new(LockedCandidates::new(2)),
+//     Rc::new(LockedCandidateSet::new(2)),
 //     Rc::new(NakedSet::new(2)),
 //     Rc::new(HiddenSet::new(2)),
 //     // ???
@@ -86,7 +85,7 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
 
 fn is_constraints_solvable(constraints: &SudokuConstraints) -> bool {
   let mut logical_solver = LogicalSolver::new(constraints.clone())
-  .without_techniques(vec![Rc::new(NishioForcingChains), Rc::new(TurbotFish), /*Rc::new(EmptyRectangles)*/])
+  // .without_techniques(vec![Rc::new(NishioForcingChain), Rc::new(TurbotFish), /*Rc::new(EmptyRectangle)*/])
   // temp for EASY
   // .with_techniques(easy_techniques())
   // .with_techniques(easy_medium_techniques())
@@ -100,8 +99,8 @@ fn print_technique_tally(constraints: &SudokuConstraints) {
   let logical_solution = logical_solver.solve();
   println!("-----------------");
   println!("{}", logical_solution.steps.len());
-  for (rule, rule_steps_count) in &logical_solution.steps.iter().counts_by(|step| step.rule) {
-    println!("{}x {}", rule_steps_count, rule);
+  for (technique_kind, technique_kind_steps_count) in &logical_solution.steps.iter().counts_by(|step| step.technique_kind) {
+    println!("{technique_kind_steps_count}x {technique_kind}");
   }
 }
 

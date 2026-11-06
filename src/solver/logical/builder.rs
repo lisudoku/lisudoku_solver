@@ -1,5 +1,6 @@
-use crate::{solver::{logical::{logical_solver::LogicalSolver, techniques::{Technique, adhoc_naked_set::AdhocNakedSet, arrow_advanced_candidates::ArrowAdvancedCandidates, arrow_candidates::ArrowCandidates, candidates::Candidates, common_peer_elimination::CommonPeerElimination, common_peer_elimination_arrow::CommonPeerEliminationArrow, common_peer_elimination_kropki::CommonPeerEliminationKropki, empty_reclanges::EmptyRectangles, hidden_set::HiddenSet, hidden_singles::HiddenSingles, killer_candidates::KillerCandidates, killer45::Killer45, kropki_advanced_candidates::KropkiAdvancedCandidates, kropki_chain_candidates::KropkiChainCandidates, locked_candidates::LockedCandidates, naked_set::NakedSet, naked_singles::NakedSingle, nishio_forcing_chains::NishioForcingChains, palindrome_candidates::PalindromeCandidates, palindrome_values::PalindromeValues, renban_candidates::RenbanCandidates, thermo_candidates::ThermoCandidates, thermo_steps::Thermo, top_bottom_candidates::TopBottomCandidates, turbot_fish::TurbotFish, x_wing::XWing, xy_wing::XYWing}}}, types::{Rule}};
-use std::rc::Rc;
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, TechniqueDefinition, TechniqueKind, adhoc_naked_set::AdhocNakedSet, arrow_advanced_candidate_update::ArrowAdvancedCandidateUpdate, arrow_candidate_update::ArrowCandidateUpdate, candidate_initialization::CandidateInitialization, common_peer_elimination::CommonPeerElimination, arrow_common_peer_elimination::ArrowCommonPeerElimination, kropki_common_peer_elimination::KropkiCommonPeerElimination, empty_rectangle::EmptyRectangle, hidden_set::HiddenSet, hidden_single::HiddenSingle, killer_candidate_update::KillerCandidateUpdate, killer45::Killer45, kropki_advanced_candidate_update::KropkiAdvancedCandidateUpdate, kropki_chain_candidate_update::KropkiChainCandidateUpdate, locked_candidate_set::LockedCandidateSet, naked_set::NakedSet, naked_single::NakedSingle, nishio_forcing_chain::NishioForcingChain, palindrome_candidate_update::PalindromeCandidateUpdate, palindrome_value::PalindromeValue, renban_candidate_update::RenbanCandidateUpdate, thermo_candidate_update::ThermoCandidateUpdate, thermo_naked_single::ThermoNakedSingle, top_bottom_candidate_update::TopBottomCandidateUpdate, turbot_fish::TurbotFish, x_wing::XWing, xy_wing::XYWing}}};
+use std::collections::HashSet;
+use itertools::Itertools;
 
 impl LogicalSolver {
   pub fn with_hint_mode(mut self, flag: bool) -> Self {
@@ -23,51 +24,69 @@ impl LogicalSolver {
     self
   }
 
-  pub fn with_techniques(mut self, techniques: Vec<Rc<dyn Technique>>) -> Self {
-    self.techniques = techniques;
+  pub fn with_techniques(mut self, technique_kinds: Vec<TechniqueKind>) -> Self {
+    let technique_kinds_set: HashSet<TechniqueKind> = HashSet::from_iter(technique_kinds);
+    self.enabled_techniques_by_phase = Self::group_techniques_by_phase(
+      Self::all_techniques().filter(|t| technique_kinds_set.contains(&t.kind()))
+    );
     self
   }
 
-  pub fn without_techniques(mut self, techniques: Vec<Rc<dyn Technique>>) -> Self {
-    let rules: Vec<Rule> = techniques.into_iter().map(|t| t.get_rule()).collect();
-    self.techniques = self.techniques.into_iter().filter(|t| !rules.contains(&t.get_rule())).collect();
+  pub fn with_techniques_order(mut self, technique_kinds: Vec<TechniqueKind>) -> Self {
+    self.enabled_techniques_by_phase = Self::group_techniques_by_phase(
+      technique_kinds
+        .into_iter()
+        .unique()
+        .map(|technique_kind| {
+          self.all_techniques_by_kind[technique_kind as usize].clone()
+        })
+    );
     self
   }
 
-  pub fn default_techniques() -> Vec<Rc<dyn Technique>> {
-    vec![
-      Rc::new(ThermoCandidates),
-      Rc::new(KillerCandidates),
-      Rc::new(KropkiChainCandidates::new(false)),
-      Rc::new(KropkiChainCandidates::new(true)),
-      Rc::new(TopBottomCandidates::new(false)),
-      Rc::new(ArrowCandidates),
-      Rc::new(RenbanCandidates),
-      Rc::new(PalindromeValues),
-      Rc::new(PalindromeCandidates),
-      Rc::new(HiddenSingles),
-      Rc::new(NakedSingle),
-      Rc::new(Thermo),
-      Rc::new(Candidates),
-      Rc::new(Killer45),
-      Rc::new(LockedCandidates::new(2)),
-      Rc::new(NakedSet::new(2)),
-      Rc::new(HiddenSet::new(2)),
-      Rc::new(LockedCandidates::new(3)),
-      Rc::new(NakedSet::new(3)),
-      Rc::new(HiddenSet::new(3)),
-      Rc::new(XWing),
-      Rc::new(XYWing),
-      Rc::new(CommonPeerElimination),
-      Rc::new(CommonPeerEliminationKropki),
-      Rc::new(KropkiAdvancedCandidates),
-      Rc::new(ArrowAdvancedCandidates),
-      Rc::new(CommonPeerEliminationArrow),
-      Rc::new(AdhocNakedSet),
-      Rc::new(TurbotFish),
-      Rc::new(EmptyRectangles),
-      // Rc::new(PhistomefelRing), // disabled for now...
-      Rc::new(NishioForcingChains),
-    ]
+  pub fn without_techniques(mut self, technique_kinds: Vec<TechniqueKind>) -> Self {
+    let technique_kinds_set: HashSet<TechniqueKind> = HashSet::from_iter(technique_kinds);
+    for techniques in &mut self.enabled_techniques_by_phase {
+      techniques.retain(|t| !technique_kinds_set.contains(&t.kind()));
+    }
+    self
+  }
+
+  pub(crate) fn all_techniques() -> impl Iterator<Item = Technique> {
+    [
+      ThermoCandidateUpdate.into(),
+      KillerCandidateUpdate.into(),
+      KropkiChainCandidateUpdate::new(false).into(),
+      KropkiChainCandidateUpdate::new(true).into(),
+      TopBottomCandidateUpdate::new(false).into(),
+      ArrowCandidateUpdate.into(),
+      RenbanCandidateUpdate.into(),
+      PalindromeValue.into(),
+      PalindromeCandidateUpdate.into(),
+      HiddenSingle.into(),
+      NakedSingle.into(),
+      ThermoNakedSingle.into(),
+      // Medium
+      CandidateInitialization.into(),
+      Killer45.into(),
+      LockedCandidateSet::new(2).into(),
+      NakedSet::new(2).into(),
+      HiddenSet::new(2).into(),
+      // Hard
+      LockedCandidateSet::new(3).into(),
+      NakedSet::new(3).into(),
+      HiddenSet::new(3).into(),
+      XWing.into(),
+      XYWing.into(),
+      CommonPeerElimination.into(),
+      KropkiCommonPeerElimination.into(),
+      KropkiAdvancedCandidateUpdate.into(),
+      ArrowAdvancedCandidateUpdate.into(),
+      ArrowCommonPeerElimination.into(),
+      AdhocNakedSet.into(),
+      TurbotFish.into(),
+      EmptyRectangle.into(),
+      NishioForcingChain.into(),
+    ].into_iter()
   }
 }

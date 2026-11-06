@@ -74,7 +74,7 @@ fn brute_solver_without_logic_finds_multiple_solutions_in_anti_knight_9x9() {
   assert_eq!(result.solution_count, expected_solution_count);
 }
 
-// Currently at 8.3s (debug) and 1.4s (release)
+// Currently at 6.7s (debug) and 1.4s (release)
 #[test]
 #[timeout(12_000)]
 fn brute_solver_with_logic_finds_multiple_solutions_in_anti_knight_9x9() {

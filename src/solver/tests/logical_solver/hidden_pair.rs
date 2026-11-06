@@ -1,0 +1,58 @@
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, candidate_initialization::CandidateInitialization, hidden_set::HiddenSet}}, types::{CellPosition, FixedNumber, SudokuConstraints}};
+
+#[test]
+fn check_hidden_pairs_with_affected_cells() {
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 3, 1),
+        FixedNumber::new(0, 4, 2),
+        FixedNumber::new(3, 1, 1),
+        FixedNumber::new(4, 1, 2),
+        FixedNumber::new(6, 2, 1),
+        FixedNumber::new(7, 2, 2),
+      ]
+    );
+  let mut solver = LogicalSolver::new(constraints);
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
+
+  let steps = HiddenSet::new(2).run(&solver);
+  assert!(!steps.is_empty());
+  let mut step = steps.first().unwrap();
+  assert_eq!(step.technique_kind, TechniqueKind::HiddenPair);
+  assert_eq!(step.cells, vec![ CellPosition::new(1, 0), CellPosition::new(2, 0) ]);
+  assert_eq!(step.values, vec![ 1, 2 ]);
+  assert_eq!(solver.state.candidates[1][0].len(), 9);
+  assert_eq!(solver.state.candidates[2][0].len(), 9);
+
+  solver.apply_step(&mut step);
+  assert_eq!(solver.state.candidates[2][0].len(), 2);
+  assert_eq!(solver.state.candidates[2][0].len(), 2);
+}
+
+#[test]
+fn check_hidden_pairs_no_affected_cells() {
+  let constraints = SudokuConstraints::new(9)
+    .with_fixed_numbers(
+      vec![
+        FixedNumber::new(0, 3, 1),
+        FixedNumber::new(0, 4, 2),
+        FixedNumber::new(3, 1, 1),
+        FixedNumber::new(4, 1, 2),
+        FixedNumber::new(6, 2, 1),
+        FixedNumber::new(7, 2, 2),
+        FixedNumber::new(0, 0, 3),
+        FixedNumber::new(3, 0, 4),
+        FixedNumber::new(4, 0, 5),
+        FixedNumber::new(5, 0, 6),
+        FixedNumber::new(6, 0, 7),
+        FixedNumber::new(7, 0, 8),
+        FixedNumber::new(8, 0, 9),
+      ]
+    );
+  let mut solver = LogicalSolver::new(constraints);
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
+
+  let steps = HiddenSet::new(2).run(&solver);
+  assert!(steps.is_empty());
+}

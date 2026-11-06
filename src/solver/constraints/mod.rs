@@ -50,7 +50,7 @@ pub(crate) trait ConstraintDefinition {
   fn cell_region_areas(&self, cell: &CellPosition, peer_mode: PeerMode, candidate_mode: CandidateMode) -> Vec<Area>;
 
   /// Removes invalid cell candidates based on the current constraint.
-  /// Only handles "special" rules because peers (returned by `cell_peers`) are enforced outside.
+  /// Only handles "special" constraints because peers (returned by `cell_peers`) are enforced outside.
   /// Constraints that have custom cell_peers implementation should include that logic here.
   fn restrict_cell_special_candidates(&self, cell: &CellPosition, grid: &Grid, candidates: &mut CandidateSet);
 

@@ -1,14 +1,18 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{Area, CellPosition, KillerCage, Rule, SolutionStep}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase}}, types::{Area, CellPosition, KillerCage, SolutionStep}};
 use itertools::Itertools;
 use std::collections::HashSet;
 
 // Area A's cells must be 45 and after subtracting killer cages there is Y left.
 // After trying value combinations that sum up to Y eliminate values that do no appear
 // in any valid sum.
+
+#[derive(Clone, Debug)]
 pub struct Killer45;
 
-impl Technique for Killer45 {
-  fn get_rule(&self) -> Rule { Rule::Killer45 }
+impl TechniqueDefinition for Killer45 {
+  fn kind(&self) -> TechniqueKind { TechniqueKind::Killer45 }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {

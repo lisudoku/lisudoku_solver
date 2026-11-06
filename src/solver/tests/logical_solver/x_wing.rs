@@ -1,4 +1,4 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, x_wing::XWing}}, types::{Area, CellPosition, FixedNumber, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, candidate_initialization::CandidateInitialization, x_wing::XWing}}, types::{Area, CellPosition, FixedNumber, SudokuConstraints}};
 
 #[test]
 fn check_x_wing_on_row() {
@@ -24,12 +24,12 @@ fn check_x_wing_on_row() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XWing.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::XWing);
+  assert_eq!(step.technique_kind, TechniqueKind::XWing);
   assert_eq!(step.areas, vec![
     Area::Row(1), Area::Row(6), Area::Column(1), Area::Column(8)
   ]);
@@ -50,7 +50,7 @@ fn check_x_wing_on_row() {
   assert!(initial_candidates.contains(&2));
   assert_eq!(initial_candidates.len(), 7);
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   let final_candidates = &solver.state.candidates[8][8];
   assert!(!final_candidates.contains(&2));
   assert_eq!(final_candidates.len(), 6);
@@ -77,7 +77,7 @@ fn check_x_wing_on_row_3_possible_cells() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XWing.run(&solver);
   assert!(steps.is_empty());
@@ -106,12 +106,12 @@ fn check_x_wing_on_col() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XWing.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::XWing);
+  assert_eq!(step.technique_kind, TechniqueKind::XWing);
   assert_eq!(step.areas, vec![
     Area::Column(2), Area::Column(6), Area::Row(4), Area::Row(6)
   ]);
@@ -132,7 +132,7 @@ fn check_x_wing_on_col() {
   assert!(initial_candidates.contains(&9));
   assert_eq!(initial_candidates.len(), 7);
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   let final_candidates = &solver.state.candidates[6][8];
   assert!(!final_candidates.contains(&9));
   assert_eq!(final_candidates.len(), 6);
@@ -170,7 +170,7 @@ fn check_x_wing_no_affected_cells() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XWing.run(&solver);
   assert!(steps.is_empty());
@@ -188,7 +188,7 @@ fn check_x_wing_same_box() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XWing.run(&solver);
   assert!(steps.is_empty());

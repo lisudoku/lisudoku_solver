@@ -106,9 +106,9 @@ impl ConstraintBuilder for ArrowConstraintBuilder {
       })
       .collect();
 
-    Some(Constraint::Arrow(ArrowConstraint{
+    Some(ArrowConstraint{
       arrows,
-    }))
+    }.into())
   }
 }
 

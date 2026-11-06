@@ -1,5 +1,4 @@
-use std::rc::Rc;
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::nishio_forcing_chains::NishioForcingChains}, types::{CellPosition, FixedNumber, Grid, Palindrome, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{CellPosition, FixedNumber, Grid, Palindrome, SolutionType, SudokuConstraints}};
 
 // https://github.com/lisudoku/lisudoku_solver/issues/65#issue-1926328789 WSC IB
 #[test]
@@ -31,7 +30,7 @@ fn check_palindrome_9x9_1_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
 
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
@@ -49,9 +48,9 @@ fn check_palindrome_9x9_1_solve() {
       vec![ 1, 3, 9, 7, 4, 2, 6, 8, 5 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::PalindromeValues));
-  assert!(rules.contains(&Rule::PalindromeCandidates));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeValue));
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeCandidateUpdate));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -81,7 +80,7 @@ fn check_palindrome_9x9_2_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -98,9 +97,9 @@ fn check_palindrome_9x9_2_solve() {
       vec![ 2, 7, 4, 3, 6, 5, 8, 1, 9 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::PalindromeValues));
-  assert!(rules.contains(&Rule::PalindromeCandidates));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeValue));
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeCandidateUpdate));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -133,7 +132,7 @@ fn check_palindrome_9x9_3_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -150,9 +149,9 @@ fn check_palindrome_9x9_3_solve() {
       vec![ 3, 1, 7, 2, 6, 5, 9, 4, 8 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::PalindromeValues));
-  assert!(rules.contains(&Rule::PalindromeCandidates));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeValue));
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeCandidateUpdate));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -184,7 +183,7 @@ fn check_palindrome_9x9_4_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -201,9 +200,9 @@ fn check_palindrome_9x9_4_solve() {
       vec![ 1, 2, 5, 3, 8, 9, 4, 7, 6 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::PalindromeValues));
-  assert!(rules.contains(&Rule::PalindromeCandidates));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeValue));
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeCandidateUpdate));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -235,7 +234,7 @@ fn check_palindrome_9x9_5_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -252,9 +251,9 @@ fn check_palindrome_9x9_5_solve() {
       vec![ 6, 2, 4, 9, 5, 8, 3, 7, 1 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::PalindromeValues));
-  assert!(rules.contains(&Rule::PalindromeCandidates));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeValue));
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeCandidateUpdate));
   insta::assert_yaml_snapshot!(result.steps);
 }
 
@@ -286,7 +285,7 @@ fn check_palindrome_9x9_6_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -303,8 +302,8 @@ fn check_palindrome_9x9_6_solve() {
       vec![ 6, 3, 5, 2, 4, 9, 1, 7, 8 ],
     ])
   );
-  let rules: Vec<_> = result.steps.iter().map(|step| step.rule).collect();
-  assert!(rules.contains(&Rule::PalindromeValues));
-  assert!(rules.contains(&Rule::PalindromeCandidates));
+  let technique_kinds: Vec<_> = result.steps.iter().map(|step| step.technique_kind).collect();
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeValue));
+  assert!(technique_kinds.contains(&TechniqueKind::PalindromeCandidateUpdate));
   insta::assert_yaml_snapshot!(result.steps);
 }

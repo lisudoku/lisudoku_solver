@@ -1,6 +1,6 @@
 use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
-// TODO: uncomment after implementing more rules
+// TODO: uncomment after implementing more techniques
 // // https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
 // #[test]
 // fn check_diagonal_9x9_1_hard_solve() {
@@ -95,7 +95,7 @@ fn check_diagonal_9x9_2_medium_solve() {
   insta::assert_yaml_snapshot!(result.steps);
 }
 
-// TODO: uncomment after implementing more rules
+// TODO: uncomment after implementing more techniques
 // // http://www.sudocue.net/minx.php
 // #[test]
 // fn check_diagonal_9x9_3_hard_solve() {

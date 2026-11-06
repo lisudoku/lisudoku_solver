@@ -41,9 +41,9 @@ impl ConstraintBuilder for FixedNumbersConstraintBuilder {
     }
 
     let fixed_numbers = constraints.fixed_numbers.clone().unwrap();
-    Some(Constraint::FixedNumbers(FixedNumbersConstraint{
+    Some(FixedNumbersConstraint{
       fixed_numbers,
-    }))
+    }.into())
   }
 }
 

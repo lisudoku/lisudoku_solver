@@ -1,13 +1,15 @@
-use crate::{solver::{GridCheckResult, SolveState, logical::{caches::LogicalCaches, techniques::{Technique, combinations::cell_combination_logic::CellsCacheKey}}, types::CandidateSet}, types::{Area, CellPosition, SolutionStep, SolutionType, SudokuConstraints, SudokuLogicalSolveResult}};
-use std::{collections::HashMap, rc::Rc};
+use crate::{solver::{GridCheckResult, SolveState, logical::{caches::LogicalCaches, techniques::{Technique, TechniqueDefinition, TechniqueKind, TechniquePhase, combinations::cell_combination_logic::CellsCacheKey}}, types::CandidateSet}, types::{Area, CellPosition, SolutionStep, SolutionType, SudokuConstraints, SudokuLogicalSolveResult}};
+use std::collections::HashMap;
 use itertools::Itertools;
+use strum::EnumCount;
 
 const DEBUG: bool = false;
 const DISPLAY_STEPS: bool = false;
 
 pub struct LogicalSolver {
   pub(crate) state: SolveState,
-  pub(crate) techniques: Vec<Rc<dyn Technique>>,
+  pub(crate) all_techniques_by_kind: [Technique; TechniqueKind::COUNT],
+  pub(crate) enabled_techniques_by_phase: [Vec<Technique>; TechniquePhase::COUNT],
   pub(crate) caches: LogicalCaches,
   pub(crate) hint_mode: bool,
   pub(crate) step_count_limit: Option<usize>,
@@ -25,13 +27,35 @@ impl LogicalSolver {
   pub(crate) fn from_solve_state(state: SolveState) -> LogicalSolver {
     LogicalSolver{
       state: state,
-      techniques: Self::default_techniques(),
+      all_techniques_by_kind: Self::initialize_techniques_by_kind(Self::all_techniques()),
+      enabled_techniques_by_phase: Self::group_techniques_by_phase(Self::all_techniques()),
       caches: LogicalCaches::new(),
       hint_mode: false,
       step_count_limit: None,
       enriched_steps_enabled: false,
       performance_mode: false,
     }
+  }
+
+  fn initialize_techniques_by_kind(techniques: impl Iterator<Item = Technique>) -> [Technique; TechniqueKind::COUNT] {
+    let mut technique_slots: [Option<Technique>; TechniqueKind::COUNT] = Default::default();
+    for technique in techniques {
+      let kind_index = technique.kind() as usize;
+      assert!(
+        technique_slots[kind_index].replace(technique).is_none(),
+        "duplicate index {kind_index}",
+      );
+    }
+    technique_slots.map(|technique| technique.expect("missing index"))
+  }
+
+  pub(crate) fn group_techniques_by_phase(techniques: impl Iterator<Item = Technique>) -> [Vec<Technique>; TechniquePhase::COUNT] {
+    let mut enabled_techniques_by_phase: [Vec<Technique>; TechniquePhase::COUNT] = Default::default();
+    for technique in techniques {
+      let phase_index = technique.phase() as usize;
+      enabled_techniques_by_phase[phase_index].push(technique);
+    }
+    enabled_techniques_by_phase
   }
 
   pub fn solve(&mut self) -> SudokuLogicalSolveResult {
@@ -45,7 +69,7 @@ impl LogicalSolver {
 
       if !self.performance_mode {
         // Note: this check is needed on each step because
-        // apply_rule only checks some contradictions
+        // apply_step only checks some contradictions
         let check = self.state.check_partially_solved();
         if !check.solved {
           return SudokuLogicalSolveResult::no_solution(
@@ -55,7 +79,7 @@ impl LogicalSolver {
         }
       }
 
-      // Note: some rules can find multiple steps at once
+      // Note: some techniques can find multiple steps at once
       let mut steps = self.find_next_steps();
 
       if steps.is_empty() {
@@ -75,7 +99,7 @@ impl LogicalSolver {
           found_grid_step = true;
         }
 
-        let rule_check = self.apply_rule(&mut step);
+        let grid_check = self.apply_step(&mut step);
 
         if self.enriched_steps_enabled {
           self.enrich_solution_step(&mut step);
@@ -83,9 +107,9 @@ impl LogicalSolver {
 
         solution_steps.push(step);
 
-        if !rule_check.solved {
+        if !grid_check.solved {
           return SudokuLogicalSolveResult::no_solution(
-            rule_check.invalid_state_reason.unwrap(),
+            grid_check.invalid_state_reason.unwrap(),
             solution_steps,
           )
         }
@@ -136,10 +160,10 @@ impl LogicalSolver {
       }
     }
 
-    // This type of rule must be 1st to make sure all candidates are valid
+    // This type of technique must be 1st to make sure all candidates are valid
     // before applying other techniques
     let validity_update_steps = self.find_candidate_validity_update_steps();
-    // TODO: might want to tweak single_step_mode for validity_update_steps and nongrid_steps
+    // TODO: might want to tweak single_step_mode for validity_update_steps and candidate_elimination_steps
     if !validity_update_steps.is_empty() && self.step_count_limit.is_none() {
       return validity_update_steps
     }
@@ -149,50 +173,36 @@ impl LogicalSolver {
       return grid_steps
     }
 
-    let nongrid_steps = self.find_nongrid_steps();
-    if !nongrid_steps.is_empty() && self.step_count_limit.is_none() {
-      return nongrid_steps
+    let candidate_elimination_steps = self.find_candidate_elimination_steps();
+    if !candidate_elimination_steps.is_empty() && self.step_count_limit.is_none() {
+      return candidate_elimination_steps
     }
 
-    vec![ validity_update_steps, grid_steps, nongrid_steps ].concat()
+    vec![ validity_update_steps, grid_steps, candidate_elimination_steps ].concat()
   }
 
   fn find_candidate_validity_update_steps(&self) -> Vec<SolutionStep> {
-    let candidate_validity_techniques: Vec<&Rc<dyn Technique>> = self.techniques
-      .iter()
-      .filter(|technique| technique.is_candidate_validity_update_step())
-      .collect();
+    let candidate_validity_techniques = &self.enabled_techniques_by_phase[TechniquePhase::CandidateValidity as usize];
 
-    let steps = self.run_nongrid_techniques(candidate_validity_techniques);
-
-    steps
+    self.run_nongrid_techniques(candidate_validity_techniques)
   }
 
   pub(crate) fn find_grid_steps(&self) -> Vec<SolutionStep> {
-    let grid_techniques: Vec<&Rc<dyn Technique>> = self.techniques
-      .iter()
-      .filter(|technique| technique.is_grid_step())
-      .collect();
+    let grid_techniques = &self.enabled_techniques_by_phase[TechniquePhase::Grid as usize];
 
     self.run_grid_techniques(grid_techniques)
   }
 
-  fn find_nongrid_steps(&self) -> Vec<SolutionStep> {
-    let nongrid_techniques: Vec<&Rc<dyn Technique>> = self.techniques
-      .iter()
-      .filter(|technique| !technique.is_grid_step() &&
-                          !technique.is_candidate_validity_update_step())
-      .collect();
+  fn find_candidate_elimination_steps(&self) -> Vec<SolutionStep> {
+    let candidate_elimination_techniques = &self.enabled_techniques_by_phase[TechniquePhase::CandidateElimination as usize];
 
-    let steps = self.run_nongrid_techniques(nongrid_techniques);
-
-    steps
+    self.run_nongrid_techniques(&candidate_elimination_techniques)
   }
 
-  fn run_grid_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
+  fn run_grid_techniques(&self, techniques: &[Technique]) -> Vec<SolutionStep> {
     let mut all_steps: Vec<SolutionStep> = vec![];
 
-    for technique in &techniques {
+    for technique in techniques {
       let steps = technique.run(&self);
       all_steps.extend(steps);
       if self.performance_mode && !all_steps.is_empty() {
@@ -210,7 +220,7 @@ impl LogicalSolver {
       let best_step = all_steps.into_iter().min_by_key(|step| {
         techniques
           .iter()
-          .find(|technique| technique.get_rule() == step.rule)
+          .find(|technique| technique.kind() == step.technique_kind)
           .unwrap()
           .complexity(step, self)
       });
@@ -221,7 +231,7 @@ impl LogicalSolver {
     all_steps
   }
 
-  fn run_nongrid_techniques(&self, techniques: Vec<&Rc<dyn Technique>>) -> Vec<SolutionStep> {
+  fn run_nongrid_techniques(&self, techniques: &[Technique]) -> Vec<SolutionStep> {
     let mut all_steps: Vec<SolutionStep> = vec![];
 
     for technique in techniques {
@@ -239,11 +249,11 @@ impl LogicalSolver {
   }
 
   /// Updates grid and candidates with the deduction from `step`
-  pub(crate) fn apply_rule(&mut self, step: &SolutionStep) -> GridCheckResult {
+  pub(crate) fn apply_step(&mut self, step: &SolutionStep) -> GridCheckResult {
     if DISPLAY_STEPS {
       println!(
         "{:?} ({}) ({}) ({}): {}",
-        step.rule,
+        step.technique_kind,
         step.areas.iter().map(|x| format!("{:?}", x)).join(", "),
         step.cells.iter().map(|x| format!("({},{})", x.row, x.col)).join(" "),
         step.values.iter().map(|x| format!("{}", x)).join(", "),
@@ -254,26 +264,22 @@ impl LogicalSolver {
       }
     }
 
-    let technique = self.techniques
-      .iter()
-      .find(|technique| technique.get_rule() == step.rule)
-      .cloned()
-      .unwrap_or_else(|| panic!("Can't find technique for rule {}", step.rule));
+    let technique = &self.all_techniques_by_kind[step.technique_kind as usize];
 
-    let rule_check = technique.apply(&step, self);
+    let grid_check = technique.apply(&step, &mut self.state, self.step_count_limit);
 
     if DEBUG {
       // only after cell changes
       self.validate_candidates();
     }
 
-    rule_check
+    grid_check
   }
 
   #[cfg(test)]
-  pub(crate) fn apply_rules(&mut self, steps: &Vec<SolutionStep>) {
+  pub(crate) fn apply_steps(&mut self, steps: &Vec<SolutionStep>) {
     for mut step in steps {
-      self.apply_rule(&mut step);
+      self.apply_step(&mut step);
     }
   }
 
@@ -354,7 +360,7 @@ impl LogicalSolver {
     let grid_size = self.state.puzzle.grid_size;
     invalid_candidates.into_iter().filter_map(move |(cell, invalid_values)| {
       let cell_index = cell.to_index(grid_size);
-      let new_invalid_values = CandidateSet::from_iter(invalid_values.into_iter()).difference(&cell_previous_invalid_values[cell_index]);
+      let new_invalid_values = CandidateSet::from_iter(invalid_values).difference(&cell_previous_invalid_values[cell_index]);
       if new_invalid_values.is_empty() {
         return None
       }
@@ -442,7 +448,8 @@ impl Clone for LogicalSolver {
   fn clone(&self) -> Self {
     Self {
       state: self.state.clone(),
-      techniques: self.techniques.clone(),
+      all_techniques_by_kind: self.all_techniques_by_kind.clone(),
+      enabled_techniques_by_phase: self.enabled_techniques_by_phase.clone(),
       hint_mode: self.hint_mode.clone(),
       step_count_limit: self.step_count_limit.clone(),
       enriched_steps_enabled: self.enriched_steps_enabled,

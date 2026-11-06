@@ -1,4 +1,4 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates}}, types::{Area, CellPosition, FixedNumber, Rule, SolutionStep, SudokuConstraints, Thermo}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, candidate_initialization::CandidateInitialization}}, types::{Area, CellPosition, FixedNumber, SolutionStep, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_grid_steps_without_candidates() {
@@ -18,14 +18,14 @@ fn check_grid_steps_without_candidates() {
   let mut step = steps.into_iter().next().unwrap();
   assert!(step.affected_cells.is_empty());
   let cell = step.cells[0];
-  let rule_value = step.values[0];
+  let step_value = step.values[0];
   let initial_value = solver.state.value_at(&cell);
   assert!(initial_value == 0);
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
 
   let final_value = solver.state.value_at(&cell);
-  assert!(final_value == rule_value);
+  assert!(final_value == step_value);
 }
 
 #[test]
@@ -40,7 +40,7 @@ fn check_grid_steps_with_candidates() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
@@ -49,15 +49,15 @@ fn check_grid_steps_with_candidates() {
   assert!(step.affected_cells.len() <= 4);
   let cell = step.cells[0];
   let CellPosition { row: cand_row, col: cand_col } = step.affected_cells[0];
-  let rule_value = step.values[0];
+  let step_value = step.values[0];
   let initial_value = solver.state.value_at(&cell);
   let initial_candidates = solver.state.candidates[cand_row][cand_col].clone();
   assert!(initial_value == 0);
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   let final_value = solver.state.value_at(&cell);
   let final_candidates = &solver.state.candidates[cand_row][cand_col];
-  assert!(final_value == rule_value);
+  assert!(final_value == step_value);
   assert!(final_candidates.len() < initial_candidates.len());
 }
 
@@ -75,7 +75,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
     )
     .with_anti_knight();
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
@@ -83,7 +83,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   assert_eq!(
     step,
     SolutionStep::new(
-      Rule::HiddenSingle,
+      TechniqueKind::HiddenSingle,
       vec![CellPosition::new(0, 3)],
       vec![4],
       vec![Area::Row(0)],
@@ -96,7 +96,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
   let initial_candidates = solver.state.candidates[cand_row][cand_col].clone();
   assert!(initial_value == 0);
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   let final_value = solver.state.value_at(&cell);
   let final_candidates = &solver.state.candidates[cand_row][cand_col];
   assert!(final_value == 4);
@@ -128,13 +128,13 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = solver.find_grid_steps();
   assert!(!steps.is_empty());
   let mut step = steps.into_iter().next().unwrap();
   assert_eq!(step.values, vec![6]);
-  assert_eq!(step.rule, Rule::HiddenSingle);
+  assert_eq!(step.technique_kind, TechniqueKind::HiddenSingle);
   assert_eq!(step.cells, vec![
     CellPosition::new(4, 2),
   ]);
@@ -145,6 +145,6 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
   ]);
   assert!(solver.state.candidates[3][1].contains(&6));
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   assert!(!solver.state.candidates[3][1].contains(&6));
 }

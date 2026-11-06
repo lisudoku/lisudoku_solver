@@ -1,4 +1,4 @@
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, KropkiDot, Palindrome, Rule, SolutionType, SudokuConstraints, Thermo}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{CellPosition, FixedNumber, KropkiDot, Palindrome, SolutionType, SudokuConstraints, Thermo}};
 
 #[test]
 fn check_hint_mode_kropki() {
@@ -51,7 +51,7 @@ fn check_hint_mode_palindrome() {
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 1); // because palindrome values is a grid step
   let last_step = result.steps.last().unwrap();
-  assert_eq!(last_step.rule, Rule::PalindromeValues);
+  assert_eq!(last_step.technique_kind, TechniqueKind::PalindromeValue);
   assert_eq!(last_step.cells[0], CellPosition::new(2, 0));
 }
 

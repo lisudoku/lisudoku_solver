@@ -1,20 +1,26 @@
 use std::collections::{HashMap, HashSet};
-use crate::solver::GridCheckResult;
+use crate::solver::{GridCheckResult, SolveState};
 use crate::solver::logical::logical_solver::LogicalSolver;
-use crate::solver::logical::techniques::Technique;
+use crate::solver::logical::techniques::{StepApplication, TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
-use crate::types::{CellPosition, Rule, SolutionStep};
+use crate::types::{CellPosition, SolutionStep};
 use combinations::Combinations;
 use itertools::Itertools;
 
 // Within a house, X and Y are candidates in only 2 cells, so you can remove any other
 // candidate from those 2 cells.
+
+#[derive(Clone, Debug)]
 pub struct HiddenSet {
   set_size: usize,
 }
 
-impl Technique for HiddenSet {
-  fn get_rule(&self) -> Rule { if self.set_size == 2 { Rule::HiddenPairs } else { Rule::HiddenTriples } }
+impl TechniqueDefinition for HiddenSet {
+  fn kind(&self) -> TechniqueKind { if self.set_size == 2 { TechniqueKind::HiddenPair } else { TechniqueKind::HiddenTriple } }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
+
+  fn step_application(&self) -> StepApplication { StepApplication::Custom }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {
@@ -66,10 +72,10 @@ impl Technique for HiddenSet {
     vec![]
   }
 
-  fn apply(&self, step: &SolutionStep, solver: &mut LogicalSolver) -> GridCheckResult {
+  fn apply(&self, step: &SolutionStep, state: &mut SolveState, _step_count_limit: Option<usize>) -> GridCheckResult {
     for &CellPosition { row, col } in &step.cells {
       let value_set = CandidateSet::from_iter(step.values.iter().copied());
-      solver.state.candidates[row][col] = solver.state.candidates[row][col].intersection(&value_set);
+      state.candidates[row][col] = state.candidates[row][col].intersection(&value_set);
     }
     GridCheckResult::solved()
   }

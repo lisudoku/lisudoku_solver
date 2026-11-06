@@ -95,10 +95,10 @@ impl ConstraintBuilder for RenbanConstraintBuilder {
       }
     }
 
-    Some(Constraint::Renban(RenbanConstraint{
+    Some(RenbanConstraint{
       renbans,
       renbans_by_cell,
-    }))
+    }.into())
   }
 }
 

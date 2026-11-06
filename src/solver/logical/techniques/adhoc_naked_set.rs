@@ -2,14 +2,17 @@ use std::collections::HashMap;
 use std::ops::{BitAnd, BitOrAssign};
 use itertools::Itertools;
 use crate::solver::logical::logical_solver::LogicalSolver;
-use crate::solver::logical::techniques::Technique;
+use crate::solver::logical::techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::logical::techniques::naked_set::NakedSet;
-use crate::types::{SolutionStep, Rule, Area, CellPosition};
+use crate::types::{SolutionStep, Area, CellPosition};
 
+#[derive(Clone, Debug)]
 pub struct AdhocNakedSet;
 
-impl Technique for AdhocNakedSet {
-  fn get_rule(&self) -> Rule { Rule::AdhocNakedSet }
+impl TechniqueDefinition for AdhocNakedSet {
+  fn kind(&self) -> TechniqueKind { TechniqueKind::AdhocNakedSet }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {

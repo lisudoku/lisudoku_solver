@@ -1,13 +1,16 @@
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase}}, types::{CellPosition, SolutionStep}};
 use std::collections::HashSet;
 use std::mem::swap;
 use itertools::Itertools;
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Technique}, types::{CellPosition, Rule, SolutionStep}};
 
+#[derive(Clone, Debug)]
 pub struct TurbotFish;
 
 // Finds 2 strong links that have one of their ends see each other.
-impl Technique for TurbotFish {
-  fn get_rule(&self) -> Rule { Rule::TurbotFish }
+impl TechniqueDefinition for TurbotFish {
+  fn kind(&self) -> TechniqueKind { TechniqueKind::TurbotFish }
+
+  fn phase(&self) -> TechniquePhase { TechniquePhase::CandidateElimination }
 
   fn run(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {

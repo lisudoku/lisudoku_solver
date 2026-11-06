@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use crate::solver::Solver;
 use crate::solver::types::CandidateSet;
-use crate::types::{SolutionStep, Rule, CellPosition};
+use crate::types::{SolutionStep, TechniqueKind, CellPosition};
 use super::technique::Technique;
 
 // Phistomefel ring in its weakest form. Doesn't take many things into account.
@@ -9,7 +9,7 @@ use super::technique::Technique;
 pub struct PhistomefelRing;
 
 impl Technique for PhistomefelRing {
-  fn get_rule(&self) -> Rule { Rule::PhistomefelRing }
+  fn kind(&self) -> TechniqueKind { TechniqueKind::PhistomefelRing }
 
   fn run(&self, solver: &Solver) -> Vec<SolutionStep> {
     if !solver.candidates_active || solver.puzzle.grid_size != 9 {

@@ -3,7 +3,7 @@ source: src/solver/tests/logical_solver/puzzles/mixed_6x6.rs
 expression: result.steps
 snapshot_kind: text
 ---
-- rule: Candidates
+- techniqueKind: CandidateInitialization
   cells: []
   values: []
   areas: []
@@ -227,7 +227,7 @@ snapshot_kind: text
         - 5
         - 6
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -253,7 +253,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -279,7 +279,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -305,7 +305,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -331,7 +331,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -357,7 +357,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -383,7 +383,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -398,7 +398,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -413,7 +413,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -428,7 +428,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -443,7 +443,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -458,7 +458,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -473,7 +473,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -488,7 +488,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -503,7 +503,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -518,7 +518,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -533,7 +533,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -551,7 +551,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -566,7 +566,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -581,7 +581,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -596,7 +596,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -611,7 +611,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -626,7 +626,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -641,7 +641,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -656,7 +656,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -672,7 +672,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -689,7 +689,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -706,7 +706,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -721,7 +721,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -736,7 +736,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -751,7 +751,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -766,7 +766,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -781,7 +781,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -796,7 +796,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -811,7 +811,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -826,7 +826,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -841,7 +841,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -856,7 +856,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -879,7 +879,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -902,7 +902,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 3
@@ -925,7 +925,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -948,7 +948,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 6
@@ -963,7 +963,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -978,7 +978,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -994,7 +994,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 3
@@ -1009,7 +1009,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -1025,7 +1025,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 3
@@ -1040,7 +1040,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 3
@@ -1055,7 +1055,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1070,7 +1070,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -1085,7 +1085,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1100,7 +1100,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -1115,7 +1115,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1132,7 +1132,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -1150,7 +1150,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1165,7 +1165,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1180,7 +1180,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -1195,7 +1195,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1210,7 +1210,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1225,7 +1225,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1238,7 +1238,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1252,7 +1252,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1265,7 +1265,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 4
@@ -1278,7 +1278,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1292,7 +1292,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1305,7 +1305,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1319,7 +1319,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1335,7 +1335,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1350,7 +1350,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1365,7 +1365,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1378,7 +1378,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1391,7 +1391,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1404,7 +1404,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 4
@@ -1417,7 +1417,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1431,7 +1431,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1444,7 +1444,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1459,7 +1459,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1473,7 +1473,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1487,7 +1487,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -1502,7 +1502,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -1517,7 +1517,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1531,7 +1531,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1545,7 +1545,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1558,7 +1558,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1571,7 +1571,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1584,7 +1584,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1598,7 +1598,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1611,7 +1611,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 5
@@ -1624,7 +1624,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 6
@@ -1637,7 +1637,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1651,7 +1651,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1664,7 +1664,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 3
@@ -1679,7 +1679,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 3
@@ -1694,7 +1694,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 5
@@ -1707,7 +1707,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 6
@@ -1720,7 +1720,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1735,7 +1735,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1750,7 +1750,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1766,7 +1766,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1779,7 +1779,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1793,7 +1793,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 3
@@ -1806,7 +1806,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -1821,7 +1821,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -1836,7 +1836,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -1852,7 +1852,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1867,7 +1867,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 1
@@ -1882,7 +1882,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 4
@@ -1897,7 +1897,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 5
@@ -1912,7 +1912,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiChainCandidates
+- techniqueKind: KropkiChainCandidateUpdate
   cells: []
   values:
     - 2
@@ -1927,7 +1927,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -1940,7 +1940,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1953,7 +1953,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 4
@@ -1966,7 +1966,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1979,7 +1979,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -1992,7 +1992,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -2006,7 +2006,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 2
@@ -2019,7 +2019,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 0
       col: 0
@@ -2032,7 +2032,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 0
       col: 1
@@ -2043,7 +2043,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 0
       col: 2
@@ -2054,7 +2054,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 0
       col: 3
@@ -2067,7 +2067,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 0
       col: 4
@@ -2080,7 +2080,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 0
       col: 5
@@ -2093,7 +2093,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 1
       col: 0
@@ -2106,7 +2106,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 1
       col: 1
@@ -2119,7 +2119,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 1
       col: 2
@@ -2130,7 +2130,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 1
       col: 3
@@ -2143,7 +2143,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 1
       col: 4
@@ -2156,7 +2156,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 1
       col: 5
@@ -2169,7 +2169,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 2
       col: 1
@@ -2180,7 +2180,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 2
       col: 2
@@ -2195,7 +2195,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 2
       col: 4
@@ -2208,7 +2208,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 2
       col: 5
@@ -2221,7 +2221,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 3
       col: 1
@@ -2234,7 +2234,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 3
       col: 2
@@ -2245,7 +2245,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 3
       col: 3
@@ -2260,7 +2260,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: KropkiAdvancedCandidates
+- techniqueKind: KropkiAdvancedCandidateUpdate
   cells: []
   values:
     - 1
@@ -2273,7 +2273,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 2
       col: 0
@@ -2284,7 +2284,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 3
       col: 0
@@ -2297,7 +2297,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 2
       col: 3
@@ -2310,7 +2310,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 3
       col: 4
@@ -2323,7 +2323,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 3
       col: 5
@@ -2336,7 +2336,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 4
       col: 0
@@ -2347,7 +2347,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 5
       col: 0
@@ -2360,7 +2360,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 4
       col: 1
@@ -2371,7 +2371,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 5
       col: 1
@@ -2384,7 +2384,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: NakedSingle
+- techniqueKind: NakedSingle
   cells:
     - row: 4
       col: 2
@@ -2397,7 +2397,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 5
       col: 2
@@ -2410,7 +2410,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 4
       col: 4
@@ -2423,7 +2423,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 5
       col: 4
@@ -2436,7 +2436,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 4
       col: 5
@@ -2449,7 +2449,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 4
       col: 3
@@ -2462,7 +2462,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 5
       col: 3
@@ -2475,7 +2475,7 @@ snapshot_kind: text
   grid: ~
   candidates: ~
   invalidStateReason: ~
-- rule: HiddenSingle
+- techniqueKind: HiddenSingle
   cells:
     - row: 5
       col: 5

@@ -184,7 +184,7 @@ impl SolveState {
   }
 
   pub(crate) fn area_cells_with_candidate(&self, area: &Area, value: u32) -> Vec<CellPosition> {
-    self.area_cells_with_candidates(area, &CandidateSet::from_iter([ value ].into_iter()))
+    self.area_cells_with_candidates(area, &CandidateSet::from_iter([value]))
   }
 
   pub(crate) fn filter_cells_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {

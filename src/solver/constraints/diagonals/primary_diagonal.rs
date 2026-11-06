@@ -27,9 +27,9 @@ impl ConstraintBuilder for PrimaryDiagonalConstraintBuilder {
       return None
     }
 
-    Some(Constraint::PrimaryDiagonal(DiagonalBaseConstraint(PrimaryDiagonalLogic{
+    Some(DiagonalBaseConstraint(PrimaryDiagonalLogic{
       grid_size: constraints.grid_size,
-    })))
+    }).into())
   }
 }
 

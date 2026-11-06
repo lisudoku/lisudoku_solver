@@ -113,7 +113,7 @@ impl FromIterator<u32> for CandidateSet {
 
 impl<const N: usize> From<[u32; N]> for CandidateSet {
   fn from(values: [u32; N]) -> Self {
-    CandidateSet::from_iter(values.into_iter())
+    CandidateSet::from_iter(values)
   }
 }
 

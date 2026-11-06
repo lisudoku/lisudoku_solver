@@ -30,12 +30,12 @@ impl ConstraintBuilder for EvenConstraintBuilder {
       even_cells_by_cell[cell.row][cell.col] = true;
     }
 
-    Some(Constraint::Even(OddEvenBaseConstraint(
+    Some(OddEvenBaseConstraint(
       EvenConstraintLogic{
         even_cells,
         even_cells_by_cell,
       }
-    )))
+    ).into())
   }
 }
 

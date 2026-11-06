@@ -1,5 +1,5 @@
-use crate::{solver::{SolveState, logical::{logical_solver::LogicalSolver, techniques::{Technique, arrow_candidates::ArrowCandidates, candidates::Candidates, hidden_singles::HiddenSingles, killer_candidates::KillerCandidates, killer45::Killer45, kropki_chain_candidates::KropkiChainCandidates, naked_singles::NakedSingle, palindrome_candidates::PalindromeCandidates, palindrome_values::PalindromeValues, renban_candidates::RenbanCandidates, thermo_candidates::ThermoCandidates, top_bottom_candidates::TopBottomCandidates}}, types::CandidateSet}, types::{CellPosition, Grid, SolutionType, SudokuBruteSolveResult, SudokuConstraints}};
-use std::{mem, rc::Rc};
+use crate::{solver::{SolveState, logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::CandidateSet}, types::{CellPosition, Grid, SolutionType, SudokuBruteSolveResult, SudokuConstraints}};
+use std::mem;
 use rand::seq::SliceRandom;
 
 pub struct BruteSolverSettings {
@@ -31,41 +31,43 @@ impl BruteSolver {
     let mut state = SolveState::new(input_constraints);
     state.performance_mode = true;
 
-    let mut techniques: Vec<Rc<dyn Technique>> = vec![Rc::new(NakedSingle), Rc::new(HiddenSingles)];
+    let mut technique_kinds: Vec<TechniqueKind> = vec![TechniqueKind::NakedSingle, TechniqueKind::HiddenSingle];
     // TODO: automatically detect these
-    let mut extra_techniques: Vec<Rc<dyn Technique>> = vec![];
+    let mut extra_technique_kinds: Vec<TechniqueKind> = vec![];
     if state.puzzle.renban().is_some() {
-      extra_techniques.push(Rc::new(RenbanCandidates));
+      extra_technique_kinds.push(TechniqueKind::RenbanCandidateUpdate);
     }
     if state.puzzle.top_bottom().is_some() {
-      extra_techniques.push(Rc::new(TopBottomCandidates::new(false)));
+      extra_technique_kinds.push(TechniqueKind::TopBottomCandidateUpdate);
     }
     if state.puzzle.palindrome().is_some() {
-      extra_techniques.push(Rc::new(PalindromeValues));
-      extra_techniques.push(Rc::new(PalindromeCandidates));
+      extra_technique_kinds.push(TechniqueKind::PalindromeValue);
+      extra_technique_kinds.push(TechniqueKind::PalindromeCandidateUpdate);
     }
     if state.puzzle.kropki().is_some() {
-      extra_techniques.push(Rc::new(KropkiChainCandidates::new(false)));
-      // TODO: KropkiAdvancedCandidates very slow, not enabling for now
+      extra_technique_kinds.push(TechniqueKind::KropkiChainCandidateUpdate);
+      // TODO: KropkiAdvancedCandidateUpdate very slow, not enabling for now
     }
     if state.puzzle.killer().is_some() {
-      extra_techniques.push(Rc::new(KillerCandidates));
-      extra_techniques.push(Rc::new(Killer45));
+      extra_technique_kinds.push(TechniqueKind::KillerCandidateUpdate);
+      extra_technique_kinds.push(TechniqueKind::Killer45);
     }
     if state.puzzle.arrow().is_some() {
-      extra_techniques.push(Rc::new(ArrowCandidates));
-      // TODO: ArrowAdvancedCandidates very slow, not enabling for now
+      extra_technique_kinds.push(TechniqueKind::ArrowCandidateUpdate);
+      // TODO: ArrowAdvancedCandidateUpdate very slow, not enabling for now
     }
     if state.puzzle.thermo().is_some() {
-      extra_techniques.push(Rc::new(ThermoCandidates));
+      extra_technique_kinds.push(TechniqueKind::ThermoCandidateUpdate);
     }
 
-    if !extra_techniques.is_empty() {
-      techniques.push(Rc::new(Candidates));
-      techniques.extend(extra_techniques);
+    if !extra_technique_kinds.is_empty() {
+      technique_kinds.push(TechniqueKind::CandidateInitialization);
+      technique_kinds.extend(extra_technique_kinds);
     }
 
-    let logical_solver = LogicalSolver::from_solve_state(state.clone()).with_techniques(techniques).with_performance_mode();
+    let logical_solver = LogicalSolver::from_solve_state(state.clone())
+      .with_techniques_order(technique_kinds)
+      .with_performance_mode();
 
     BruteSolver{
       state: state.clone(),

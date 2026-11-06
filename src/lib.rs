@@ -1,14 +1,15 @@
 extern crate console_error_panic_hook;
 
+use strum::IntoEnumIterator;
 use types::SolutionType;
 use wasm_bindgen::prelude::*;
-use crate::{solver::{SolveState, GridCheckResult, brute::BruteSolver, logical::logical_solver::LogicalSolver}, types::{Grid, SudokuBruteSolveResult, SudokuConstraints, SudokuLogicalSolveResult}};
+use crate::{solver::{GridCheckResult, SolveState, brute::BruteSolver, logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}}, types::{Grid, SudokuBruteSolveResult, SudokuConstraints, SudokuLogicalSolveResult}};
 
 pub mod solver;
 pub mod types;
 
-#[wasm_bindgen]
-pub fn wasm_check_solved(constraints: SudokuConstraints, grid: Grid) -> GridCheckResult {
+#[wasm_bindgen(js_name = checkSolved)]
+pub fn check_solved(constraints: SudokuConstraints, grid: Grid) -> GridCheckResult {
   // panic::set_hook(Box::new(console_error_panic_hook::hook));
   // Try this instead
   console_error_panic_hook::set_once();
@@ -17,18 +18,23 @@ pub fn wasm_check_solved(constraints: SudokuConstraints, grid: Grid) -> GridChec
   solver.check_solved()
 }
 
-#[wasm_bindgen]
-pub fn wasm_logical_solve(constraints: SudokuConstraints) -> SudokuLogicalSolveResult {
+#[wasm_bindgen(js_name = logicalSolve)]
+pub fn logical_solve(
+  constraints: SudokuConstraints,
+  #[wasm_bindgen(js_name = techniqueKinds)] technique_kinds: Vec<TechniqueKind>,
+) -> SudokuLogicalSolveResult {
   // panic::set_hook(Box::new(console_error_panic_hook::hook));
   // Try this instead
   console_error_panic_hook::set_once();
 
-  let mut solver = LogicalSolver::new(constraints).with_enriched_steps(true);
+  let mut solver = LogicalSolver::new(constraints)
+    .with_techniques(technique_kinds)
+    .with_enriched_steps(true);
   solver.solve()
 }
 
-#[wasm_bindgen]
-pub fn wasm_brute_solve(constraints: SudokuConstraints) -> SudokuBruteSolveResult {
+#[wasm_bindgen(js_name = bruteSolve)]
+pub fn brute_solve(constraints: SudokuConstraints) -> SudokuBruteSolveResult {
   // panic::set_hook(Box::new(console_error_panic_hook::hook));
   // Try this instead
   console_error_panic_hook::set_once();
@@ -38,8 +44,8 @@ pub fn wasm_brute_solve(constraints: SudokuConstraints) -> SudokuBruteSolveResul
 }
 
 // TODO: Try changing return type to Result<SudokuLogicalSolveResult, JsError> ?
-#[wasm_bindgen]
-pub fn wasm_logical_hint(constraints: SudokuConstraints) -> SudokuLogicalSolveResult {
+#[wasm_bindgen(js_name = logicalHint)]
+pub fn logical_hint(constraints: SudokuConstraints) -> SudokuLogicalSolveResult {
   console_error_panic_hook::set_once();
 
   let mut solver = LogicalSolver::new(constraints.clone());
@@ -54,4 +60,9 @@ pub fn wasm_logical_hint(constraints: SudokuConstraints) -> SudokuLogicalSolveRe
   let mut solver = LogicalSolver::new(constraints.clone())
     .with_hint_mode(true);
   solver.solve()
+}
+
+#[wasm_bindgen(js_name = availableTechniques)]
+pub fn available_techniques() -> Vec<TechniqueKind> {
+  TechniqueKind::iter().collect()
 }

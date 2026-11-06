@@ -1,4 +1,4 @@
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition, FixedNumber, Grid, KropkiDot, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{CellPosition, FixedNumber, Grid, KropkiDot, SolutionType, SudokuConstraints}};
 use ntest::timeout;
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound1_IB.pdf
@@ -276,11 +276,11 @@ fn check_kropki_9x9_4_solve() {
       739246518
     "),
   );
-  assert!(result.steps.iter().any(|step| step.rule == Rule::CommonPeerEliminationKropki));
+  assert!(result.steps.iter().any(|step| step.technique_kind == TechniqueKind::KropkiCommonPeerElimination));
   // Check no duplicate eliminations
   // TODO: extract to helper function, but not sure
   for (prev_index, [prev_step, step]) in result.steps.array_windows().enumerate() {
-    if step.rule == Rule::KropkiAdvancedCandidates {
+    if step.technique_kind == TechniqueKind::KropkiAdvancedCandidateUpdate {
       for cell in &step.affected_cells {
         for value in &step.values {
           assert!(
@@ -293,7 +293,7 @@ fn check_kropki_9x9_4_solve() {
     }
   }
   for step in &mut result.steps {
-    if step.rule != Rule::Candidates {
+    if step.technique_kind != TechniqueKind::CandidateInitialization {
       step.candidates = None;
     }
     step.grid = None;

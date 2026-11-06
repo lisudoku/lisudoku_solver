@@ -95,10 +95,10 @@ impl ConstraintBuilder for KillerConstraintBuilder {
       }
     }
 
-    Some(Constraint::Killer(KillerConstraint{
+    Some(KillerConstraint{
       killer_cages,
       killer_cages_by_cell,
-    }))
+    }.into())
   }
 }
 

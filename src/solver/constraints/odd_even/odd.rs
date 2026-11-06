@@ -30,12 +30,12 @@ impl ConstraintBuilder for OddConstraintBuilder {
       odd_cells_by_cell[cell.row][cell.col] = true;
     }
 
-    Some(Constraint::Odd(OddEvenBaseConstraint(
+    Some(OddEvenBaseConstraint(
       OddConstraintLogic{
         odd_cells,
         odd_cells_by_cell,
       }
-    )))
+    ).into())
   }
 }
 

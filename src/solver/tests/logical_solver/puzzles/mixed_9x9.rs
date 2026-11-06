@@ -47,7 +47,7 @@ fn check_mixed_9x9_1_hard_solve() {
       ]
     );
   let mut _solver = LogicalSolver::new(constraints);
-  // TODO: this requires more complex rules to solve
+  // TODO: this requires more complex techniques to solve
   // let result = solver.solve();
   // assert_eq!(result.solution_type, SolutionType::Full);
   // assert_eq!(result.solution.unwrap(), vec![

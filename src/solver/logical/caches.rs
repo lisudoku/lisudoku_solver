@@ -1,4 +1,4 @@
-use crate::{solver::logical::techniques::{advanced_candidates::CellEliminationsResult, arrow_candidates::ArrowCombinationLogicFactory, combinations::cell_combination_logic::CellsCacheKey, kropki_chain_candidates::KropkiChainCombinationLogicFactory}, types::{Area, CellPosition, KropkiDotType}};
+use crate::{solver::logical::techniques::{advanced_candidates::CellEliminationsResult, arrow_candidate_update::ArrowCombinationLogicFactory, combinations::cell_combination_logic::CellsCacheKey, kropki_chain_candidate_update::KropkiChainCombinationLogicFactory}, types::{Area, CellPosition, KropkiDotType}};
 use std::{cell::RefCell, collections::HashMap};
 
 pub(crate) struct LogicalCaches {

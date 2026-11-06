@@ -95,12 +95,12 @@ impl ConstraintBuilder for RegionsConstraintBuilder {
       }
     }
 
-    Some(Constraint::Regions(RegionsConstraint{
+    Some(RegionsConstraint{
       regions,
       regions_by_cell,
       row_regions,
       col_regions,
-    }))
+    }.into())
   }
 }
 

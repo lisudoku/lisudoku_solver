@@ -1,4 +1,4 @@
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Technique, candidates::Candidates, xy_wing::XYWing}}, types::{CellPosition, FixedNumber, Rule, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, candidate_initialization::CandidateInitialization, xy_wing::XYWing}}, types::{CellPosition, FixedNumber, SudokuConstraints}};
 
 #[test]
 fn check_xy_wing() {
@@ -26,12 +26,12 @@ fn check_xy_wing() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
   assert!(!steps.is_empty());
   let mut step = steps.first().unwrap();
-  assert_eq!(step.rule, Rule::XYWing);
+  assert_eq!(step.technique_kind, TechniqueKind::XYWing);
   assert_eq!(step.areas, vec![]);
   assert_eq!(step.cells, vec![
     CellPosition::new(0, 0), // XY
@@ -46,7 +46,7 @@ fn check_xy_wing() {
   assert!(initial_candidates.contains(&3));
   assert_eq!(initial_candidates.len(), 2);
 
-  solver.apply_rule(&mut step);
+  solver.apply_step(&mut step);
   let final_candidates = &solver.state.candidates[7][7];
   assert!(!final_candidates.contains(&3));
   assert_eq!(final_candidates.len(), 1);
@@ -79,7 +79,7 @@ fn check_xy_wing_no_affected_cells() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
   assert!(steps.is_empty());
@@ -108,7 +108,7 @@ fn check_xy_wing_on_row_no_affected_cells() {
       ]
     );
   let mut solver = LogicalSolver::new(constraints);
-  solver.apply_rule(&mut Candidates.run(&solver).first().unwrap());
+  solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = XYWing.run(&solver);
   assert!(steps.is_empty());

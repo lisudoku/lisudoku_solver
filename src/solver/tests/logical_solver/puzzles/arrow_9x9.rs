@@ -1,4 +1,4 @@
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{Arrow, CellPosition, FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{Arrow, CellPosition, FixedNumber, Grid, SolutionType, SudokuConstraints}};
 
 // https://gp.worldpuzzle.org/sites/default/files/Puzzles/2023/2023_SudokuRound7_IB.pdf puzzle 8
 #[test]
@@ -189,7 +189,7 @@ fn check_arrow_9x9_2_solve() {
   // Check no duplicate eliminations
   // TODO: extract to helper function, but not sure
   for (prev_index, [prev_step, step]) in result.steps.array_windows().enumerate() {
-    if step.rule == Rule::ArrowAdvancedCandidates {
+    if step.technique_kind == TechniqueKind::ArrowAdvancedCandidateUpdate {
       for cell in &step.affected_cells {
         for value in &step.values {
           assert!(
@@ -202,7 +202,7 @@ fn check_arrow_9x9_2_solve() {
     }
   }
   for step in &mut result.steps {
-    if step.rule != Rule::Candidates {
+    if step.technique_kind != TechniqueKind::CandidateInitialization {
       step.candidates = None;
     }
     step.grid = None;

@@ -1,4 +1,4 @@
-use crate::{solver::logical::logical_solver::LogicalSolver, types::{Area, CellPosition, Grid, Rule, SolutionStep, SudokuConstraints}};
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{Area, CellPosition, Grid, SolutionStep, SudokuConstraints}};
 
 #[test]
 fn check_grid_steps_priority() {
@@ -16,7 +16,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(0, 1), CellPosition::new(2, 0)],
         vec![1],
         vec![Area::Region(0)],
@@ -33,7 +33,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(1, 2)],
         vec![1],
         vec![Area::Row(1)],
@@ -50,7 +50,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(0, 1), CellPosition::new(2, 0)],
         vec![1],
         vec![Area::Region(0)],
@@ -67,7 +67,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(2, 3)],
         vec![4],
         vec![Area::Row(2)],
@@ -83,7 +83,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(0, 1), CellPosition::new(2, 0)],
         vec![1],
         vec![Area::Region(0)],
@@ -99,7 +99,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(0, 1)],
         vec![1],
         vec![Area::Region(0)],
@@ -115,7 +115,7 @@ fn check_grid_steps_priority() {
         0000
       ",
       expected: SolutionStep::new(
-        Rule::HiddenSingle,
+        TechniqueKind::HiddenSingle,
         vec![CellPosition::new(1, 0)],
         vec![3],
         vec![Area::Row(1)],

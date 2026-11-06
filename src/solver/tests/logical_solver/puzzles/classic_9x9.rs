@@ -1,7 +1,5 @@
+use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::TechniqueKind}, types::{FixedNumber, Grid, SolutionType, SudokuConstraints}};
 use ntest::timeout;
-
-use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::nishio_forcing_chains::NishioForcingChains}, types::{FixedNumber, Grid, Rule, SolutionType, SudokuConstraints}};
-use std::rc::Rc;
 
 #[test]
 fn check_classic_9x9_easy_solve() {
@@ -120,7 +118,7 @@ fn check_classic_9x9_medium_solve() {
   assert!(result.steps.iter().all(|step| step.grid.is_some()));
   assert_eq!(result.solution.unwrap(), result.steps.last().unwrap().grid.clone().unwrap());
 
-  let candidates_step_index = result.steps.iter().position(|step| step.rule == Rule::Candidates).unwrap();
+  let candidates_step_index = result.steps.iter().position(|step| step.technique_kind == TechniqueKind::CandidateInitialization).unwrap();
   assert!(result.steps[..candidates_step_index].iter().all(|step| step.candidates.is_none()));
   assert!(result.steps[candidates_step_index..].iter().all(|step| step.candidates.is_some()));
   assert!(result.steps.last().unwrap().candidates.iter().all(|row| row.iter().all(|cell| cell.is_sorted())));
@@ -307,7 +305,7 @@ fn check_classic_9x9_hard_solve_with_solution() {
         FixedNumber::new(8, 7, 2),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   // TODO: why no full?
@@ -350,7 +348,7 @@ fn check_classic_9x9_1_solve() {
   ];
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(fixed_numbers.iter().copied().collect());
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -371,7 +369,7 @@ fn check_classic_9x9_1_solve() {
 
   let fixed_numbers: Vec<FixedNumber> = fixed_numbers.iter().copied().filter(|fixed_number| *fixed_number != FixedNumber::new(4, 1, 5)).collect();
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers);
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![Rc::new(NishioForcingChains)]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
 }
@@ -458,5 +456,5 @@ fn check_classic_9x9_empty_grid() {
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   assert_eq!(result.steps.len(), 1);
-  assert_eq!(result.steps.first().unwrap().rule, Rule::Candidates);
+  assert_eq!(result.steps.first().unwrap().technique_kind, TechniqueKind::CandidateInitialization);
 }
