@@ -20,6 +20,8 @@ Manage test snapshots through `cargo insta review`
 
 `cargo run-script build`
 
+It needs `cargo install wasm-pack --version 0.15.1 --locked --force` installed.
+
 ## Publish wasm
 
 ```
