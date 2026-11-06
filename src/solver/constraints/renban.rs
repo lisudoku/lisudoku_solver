@@ -1,4 +1,4 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Renban}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::{CandidateGrid, CandidateSet}}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints, Renban}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct RenbanConstraint {
@@ -7,7 +7,7 @@ pub(crate) struct RenbanConstraint {
 }
 
 impl ConstraintDefinition for RenbanConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &CandidateGrid) -> GridCheckResult {
     for renban_index in 0..self.renbans.len() {
       let mut min_value: u32 = u32::MAX;
       let mut max_value: u32 = 0;

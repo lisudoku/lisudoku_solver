@@ -1,4 +1,4 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::{CandidateGrid, CandidateSet}}, types::{Area, Arrow, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct ArrowConstraint {
@@ -32,7 +32,7 @@ impl ArrowConstraint {
 }
 
 impl ConstraintDefinition for ArrowConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &CandidateGrid) -> GridCheckResult {
     for (arrow_index, arrow) in self.arrows.iter().enumerate() {
       let (arrow_sum, arrow_full, _) = Self::arrow_sum(arrow, grid);
       let (circle_number, circle_full, _) = Self::circle_number(arrow, grid);

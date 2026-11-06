@@ -1,10 +1,10 @@
-use crate::{solver::{constraints::{ConstraintDefinition, fixed_numbers::FixedNumbersConstraint}, types::{CandidateSet, CellPositionSet, Puzzle}}, types::{Area, CellPosition, Grid, SudokuConstraints}};
+use crate::{solver::{constraints::{ConstraintDefinition, fixed_numbers::FixedNumbersConstraint}, types::{CandidateGrid, CandidateSet, CellPositionSet, Puzzle}}, types::{Area, CellPosition, Grid, SudokuConstraints}};
 
 #[derive(Clone, Default)]
 pub(crate) struct SolveState {
   pub(crate) puzzle: Puzzle,
   grid: Grid,
-  pub(crate) candidates: Vec<Vec<CandidateSet>>,
+  pub(crate) candidates: CandidateGrid,
   pub(crate) candidates_active: bool,
   empty_cells: CellPositionSet,
   region_area_values: Vec<CandidateSet>,
@@ -37,10 +37,7 @@ impl SolveState {
       }
     }
 
-    let candidates = vec![
-      vec![ CandidateSet::new(); grid_size ];
-      grid_size
-    ];
+    let candidates = CandidateGrid::new(grid_size);
 
     SolveState {
       puzzle,
@@ -102,14 +99,11 @@ impl SolveState {
   }
 
   /// Returns a nxn grid containing each cell's candidate set
-  pub(crate) fn compute_all_cell_candidates(&self) -> Vec<Vec<CandidateSet>> {
+  pub(crate) fn compute_all_cell_candidates(&self) -> CandidateGrid {
     if self.candidates_active {
       return self.candidates.clone();
     }
-    let mut candidates: Vec<Vec<CandidateSet>> = vec![
-      vec![ CandidateSet::new(); self.puzzle.grid_size ];
-      self.puzzle.grid_size
-    ];
+    let mut candidates = CandidateGrid::new(self.puzzle.grid_size);
     for cell in self.all_empty_cells() {
       candidates[cell.row][cell.col] = self.compute_cell_candidates(&cell);
     }
@@ -200,7 +194,7 @@ impl SolveState {
     self.filter_cells_with_any_candidates(&area_cells, values)
   }
 
-  pub(crate) fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> impl Iterator<Item = (u32, Vec<CellPosition>)> + '_ {
+  pub(crate) fn compute_cells_by_value_in_area(&self, area: &Area, candidates: &CandidateGrid) -> impl Iterator<Item = (u32, Vec<CellPosition>)> + '_ {
     let area_cells = self.puzzle.area_cells(area);
     let empty_area_cells = self.filter_empty_cells(&area_cells);
     let mut cell_indices_with_value: Vec<CandidateSet> = vec![

@@ -1,10 +1,10 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellDirection, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::{CandidateGrid, CandidateSet}}, types::{Area, CellDirection, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct AntiKingConstraint;
 
 impl ConstraintDefinition for AntiKingConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &CandidateGrid) -> GridCheckResult {
     for cell in CellPosition::all_cells_in_grid_size(grid.len()) {
       let value = grid[cell.row][cell.col];
       if value == 0 {

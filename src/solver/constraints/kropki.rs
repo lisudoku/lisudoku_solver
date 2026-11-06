@@ -1,4 +1,4 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KropkiDot, KropkiDotType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::{CandidateGrid, CandidateSet}}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, KropkiDot, KropkiDotType, SudokuConstraints}};
 use itertools::Itertools;
 use std::{collections::HashSet, mem::swap};
 
@@ -9,7 +9,7 @@ pub(crate) struct KropkiConstraint {
 }
 
 impl ConstraintDefinition for KropkiConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, grid: &Grid, _candidates: &CandidateGrid) -> GridCheckResult {
     for kropki_dot_index in 0..self.kropki_dots.len() {
       let kropki_dot = &self.kropki_dots[kropki_dot_index];
       let KropkiDot { dot_type: _, cell_1, cell_2 } = kropki_dot;

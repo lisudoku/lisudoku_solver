@@ -1,6 +1,6 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase};
-use crate::solver::types::CandidateSet;
+use crate::solver::types::CandidateGrid;
 use crate::types::{Area, CellPosition, Grid, SolutionStep};
 
 #[derive(Clone, Debug)]
@@ -32,7 +32,7 @@ impl TopBottomCandidateUpdate {
     TopBottomCandidateUpdate { checker_mode }
   }
 
-  pub(crate) fn run_with_data(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> Vec<SolutionStep> {
+  pub(crate) fn run_with_data(&self, grid: &Grid, candidates: &CandidateGrid) -> Vec<SolutionStep> {
     let steps = self.check_paths(true, grid, candidates);
     if !steps.is_empty() {
       return steps
@@ -46,7 +46,7 @@ impl TopBottomCandidateUpdate {
     vec![]
   }
 
-  fn check_paths(&self, ascending: bool, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> Vec<SolutionStep> {
+  fn check_paths(&self, ascending: bool, grid: &Grid, candidates: &CandidateGrid) -> Vec<SolutionStep> {
     let rows: Vec<usize> = if ascending {
       (0..grid.len()).into_iter().collect()
     } else {
@@ -77,7 +77,7 @@ impl TopBottomCandidateUpdate {
     vec![]
   }
 
-  fn get_row_cells_with_value(&self, row: usize, value: u32, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> Vec<CellPosition> {
+  fn get_row_cells_with_value(&self, row: usize, value: u32, grid: &Grid, candidates: &CandidateGrid) -> Vec<CellPosition> {
     (0..grid.len()).filter_map(|col| {
       if grid[row][col] == value || candidates[row][col].contains(&value) {
         return Some(CellPosition::new(row, col))

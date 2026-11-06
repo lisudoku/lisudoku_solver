@@ -1,6 +1,6 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{StepApplication, TechniqueDefinition, TechniqueKind, TechniquePhase};
-use crate::solver::types::CandidateSet;
+use crate::solver::types::CandidateGrid;
 use crate::types::{SolutionStep, CellPosition, Area};
 use itertools::Itertools;
 
@@ -51,7 +51,7 @@ impl TechniqueDefinition for HiddenSingle {
 }
 
 impl HiddenSingle {
-  fn find_hidden_singles_in_area<'a>(&'a self, solver: &'a LogicalSolver, area: &Area, candidates: &Vec<Vec<CandidateSet>>) -> impl Iterator<Item = (CellPosition, u32)> + 'a {
+  fn find_hidden_singles_in_area<'a>(&'a self, solver: &'a LogicalSolver, area: &Area, candidates: &CandidateGrid) -> impl Iterator<Item = (CellPosition, u32)> + 'a {
     let value_cells = solver.state.compute_cells_by_value_in_area(area, candidates);
     value_cells.filter_map(|(value, cells)| {
       if cells.len() == 1 { Some((cells[0], value)) } else { None }

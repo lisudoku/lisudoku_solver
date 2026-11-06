@@ -1,10 +1,10 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, logical::techniques::{top_bottom_candidate_update::TopBottomCandidateUpdate}, types::CandidateSet}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, logical::techniques::{top_bottom_candidate_update::TopBottomCandidateUpdate}, types::{CandidateGrid, CandidateSet}}, types::{Area, CellPosition, Grid, InvalidStateReason, InvalidStateType, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct TopBottomConstraint;
 
 impl ConstraintDefinition for TopBottomConstraint {
-  fn check_grid_special_validity(&self, grid: &Grid, candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, grid: &Grid, candidates: &CandidateGrid) -> GridCheckResult {
     let valid = TopBottomCandidateUpdate::new(true).run_with_data(grid, candidates).is_empty();
 
     if valid {

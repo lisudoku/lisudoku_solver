@@ -1,4 +1,4 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, Grid, Region, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, ConstraintDefinitionExt, PeerMode, context::{ConstraintCellPeersContext}}, types::{CandidateGrid, CandidateSet}}, types::{Area, CellPosition, Grid, Region, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct RegionsConstraint {
@@ -9,7 +9,7 @@ pub(crate) struct RegionsConstraint {
 }
 
 impl ConstraintDefinition for RegionsConstraint {
-  fn check_grid_special_validity(&self, _grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, _grid: &Grid, _candidates: &CandidateGrid) -> GridCheckResult {
     GridCheckResult::solved()
   }
 

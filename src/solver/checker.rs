@@ -1,6 +1,6 @@
 use crate::solver::constraints::{ConstraintDefinition};
 use crate::solver::solve_state::SolveState;
-use crate::solver::types::CandidateSet;
+use crate::solver::types::{CandidateGrid, CandidateSet};
 use crate::types::{Area, InvalidStateReason, InvalidStateType};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
@@ -40,10 +40,7 @@ impl SolveState {
   }
 
   fn check_grid_valid(&self, check_full: bool) -> GridCheckResult {
-    let mut cached_candidates: Vec<Vec<CandidateSet>> = vec![
-      vec![ CandidateSet::new(); self.puzzle.grid_size ];
-      self.puzzle.grid_size
-    ];
+    let mut cached_candidates = CandidateGrid::new(self.puzzle.grid_size);
 
     if check_full {
       for cell in self.puzzle.all_grid_cells() {

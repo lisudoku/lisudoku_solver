@@ -1,7 +1,7 @@
 use crate::solver::{GridCheckResult, SolveState};
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{StepApplication, TechniqueDefinition, TechniqueKind, TechniquePhase};
-use crate::solver::types::CandidateSet;
+use crate::solver::types::{CandidateGrid, CandidateSet};
 use crate::types::SolutionStep;
 
 #[derive(Clone, Debug)]
@@ -43,11 +43,13 @@ impl TechniqueDefinition for CandidateInitialization {
 
   fn apply(&self, step: &SolutionStep, state: &mut SolveState, _step_count_limit: Option<usize>) -> GridCheckResult {
     state.candidates_active = true;
-    state.candidates = step.candidates.as_ref().unwrap().into_iter()
-      .map(|row| row.into_iter().map(|col|
-        CandidateSet::from_iter(col.iter().copied())
-      ).collect())
-      .collect();
+    state.candidates = CandidateGrid::from(
+      step.candidates.as_ref().unwrap().into_iter()
+        .map(|row| row.into_iter().map(|col|
+          CandidateSet::from_iter(col.iter().copied())
+        ).collect::<Vec<_>>())
+        .collect::<Vec<_>>()
+    );
     GridCheckResult::solved()
   }
 }

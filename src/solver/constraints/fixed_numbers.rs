@@ -1,4 +1,4 @@
-use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::CandidateSet}, types::{Area, CellPosition, FixedNumber, Grid, SudokuConstraints}};
+use crate::{solver::{GridCheckResult, constraints::{CandidateMode, Constraint, ConstraintBuilder, ConstraintDefinition, PeerMode, context::{ConstraintCellPeersContext}}, types::{CandidateGrid, CandidateSet}}, types::{Area, CellPosition, FixedNumber, Grid, SudokuConstraints}};
 
 #[derive(Clone, Default, Debug)]
 pub(crate) struct FixedNumbersConstraint {
@@ -7,7 +7,7 @@ pub(crate) struct FixedNumbersConstraint {
 }
 
 impl ConstraintDefinition for FixedNumbersConstraint {
-  fn check_grid_special_validity(&self, _grid: &Grid, _candidates: &Vec<Vec<CandidateSet>>) -> GridCheckResult {
+  fn check_grid_special_validity(&self, _grid: &Grid, _candidates: &CandidateGrid) -> GridCheckResult {
     GridCheckResult::solved()
   }
 
