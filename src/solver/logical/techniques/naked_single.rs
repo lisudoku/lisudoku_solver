@@ -3,7 +3,6 @@ use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{StepApplication, TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
 use crate::types::{SolutionStep, CellPosition, Area};
-use combinations::Combinations;
 use itertools::Itertools;
 
 #[derive(Clone, Debug)]
@@ -107,13 +106,7 @@ impl NakedSingle {
       .collect();
 
     for area_count in 1..=areas_with_candidates.len() {
-      let area_indices: Vec<usize> = (0..areas_with_candidates.len()).collect();
-      let area_combinations: Vec<_> = if area_count < area_indices.len() {
-        Combinations::new(area_indices, area_count).collect()
-      } else {
-        // Has to be handled separately because of stupid crate
-        vec![area_indices]
-      };
+      let area_combinations = (0..areas_with_candidates.len()).combinations(area_count);
 
       for area_combination in area_combinations {
         let selected_areas: Vec<_> = area_combination.into_iter().map(|index| &areas_with_candidates[index]).collect();

@@ -2,7 +2,6 @@ use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
 use crate::types::{Area, SolutionStep};
-use combinations::Combinations;
 use itertools::Itertools;
 
 // Within a house, 2/3 cells have the same set of 2/3 candidates, remove those from all
@@ -43,12 +42,7 @@ impl NakedSet {
     let area_cells = solver.state.area_empty_cells(&area);
     // TODO: filter cells with CandidateSet size > self.set_size
 
-    let cell_combinations: Vec<_> = if self.set_size < area_cells.len() {
-      Combinations::new(area_cells.to_vec(), self.set_size).collect()
-    } else {
-      // Has to be handled separately because of stupid crate
-      vec![area_cells.to_vec()]
-    };
+    let cell_combinations = area_cells.iter().sorted_unstable().combinations(self.set_size);
 
     for cells in cell_combinations {
       let mut combined_candidates = CandidateSet::new();
@@ -68,7 +62,7 @@ impl NakedSet {
         .state
         .filter_cells_with_any_candidates(&area_cells, &combined_candidates)
         .into_iter()
-        .filter(|cell| !cells.contains(cell))
+        .filter(|cell| !cells.contains(&cell))
         .collect();
       if !solver.any_cells_with_candidates(&affected_cells, &combined_candidates) {
         continue
@@ -76,7 +70,7 @@ impl NakedSet {
 
       return vec![
         self.build_solution_step(
-          cells,
+          cells.into_iter().cloned().collect(),
           combined_candidates.into_iter().sorted().collect(),
           vec![ area ],
           affected_cells,

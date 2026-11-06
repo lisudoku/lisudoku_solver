@@ -4,7 +4,6 @@ use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{StepApplication, TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
 use crate::types::{CellPosition, SolutionStep};
-use combinations::Combinations;
 use itertools::Itertools;
 
 // Within a house, X and Y are candidates in only 2 cells, so you can remove any other
@@ -30,13 +29,8 @@ impl TechniqueDefinition for HiddenSet {
     for area in solver.state.puzzle.all_house_areas() {
       let value_cells: HashMap<u32, Vec<CellPosition>> = solver.state.compute_cells_by_value_in_area(&area, &solver.state.candidates).collect();
 
-      let area_values: Vec<u32> = solver.state.compute_area_candidates_union(&area).into_iter().sorted().collect();
-      let value_combinations: Vec<_> = if self.set_size < area_values.len() {
-        Combinations::new(area_values, self.set_size).collect()
-      } else {
-        // Has to be handled separately because of stupid crate
-        vec![area_values]
-      };
+      let area_values: Vec<u32> = solver.state.compute_area_candidates_union(&area).into_iter().sorted_unstable().collect();
+      let value_combinations = area_values.into_iter().combinations(self.set_size);
 
       for values in value_combinations {
         let mut combined_cells: HashSet<CellPosition> = HashSet::new();

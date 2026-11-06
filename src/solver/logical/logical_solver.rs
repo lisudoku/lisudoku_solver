@@ -401,7 +401,7 @@ impl LogicalSolver {
       .iter()
       .cloned()
       .sorted_by_key(|link| (link.1, link.0.clone(), link.2, link.3))
-      .group_by(|link| link.1)
+      .chunk_by(|link| link.1)
       .into_iter()
       .map(|(value, group)| (value, group.collect()))
       .collect()
@@ -436,7 +436,7 @@ impl LogicalSolver {
     if self.state.candidates_active {
       let candidates: Vec<Vec<Vec<u32>>> = self.state.candidates.iter().map(|row|
         row.iter().map(|cell|
-          cell.clone().into_iter().sorted().collect()
+          cell.clone().into_iter().collect()
         ).collect()
       ).collect();
       step.candidates = Some(candidates);
