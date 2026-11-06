@@ -5,7 +5,6 @@ use tsify::Tsify;
 use std::fmt;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
-#[tsify(from_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct SudokuConstraints {
   pub grid_size: usize,
@@ -247,7 +246,6 @@ impl SudokuConstraints {
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Tsify)]
-#[tsify(from_wasm_abi)]
 pub struct FixedNumber {
   pub position: CellPosition,
   pub value: u32,
@@ -266,7 +264,6 @@ impl FixedNumber {
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Tsify)]
-#[tsify(from_wasm_abi)]
 pub struct CellPosition {
   pub row: usize,
   pub col: usize,
@@ -334,11 +331,9 @@ pub(crate) struct CellDirection {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref, DerefMut)]
-#[tsify(from_wasm_abi)]
 pub struct Region(pub Vec<CellPosition>);
 
 #[derive(Serialize, Deserialize, Default, Clone, PartialEq, Tsify, Deref, DerefMut)]
-#[tsify(from_wasm_abi)]
 pub struct Grid(pub Vec<Vec<u32>>);
 
 impl Grid {
@@ -406,14 +401,12 @@ impl fmt::Debug for Grid {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
-#[tsify(from_wasm_abi)]
 pub struct KillerCage {
   pub sum: Option<u32>,
   pub region: Region,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
-#[tsify(from_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct KropkiDot {
   pub dot_type: KropkiDotType,
@@ -422,7 +415,6 @@ pub struct KropkiDot {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify, Copy, Hash, Eq)]
-#[tsify(from_wasm_abi)]
 pub enum KropkiDotType {
   Consecutive,
   Double,
@@ -480,11 +472,9 @@ impl KropkiDot {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref)]
-#[tsify(from_wasm_abi)]
 pub struct Thermo(pub Vec<CellPosition>);
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify)]
-#[tsify(from_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct Arrow {
   pub circle_cells: Vec<CellPosition>,
@@ -501,9 +491,7 @@ impl Arrow {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref)]
-#[tsify(from_wasm_abi)]
 pub struct Renban(pub Vec<CellPosition>);
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref)]
-#[tsify(from_wasm_abi)]
 pub struct Palindrome(pub Vec<CellPosition>);

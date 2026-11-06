@@ -5,7 +5,6 @@ use tsify::Tsify;
 
 #[repr(usize)]
 #[derive(EnumIter, EnumCount, Serialize, Deserialize,  Debug, PartialEq, PartialOrd, Ord, Copy, Clone, Eq, Hash, Tsify)]
-#[tsify(from_wasm_abi, into_wasm_abi)]
 pub enum TechniqueKind {
   // Easy
   NakedSingle,

@@ -4,7 +4,6 @@ use serde::{Deserialize, Serialize};
 use tsify::Tsify;
 
 #[derive(Serialize, Deserialize, Debug, Tsify)]
-#[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct SudokuLogicalSolveResult {
   pub solution_type: SolutionType,
@@ -16,7 +15,6 @@ pub struct SudokuLogicalSolveResult {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Tsify)]
-#[tsify(into_wasm_abi)]
 pub enum SolutionType {
   Full,
   Partial,
@@ -24,7 +22,6 @@ pub enum SolutionType {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify)]
-#[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct InvalidStateReason {
   pub state_type: InvalidStateType,
@@ -33,7 +30,6 @@ pub struct InvalidStateReason {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Tsify)]
-#[tsify(into_wasm_abi)]
 pub enum InvalidStateType {
   CellNoCandidates,
   CellEmpty,
@@ -44,7 +40,6 @@ pub enum InvalidStateType {
 }
 
 #[derive(Serialize, Deserialize, Debug, Tsify)]
-#[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct SudokuBruteSolveResult {
   pub solution_count: u32,
@@ -53,7 +48,6 @@ pub struct SudokuBruteSolveResult {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify, PartialEq)]
-#[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct SolutionStep {
   pub technique_kind: TechniqueKind,

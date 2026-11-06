@@ -5,10 +5,8 @@ use crate::types::{Area, InvalidStateReason, InvalidStateType};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use tsify::Tsify;
-use std::{format};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Tsify)]
-#[tsify(into_wasm_abi)]
 #[serde(rename_all = "camelCase")]
 pub struct GridCheckResult {
   pub solved: bool,
