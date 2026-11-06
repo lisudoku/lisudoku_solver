@@ -38,5 +38,6 @@ insta = { version = "1.42.2", features = ["yaml"] }
 ntest = "0.9.3"
 url = "2"
 
-[profile.release]
+[profile.profiling]
+inherits = "release"
 debug = true
