@@ -8,7 +8,7 @@ use super::kropki_chain_candidate_update::KropkiChainCandidateUpdate;
 // One of the kropki chain combinations would eliminate a cell's candidates, so that combination is invalid
 
 #[derive(Clone, Debug)]
-pub struct KropkiCommonPeerElimination;
+pub(crate) struct KropkiCommonPeerElimination;
 
 const DOT_TYPES: [KropkiDotType; 2] = [KropkiDotType::Consecutive, KropkiDotType::Double];
 

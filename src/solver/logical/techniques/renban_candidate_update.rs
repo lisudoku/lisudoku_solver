@@ -10,7 +10,7 @@ use super::combinations::cell_combinations_runner::State;
 // it must be filled by a set of consecutive digits
 
 #[derive(Clone, Debug)]
-pub struct RenbanCandidateUpdate;
+pub(crate) struct RenbanCandidateUpdate;
 
 impl TechniqueDefinition for RenbanCandidateUpdate {
   fn kind(&self) -> TechniqueKind { TechniqueKind::RenbanCandidateUpdate }
@@ -43,7 +43,7 @@ impl TechniqueDefinition for RenbanCandidateUpdate {
   }
 }
 
-pub struct RenbanCombinationLogic<'a> {
+pub(crate) struct RenbanCombinationLogic<'a> {
   renban: &'a Renban,
   min_used_value: u32,
   max_used_value: u32,

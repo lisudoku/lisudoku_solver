@@ -57,7 +57,7 @@ pub struct SudokuBruteSolveResult {
 #[serde(rename_all = "camelCase")]
 pub struct SolutionStep {
   pub technique_kind: TechniqueKind,
-  /// Used for grid steps (the first cell should have <value>) or e.g. TechniqueKind::XWing to
+  /// Used for grid steps (the first cell should have `value`) or e.g. TechniqueKind::XWing to
   /// show which cells build the X shape
   pub cells: Vec<CellPosition>,
   /// The meaning can vary between techniques

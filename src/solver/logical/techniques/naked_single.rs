@@ -7,7 +7,7 @@ use combinations::Combinations;
 use itertools::Itertools;
 
 #[derive(Clone, Debug)]
-pub struct NakedSingle;
+pub(crate) struct NakedSingle;
 
 impl TechniqueDefinition for NakedSingle {
   fn kind(&self) -> TechniqueKind { TechniqueKind::NakedSingle }

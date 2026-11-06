@@ -7,7 +7,7 @@ use itertools::Itertools;
 // Within a house, X is a candidate in only 1 cell, so you must assign it there.
 
 #[derive(Clone, Debug)]
-pub struct HiddenSingle;
+pub(crate) struct HiddenSingle;
 
 impl TechniqueDefinition for HiddenSingle {
   fn kind(&self) -> TechniqueKind { TechniqueKind::HiddenSingle }

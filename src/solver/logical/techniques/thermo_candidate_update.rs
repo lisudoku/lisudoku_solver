@@ -2,7 +2,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 use itertools::Itertools;
 
 #[derive(Clone, Debug)]
-pub struct ThermoCandidateUpdate;
+pub(crate) struct ThermoCandidateUpdate;
 
 impl TechniqueDefinition for ThermoCandidateUpdate {
   fn kind(&self) -> TechniqueKind { TechniqueKind::ThermoCandidateUpdate }
@@ -48,7 +48,7 @@ impl TechniqueDefinition for ThermoCandidateUpdate {
 }
 
 impl ThermoCandidateUpdate {
-  pub fn find_thermo_lower_bounds(solver: &LogicalSolver, thermo: &Thermo) -> Vec<u32> {
+  pub(crate) fn find_thermo_lower_bounds(solver: &LogicalSolver, thermo: &Thermo) -> Vec<u32> {
     let max_value: u32 = solver.state.puzzle.grid_size as u32 + 1;
     let mut current_min = 0;
     thermo.iter().map(|cell| {
@@ -71,7 +71,7 @@ impl ThermoCandidateUpdate {
     }).collect()
   }
 
-  pub fn find_thermo_upper_bounds(solver: &LogicalSolver, thermo: &Thermo) -> Vec<u32> {
+  pub(crate) fn find_thermo_upper_bounds(solver: &LogicalSolver, thermo: &Thermo) -> Vec<u32> {
     let mut current_max = solver.state.puzzle.grid_size as u32 + 1;
     thermo.iter().rev().map(|cell| {
       if solver.state.value_at(cell) != 0 {

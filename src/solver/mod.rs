@@ -9,4 +9,4 @@ pub(crate) mod constraints;
 mod tests;
 
 pub(crate) use solve_state::SolveState;
-pub(crate) use checker::GridCheckResult;
+pub use checker::GridCheckResult;

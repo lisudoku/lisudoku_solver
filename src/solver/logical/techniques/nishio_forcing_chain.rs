@@ -7,7 +7,7 @@ use itertools::Itertools;
 // Check if a cell candidate leads to an invalid grid state
 
 #[derive(Clone, Debug)]
-pub struct NishioForcingChain;
+pub(crate) struct NishioForcingChain;
 
 impl TechniqueDefinition for NishioForcingChain {
   fn kind(&self) -> TechniqueKind { TechniqueKind::NishioForcingChain }

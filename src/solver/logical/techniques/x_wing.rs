@@ -1,7 +1,7 @@
 use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase}}, types::{Area, CellPosition, SolutionStep}};
 
 #[derive(Clone, Debug)]
-pub struct XWing;
+pub(crate) struct XWing;
 
 impl TechniqueDefinition for XWing {
   fn kind(&self) -> TechniqueKind { TechniqueKind::XWing }

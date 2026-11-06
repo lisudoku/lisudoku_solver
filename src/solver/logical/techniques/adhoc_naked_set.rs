@@ -7,7 +7,7 @@ use crate::solver::logical::techniques::naked_set::NakedSet;
 use crate::types::{SolutionStep, Area, CellPosition};
 
 #[derive(Clone, Debug)]
-pub struct AdhocNakedSet;
+pub(crate) struct AdhocNakedSet;
 
 impl TechniqueDefinition for AdhocNakedSet {
   fn kind(&self) -> TechniqueKind { TechniqueKind::AdhocNakedSet }

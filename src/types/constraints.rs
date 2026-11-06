@@ -328,9 +328,9 @@ impl fmt::Display for CellPosition {
 }
 
 #[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub struct CellDirection {
-  pub row: isize,
-  pub col: isize,
+pub(crate) struct CellDirection {
+  pub(crate) row: isize,
+  pub(crate) col: isize,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Tsify, Deref, DerefMut)]

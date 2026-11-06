@@ -39,11 +39,11 @@ impl TechniqueDefinition for KropkiChainCandidateUpdate {
 }
 
 impl KropkiChainCandidateUpdate {
-  pub fn new(chain_limit: bool) -> KropkiChainCandidateUpdate {
+  pub(crate) fn new(chain_limit: bool) -> KropkiChainCandidateUpdate {
     KropkiChainCandidateUpdate { chain_limit }
   }
 
-  pub fn find_kropki_candidate_updates(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
+  pub(crate) fn find_kropki_candidate_updates(&self, solver: &LogicalSolver) -> Vec<SolutionStep> {
     if !solver.state.candidates_active {
       return vec![]
     }
@@ -114,7 +114,7 @@ impl KropkiChainCandidateUpdate {
     }).collect()
   }
 
-  pub fn compute_area_kropki_ccs(solver: &LogicalSolver, area: &Area, dot_type: KropkiDotType, chain_limit: bool) -> Vec<(Vec<CellPosition>,Vec<usize>)> {
+  pub(crate) fn compute_area_kropki_ccs(solver: &LogicalSolver, area: &Area, dot_type: KropkiDotType, chain_limit: bool) -> Vec<(Vec<CellPosition>,Vec<usize>)> {
     if let Some(cached_result) = solver.caches.area_kropki_ccs_cache.borrow().get(&(area.clone(), dot_type, chain_limit)).cloned() {
       return cached_result
     }
@@ -134,7 +134,7 @@ impl KropkiChainCandidateUpdate {
     invalid_candidates
   }
 
-  pub fn find_kropki_ccs_combinations(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> Vec<Vec<u32>> {
+  pub(crate) fn find_kropki_ccs_combinations(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> Vec<Vec<u32>> {
     let (_, combinations_list) = Self::mark_kropki_valid_candidates(solver, cells);
 
     combinations_list
@@ -309,13 +309,13 @@ pub(crate) struct KropkiChainCombinationLogicFactory {
 }
 
 impl<'a> KropkiChainCombinationLogicFactory {
-  pub fn new() -> KropkiChainCombinationLogicFactory {
+  pub(crate) fn new() -> KropkiChainCombinationLogicFactory {
     KropkiChainCombinationLogicFactory {
       cache: HashMap::new(),
     }
   }
 
-  pub fn create(&'a mut self, cells: &'a Vec<CellPosition>, solver: &'a LogicalSolver) -> KropkiChainCombinationsLogic<'a> {
+  pub(crate) fn create(&'a mut self, cells: &'a Vec<CellPosition>, solver: &'a LogicalSolver) -> KropkiChainCombinationsLogic<'a> {
     KropkiChainCombinationsLogic::new(cells, &mut self.cache, solver)
   }
 }

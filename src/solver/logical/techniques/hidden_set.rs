@@ -11,7 +11,7 @@ use itertools::Itertools;
 // candidate from those 2 cells.
 
 #[derive(Clone, Debug)]
-pub struct HiddenSet {
+pub(crate) struct HiddenSet {
   set_size: usize,
 }
 
@@ -82,7 +82,7 @@ impl TechniqueDefinition for HiddenSet {
 }
 
 impl HiddenSet {
-  pub fn new(set_size: usize) -> HiddenSet {
+  pub(crate) fn new(set_size: usize) -> HiddenSet {
     HiddenSet { set_size }
   }
 }

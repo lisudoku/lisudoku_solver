@@ -9,7 +9,7 @@ use super::common_peer_elimination::CommonPeerElimination;
 // Normal locked candidates don't pick this up because they think ALL candidate combinations are possible
 
 #[derive(Clone, Debug)]
-pub struct ArrowCommonPeerElimination;
+pub(crate) struct ArrowCommonPeerElimination;
 
 impl TechniqueDefinition for ArrowCommonPeerElimination {
   fn kind(&self) -> TechniqueKind { TechniqueKind::ArrowCommonPeerElimination }

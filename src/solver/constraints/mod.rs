@@ -1,7 +1,7 @@
 use crate::{solver::{GridCheckResult, constraints::{anti_king::AntiKingConstraint, anti_knight::AntiKnightConstraint, arrow::ArrowConstraint, context::{ConstraintCellPeersContext}, diagonals::{PrimaryDiagonalConstraint, SecondaryDiagonalConstraint}, fixed_numbers::FixedNumbersConstraint, killer::KillerConstraint, kropki::KropkiConstraint, odd_even::{EvenConstraint, OddConstraint}, palindrome::PalindromeConstraint, regions::RegionsConstraint, renban::RenbanConstraint, thermo::ThermoConstraint, top_bottom::TopBottomConstraint}, types::CandidateSet}, types::{Area, CellPosition, Grid, SudokuConstraints}};
 use enum_dispatch::enum_dispatch;
 
-pub mod kind;
+pub(crate) mod kind;
 pub(crate) mod context;
 pub(crate) mod regions;
 pub(crate) mod fixed_numbers;

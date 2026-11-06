@@ -2,26 +2,26 @@ use crate::{solver::{logical::logical_solver::LogicalSolver, types::CandidateSet
 use std::{ops::{BitXorAssign, BitAnd}};
 use super::cell_combination_logic::CellCombinationLogic;
 
-pub struct CellCombinationsRunner<'a> {
+pub(crate) struct CellCombinationsRunner<'a> {
   // Input
-  pub cells: Vec<CellPosition>,
-  pub solver: &'a LogicalSolver,
+  pub(crate) cells: Vec<CellPosition>,
+  pub(crate) solver: &'a LogicalSolver,
   combinations_logic: Box<dyn CellCombinationLogic + 'a>,
   // State
-  pub state: State,
+  pub(crate) state: State,
   // Output
   combinations_list: Vec<Vec<u32>>,
   valid_candidates: Vec<CandidateSet>,
 }
 
-pub struct State {
+pub(crate) struct State {
   // TODO: use CandidateSet for these fields
-  pub used_candidates: Vec<u32>,
-  pub temp_grid: Grid,
+  pub(crate) used_candidates: Vec<u32>,
+  pub(crate) temp_grid: Grid,
   // For each index a mask of previous positions that affect it
-  pub affected_by: Vec<u32>,
+  pub(crate) affected_by: Vec<u32>,
   // For each value a mask of positions that have it
-  pub used_candidates_at: Vec<u32>,
+  pub(crate) used_candidates_at: Vec<u32>,
 }
 
 pub(crate) type CellCombinationsRunnerResult = (Vec<CandidateSet>, Vec<Vec<u32>>);

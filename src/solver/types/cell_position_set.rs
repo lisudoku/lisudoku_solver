@@ -5,41 +5,43 @@ use std::fmt;
 use crate::types::CellPosition;
 
 #[derive(Default, Clone, PartialEq)]
-pub struct CellPositionSet {
+pub(crate) struct CellPositionSet {
   grid_size: usize,
   set: BitSet,
 }
 
 impl CellPositionSet {
-  pub fn new(grid_size: usize) -> CellPositionSet {
+  pub(crate) fn new(grid_size: usize) -> CellPositionSet {
     CellPositionSet{
       grid_size,
       set: BitSet::with_capacity(grid_size * grid_size),
     }
   }
 
-  pub fn len(&self) -> usize {
+  #[allow(dead_code)]
+  pub(crate) fn len(&self) -> usize {
     self.set.count()
   }
 
-  pub fn is_empty(&self) -> bool {
+  pub(crate) fn is_empty(&self) -> bool {
     self.set.is_empty()
   }
 
-  pub fn insert(&mut self, cell: CellPosition) {
+  pub(crate) fn insert(&mut self, cell: CellPosition) {
     self.set.insert(cell.to_index(self.grid_size));
   }
 
-  pub fn remove(&mut self, cell: &CellPosition) {
+  pub(crate) fn remove(&mut self, cell: &CellPosition) {
     self.set.remove(cell.to_index(self.grid_size));
   }
 
-  pub fn union_with(&mut self, other: &CellPositionSet) {
+  #[allow(dead_code)]
+  pub(crate) fn union_with(&mut self, other: &CellPositionSet) {
     self.set.union_with(&other.set);
   }
 }
 
-pub struct CellPositionSetIter<'a> {
+pub(crate) struct CellPositionSetIter<'a> {
   grid_size: usize,
   indices: bit_set::Iter<'a, u32>,
 }

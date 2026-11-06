@@ -2,10 +2,10 @@ use crate::{solver::{constraints::{ConstraintDefinition, fixed_numbers::FixedNum
 
 #[derive(Clone, Default)]
 pub(crate) struct SolveState {
-  pub puzzle: Puzzle,
+  pub(crate) puzzle: Puzzle,
   grid: Grid,
-  pub candidates: Vec<Vec<CandidateSet>>,
-  pub candidates_active: bool,
+  pub(crate) candidates: Vec<Vec<CandidateSet>>,
+  pub(crate) candidates_active: bool,
   empty_cells: CellPositionSet,
   region_area_values: Vec<CandidateSet>,
   /// Same as the logical_solver field. Skips as many non-essential things as possible.
@@ -13,7 +13,7 @@ pub(crate) struct SolveState {
 }
 
 impl SolveState {
-  pub fn from_constraints_and_grid(constraints: SudokuConstraints, grid: Grid) -> SolveState {
+  pub(crate) fn from_constraints_and_grid(constraints: SudokuConstraints, grid: Grid) -> SolveState {
     let grid_size = constraints.grid_size;
 
     let puzzle = Puzzle::try_from(constraints).expect("Error while parsing constraints");
@@ -53,7 +53,7 @@ impl SolveState {
     }
   }
 
-  pub fn new(constraints: SudokuConstraints) -> SolveState {
+  pub(crate) fn new(constraints: SudokuConstraints) -> SolveState {
     let grid = FixedNumbersConstraint::build_initial_grid_from_fixed_numbers(
       constraints.fixed_numbers.as_ref().unwrap_or(&vec![]),
       constraints.grid_size,

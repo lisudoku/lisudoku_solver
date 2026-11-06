@@ -6,7 +6,7 @@ use super::technique::Technique;
 
 // Phistomefel ring in its weakest form. Doesn't take many things into account.
 
-pub struct PhistomefelRing;
+pub(crate) struct PhistomefelRing;
 
 impl Technique for PhistomefelRing {
   fn kind(&self) -> TechniqueKind { TechniqueKind::PhistomefelRing }

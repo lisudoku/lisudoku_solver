@@ -4,7 +4,7 @@ use itertools::Itertools;
 // We must keep in sync candidates for corresponding cells in a palindrome
 
 #[derive(Clone, Debug)]
-pub struct PalindromeCandidateUpdate;
+pub(crate) struct PalindromeCandidateUpdate;
 
 impl TechniqueDefinition for PalindromeCandidateUpdate {
   fn kind(&self) -> TechniqueKind { TechniqueKind::PalindromeCandidateUpdate }

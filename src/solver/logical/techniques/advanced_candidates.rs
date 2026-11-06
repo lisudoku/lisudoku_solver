@@ -6,7 +6,7 @@ use std::ops::{BitOrAssign, BitAnd};
 use super::combinations::cell_combination_logic::CellsCacheKey;
 use itertools::Itertools;
 
-pub type CellEliminationsResult = Vec<(CellPosition, Vec<u32>)>;
+pub(crate) type CellEliminationsResult = Vec<(CellPosition, Vec<u32>)>;
 
 impl LogicalSolver {
   // Eliminate `combinations` that remove all candidates from any of `cells`

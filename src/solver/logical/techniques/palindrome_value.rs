@@ -3,7 +3,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{StepAp
 // We must put X in this cell because the cell on the other side of the palindrome has the same value
 
 #[derive(Clone, Debug)]
-pub struct PalindromeValue;
+pub(crate) struct PalindromeValue;
 
 impl TechniqueDefinition for PalindromeValue {
   fn kind(&self) -> TechniqueKind { TechniqueKind::PalindromeValue }

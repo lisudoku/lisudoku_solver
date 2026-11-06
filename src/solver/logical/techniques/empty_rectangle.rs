@@ -3,7 +3,7 @@ use std::mem::swap;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
-pub struct EmptyRectangle;
+pub(crate) struct EmptyRectangle;
 
 // Finds boxes X is on a row and col
 impl TechniqueDefinition for EmptyRectangle {

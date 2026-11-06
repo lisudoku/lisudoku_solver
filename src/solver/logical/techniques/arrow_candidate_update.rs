@@ -162,7 +162,7 @@ impl CellCombinationLogic for ArrowCombinationLogic<'_> {
 type ArrowCombinationLogicCache = HashMap<CellsCacheKey, CellCombinationsRunnerResult>;
 
 // TODO: think about whether this factory approach is worth it or just put the cache in the solver
-pub struct ArrowCombinationLogicFactory {
+pub(crate) struct ArrowCombinationLogicFactory {
   cache: ArrowCombinationLogicCache,
 }
 

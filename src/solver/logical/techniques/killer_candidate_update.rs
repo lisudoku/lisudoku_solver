@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 // can't be assigned to make the sum Y
 
 #[derive(Clone, Debug)]
-pub struct KillerCandidateUpdate;
+pub(crate) struct KillerCandidateUpdate;
 
 impl TechniqueDefinition for KillerCandidateUpdate {
   fn kind(&self) -> TechniqueKind { TechniqueKind::KillerCandidateUpdate }

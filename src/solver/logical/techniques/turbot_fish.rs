@@ -4,7 +4,7 @@ use std::mem::swap;
 use itertools::Itertools;
 
 #[derive(Clone, Debug)]
-pub struct TurbotFish;
+pub(crate) struct TurbotFish;
 
 // Finds 2 strong links that have one of their ends see each other.
 impl TechniqueDefinition for TurbotFish {

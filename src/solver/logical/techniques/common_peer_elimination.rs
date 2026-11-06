@@ -11,7 +11,7 @@ use itertools::Itertools;
 // For antiknight puzzles the technique is called L technique
 
 #[derive(Clone, Debug)]
-pub struct CommonPeerElimination;
+pub(crate) struct CommonPeerElimination;
 
 impl TechniqueDefinition for CommonPeerElimination {
   fn kind(&self) -> TechniqueKind { TechniqueKind::CommonPeerElimination }
@@ -64,7 +64,7 @@ impl CommonPeerElimination {
     common_peers_with_values
   }
 
-  pub fn find_common_peers_for_cells(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
+  pub(crate) fn find_common_peers_for_cells(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
     let mut peer_counts = vec![ vec![ 0; solver.state.puzzle.grid_size ]; solver.state.puzzle.grid_size ];
     for cell in cells {
       for CellPosition { row, col } in solver.state.puzzle.all_cell_peers_unconstrained(cell) {
@@ -83,7 +83,7 @@ impl CommonPeerElimination {
   }
 
   /// Returns a list of cell candidates that cannot exist because all `cells` `combinations` remove them
-  pub fn find_cell_eliminations(cells: Vec<CellPosition>, combinations: Vec<Vec<u32>>, solver: &LogicalSolver) -> Vec<(CellPosition, u32)> {
+  pub(crate) fn find_cell_eliminations(cells: Vec<CellPosition>, combinations: Vec<Vec<u32>>, solver: &LogicalSolver) -> Vec<(CellPosition, u32)> {
     let cell_peers: Vec<Vec<CellPosition>> = cells.iter().map(|cell| {
       solver.state.puzzle.all_cell_peers_unconstrained(cell)
     }).collect();

@@ -5,7 +5,7 @@ use super::thermo_candidate_update::ThermoCandidateUpdate;
 // The idea is to have more granularity to separate easy vs medium, not sure how useful it is.
 
 #[derive(Clone, Debug)]
-pub struct ThermoNakedSingle;
+pub(crate) struct ThermoNakedSingle;
 
 impl TechniqueDefinition for ThermoNakedSingle {
   fn kind(&self) -> TechniqueKind { TechniqueKind::ThermoNakedSingle }

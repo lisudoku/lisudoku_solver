@@ -7,7 +7,7 @@ use std::collections::HashSet;
 // in any valid sum.
 
 #[derive(Clone, Debug)]
-pub struct Killer45;
+pub(crate) struct Killer45;
 
 impl TechniqueDefinition for Killer45 {
   fn kind(&self) -> TechniqueKind { TechniqueKind::Killer45 }

@@ -5,9 +5,7 @@ use itertools::Itertools;
 use lisudoku_solver::solver::brute::BruteSolver;
 use lisudoku_solver::solver::logical::LogicalSolver;
 use lisudoku_solver::solver::logical::techniques::TechniqueKind;
-use lisudoku_solver::solver::logical::techniques::nishio_forcing_chain::NishioForcingChain;
-use lisudoku_solver::solver::logical::techniques::turbot_fish::TurbotFish;
-use lisudoku_solver::types::{Arrow, CellDirection, CellPosition, Grid, KillerCage, KropkiDot, Palindrome, Region, Renban, SolutionType, SudokuConstraints};
+use lisudoku_solver::types::{Arrow, CellPosition, Grid, KillerCage, KropkiDot, Palindrome, Region, Renban, SolutionType, SudokuConstraints};
 use rand::RngExt;
 use rand::seq::{IndexedRandom, SliceRandom};
 use url::Url;
@@ -271,6 +269,11 @@ fn generate_kropki(existing_constraints: &SudokuConstraints) {
 
   let constraints = constraints.with_kropki_dots(minimal_kropki_dots);
   println!("{}", constraints_to_url(&constraints));
+}
+
+struct CellDirection {
+  pub row: isize,
+  pub col: isize,
 }
 
 // Copied? similar to otrhogonal_neighbours

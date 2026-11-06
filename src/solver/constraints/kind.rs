@@ -3,7 +3,7 @@ use strum::{EnumCount, EnumIter};
 
 #[repr(usize)]
 #[derive(EnumIter, Debug, EnumCount)]
-pub enum ConstraintKind {
+pub(crate) enum ConstraintKind {
   Regions,
   FixedNumber,
   Thermo,

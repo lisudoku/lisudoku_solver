@@ -6,7 +6,7 @@ use crate::solver::types::CandidateSet;
 use crate::types::{CellPosition, SolutionStep};
 
 #[derive(Clone, Debug)]
-pub struct XYWing;
+pub(crate) struct XYWing;
 
 impl TechniqueDefinition for XYWing {
   fn kind(&self) -> TechniqueKind { TechniqueKind::XYWing }

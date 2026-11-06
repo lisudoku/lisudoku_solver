@@ -5,7 +5,7 @@ use crate::solver::types::CandidateSet;
 use crate::types::SolutionStep;
 
 #[derive(Clone, Debug)]
-pub struct CandidateInitialization;
+pub(crate) struct CandidateInitialization;
 
 impl TechniqueDefinition for CandidateInitialization {
   fn kind(&self) -> TechniqueKind { TechniqueKind::CandidateInitialization }

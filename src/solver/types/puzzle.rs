@@ -6,9 +6,9 @@ use strum::{EnumCount, IntoEnumIterator};
 /// Validated constraint set derived from SudokuConstraints, without grid state.
 #[derive(Clone, Default)]
 pub(crate) struct Puzzle {
-  pub grid_size: usize,
-  pub constraints: Vec<Constraint>,
-  pub constraints_by_kind: [Option<usize>; ConstraintKind::COUNT],
+  pub(crate) grid_size: usize,
+  pub(crate) constraints: Vec<Constraint>,
+  pub(crate) constraints_by_kind: [Option<usize>; ConstraintKind::COUNT],
   pub(crate) cell_area_ids: Vec<Vec<usize>>,
   area_id_mapper: RefCell<AreaIdMapper>,
   common_region_areas_cache: RefCell<HashMap<Vec<CellPosition>, Vec<Area>>>,
@@ -90,7 +90,7 @@ impl Puzzle {
     self.area_id_mapper.borrow_mut().area_to_id(area)
   }
 
-  pub fn all_region_areas(&self) -> impl Iterator<Item = Area> + '_ {
+  pub(crate) fn all_region_areas(&self) -> impl Iterator<Item = Area> + '_ {
     self.all_region_areas_cache
       .get_or_init(|| {
         self.constraints
@@ -104,7 +104,7 @@ impl Puzzle {
       .cloned()
   }
 
-  pub fn all_house_areas(&self) -> impl Iterator<Item = Area> + '_ {
+  pub(crate) fn all_house_areas(&self) -> impl Iterator<Item = Area> + '_ {
     self.all_house_areas_cache
       .get_or_init(|| {
         self.constraints
@@ -121,7 +121,7 @@ impl Puzzle {
   /// Returns the list of cells that are peers of the given <cell>
   /// What it considers as a "peer" is subjective, it doesn't consider
   /// all restrictions at this level (e.g. thermo, palindrome)
-  pub fn all_cell_peers(&self, cell: &CellPosition, peer_mode: PeerMode, candidate_mode: CandidateMode) -> Vec<CellPosition> {
+  pub(crate) fn all_cell_peers(&self, cell: &CellPosition, peer_mode: PeerMode, candidate_mode: CandidateMode) -> Vec<CellPosition> {
     if let Some(cached_result) = self.all_cell_peers_cache.borrow().get(&(*cell, peer_mode, candidate_mode)).cloned() {
       return cached_result
     }
@@ -147,7 +147,7 @@ impl Puzzle {
     peers
   }
 
-  pub fn find_common_region_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
+  pub(crate) fn find_common_region_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
     let areas = self.find_common_region_areas(cells);
     let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
     other_areas
@@ -155,7 +155,7 @@ impl Puzzle {
 
   /// Returns all areas that contain all <cells>.
   /// Useful for finding areas that are affected by all <cells>.
-  pub fn find_common_region_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
+  pub(crate) fn find_common_region_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
     if let Some(cached_result) = self.common_region_areas_cache.borrow().get(cells).cloned() {
       return cached_result
     }
@@ -182,17 +182,17 @@ impl Puzzle {
     common_areas
   }
 
-  pub fn cells_are_peers(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
+  pub(crate) fn cells_are_peers(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
     cell1 != cell2 &&
     !self.find_common_region_areas(&vec![*cell1, *cell2]).is_empty()
   }
 
-  pub fn all_cell_peers_unconstrained(&self, cell: &CellPosition) -> Vec<CellPosition> {
+  pub(crate) fn all_cell_peers_unconstrained(&self, cell: &CellPosition) -> Vec<CellPosition> {
     self.all_cell_peers(cell, PeerMode::Full, CandidateMode::Full)
   }
 
   /// Returns the <cell> peers that are special and are not peers through classic constraints
-  pub fn cell_only_special_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
+  pub(crate) fn cell_only_special_peers(&self, cell: &CellPosition) -> Vec<CellPosition> {
     if let Some(cached_result) = self.cell_only_special_peers_cache.borrow().get(cell).cloned() {
       return cached_result
     }
@@ -229,7 +229,7 @@ impl Puzzle {
   }
 
   /// Returns the list of cells in an `area`
-  pub fn area_cells(&self, area: &Area) -> Vec<CellPosition> {
+  pub(crate) fn area_cells(&self, area: &Area) -> Vec<CellPosition> {
     let area_id_opt = self.area_to_id(area);
     if let Some(area_id) = area_id_opt {
       let mut cache = self.area_cells_cache.borrow_mut();
@@ -272,50 +272,50 @@ impl Puzzle {
     cells
   }
 
-  pub fn all_grid_cells(&self) -> impl Iterator<Item = CellPosition> + '_ {
+  pub(crate) fn all_grid_cells(&self) -> impl Iterator<Item = CellPosition> + '_ {
     CellPosition::all_cells_in_grid_size(self.grid_size)
   }
 
-  pub fn constraint(&self, kind: ConstraintKind) -> Option<&Constraint> {
+  pub(crate) fn constraint(&self, kind: ConstraintKind) -> Option<&Constraint> {
     self.constraints_by_kind[kind as usize].map(|index| &self.constraints[index])
   }
 
-  pub fn thermo(&self) -> Option<&ThermoConstraint> {
+  pub(crate) fn thermo(&self) -> Option<&ThermoConstraint> {
     let Some(Constraint::Thermo(constraint)) = self.constraint(ConstraintKind::Thermo) else { return None };
     Some(constraint)
   }
 
-  pub fn kropki(&self) -> Option<&KropkiConstraint> {
+  pub(crate) fn kropki(&self) -> Option<&KropkiConstraint> {
     let Some(Constraint::Kropki(constraint)) = self.constraint(ConstraintKind::Kropki) else { return None };
     Some(constraint)
   }
 
-  pub fn killer(&self) -> Option<&KillerConstraint> {
+  pub(crate) fn killer(&self) -> Option<&KillerConstraint> {
     let Some(Constraint::Killer(constraint)) = self.constraint(ConstraintKind::Killer) else { return None };
     Some(constraint)
   }
 
-  pub fn arrow(&self) -> Option<&ArrowConstraint> {
+  pub(crate) fn arrow(&self) -> Option<&ArrowConstraint> {
     let Some(Constraint::Arrow(constraint)) = self.constraint(ConstraintKind::Arrow) else { return None };
     Some(constraint)
   }
 
-  pub fn top_bottom(&self) -> Option<&TopBottomConstraint> {
+  pub(crate) fn top_bottom(&self) -> Option<&TopBottomConstraint> {
     let Some(Constraint::TopBottom(constraint)) = self.constraint(ConstraintKind::TopBottom) else { return None };
     Some(constraint)
   }
 
-  pub fn renban(&self) -> Option<&RenbanConstraint> {
+  pub(crate) fn renban(&self) -> Option<&RenbanConstraint> {
     let Some(Constraint::Renban(constraint)) = self.constraint(ConstraintKind::Renban) else { return None };
     Some(constraint)
   }
 
-  pub fn palindrome(&self) -> Option<&PalindromeConstraint> {
+  pub(crate) fn palindrome(&self) -> Option<&PalindromeConstraint> {
     let Some(Constraint::Palindrome(constraint)) = self.constraint(ConstraintKind::Palindrome) else { return None };
     Some(constraint)
   }
 
-  pub fn region(&self) -> Option<&RegionsConstraint> {
+  pub(crate) fn region(&self) -> Option<&RegionsConstraint> {
     let Some(Constraint::Regions(constraint)) = self.constraint(ConstraintKind::Regions) else { return None };
     Some(constraint)
   }

@@ -9,7 +9,7 @@ use itertools::Itertools;
 // other cells in the house
 
 #[derive(Clone, Debug)]
-pub struct NakedSet {
+pub(crate) struct NakedSet {
   set_size: usize,
 }
 
@@ -35,11 +35,11 @@ impl TechniqueDefinition for NakedSet {
 }
 
 impl NakedSet {
-  pub fn new(set_size: usize) -> NakedSet {
+  pub(crate) fn new(set_size: usize) -> NakedSet {
     NakedSet { set_size }
   }
 
-  pub fn run_in_area(&self, area: Area, solver: &LogicalSolver) -> Vec<SolutionStep> {
+  pub(crate) fn run_in_area(&self, area: Area, solver: &LogicalSolver) -> Vec<SolutionStep> {
     let area_cells = solver.state.area_empty_cells(&area);
     // TODO: filter cells with CandidateSet size > self.set_size
 

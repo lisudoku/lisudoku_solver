@@ -8,7 +8,7 @@ use itertools::Itertools;
 // Eliminate arrow combinations that remove all candidates from 1 cell
 
 #[derive(Clone, Debug)]
-pub struct ArrowAdvancedCandidateUpdate;
+pub(crate) struct ArrowAdvancedCandidateUpdate;
 
 impl TechniqueDefinition for ArrowAdvancedCandidateUpdate {
   fn kind(&self) -> TechniqueKind { TechniqueKind::ArrowAdvancedCandidateUpdate }

@@ -8,7 +8,7 @@ use itertools::Itertools;
 // Eliminate kropki chain combinations that remove all candidates from 1 cell
 
 #[derive(Clone, Debug)]
-pub struct KropkiAdvancedCandidateUpdate;
+pub(crate) struct KropkiAdvancedCandidateUpdate;
 
 const DOT_TYPES: [KropkiDotType; 2] = [KropkiDotType::Consecutive, KropkiDotType::Double];
 

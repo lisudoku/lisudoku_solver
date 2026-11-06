@@ -5,7 +5,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 // other cells in the same square (S1).
 
 #[derive(Clone, Debug)]
-pub struct LockedCandidateSet {
+pub(crate) struct LockedCandidateSet {
   set_size: usize,
 }
 
@@ -58,7 +58,7 @@ impl TechniqueDefinition for LockedCandidateSet {
 }
 
 impl LockedCandidateSet {
-  pub fn new(set_size: usize) -> LockedCandidateSet {
+  pub(crate) fn new(set_size: usize) -> LockedCandidateSet {
     LockedCandidateSet { set_size }
   }
 }

@@ -28,7 +28,7 @@ impl TechniqueDefinition for TopBottomCandidateUpdate {
 }
 
 impl TopBottomCandidateUpdate {
-  pub fn new(checker_mode: bool) -> TopBottomCandidateUpdate {
+  pub(crate) fn new(checker_mode: bool) -> TopBottomCandidateUpdate {
     TopBottomCandidateUpdate { checker_mode }
   }
 

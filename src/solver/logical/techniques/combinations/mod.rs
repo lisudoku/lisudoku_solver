@@ -1,2 +1,2 @@
-pub mod cell_combinations_runner;
-pub mod cell_combination_logic;
+pub(crate) mod cell_combinations_runner;
+pub(crate) mod cell_combination_logic;
