@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_hidden_triples() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(3, 1, 1),
         FixedNumber::new(4, 1, 2),
         FixedNumber::new(5, 1, 3),
@@ -37,7 +37,7 @@ fn check_hidden_triples() {
 fn check_hidden_triples_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 5),
         FixedNumber::new(0, 4, 4),
         FixedNumber::new(0, 5, 2),

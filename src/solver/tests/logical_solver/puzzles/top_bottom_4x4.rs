@@ -4,7 +4,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber,
 fn check_top_bottom_4x4_1() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4), FixedNumber::new(0, 3, 1),
         FixedNumber::new(3, 0, 1), FixedNumber::new(3, 3, 4),
       ]
@@ -29,7 +29,7 @@ fn check_top_bottom_4x4_1() {
 fn check_top_bottom_4x4_no_solution() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1), FixedNumber::new(1, 2, 2),
       ]
     )

@@ -59,7 +59,7 @@ fn check_adhoc_naked_sets_thermo_4x4_1() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(fixed_numbers)
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition { row: 2, col: 2 },
           CellPosition { row: 2, col: 1 },
@@ -127,7 +127,7 @@ fn check_adhoc_naked_sets_thermo_6x6_peers() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(fixed_numbers)
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition { row: 2, col: 3 },
           CellPosition { row: 1, col: 2 },

@@ -24,7 +24,7 @@ impl LogicalSolver {
     self
   }
 
-  pub fn with_techniques(mut self, technique_kinds: Vec<TechniqueKind>) -> Self {
+  pub fn with_techniques(mut self, technique_kinds: impl IntoIterator<Item = TechniqueKind>) -> Self {
     let technique_kinds_set: HashSet<TechniqueKind> = HashSet::from_iter(technique_kinds);
     self.enabled_techniques_by_phase = Self::group_techniques_by_phase(
       Self::all_techniques().filter(|t| technique_kinds_set.contains(&t.kind()))
@@ -32,7 +32,7 @@ impl LogicalSolver {
     self
   }
 
-  pub fn with_techniques_order(mut self, technique_kinds: Vec<TechniqueKind>) -> Self {
+  pub fn with_techniques_order(mut self, technique_kinds: impl IntoIterator<Item = TechniqueKind>) -> Self {
     self.enabled_techniques_by_phase = Self::group_techniques_by_phase(
       technique_kinds
         .into_iter()
@@ -44,7 +44,7 @@ impl LogicalSolver {
     self
   }
 
-  pub fn without_techniques(mut self, technique_kinds: Vec<TechniqueKind>) -> Self {
+  pub fn without_techniques(mut self, technique_kinds: impl IntoIterator<Item = TechniqueKind>) -> Self {
     let technique_kinds_set: HashSet<TechniqueKind> = HashSet::from_iter(technique_kinds);
     for techniques in &mut self.enabled_techniques_by_phase {
       techniques.retain(|t| !technique_kinds_set.contains(&t.kind()));

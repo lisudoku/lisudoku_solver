@@ -114,7 +114,7 @@ impl TechniqueDefinition for EmptyRectangle {
 }
 
 impl EmptyRectangle {
-  fn find_most_frequent_row_col(&self, cells: &Vec<CellPosition>) -> (usize, usize) {
+  fn find_most_frequent_row_col(&self, cells: &[CellPosition]) -> (usize, usize) {
     let mut row_freq: HashMap<usize, u32> = HashMap::new();
     let mut col_freq: HashMap<usize, u32> = HashMap::new();
     for cell in cells {

@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_wrong_thermo() {
   let constraints = SudokuConstraints::new(4)
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 0),
           CellPosition::new(1, 0),

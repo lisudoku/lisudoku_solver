@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_empty_rectangles_with_affected_cells_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 2), FixedNumber::new(2, 3, 1), FixedNumber::new(3, 2, 1),
         FixedNumber::new(1, 6, 7), FixedNumber::new(0, 8, 8), FixedNumber::new(0, 7, 9),
         FixedNumber::new(3, 6, 3), FixedNumber::new(4, 6, 4), FixedNumber::new(5, 6, 5),
@@ -39,7 +39,7 @@ fn check_empty_rectangles_with_affected_cells_1() {
 fn check_empty_rectangles_with_affected_cells_2() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 2), FixedNumber::new(2, 3, 1), FixedNumber::new(3, 2, 1),
         FixedNumber::new(6, 1, 7), FixedNumber::new(8, 0, 8), FixedNumber::new(7, 4, 1),
         FixedNumber::new(6, 7, 8), FixedNumber::new(6, 8, 9),
@@ -66,7 +66,7 @@ fn check_empty_rectangles_with_affected_cells_2() {
 fn check_empty_rectangles_with_no_affected_cells_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 2), FixedNumber::new(2, 3, 1), FixedNumber::new(3, 2, 1),
         FixedNumber::new(4, 7, 1), FixedNumber::new(6, 8, 1),
       ]
@@ -82,7 +82,7 @@ fn check_empty_rectangles_with_no_affected_cells_1() {
 fn check_empty_rectangles_with_no_affected_cells_2() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 2), FixedNumber::new(2, 3, 1), FixedNumber::new(3, 2, 1),
         FixedNumber::new(7, 5, 1), FixedNumber::new(8, 6, 1),
       ]

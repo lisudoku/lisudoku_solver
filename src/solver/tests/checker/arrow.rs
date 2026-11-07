@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, Arrow, CellPosi
 fn check_wrong_arrow() {
   let constraints = SudokuConstraints::new(4)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(1, 0) ],
           arrow_cells: vec![
@@ -37,7 +37,7 @@ fn check_wrong_arrow() {
 fn check_correct_arrow() {
   let constraints = SudokuConstraints::new(4)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(1, 0) ],
           arrow_cells: vec![
@@ -61,7 +61,7 @@ fn check_correct_arrow() {
 fn check_wrong_oval_arrow() {
   let constraints = SudokuConstraints::new(4)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![
             CellPosition::new(1, 2), CellPosition::new(1, 3),
@@ -97,7 +97,7 @@ fn check_wrong_oval_arrow() {
 fn check_correct_oval_arrow() {
   let constraints = SudokuConstraints::new(4)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![
             CellPosition::new(1, 2), CellPosition::new(1, 3),
@@ -124,7 +124,7 @@ fn check_correct_oval_arrow() {
 fn check_partial_arrow() {
   let constraints = SudokuConstraints::new(4)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(3, 0) ],
           arrow_cells: vec![

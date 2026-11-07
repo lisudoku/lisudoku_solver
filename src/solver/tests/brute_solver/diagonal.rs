@@ -5,7 +5,7 @@ use ntest::timeout;
 fn diagonal_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 5, 3),
         FixedNumber::new(0, 6, 8),
         FixedNumber::new(1, 4, 4),

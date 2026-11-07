@@ -5,7 +5,7 @@ use ntest::timeout;
 fn odd_even_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 5),
         FixedNumber::new(1, 2, 3),
         FixedNumber::new(2, 1, 1),
@@ -23,7 +23,7 @@ fn odd_even_9x9_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_even_cells(
-      vec![
+      [
         CellPosition::new(0, 5), CellPosition::new(1, 6), CellPosition::new(2, 7),
         CellPosition::new(3, 8), CellPosition::new(3, 0), CellPosition::new(4, 1),
         CellPosition::new(5, 2), CellPosition::new(6, 3), CellPosition::new(7, 4),
@@ -31,7 +31,7 @@ fn odd_even_9x9_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_odd_cells(
-      vec![
+      [
         CellPosition::new(0, 3), CellPosition::new(1, 4), CellPosition::new(2, 5),
         CellPosition::new(3, 6), CellPosition::new(4, 7), CellPosition::new(5, 8),
         CellPosition::new(0, 7), CellPosition::new(1, 8), CellPosition::new(5, 0),

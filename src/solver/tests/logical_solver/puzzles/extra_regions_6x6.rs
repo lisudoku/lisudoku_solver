@@ -5,7 +5,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition
 fn check_extra_regions_6x6_1_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 5),
         FixedNumber::new(0, 1, 1),
         FixedNumber::new(0, 2, 4),
@@ -19,7 +19,7 @@ fn check_extra_regions_6x6_1_solve() {
       ]
     )
     .with_extra_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(1, 0), CellPosition::new(2, 0), CellPosition::new(2, 1),
           CellPosition::new(3, 0), CellPosition::new(3, 1), CellPosition::new(4, 0),

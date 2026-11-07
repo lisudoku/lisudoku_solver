@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_killer45_row() {
   let constraints = SudokuConstraints::new(6)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(4),
           region: Region(vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]),
@@ -38,7 +38,7 @@ fn check_killer45_row() {
 fn check_killer45_region() {
   let constraints = SudokuConstraints::new(9)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(30),
           region: Region(vec![
@@ -74,10 +74,10 @@ fn check_killer45_region() {
 fn check_killer45_col_with_fixed_digits() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(0, 1, 3), FixedNumber::new(5, 1, 2) ]
+      [ FixedNumber::new(0, 1, 3), FixedNumber::new(5, 1, 2) ]
     )
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(12),
           region: Region(vec![ CellPosition::new(1, 1), CellPosition::new(2, 1), CellPosition::new(3, 1) ]),
@@ -106,7 +106,7 @@ fn check_killer45_col_with_fixed_digits() {
 fn check_killer45_col_partial_cages() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 4, 6), FixedNumber::new(0, 5, 5),
         FixedNumber::new(1, 2, 6), FixedNumber::new(2, 2, 5), FixedNumber::new(3, 4, 2),
         FixedNumber::new(4, 4, 1),
@@ -115,7 +115,7 @@ fn check_killer45_col_partial_cages() {
       ]
     )
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(21),
           region: Region(vec![

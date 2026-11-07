@@ -6,7 +6,7 @@ fn check_mixed_6x6_irregular_kropki_solve() {
   // Added without negative condition, it is not needed
   let constraints = SudokuConstraints::new(6)
     .with_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(0, 2),
           CellPosition::new(0, 3), CellPosition::new(1, 0), CellPosition::new(1, 1),
@@ -34,7 +34,7 @@ fn check_mixed_6x6_irregular_kropki_solve() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),

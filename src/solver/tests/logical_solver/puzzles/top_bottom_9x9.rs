@@ -5,7 +5,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber,
 fn check_top_bottom_9x9_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 9), FixedNumber::new(1, 5, 7), FixedNumber::new(1, 7, 6),
         FixedNumber::new(2, 0, 4), FixedNumber::new(3, 2, 2), FixedNumber::new(3, 3, 8),
         FixedNumber::new(4, 4, 7), FixedNumber::new(4, 6, 1), FixedNumber::new(5, 8, 3),
@@ -39,7 +39,7 @@ fn check_top_bottom_9x9_1() {
 fn check_top_bottom_9x9_2() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 6), FixedNumber::new(1, 1, 4), FixedNumber::new(2, 0, 9),
         FixedNumber::new(0, 3, 5), FixedNumber::new(1, 4, 1), FixedNumber::new(0, 5, 4),
         FixedNumber::new(0, 8, 2), FixedNumber::new(1, 7, 6), FixedNumber::new(2, 8, 5),

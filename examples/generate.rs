@@ -49,7 +49,7 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
     .with_randomize()
     .with_solution_limit(1);
   // TODO: on slow cases profile and try with even less techniques?
-    // .without_techniques(vec![TechniqueKind::NishioForcingChain, TechniqueKind::TurbotFish, TechniqueKind::EmptyRectangle]);
+    // .without_techniques([TechniqueKind::NishioForcingChain, TechniqueKind::TurbotFish, TechniqueKind::EmptyRectangle]);
   // TODO: why use-Logic true, where is it false? I think I tried it and it didn't make a difference?
   let result = solver.solve();
   assert!(result.solution.is_some());
@@ -83,7 +83,7 @@ fn random_grid(constraints: &SudokuConstraints) -> Grid {
 
 fn is_constraints_solvable(constraints: &SudokuConstraints) -> bool {
   let mut logical_solver = LogicalSolver::new(constraints.clone())
-  // .without_techniques(vec![Rc::new(NishioForcingChain), Rc::new(TurbotFish), /*Rc::new(EmptyRectangle)*/])
+  // .without_techniques([Rc::new(NishioForcingChain), Rc::new(TurbotFish), /*Rc::new(EmptyRectangle)*/])
   // temp for EASY
   // .with_techniques(easy_techniques())
   // .with_techniques(easy_medium_techniques())
@@ -108,33 +108,33 @@ fn is_grid_solvable(grid: &Grid, constraints: &SudokuConstraints) -> bool {
   )
 }
 
-fn is_odd_even_solvable(restricted_cells: &Vec<CellPosition>, constraints: &SudokuConstraints, full_grid: &Grid) -> bool {
+fn is_odd_even_solvable(restricted_cells: &[CellPosition], constraints: &SudokuConstraints, full_grid: &Grid) -> bool {
   is_constraints_solvable(
-    &constraint_with_odd_even_cells(constraints.clone(), &restricted_cells, &full_grid)
+    &constraint_with_odd_even_cells(constraints.clone(), restricted_cells, full_grid)
   )
 }
 
-fn is_extra_regions_solvable(extra_regions: &Vec<Region>, constraints: &SudokuConstraints) -> bool {
+fn is_extra_regions_solvable(extra_regions: &[Region], constraints: &SudokuConstraints) -> bool {
   is_constraints_solvable(
-    &constraints.clone().with_extra_regions(extra_regions.clone())
+    &constraints.clone().with_extra_regions(extra_regions.iter().cloned())
   )
 }
 
-fn is_thermo_solvable(thermos: &Vec<lisudoku_solver::types::Thermo>, constraints: &SudokuConstraints) -> bool {
+fn is_thermo_solvable(thermos: &[lisudoku_solver::types::Thermo], constraints: &SudokuConstraints) -> bool {
   is_constraints_solvable(
-    &constraints.clone().with_thermos(thermos.clone())
+    &constraints.clone().with_thermos(thermos.iter().cloned())
   )
 }
 
-fn is_renban_solvable(renbans: &Vec<Renban>, constraints: &SudokuConstraints) -> bool {
+fn is_renban_solvable(renbans: &[Renban], constraints: &SudokuConstraints) -> bool {
   is_constraints_solvable(
-    &constraints.clone().with_renbans(renbans.clone())
+    &constraints.clone().with_renbans(renbans.iter().cloned())
   )
 }
 
-fn is_arrow_solvable(arrows: &Vec<Arrow>, constraints: &SudokuConstraints) -> bool {
+fn is_arrow_solvable(arrows: &[Arrow], constraints: &SudokuConstraints) -> bool {
   is_constraints_solvable(
-    &constraints.clone().with_arrows(arrows.clone())
+    &constraints.clone().with_arrows(arrows.iter().cloned())
   )
 }
 
@@ -166,9 +166,9 @@ fn generate_classic(existing_constraints: &SudokuConstraints) {
   println!("{}", constraints_to_url(&constraints));
 }
 
-fn is_kropki_solvable(kropki_dots: &Vec<KropkiDot>, constraints: &SudokuConstraints) -> bool {
+fn is_kropki_solvable(kropki_dots: &[KropkiDot], constraints: &SudokuConstraints) -> bool {
   is_constraints_solvable(
-    &constraints.clone().with_kropki_dots(kropki_dots.clone())
+    &constraints.clone().with_kropki_dots(kropki_dots.iter().cloned())
   )
 }
 
@@ -338,9 +338,9 @@ fn search_palindrome(cell_1: &CellPosition, cell_2: &CellPosition, grid: &Grid) 
   palindrome
 }
 
-fn palindrome_lone_cell_count(pal: &Vec<CellPosition>) -> usize {
+fn palindrome_lone_cell_count(pal: &[CellPosition]) -> usize {
   pal
-    .into_iter()
+    .iter()
     .enumerate()
     .filter(|(index, cell)| {
       let bad = cell.otrhogonal_neighbours(9);
@@ -349,7 +349,7 @@ fn palindrome_lone_cell_count(pal: &Vec<CellPosition>) -> usize {
     .count()
 }
 
-fn palindrome_is_better(pal_a: &Vec<CellPosition>, pal_b: &Vec<CellPosition>) -> bool {
+fn palindrome_is_better(pal_a: &[CellPosition], pal_b: &[CellPosition]) -> bool {
   pal_a.len() + palindrome_lone_cell_count(pal_a) > pal_b.len() + palindrome_lone_cell_count(pal_b)
 }
 
@@ -393,7 +393,7 @@ fn generate_palindrome(existing_constraints: &SudokuConstraints) {
 
   let mut constraints = existing_constraints
     .clone()
-    .with_palindromes(vec![Palindrome(longest_palindrome.clone())]);
+    .with_palindromes([Palindrome(longest_palindrome.clone())]);
 
   println!("{}", constraints_to_url(&constraints));
 
@@ -698,7 +698,7 @@ fn cell_disconnects_grid(grid: &Grid, next_cell: &CellPosition, cell_count_left:
   bad_components_total_size > cell_count_left
 }
 
-fn constraint_with_odd_even_cells(constraints: SudokuConstraints, restricted_cells: &Vec<CellPosition>, full_grid: &Grid) -> SudokuConstraints {
+fn constraint_with_odd_even_cells(constraints: SudokuConstraints, restricted_cells: &[CellPosition], full_grid: &Grid) -> SudokuConstraints {
   let odd_cells: Vec<CellPosition> = restricted_cells.iter().filter(|cell| full_grid[cell.row][cell.col] != 0 && full_grid[cell.row][cell.col] % 2 == 1).copied().collect();
   let even_cells: Vec<CellPosition> = restricted_cells.iter().filter(|cell| full_grid[cell.row][cell.col] != 0 && full_grid[cell.row][cell.col] % 2 == 0).copied().collect();
   constraints.with_odd_cells(odd_cells).with_even_cells(even_cells)
@@ -899,12 +899,12 @@ fn generate_killer_regions(existing_constraints: &SudokuConstraints) -> Vec<Regi
 fn generate_killer(existing_constraints: &SudokuConstraints) {
   let killer_regions = generate_killer_regions(existing_constraints);
 
-  let mut grid = random_grid(&existing_constraints.clone().with_extra_regions(killer_regions.clone()));
+  let mut grid = random_grid(&existing_constraints.clone().with_extra_regions(killer_regions.iter().cloned()));
 
-  let killer_cages: Vec<KillerCage> = killer_regions.into_iter().map(|region| {
+  let killer_cages = killer_regions.iter().map(|region| {
     let sum: u32 = region.iter().map(|cell| grid[cell.row][cell.col]).sum();
-    KillerCage { sum: Some(sum), region }
-  }).collect();
+    KillerCage { sum: Some(sum), region: region.clone() }
+  });
 
   let mut constraints = existing_constraints
     .clone()
@@ -928,7 +928,7 @@ fn generate_extra_regions(existing_constraints: &SudokuConstraints) {
 
   let mut constraints = existing_constraints
     .clone()
-    .with_extra_regions(extra_regions.clone());
+    .with_extra_regions(extra_regions.iter().cloned());
 
   println!("Generating random grid");
   let mut grid = random_grid(&constraints);
@@ -975,7 +975,7 @@ fn generate_extra_regions(existing_constraints: &SudokuConstraints) {
       let extra_region = extra_regions.remove(extra_regions_index as usize);
       if is_extra_regions_solvable(&extra_regions, &constraints) {
         println!("[extra region] SUCCESS!");
-        constraints = constraints.with_extra_regions(extra_regions.clone());
+        constraints = constraints.with_extra_regions(extra_regions.iter().cloned());
       } else {
         println!("[extra region] FAIL!");
         extra_regions.insert(extra_regions_index as usize, extra_region);

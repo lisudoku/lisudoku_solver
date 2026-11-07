@@ -5,7 +5,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Techniq
 fn check_palindrome_9x9_1_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 8), FixedNumber::new(0, 1, 2), FixedNumber::new(0, 2, 1),
         FixedNumber::new(0, 6, 9), FixedNumber::new(0, 7, 5), FixedNumber::new(0, 8, 3),
         FixedNumber::new(1, 3, 2), FixedNumber::new(1, 4, 3), FixedNumber::new(1, 5, 1),
@@ -15,7 +15,7 @@ fn check_palindrome_9x9_1_solve() {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(3, 3), CellPosition::new(2, 2), CellPosition::new(1, 1),
           CellPosition::new(2, 0), CellPosition::new(3, 0), CellPosition::new(4, 0),
@@ -30,7 +30,7 @@ fn check_palindrome_9x9_1_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
 
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
@@ -59,7 +59,7 @@ fn check_palindrome_9x9_1_solve() {
 fn check_palindrome_9x9_2_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 4), FixedNumber::new(0, 5, 8), FixedNumber::new(1, 2, 3),
         FixedNumber::new(1, 6, 2), FixedNumber::new(2, 1, 2), FixedNumber::new(2, 7, 4),
         FixedNumber::new(3, 0, 1), FixedNumber::new(3, 8, 3), FixedNumber::new(5, 0, 7),
@@ -69,7 +69,7 @@ fn check_palindrome_9x9_2_solve() {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(4, 5), CellPosition::new(3, 4), CellPosition::new(4, 3),
           CellPosition::new(5, 4), CellPosition::new(6, 5), CellPosition::new(5, 6),
@@ -80,7 +80,7 @@ fn check_palindrome_9x9_2_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -108,7 +108,7 @@ fn check_palindrome_9x9_2_solve() {
 fn check_palindrome_9x9_3_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 6, 3), FixedNumber::new(0, 8, 5), FixedNumber::new(1, 5, 4),
         FixedNumber::new(2, 2, 8), FixedNumber::new(2, 4, 1), FixedNumber::new(2, 8, 4),
         FixedNumber::new(3, 1, 9), FixedNumber::new(3, 3, 8), FixedNumber::new(5, 3, 1),
@@ -118,7 +118,7 @@ fn check_palindrome_9x9_3_solve() {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(4, 6), CellPosition::new(3, 5), CellPosition::new(3, 4),
           CellPosition::new(4, 3), CellPosition::new(5, 4), CellPosition::new(6, 5),
@@ -132,7 +132,7 @@ fn check_palindrome_9x9_3_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -160,7 +160,7 @@ fn check_palindrome_9x9_3_solve() {
 fn check_palindrome_9x9_4_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4), FixedNumber::new(1, 3, 7), FixedNumber::new(1, 5, 1),
         FixedNumber::new(1, 7, 9), FixedNumber::new(2, 2, 1), FixedNumber::new(2, 6, 7),
         FixedNumber::new(3, 1, 1), FixedNumber::new(3, 3, 2), FixedNumber::new(3, 5, 4),
@@ -171,7 +171,7 @@ fn check_palindrome_9x9_4_solve() {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(5, 4), CellPosition::new(6, 5), CellPosition::new(7, 6),
           CellPosition::new(6, 7), CellPosition::new(5, 6), CellPosition::new(4, 5),
@@ -183,7 +183,7 @@ fn check_palindrome_9x9_4_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -211,7 +211,7 @@ fn check_palindrome_9x9_4_solve() {
 fn check_palindrome_9x9_5_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 3), FixedNumber::new(4, 4, 2), FixedNumber::new(8, 8, 1),
         FixedNumber::new(2, 6, 4), FixedNumber::new(2, 7, 5), FixedNumber::new(2, 8, 6),
         FixedNumber::new(3, 6, 7), FixedNumber::new(3, 7, 9), FixedNumber::new(3, 8, 8),
@@ -220,7 +220,7 @@ fn check_palindrome_9x9_5_solve() {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(1, 3), CellPosition::new(0, 2), CellPosition::new(0, 1),
           CellPosition::new(1, 0), CellPosition::new(2, 0), CellPosition::new(3, 0),
@@ -234,7 +234,7 @@ fn check_palindrome_9x9_5_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -262,7 +262,7 @@ fn check_palindrome_9x9_5_solve() {
 fn check_palindrome_9x9_6_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 2), FixedNumber::new(1, 0, 1), FixedNumber::new(2, 3, 3),
         FixedNumber::new(2, 6, 4), FixedNumber::new(2, 8, 9), FixedNumber::new(3, 4, 5),
         FixedNumber::new(3, 5, 7), FixedNumber::new(3, 6, 6), FixedNumber::new(3, 8, 4),
@@ -272,7 +272,7 @@ fn check_palindrome_9x9_6_solve() {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(1, 3), CellPosition::new(1, 4), CellPosition::new(1, 5),
           CellPosition::new(1, 6), CellPosition::new(1, 7), CellPosition::new(2, 7),
@@ -285,7 +285,7 @@ fn check_palindrome_9x9_6_solve() {
         ]),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(

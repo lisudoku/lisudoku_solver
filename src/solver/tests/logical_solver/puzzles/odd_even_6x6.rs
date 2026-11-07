@@ -5,7 +5,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition
 fn check_odd_even_6x6_1_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 5, 3),
         FixedNumber::new(2, 0, 3),
@@ -17,13 +17,13 @@ fn check_odd_even_6x6_1_solve() {
       ]
     )
     .with_even_cells(
-      vec![
+      [
         CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(1, 2),
         CellPosition::new(2, 1), CellPosition::new(2, 3),
       ]
     )
     .with_odd_cells(
-      vec![
+      [
         CellPosition::new(3, 2), CellPosition::new(3, 4), CellPosition::new(4, 3),
         CellPosition::new(5, 2), CellPosition::new(5, 4),
       ]

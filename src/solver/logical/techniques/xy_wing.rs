@@ -49,7 +49,7 @@ impl TechniqueDefinition for XYWing {
           }
 
           // Found the XYZ triplet, now search for cells with candidate Z that both XZ and YZ see
-          let affected_cells = solver.cells_peers_with_any_candidates(&vec![ *xz_cell, *yz_cell ], &CandidateSet::from([z]));
+          let affected_cells = solver.cells_peers_with_any_candidates(&[ *xz_cell, *yz_cell ], &CandidateSet::from([z]));
 
           if !affected_cells.is_empty() {
             return vec![

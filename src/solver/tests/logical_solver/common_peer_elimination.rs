@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_anti_knight_common_peer_elimination_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(3, 3, 1),
         FixedNumber::new(3, 5, 2),
         FixedNumber::new(5, 5, 3),
@@ -38,7 +38,7 @@ fn check_anti_knight_common_peer_elimination_1() {
 fn check_anti_knight_common_peer_elimination_2() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(3, 3, 1),
         FixedNumber::new(3, 4, 2),
         FixedNumber::new(3, 5, 3),
@@ -76,10 +76,10 @@ fn check_anti_knight_common_peer_elimination_2() {
 fn check_common_peer_elimination_overlapping_thermos_1() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![FixedNumber::new(5, 0, 1)]
+      [FixedNumber::new(5, 0, 1)]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(3, 2),
           CellPosition::new(4, 3),

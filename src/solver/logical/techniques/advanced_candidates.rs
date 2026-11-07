@@ -11,7 +11,7 @@ pub(crate) type CellEliminationsResult = Vec<(CellPosition, Vec<u32>)>;
 impl LogicalSolver {
   // Eliminate `combinations` that remove all candidates from any of `cells`
   // Returns cells that need to be updated
-  pub(crate) fn eliminate_combinations(&self, combinations: &Vec<Vec<u32>>, cells: &Vec<CellPosition>) -> CellEliminationsResult {
+  pub(crate) fn eliminate_combinations(&self, combinations: &[Vec<u32>], cells: &[CellPosition]) -> CellEliminationsResult {
     let cell_peers: Vec<Vec<CellPosition>> = cells.iter().map(|cell| {
       self.state.puzzle.all_cell_peers_unconstrained(cell)
     }).collect();
@@ -65,7 +65,7 @@ impl LogicalSolver {
       }
     }
 
-    let result = self.cell_candidates_diff(cells, valid_candidates);
+    let result = self.cell_candidates_diff(cells, &valid_candidates);
 
     self.caches.cell_eliminations_cache.borrow_mut().insert(cache_key, result.to_vec());
 

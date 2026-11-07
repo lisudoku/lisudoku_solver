@@ -5,7 +5,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Techniq
 fn check_arrow_9x9_1_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ],
           arrow_cells: vec![ CellPosition::new(0, 2), CellPosition::new(0, 3) ],
@@ -105,7 +105,7 @@ fn check_arrow_9x9_1_solve() {
 fn check_arrow_9x9_2_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(1, 6) ],
           arrow_cells: vec![ CellPosition::new(0, 6), CellPosition::new(0, 5) ],
@@ -216,10 +216,10 @@ fn check_arrow_9x9_2_solve() {
 fn check_arrow_9x9_3_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
+      [ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(0, 0) ],
           arrow_cells: vec![

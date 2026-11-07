@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_killer_candidates_single_unfixed() {
   let constraints = SudokuConstraints::new(9)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(7),
           region: Region(vec![ CellPosition::new(8, 8) ]),
@@ -33,9 +33,9 @@ fn check_killer_candidates_single_unfixed() {
 #[test]
 fn check_killer_candidates_single_fixed() {
   let constraints = SudokuConstraints::new(9)
-    .with_fixed_numbers(vec![ FixedNumber::new(0, 0, 5) ])
+    .with_fixed_numbers([ FixedNumber::new(0, 0, 5) ])
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(5),
           region: Region(vec![ CellPosition::new(0, 0) ]),
@@ -53,7 +53,7 @@ fn check_killer_candidates_single_fixed() {
 fn check_killer_candidates_pair_1() {
   let constraints = SudokuConstraints::new(9)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(4),
           region: Region(vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ]),
@@ -88,9 +88,9 @@ fn check_killer_candidates_pair_1() {
 #[test]
 fn check_killer_candidates_pair_2() {
   let constraints = SudokuConstraints::new(9)
-    .with_fixed_numbers(vec![ FixedNumber::new(0, 0, 1) ])
+    .with_fixed_numbers([ FixedNumber::new(0, 0, 1) ])
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(4),
           region: Region(vec![ CellPosition::new(8, 0), CellPosition::new(8, 1) ]),

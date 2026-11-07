@@ -5,7 +5,7 @@ use ntest::timeout;
 fn killer_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(20),
           region: Region(vec![
@@ -208,7 +208,7 @@ fn brute_solver_with_logic_finds_unique_solution_in_killer_9x9() {
 fn killer_6x6_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 2, 3),
         FixedNumber::new(5, 3, 3),
@@ -216,7 +216,7 @@ fn killer_6x6_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(5),
           region: Region(vec![
@@ -315,7 +315,7 @@ fn brute_solver_without_logic_finds_unique_solution_in_killer_6x6() {
 fn killer_9x9_2_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(18),
           region: Region(vec![

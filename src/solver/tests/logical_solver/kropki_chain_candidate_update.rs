@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_kropki_chain_row_consecutive_unfixed() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
@@ -57,7 +57,7 @@ fn check_kropki_chain_row_consecutive_unfixed() {
 fn check_kropki_chain_region_double_unfixed() {
   let constraints = SudokuConstraints::new(9)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::double(CellPosition::new(3, 8), CellPosition::new(4, 8)),
         KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(4, 8)),
         KropkiDot::double(CellPosition::new(4, 7), CellPosition::new(5, 7)),
@@ -108,9 +108,9 @@ fn check_kropki_chain_region_double_unfixed() {
 #[test]
 fn check_kropki_chain_row_consecutive_fixed() {
   let constraints = SudokuConstraints::new(6)
-    .with_fixed_numbers(vec![ FixedNumber::new(0, 0, 3) ])
+    .with_fixed_numbers([ FixedNumber::new(0, 0, 3) ])
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
       ]

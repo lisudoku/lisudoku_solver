@@ -5,10 +5,10 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition
 fn check_thermo_4x4_edge_1_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![FixedNumber::new(3, 3, 2)]
+      [FixedNumber::new(3, 3, 2)]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(1, 1),
           CellPosition::new(0, 1),

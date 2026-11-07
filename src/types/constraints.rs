@@ -102,8 +102,8 @@ impl SudokuConstraints {
     }
   }
 
-  pub fn with_fixed_numbers(mut self, fixed_numbers: Vec<FixedNumber>) -> Self {
-    self.fixed_numbers = Some(fixed_numbers);
+  pub fn with_fixed_numbers(mut self, fixed_numbers: impl IntoIterator<Item = FixedNumber>) -> Self {
+    self.fixed_numbers = Some(fixed_numbers.into_iter().collect());
     self
   }
 
@@ -112,23 +112,23 @@ impl SudokuConstraints {
     self
   }
 
-  pub fn with_regions(mut self, regions: Vec<Region>) -> Self {
-    self.regions = Some(regions);
+  pub fn with_regions(mut self, regions: impl IntoIterator<Item = Region>) -> Self {
+    self.regions = Some(regions.into_iter().collect());
     self
   }
 
-  pub fn with_extra_regions(mut self, extra_regions: Vec<Region>) -> Self {
-    self.extra_regions = Some(extra_regions);
+  pub fn with_extra_regions(mut self, extra_regions: impl IntoIterator<Item = Region>) -> Self {
+    self.extra_regions = Some(extra_regions.into_iter().collect());
     self
   }
 
-  pub fn with_killer_cages(mut self, killer_cages: Vec<KillerCage>) -> Self {
-    self.killer_cages = Some(killer_cages);
+  pub fn with_killer_cages(mut self, killer_cages: impl IntoIterator<Item = KillerCage>) -> Self {
+    self.killer_cages = Some(killer_cages.into_iter().collect());
     self
   }
 
-  pub fn with_kropki_dots(mut self, kropki_dots: Vec<KropkiDot>) -> Self {
-    self.kropki_dots = Some(kropki_dots);
+  pub fn with_kropki_dots(mut self, kropki_dots: impl IntoIterator<Item = KropkiDot>) -> Self {
+    self.kropki_dots = Some(kropki_dots.into_iter().collect());
     self
   }
 
@@ -142,23 +142,23 @@ impl SudokuConstraints {
     self
   }
 
-  pub fn with_odd_cells(mut self, odd_cells: Vec<CellPosition>) -> Self {
-    self.odd_cells = Some(odd_cells);
+  pub fn with_odd_cells(mut self, odd_cells: impl IntoIterator<Item = CellPosition>) -> Self {
+    self.odd_cells = Some(odd_cells.into_iter().collect());
     self
   }
 
-  pub fn with_even_cells(mut self, even_cells: Vec<CellPosition>) -> Self {
-    self.even_cells = Some(even_cells);
+  pub fn with_even_cells(mut self, even_cells: impl IntoIterator<Item = CellPosition>) -> Self {
+    self.even_cells = Some(even_cells.into_iter().collect());
     self
   }
 
-  pub fn with_palindromes(mut self, palindromes: Vec<Palindrome>) -> Self {
-    self.palindromes = Some(palindromes);
+  pub fn with_palindromes(mut self, palindromes: impl IntoIterator<Item = Palindrome>) -> Self {
+    self.palindromes = Some(palindromes.into_iter().collect());
     self
   }
 
-  pub fn with_renbans(mut self, renbans: Vec<Renban>) -> Self {
-    self.renbans = Some(renbans);
+  pub fn with_renbans(mut self, renbans: impl IntoIterator<Item = Renban>) -> Self {
+    self.renbans = Some(renbans.into_iter().collect());
     self
   }
 
@@ -220,13 +220,13 @@ impl SudokuConstraints {
     self.unset_primary_diagonal().unset_secondary_diagonal()
   }
 
-  pub fn with_thermos(mut self, thermos: Vec<Thermo>) -> Self {
-    self.thermos = Some(thermos);
+  pub fn with_thermos(mut self, thermos: impl IntoIterator<Item = Thermo>) -> Self {
+    self.thermos = Some(thermos.into_iter().collect());
     self
   }
 
-  pub fn with_arrows(mut self, arrows: Vec<Arrow>) -> Self {
-    self.arrows = Some(arrows);
+  pub fn with_arrows(mut self, arrows: impl IntoIterator<Item = Arrow>) -> Self {
+    self.arrows = Some(arrows.into_iter().collect());
     self
   }
 
@@ -358,7 +358,7 @@ impl Grid {
 
   pub fn from_fixed_numbers(grid_size: usize, fixed_numbers: &Option<Vec<FixedNumber>>) -> Self {
     let mut grid = vec![ vec![ 0; grid_size ]; grid_size ];
-    for fixed_number in fixed_numbers.as_ref().unwrap_or(&vec![]) {
+    for fixed_number in fixed_numbers.as_deref().unwrap_or(&[]) {
       let cell = fixed_number.position;
       grid[cell.row][cell.col] = fixed_number.value;
     }

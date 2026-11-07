@@ -4,13 +4,13 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_thermo_steps() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(4, 3, 7),
         FixedNumber::new(6, 3, 3),
       ]
     )
     .with_thermos(
-      vec![
+      [
         crate::types::Thermo(vec![
           CellPosition::new(8, 0),
           CellPosition::new(7, 0),
@@ -44,7 +44,7 @@ fn check_thermo_steps() {
 fn check_full_thermo() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(1, 0, 2),
         FixedNumber::new(2, 0, 3),
@@ -52,7 +52,7 @@ fn check_full_thermo() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         crate::types::Thermo(vec![
           CellPosition::new(0, 0),
           CellPosition::new(1, 0),

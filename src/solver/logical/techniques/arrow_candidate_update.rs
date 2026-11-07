@@ -36,7 +36,7 @@ impl TechniqueDefinition for ArrowCandidateUpdate {
       let combination_logic = arrow_combinatons_logic_factory.create(arrow, solver);
       let mut runner = CellCombinationsRunner::new(solver, Box::new(combination_logic));
       let (valid_candidates, _) = runner.run();
-      let invalid_candidates = solver.cell_candidates_diff(&cells, valid_candidates);
+      let invalid_candidates = solver.cell_candidates_diff(&cells, &valid_candidates);
 
       invalid_candidates.into_iter().map(|(cell, invalid_values)| {
         self.build_simple_solution_step(
@@ -63,7 +63,7 @@ pub(crate) struct ArrowCombinationLogic<'a> {
 }
 
 impl<'a> ArrowCombinationLogic<'_> {
-  fn min_max_circle_sum(cells: &Vec<CellPosition>, solver: &LogicalSolver) -> (u32, u32) {
+  fn min_max_circle_sum(cells: &[CellPosition], solver: &LogicalSolver) -> (u32, u32) {
     let mut circle_sum_min: u32 = 0;
     let mut circle_sum_max: u32 = 0;
 

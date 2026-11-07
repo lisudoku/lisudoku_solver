@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_palindrome_correct_even() {
   let constraints = SudokuConstraints::new(4)
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![CellPosition::new(0, 1), CellPosition::new(1, 2)]),
       ]
     );
@@ -23,7 +23,7 @@ fn check_palindrome_correct_even() {
 fn check_palindrome_correct_odd() {
   let constraints = SudokuConstraints::new(4)
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![CellPosition::new(0, 0), CellPosition::new(1, 1), CellPosition::new(2, 2)]),
       ]
     );
@@ -42,7 +42,7 @@ fn check_palindrome_correct_odd() {
 fn check_palindrome_wrong_edge() {
   let constraints = SudokuConstraints::new(4)
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![CellPosition::new(0, 0), CellPosition::new(1, 0), CellPosition::new(2, 0)]),
       ]
     );
@@ -70,7 +70,7 @@ fn check_palindrome_wrong_edge() {
 fn check_palindrome_wrong_partial_edge() {
   let constraints = SudokuConstraints::new(4)
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(1, 0), CellPosition::new(0, 0),
           CellPosition::new(0, 1), CellPosition::new(0, 2),
@@ -101,7 +101,7 @@ fn check_palindrome_wrong_partial_edge() {
 fn check_palindrome_correct_partial() {
   let constraints = SudokuConstraints::new(4)
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(1, 0), CellPosition::new(2, 0), CellPosition::new(3, 0),
           CellPosition::new(2, 1), CellPosition::new(3, 1), CellPosition::new(3, 2),

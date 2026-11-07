@@ -4,7 +4,7 @@ use ntest::timeout;
 fn anti_king_6x6_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4), FixedNumber::new(1, 1, 3), FixedNumber::new(1, 4, 1),
         FixedNumber::new(3, 0, 6), FixedNumber::new(3, 1, 2),
         FixedNumber::new(2, 4, 6), FixedNumber::new(3, 4, 5),

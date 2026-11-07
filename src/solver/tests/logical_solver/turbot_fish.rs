@@ -5,7 +5,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_turbot_fish_2_string_kite() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 1, 2),
         FixedNumber::new(1, 0, 3),

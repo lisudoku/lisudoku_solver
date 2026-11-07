@@ -5,14 +5,14 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_arrow_advanced_candidates() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1), FixedNumber::new(1, 0, 4), FixedNumber::new(2, 0, 5),
         FixedNumber::new(3, 0, 6), FixedNumber::new(4, 0, 7), FixedNumber::new(5, 0, 8),
         FixedNumber::new(6, 0, 9), FixedNumber::new(6, 7, 5), FixedNumber::new(6, 8, 6),
       ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(7, 7) ],
           arrow_cells: vec![
@@ -51,14 +51,14 @@ fn check_arrow_advanced_candidates() {
 fn arrow_advanced_candidates_no_duplicates() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 7, 2), FixedNumber::new(3, 0, 4), FixedNumber::new(3, 1, 5),
         FixedNumber::new(3, 2, 6), FixedNumber::new(3, 3, 7), FixedNumber::new(3, 4, 8),
         FixedNumber::new(3, 5, 9),
       ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![CellPosition::new(2, 7)],
           arrow_cells: vec![CellPosition::new(3, 6), CellPosition::new(4, 6)],

@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_single_step_mode_all_techniques() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
         FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
       ]
@@ -26,7 +26,7 @@ fn check_single_step_mode_all_techniques() {
 fn check_single_step_mode_hidden_singles() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
         FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
       ]
@@ -45,7 +45,7 @@ fn check_single_step_mode_hidden_singles() {
 fn check_single_step_mode_naked_singles() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 3), FixedNumber::new(1, 1, 1),
         FixedNumber::new(2, 1, 2), FixedNumber::new(2, 2, 1),
       ]

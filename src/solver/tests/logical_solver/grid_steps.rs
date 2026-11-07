@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_grid_steps_without_candidates() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4),
         FixedNumber::new(1, 3, 2),
         FixedNumber::new(2, 0, 1),
@@ -32,7 +32,7 @@ fn check_grid_steps_without_candidates() {
 fn check_grid_steps_with_candidates() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4),
         FixedNumber::new(1, 3, 2),
         FixedNumber::new(2, 0, 1),
@@ -65,7 +65,7 @@ fn check_grid_steps_with_candidates() {
 fn check_grid_steps_with_anti_knight_affected_cells() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 1, 2),
         FixedNumber::new(0, 2, 3),
@@ -107,7 +107,7 @@ fn check_grid_steps_with_anti_knight_affected_cells() {
 fn check_grid_steps_overlapping_thermos_affected_cells() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(5, 0, 1),
         FixedNumber::new(5, 1, 2),
         FixedNumber::new(5, 2, 3),
@@ -116,7 +116,7 @@ fn check_grid_steps_overlapping_thermos_affected_cells() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(4, 2),
           CellPosition::new(3, 1),

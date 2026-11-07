@@ -5,7 +5,7 @@ use ntest::timeout;
 fn palindrome_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 8), FixedNumber::new(0, 1, 2), FixedNumber::new(0, 2, 1),
         FixedNumber::new(0, 6, 9), FixedNumber::new(0, 7, 5), FixedNumber::new(0, 8, 3),
         FixedNumber::new(1, 3, 2), FixedNumber::new(1, 4, 3), FixedNumber::new(1, 5, 1),
@@ -15,7 +15,7 @@ fn palindrome_9x9_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(3, 3), CellPosition::new(2, 2), CellPosition::new(1, 1),
           CellPosition::new(2, 0), CellPosition::new(3, 0), CellPosition::new(4, 0),
@@ -69,13 +69,13 @@ fn brute_solver_with_logic_finds_unique_solution_in_palindrome_9x9() {
 fn palindrome_4x4_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1), FixedNumber::new(0, 2, 2),
         FixedNumber::new(1, 3, 1), FixedNumber::new(2, 1, 4),
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(1, 2), CellPosition::new(2, 2),
           CellPosition::new(3, 1), CellPosition::new(2, 0),

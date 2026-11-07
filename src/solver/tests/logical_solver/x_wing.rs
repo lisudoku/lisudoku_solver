@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_x_wing_on_row() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 3),
         FixedNumber::new(1, 2, 4),
         FixedNumber::new(1, 3, 5),
@@ -60,7 +60,7 @@ fn check_x_wing_on_row() {
 fn check_x_wing_on_row_3_possible_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 3),
         FixedNumber::new(1, 2, 4),
         FixedNumber::new(1, 3, 5),
@@ -87,7 +87,7 @@ fn check_x_wing_on_row_3_possible_cells() {
 fn check_x_wing_on_col() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 1),
         FixedNumber::new(1, 2, 2),
         FixedNumber::new(2, 2, 3),
@@ -142,7 +142,7 @@ fn check_x_wing_on_col() {
 fn check_x_wing_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 3),
         FixedNumber::new(1, 2, 4),
         FixedNumber::new(1, 3, 5),
@@ -180,7 +180,7 @@ fn check_x_wing_no_affected_cells() {
 fn check_x_wing_same_box() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 3, 3),
         FixedNumber::new(2, 4, 4),
         FixedNumber::new(3, 2, 3),

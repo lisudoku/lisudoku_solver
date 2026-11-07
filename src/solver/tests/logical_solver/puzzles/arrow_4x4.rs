@@ -4,12 +4,12 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{Arrow, CellP
 fn check_arrow_4x4_1_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 3), FixedNumber::new(2, 0, 1),
       ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(3, 0) ],
           arrow_cells: vec![

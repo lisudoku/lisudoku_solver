@@ -5,7 +5,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber,
 fn check_anti_knight_9x9_1_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 6),
         FixedNumber::new(0, 7, 8),
         FixedNumber::new(0, 8, 9),
@@ -54,7 +54,7 @@ fn check_anti_knight_9x9_1_solve() {
 fn check_anti_knight_9x9_2_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 1, 4),
         FixedNumber::new(0, 2, 3),

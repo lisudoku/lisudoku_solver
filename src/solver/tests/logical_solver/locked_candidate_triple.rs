@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_locked_candidates_triples() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4),
         FixedNumber::new(0, 1, 5),
         FixedNumber::new(0, 2, 6),
@@ -41,7 +41,7 @@ fn check_locked_candidates_triples() {
 fn check_locked_candidates_triples_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4),
         FixedNumber::new(0, 1, 5),
         FixedNumber::new(0, 2, 6),

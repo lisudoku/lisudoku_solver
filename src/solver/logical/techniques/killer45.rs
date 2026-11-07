@@ -66,7 +66,7 @@ impl Killer45 {
       return vec![]
     }
 
-    let empty_cells = area_cells_set.into_iter().sorted().collect();
+    let empty_cells: Vec<CellPosition> = area_cells_set.into_iter().sorted().collect();
     let invalid_sum_candidates = solver.detect_invalid_sum_candidates(&empty_cells, region_sum_left);
 
     if invalid_sum_candidates.is_empty() {

@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_top_bottom_candidates_ascending_row1() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(1, 3, 2) ]
+      [ FixedNumber::new(1, 3, 2) ]
     )
     .with_top_bottom();
   let mut solver = LogicalSolver::new(constraints);
@@ -28,7 +28,7 @@ fn check_top_bottom_candidates_ascending_row1() {
 fn check_top_bottom_candidates_ascending_row4() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 1), FixedNumber::new(1, 2, 2), FixedNumber::new(2, 2, 3),
       ]
     )
@@ -54,7 +54,7 @@ fn check_top_bottom_candidates_ascending_row4() {
 fn check_top_bottom_candidates_descending_row3() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(3, 3, 1) ]
+      [ FixedNumber::new(3, 3, 1) ]
     )
     .with_top_bottom();
   let mut solver = LogicalSolver::new(constraints);
@@ -78,7 +78,7 @@ fn check_top_bottom_candidates_descending_row3() {
 fn check_top_bottom_candidates_descending_row1() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 3), FixedNumber::new(2, 0, 2), FixedNumber::new(3, 0, 1),
       ]
     )

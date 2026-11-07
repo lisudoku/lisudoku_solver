@@ -6,7 +6,7 @@ fn check_kropki_6x6_1_solve() {
   // Added without negative condition, it is not needed
   let constraints = SudokuConstraints::new(6)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
@@ -60,10 +60,10 @@ fn check_kropki_6x6_1_solve() {
 fn check_kropki_6x6_negative_condition_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(0, 0, 6) ]
+      [ FixedNumber::new(0, 0, 6) ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::double(CellPosition::new(0, 1), CellPosition::new(1, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 4), CellPosition::new(0, 5)),

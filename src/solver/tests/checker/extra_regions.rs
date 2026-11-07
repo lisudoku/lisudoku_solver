@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_extra_regions_wrong() {
   let constraints = SudokuConstraints::new(4)
     .with_extra_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(1, 0), CellPosition::new(1, 1),
           CellPosition::new(1, 2), CellPosition::new(2, 2),
@@ -35,7 +35,7 @@ fn check_extra_regions_wrong() {
 fn check_extra_regions_solved_grid() {
   let constraints = SudokuConstraints::new(4)
     .with_extra_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(1, 0), CellPosition::new(1, 1),
           CellPosition::new(0, 1), CellPosition::new(2, 1),

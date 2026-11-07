@@ -4,13 +4,13 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_arrow_common_peer_elimination() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 5, 1), FixedNumber::new(1, 5, 9),
         FixedNumber::new(5, 1, 1), FixedNumber::new(6, 0, 1),
       ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(1, 7) ],
           arrow_cells: vec![
@@ -51,10 +51,10 @@ fn check_arrow_common_peer_elimination() {
 fn arrow_common_peer_elimination_no_duplicates() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(0, 2, 8), FixedNumber::new(5, 8, 8)]
+      [FixedNumber::new(0, 2, 8), FixedNumber::new(5, 8, 8)]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![CellPosition::new(0, 2)],
           arrow_cells: vec![

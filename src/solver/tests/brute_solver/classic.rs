@@ -4,7 +4,7 @@ use ntest::timeout;
 fn classic_4x4_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4),
         FixedNumber::new(1, 3, 2),
         FixedNumber::new(2, 0, 1),
@@ -29,7 +29,7 @@ fn classic_4x4_unique_solution() -> (SudokuConstraints, Grid) {
 fn classic_4x4_multiple_solutions() -> SudokuConstraints {
   SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4),
         FixedNumber::new(1, 3, 2),
       ]
@@ -39,7 +39,7 @@ fn classic_4x4_multiple_solutions() -> SudokuConstraints {
 fn classic_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 8),
         FixedNumber::new(0, 5, 1),
         FixedNumber::new(0, 8, 4),

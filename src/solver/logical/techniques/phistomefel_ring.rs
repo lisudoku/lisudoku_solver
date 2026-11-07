@@ -31,7 +31,7 @@ impl Technique for PhistomefelRing {
       CellPosition::new(6, 2), CellPosition::new(6, 3), CellPosition::new(6, 4), CellPosition::new(6, 5),
       CellPosition::new(6, 6),
     ];
-    let steps = self.match_sets(solver, set1, set2);
+    let steps = self.match_sets(solver, &set1, &set2);
 
     steps
   }
@@ -47,13 +47,13 @@ impl PhistomefelRing {
     }
   }
 
-  fn match_sets(&self, solver: &Solver, set1: Vec<CellPosition>, set2: Vec<CellPosition>) -> Vec<SolutionStep> {
-    let res1 = self.match_sets_ordered(solver, &set1, &set2);
-    let res2 = self.match_sets_ordered(solver, &set2, &set1);
+  fn match_sets(&self, solver: &Solver, set1: &[CellPosition], set2: &[CellPosition]) -> Vec<SolutionStep> {
+    let res1 = self.match_sets_ordered(solver, set1, set2);
+    let res2 = self.match_sets_ordered(solver, set2, set1);
     [res1, res2].concat()
   }
 
-  fn match_sets_ordered(&self, solver: &Solver, set1: &Vec<CellPosition>, set2: &Vec<CellPosition>) -> Vec<SolutionStep> {
+  fn match_sets_ordered(&self, solver: &Solver, set1: &[CellPosition], set2: &[CellPosition]) -> Vec<SolutionStep> {
     set1.iter().flat_map(|cell1| {
       let values1 = self.get_cell_values(solver, cell1);
       let mut matching_values = CandidateSet::new();

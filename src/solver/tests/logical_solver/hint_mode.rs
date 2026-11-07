@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Techniq
 fn check_hint_mode_kropki() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(1, 0)),
         KropkiDot::consecutive(CellPosition::new(3, 2), CellPosition::new(3, 3)),
@@ -34,10 +34,10 @@ fn check_hint_mode_kropki() {
 fn check_hint_mode_palindrome() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(1, 2, 3) ]
+      [ FixedNumber::new(1, 2, 3) ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(1, 2), CellPosition::new(2, 2),
           CellPosition::new(3, 1), CellPosition::new(2, 0),
@@ -61,12 +61,12 @@ fn check_hint_mode_palindrome() {
 fn check_hint_mode_nishio() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 2, 1), FixedNumber::new(2, 4, 1),
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 6), CellPosition::new(1, 5), CellPosition::new(1, 4),
           CellPosition::new(2, 3), CellPosition::new(3, 3),

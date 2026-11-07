@@ -5,7 +5,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition
 fn check_killer_6x6_1_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 2, 3),
         FixedNumber::new(5, 3, 3),
@@ -13,7 +13,7 @@ fn check_killer_6x6_1_solve() {
       ]
     )
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(5),
           region: Region(vec![

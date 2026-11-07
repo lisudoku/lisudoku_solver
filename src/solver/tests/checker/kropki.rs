@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_kropki_fully_correct() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(1, 0)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
@@ -37,7 +37,7 @@ fn check_kropki_fully_correct() {
 fn check_kropki_partially_correct() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(1, 0)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
@@ -70,7 +70,7 @@ fn check_kropki_partially_correct() {
 fn check_kropki_consecutive_incorrect() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
       ]
     );
@@ -98,7 +98,7 @@ fn check_kropki_consecutive_incorrect() {
 fn check_kropki_double_incorrect() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::double(CellPosition::new(0, 1), CellPosition::new(0, 2)),
       ]
     );
@@ -126,7 +126,7 @@ fn check_kropki_double_incorrect() {
 fn check_kropki_negative_condition_incorrect() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
       ]
     )
@@ -155,7 +155,7 @@ fn check_kropki_negative_condition_incorrect() {
 fn check_kropki_negative_condition_correct() {
   let constraints = SudokuConstraints::new(4)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(1, 0)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),

@@ -4,10 +4,10 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_palindrome_candidates() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(3, 0, 1), FixedNumber::new(3, 2, 2)]
+      [FixedNumber::new(3, 0, 1), FixedNumber::new(3, 2, 2)]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(0, 2),
         ])

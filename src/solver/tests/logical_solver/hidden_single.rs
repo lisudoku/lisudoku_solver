@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_hidden_single_in_region() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 3, 1),
         FixedNumber::new(3, 1, 1),
       ]
@@ -34,7 +34,7 @@ fn check_hidden_single_in_region() {
 fn check_hidden_single_on_row() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 2),
         FixedNumber::new(0, 4, 3),
         FixedNumber::new(0, 5, 4),
@@ -68,7 +68,7 @@ fn check_hidden_single_on_row() {
 fn check_hidden_single_on_col() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 5, 1),
         FixedNumber::new(2, 3, 2),
         FixedNumber::new(3, 3, 3),
@@ -101,7 +101,7 @@ fn check_hidden_single_on_col() {
 fn check_hidden_single_in_region_with_candidates() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 3, 1),
         FixedNumber::new(3, 1, 1),
       ]
@@ -127,7 +127,7 @@ fn check_hidden_single_in_region_with_candidates() {
 fn check_hidden_single_using_anti_knight_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 8, 1),
         FixedNumber::new(2, 3, 2),
         FixedNumber::new(3, 3, 1),
@@ -167,7 +167,7 @@ fn check_hidden_single_using_anti_knight_1() {
 fn check_hidden_single_using_anti_knight_2() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 1),
         FixedNumber::new(1, 1, 2),
         FixedNumber::new(1, 2, 3),
@@ -202,7 +202,7 @@ fn check_hidden_single_using_anti_knight_2() {
 fn check_hidden_single_anti_king() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(3, 1, 2), FixedNumber::new(5, 0, 3) ]
+      [ FixedNumber::new(3, 1, 2), FixedNumber::new(5, 0, 3) ]
     )
     .with_anti_king();
   let mut solver = LogicalSolver::new(constraints);

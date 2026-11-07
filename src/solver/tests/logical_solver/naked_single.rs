@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_naked_single_without_candidates() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4),
         FixedNumber::new(1, 3, 2),
         FixedNumber::new(2, 0, 1),
@@ -35,7 +35,7 @@ fn check_naked_single_without_candidates() {
 fn check_naked_single_with_candidates() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 4),
         FixedNumber::new(1, 3, 2),
         FixedNumber::new(2, 0, 1),

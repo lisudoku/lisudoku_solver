@@ -53,7 +53,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber,
 fn check_diagonal_9x9_2_medium_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(5, 0, 7),
         FixedNumber::new(5, 2, 4),
         FixedNumber::new(5, 4, 5),

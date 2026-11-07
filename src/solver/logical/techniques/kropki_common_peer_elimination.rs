@@ -41,7 +41,7 @@ impl TechniqueDefinition for KropkiCommonPeerElimination {
         for (cells, kropki_dot_indices) in kropki_ccs {
           let combinations: Vec<Vec<u32>> = KropkiChainCandidateUpdate::find_kropki_ccs_combinations(solver, &cells);
 
-          let cell_eliminations = CommonPeerElimination::find_cell_eliminations(cells, combinations, solver);
+          let cell_eliminations = CommonPeerElimination::find_cell_eliminations(&cells, &combinations, solver);
 
           if cell_eliminations.is_empty() {
             continue

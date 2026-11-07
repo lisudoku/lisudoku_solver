@@ -42,7 +42,7 @@ impl TechniqueDefinition for ArrowCommonPeerElimination {
       let mut runner = CellCombinationsRunner::new(solver, Box::new(combination_logic));
       let (_, combinations) = runner.run();
 
-      let cell_eliminations = CommonPeerElimination::find_cell_eliminations(cells, combinations, solver);
+      let cell_eliminations = CommonPeerElimination::find_cell_eliminations(&cells, &combinations, solver);
 
       if cell_eliminations.is_empty() {
         continue

@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_arrow_candidates_simple() {
   let constraints = SudokuConstraints::new(9)
     .with_arrows(
-      vec![
+      [
         Arrow {
           arrow_cells: vec![ CellPosition::new(0, 0), CellPosition::new(0, 1) ],
           circle_cells: vec![ CellPosition::new(0, 2) ],
@@ -53,10 +53,10 @@ fn check_arrow_candidates_simple() {
 fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(1, 4, 2) ]
+      [ FixedNumber::new(1, 4, 2) ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           arrow_cells: vec![ CellPosition::new(1, 2), CellPosition::new(2, 3) ],
           circle_cells: vec![ CellPosition::new(1, 4) ],
@@ -94,10 +94,10 @@ fn check_arrow_candidates_independent_arrow_cells_fixed_circle() {
 fn check_arrow_candidates_2_digit_circle_horizontal() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(6, 6, 5), FixedNumber::new(7, 7, 9) ]
+      [ FixedNumber::new(6, 6, 5), FixedNumber::new(7, 7, 9) ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           arrow_cells: vec![
             CellPosition::new(2, 2), CellPosition::new(3, 3), CellPosition::new(4, 4),
@@ -128,10 +128,10 @@ fn check_arrow_candidates_2_digit_circle_horizontal() {
 fn check_arrow_candidates_2_digit_circle_vertical() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(3, 0, 1) ]
+      [ FixedNumber::new(3, 0, 1) ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(3, 2), CellPosition::new(4, 2) ],
           arrow_cells: vec![
@@ -162,10 +162,10 @@ fn check_arrow_candidates_2_digit_circle_vertical() {
 fn check_arrow_candidates_long() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
+      [ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           arrow_cells: vec![
             CellPosition::new(1, 1), CellPosition::new(2, 2), CellPosition::new(3, 3),

@@ -5,14 +5,14 @@ use ntest::timeout;
 fn renban_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 4), FixedNumber::new(0, 5, 8), FixedNumber::new(2, 6, 7),
         FixedNumber::new(3, 8, 6), FixedNumber::new(5, 0, 5), FixedNumber::new(6, 2, 2),
         FixedNumber::new(8, 3, 1), FixedNumber::new(8, 7, 3),
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 7), CellPosition::new(0, 8), CellPosition::new(1, 8),
         ]),
@@ -95,7 +95,7 @@ fn brute_solver_with_logic_finds_unique_solution_in_renban_9x9() {
 fn renban_6x6_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 5, 1),
         FixedNumber::new(1, 4, 6),
         FixedNumber::new(3, 4, 2),
@@ -103,7 +103,7 @@ fn renban_6x6_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 0),
           CellPosition::new(1, 1),

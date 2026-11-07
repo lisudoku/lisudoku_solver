@@ -56,7 +56,7 @@ impl CommonPeerElimination {
     )
   }
 
-  fn find_common_peers_for_cells_with_values(&self, solver: &LogicalSolver, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
+  fn find_common_peers_for_cells_with_values(&self, solver: &LogicalSolver, cells: &[CellPosition], values: &CandidateSet) -> Vec<CellPosition> {
     let common_peers = Self::find_common_peers_for_cells(solver, cells);
     let common_peers_with_values: Vec<CellPosition> = solver.state.filter_cells_with_any_candidates(
       &common_peers, &values
@@ -64,7 +64,7 @@ impl CommonPeerElimination {
     common_peers_with_values
   }
 
-  pub(crate) fn find_common_peers_for_cells(solver: &LogicalSolver, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
+  pub(crate) fn find_common_peers_for_cells(solver: &LogicalSolver, cells: &[CellPosition]) -> Vec<CellPosition> {
     let mut peer_counts = vec![ vec![ 0; solver.state.puzzle.grid_size ]; solver.state.puzzle.grid_size ];
     for cell in cells {
       for CellPosition { row, col } in solver.state.puzzle.all_cell_peers_unconstrained(cell) {
@@ -83,7 +83,7 @@ impl CommonPeerElimination {
   }
 
   /// Returns a list of cell candidates that cannot exist because all `cells` `combinations` remove them
-  pub(crate) fn find_cell_eliminations(cells: Vec<CellPosition>, combinations: Vec<Vec<u32>>, solver: &LogicalSolver) -> Vec<(CellPosition, u32)> {
+  pub(crate) fn find_cell_eliminations(cells: &[CellPosition], combinations: &[Vec<u32>], solver: &LogicalSolver) -> Vec<(CellPosition, u32)> {
     let cell_peers: Vec<Vec<CellPosition>> = cells.iter().map(|cell| {
       solver.state.puzzle.all_cell_peers_unconstrained(cell)
     }).collect();

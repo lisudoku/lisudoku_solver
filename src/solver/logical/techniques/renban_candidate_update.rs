@@ -30,7 +30,7 @@ impl TechniqueDefinition for RenbanCandidateUpdate {
       let combination_logic = RenbanCombinationLogic::new(renban);
       let mut runner = CellCombinationsRunner::new(solver, Box::new(combination_logic));
       let (valid_candidates, _) = runner.run();
-      let invalid_candidates = solver.cell_candidates_diff(&cells, valid_candidates);
+      let invalid_candidates = solver.cell_candidates_diff(&cells, &valid_candidates);
 
       invalid_candidates.into_iter().map(|(cell, invalid_values)| {
         self.build_simple_solution_step(

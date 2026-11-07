@@ -118,7 +118,7 @@ impl TechniqueDefinition for AdhocNakedSet {
 
 impl AdhocNakedSet {
   // https://en.wikipedia.org/wiki/Bron–Kerbosch_algorithm
-  fn bron_kerbosch(&self, neighbour_masks: &Vec<u32>, clique: u32, mut peers: u32, mut banned: u32, cliques: &mut Vec<u32>) {
+  fn bron_kerbosch(&self, neighbour_masks: &[u32], clique: u32, mut peers: u32, mut banned: u32, cliques: &mut Vec<u32>) {
     if peers == 0 {
       if banned == 0 {
         cliques.push(clique);

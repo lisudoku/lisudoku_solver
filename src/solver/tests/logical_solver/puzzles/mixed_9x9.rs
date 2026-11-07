@@ -5,11 +5,11 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition
 fn check_mixed_9x9_1_hard_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(1, 3, 9)]
+      [FixedNumber::new(1, 3, 9)]
     )
     .with_anti_knight()
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(1, 4),
           CellPosition::new(0, 3),

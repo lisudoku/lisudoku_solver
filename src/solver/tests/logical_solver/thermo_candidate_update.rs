@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_thermo_candidates_update_hidden_single() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 5),
         FixedNumber::new(8, 0, 5),
         FixedNumber::new(4, 2, 1),
@@ -12,7 +12,7 @@ fn check_thermo_candidates_update_hidden_single() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![ CellPosition::new(2, 3), CellPosition::new(3, 3), CellPosition::new(3, 2) ]),
       ]
     );
@@ -43,7 +43,7 @@ fn check_thermo_candidates_update_hidden_single() {
 fn check_thermo_candidates_update_locked_candidates() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 2),
         FixedNumber::new(4, 0, 7),
         FixedNumber::new(4, 1, 8),
@@ -54,7 +54,7 @@ fn check_thermo_candidates_update_locked_candidates() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![ CellPosition::new(2, 5), CellPosition::new(3, 5), CellPosition::new(4, 5) ]),
       ]
     );

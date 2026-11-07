@@ -5,7 +5,7 @@ use itertools::Itertools;
 fn check_kropki_negative_row_consecutive() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(1, 0, 3),
         FixedNumber::new(1, 1, 2),
@@ -13,7 +13,7 @@ fn check_kropki_negative_row_consecutive() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(1, 1)),
         KropkiDot::double(CellPosition::new(1, 1), CellPosition::new(1, 2)),

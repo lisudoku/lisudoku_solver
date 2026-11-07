@@ -4,7 +4,7 @@ use ntest::timeout;
 fn anti_knight_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 4, 9),
         FixedNumber::new(0, 8, 7),
         FixedNumber::new(1, 4, 6),

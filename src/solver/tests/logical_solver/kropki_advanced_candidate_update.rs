@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_kropki_advanced_candidates_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 5),
         FixedNumber::new(2, 2, 6),
         FixedNumber::new(1, 2, 7),
@@ -21,7 +21,7 @@ fn check_kropki_advanced_candidates_1() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
@@ -67,7 +67,7 @@ fn check_kropki_advanced_candidates_1() {
 fn check_kropki_advanced_candidates_2() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 5),
         FixedNumber::new(2, 2, 6),
         FixedNumber::new(1, 2, 7),
@@ -84,7 +84,7 @@ fn check_kropki_advanced_candidates_2() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
@@ -130,7 +130,7 @@ fn check_kropki_advanced_candidates_2() {
 fn check_kropki_advanced_candidates_3() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 5, 3),
         FixedNumber::new(1, 6, 4),
         FixedNumber::new(1, 7, 5),
@@ -144,7 +144,7 @@ fn check_kropki_advanced_candidates_3() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
@@ -190,7 +190,7 @@ fn check_kropki_advanced_candidates_3() {
 fn check_kropki_advanced_candidates_4() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 3, 2),
         FixedNumber::new(1, 4, 3),
         FixedNumber::new(1, 5, 4),
@@ -205,7 +205,7 @@ fn check_kropki_advanced_candidates_4() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(2, 0)),
         KropkiDot::consecutive(CellPosition::new(2, 0), CellPosition::new(3, 0)),
       ]
@@ -233,7 +233,7 @@ fn check_kropki_advanced_candidates_4() {
 fn kropki_advanced_candidates_no_duplicate_eliminations() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 2, 4),
         FixedNumber::new(2, 6, 7),
         FixedNumber::new(2, 7, 8),
@@ -245,7 +245,7 @@ fn kropki_advanced_candidates_no_duplicate_eliminations() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::double(CellPosition::new(0, 0), CellPosition::new(1, 0)),
       ]

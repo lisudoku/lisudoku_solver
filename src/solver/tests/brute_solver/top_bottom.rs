@@ -4,7 +4,7 @@ use ntest::timeout;
 fn top_bottom_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 9), FixedNumber::new(1, 5, 7), FixedNumber::new(1, 7, 6),
         FixedNumber::new(2, 0, 4), FixedNumber::new(3, 2, 2), FixedNumber::new(3, 3, 8),
         FixedNumber::new(4, 4, 7), FixedNumber::new(4, 6, 1), FixedNumber::new(5, 8, 3),
@@ -51,7 +51,7 @@ fn brute_solver_with_logic_finds_unique_solution_in_top_bottom_9x9() {
 fn top_bottom_4x4_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4), FixedNumber::new(0, 3, 1),
         FixedNumber::new(3, 0, 1), FixedNumber::new(3, 3, 4),
       ]

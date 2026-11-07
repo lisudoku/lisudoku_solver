@@ -8,7 +8,7 @@ use crate::{solver::{logical::techniques::{candidates::CandidateInitialization, 
 fn check_phistomefel_ring_set_a_full() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 1, 2),
         FixedNumber::new(1, 0, 3),
@@ -27,7 +27,7 @@ fn check_phistomefel_ring_set_a_full() {
         FixedNumber::new(8, 8, 1),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).with_techniques(vec![Rc::new(CandidateInitialization), Rc::new(PhistomefelRing)]);
+  let mut solver = LogicalSolver::new(constraints).with_techniques([Rc::new(CandidateInitialization), Rc::new(PhistomefelRing)]);
   solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = PhistomefelRing.run(&solver);
@@ -107,7 +107,7 @@ fn check_phistomefel_ring_set_a_full() {
 fn check_phistomefel_ring_set_b_full() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 2, 1),
         FixedNumber::new(2, 3, 2),
         FixedNumber::new(2, 4, 3),
@@ -126,7 +126,7 @@ fn check_phistomefel_ring_set_b_full() {
         FixedNumber::new(3, 2, 3),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).with_techniques(vec![Rc::new(CandidateInitialization), Rc::new(PhistomefelRing)]);
+  let mut solver = LogicalSolver::new(constraints).with_techniques([Rc::new(CandidateInitialization), Rc::new(PhistomefelRing)]);
   solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = PhistomefelRing.run(&solver);
@@ -152,7 +152,7 @@ fn check_phistomefel_ring_set_b_full() {
 fn check_phistomefel_ring_misc() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 2, 9),
         FixedNumber::new(2, 6, 6),
         FixedNumber::new(3, 6, 1),
@@ -166,7 +166,7 @@ fn check_phistomefel_ring_misc() {
         FixedNumber::new(4, 0, 7),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).with_techniques(vec![Rc::new(CandidateInitialization), Rc::new(PhistomefelRing)]);
+  let mut solver = LogicalSolver::new(constraints).with_techniques([Rc::new(CandidateInitialization), Rc::new(PhistomefelRing)]);
   solver.apply_step(&mut CandidateInitialization.run(&solver).first().unwrap());
 
   let steps = PhistomefelRing.run(&solver);

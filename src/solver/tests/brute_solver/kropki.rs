@@ -5,7 +5,7 @@ use ntest::timeout;
 fn kropki_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 1), CellPosition::new(2, 1)),
         KropkiDot::double(CellPosition::new(2, 0), CellPosition::new(2, 1)),
         KropkiDot::double(CellPosition::new(2, 0), CellPosition::new(3, 0)),
@@ -88,10 +88,10 @@ fn brute_solver_with_logic_finds_unique_solution_in_kropki_9x9() {
 fn kropki_4x4_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(3, 0, 4) ]
+      [ FixedNumber::new(3, 0, 4) ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),

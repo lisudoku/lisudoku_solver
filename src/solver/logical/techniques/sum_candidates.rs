@@ -5,22 +5,22 @@ use super::combinations::cell_combinations_runner::{CellCombinationsRunner, Stat
 
 impl LogicalSolver {
   /// Tries value combinations in `cells` and returns the list of values that cannot appear in any valid sum.
-  pub(crate) fn detect_invalid_sum_candidates(&self, cells: &Vec<CellPosition>, sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
+  pub(crate) fn detect_invalid_sum_candidates(&self, cells: &[CellPosition], sum: u32) -> Vec<(CellPosition, Vec<u32>)> {
     let mut combinations_runner = CellCombinationsRunner::new(
       &self, Box::new(SumCombinationsLogic::new(cells, sum))
     );
     let (valid_candidates, _) = combinations_runner.run();
-    self.cell_candidates_diff(cells, valid_candidates)
+    self.cell_candidates_diff(cells, &valid_candidates)
   }
 }
 
 struct SumCombinationsLogic<'a> {
   sum_left: u32,
-  cells: &'a Vec<CellPosition>,
+  cells: &'a [CellPosition],
 }
 
 impl SumCombinationsLogic<'_> {
-  pub(crate) fn new<'a>(cells: &'_ Vec<CellPosition>, sum: u32) -> SumCombinationsLogic<'_> {
+  pub(crate) fn new<'a>(cells: &'a [CellPosition], sum: u32) -> SumCombinationsLogic<'a> {
     SumCombinationsLogic {
       cells,
       sum_left: sum,
@@ -30,7 +30,7 @@ impl SumCombinationsLogic<'_> {
 
 impl CellCombinationLogic for SumCombinationsLogic<'_> {
   fn cells(&self) -> Vec<CellPosition> {
-    self.cells.to_owned()
+    self.cells.to_vec()
   }
 
   fn is_value_valid_candidate_in_cell(&self, runner: &CellCombinationsRunner, value: u32, index: usize) -> bool {

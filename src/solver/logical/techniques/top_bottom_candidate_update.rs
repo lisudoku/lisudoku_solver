@@ -87,8 +87,8 @@ impl TopBottomCandidateUpdate {
   }
 
   /// Returns cells from cells_1 that do not have a neighbour in cells_2
-  fn get_extra_cells(&self, cells_1: &Vec<CellPosition>, cells_2: &Vec<CellPosition>) -> Vec<CellPosition> {
-    cells_1.into_iter().filter(|cell| {
+  fn get_extra_cells(&self, cells_1: &[CellPosition], cells_2: &[CellPosition]) -> Vec<CellPosition> {
+    cells_1.iter().filter(|cell| {
       !cells_2.iter().any(|other_cell| other_cell.col.abs_diff(cell.col) <= 1)
     }).copied().collect()
   }

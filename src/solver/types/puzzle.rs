@@ -147,7 +147,7 @@ impl Puzzle {
     peers
   }
 
-  pub(crate) fn find_common_region_areas_except(&self, cells: &Vec<CellPosition>, area_exception: Area) -> Vec<Area> {
+  pub(crate) fn find_common_region_areas_except(&self, cells: &[CellPosition], area_exception: Area) -> Vec<Area> {
     let areas = self.find_common_region_areas(cells);
     let other_areas: Vec<Area> = areas.into_iter().filter(|area| *area != area_exception).collect();
     other_areas
@@ -155,7 +155,7 @@ impl Puzzle {
 
   /// Returns all areas that contain all <cells>.
   /// Useful for finding areas that are affected by all <cells>.
-  pub(crate) fn find_common_region_areas(&self, cells: &Vec<CellPosition>) -> Vec<Area> {
+  pub(crate) fn find_common_region_areas(&self, cells: &[CellPosition]) -> Vec<Area> {
     if let Some(cached_result) = self.common_region_areas_cache.borrow().get(cells).cloned() {
       return cached_result
     }
@@ -177,14 +177,14 @@ impl Puzzle {
       common_areas_set.into_iter().sorted().collect::<Vec<_>>()
     }).collect();
 
-    self.common_region_areas_cache.borrow_mut().insert(cells.clone(), common_areas.clone());
+    self.common_region_areas_cache.borrow_mut().insert(cells.to_vec(), common_areas.clone());
 
     common_areas
   }
 
   pub(crate) fn cells_are_peers(&self, cell1: &CellPosition, cell2: &CellPosition) -> bool {
     cell1 != cell2 &&
-    !self.find_common_region_areas(&vec![*cell1, *cell2]).is_empty()
+    !self.find_common_region_areas(&[*cell1, *cell2]).is_empty()
   }
 
   pub(crate) fn all_cell_peers_unconstrained(&self, cell: &CellPosition) -> Vec<CellPosition> {

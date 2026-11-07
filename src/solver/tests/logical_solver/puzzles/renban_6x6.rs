@@ -5,7 +5,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Techniq
 fn check_renban_6x6_1_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 5, 1),
         FixedNumber::new(1, 4, 6),
         FixedNumber::new(3, 4, 2),
@@ -13,7 +13,7 @@ fn check_renban_6x6_1_solve() {
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 0),
           CellPosition::new(1, 1),
@@ -84,7 +84,7 @@ fn check_renban_6x6_1_solve() {
 fn check_renban_6x6_2_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 1), FixedNumber::new(0, 4, 2), FixedNumber::new(1, 0, 5),
         FixedNumber::new(1, 3, 1), FixedNumber::new(1, 5, 4), FixedNumber::new(2, 4, 5),
         FixedNumber::new(3, 1, 5), FixedNumber::new(4, 0, 3), FixedNumber::new(4, 2, 5),
@@ -93,7 +93,7 @@ fn check_renban_6x6_2_solve() {
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 2), CellPosition::new(1, 1), CellPosition::new(2, 0),
         ]),

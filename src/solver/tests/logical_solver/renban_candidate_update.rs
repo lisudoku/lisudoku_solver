@@ -11,7 +11,7 @@ fn check_renban_candidates_in_area() {
   ];
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(1, 1, 4)]
+      [FixedNumber::new(1, 1, 4)]
     )
     .with_renbans(renbans.clone());
   let mut solver = LogicalSolver::new(constraints);
@@ -43,7 +43,7 @@ fn check_renban_candidates_fixed_value() {
   ];
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(0, 0, 5)]
+      [FixedNumber::new(0, 0, 5)]
     )
     .with_renbans(renbans.clone());
   let mut solver = LogicalSolver::new(constraints);

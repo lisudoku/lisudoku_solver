@@ -5,7 +5,7 @@ use ntest::timeout;
 fn check_classic_9x9_easy_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 8),
         FixedNumber::new(0, 5, 1),
         FixedNumber::new(0, 8, 4),
@@ -66,7 +66,7 @@ fn check_classic_9x9_easy_solve() {
 fn check_classic_9x9_medium_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 1),
         FixedNumber::new(0, 2, 4),
         FixedNumber::new(1, 4, 6),
@@ -130,7 +130,7 @@ fn check_classic_9x9_medium_solve() {
 fn check_classic_9x9_hard_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 8),
         FixedNumber::new(0, 1, 7),
         FixedNumber::new(1, 3, 9),
@@ -180,7 +180,7 @@ fn check_classic_9x9_hard_solve() {
 fn check_classic_9x9_hard_xy_wing_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 1),
         FixedNumber::new(0, 6, 9),
         FixedNumber::new(1, 1, 7),
@@ -230,7 +230,7 @@ fn check_classic_9x9_hard_xy_wing_solve() {
 fn check_classic_9x9_hard_x_wing_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 6),
         FixedNumber::new(0, 4, 9),
         FixedNumber::new(0, 8, 7),
@@ -280,7 +280,7 @@ fn check_classic_9x9_hard_x_wing_solve() {
 fn check_classic_9x9_hard_solve_with_solution() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 3),
         FixedNumber::new(0, 3, 5),
         FixedNumber::new(1, 0, 1),
@@ -305,7 +305,7 @@ fn check_classic_9x9_hard_solve_with_solution() {
         FixedNumber::new(8, 7, 2),
       ]
     );
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
   // TODO: why no full?
@@ -347,8 +347,8 @@ fn check_classic_9x9_1_solve() {
     FixedNumber::new(8, 6, 7),
   ];
   let constraints = SudokuConstraints::new(9)
-    .with_fixed_numbers(fixed_numbers.iter().copied().collect());
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+    .with_fixed_numbers(fixed_numbers.iter().copied());
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Full);
   assert_eq!(
@@ -369,7 +369,7 @@ fn check_classic_9x9_1_solve() {
 
   let fixed_numbers: Vec<FixedNumber> = fixed_numbers.iter().copied().filter(|fixed_number| *fixed_number != FixedNumber::new(4, 1, 5)).collect();
   let constraints = SudokuConstraints::new(9).with_fixed_numbers(fixed_numbers);
-  let mut solver = LogicalSolver::new(constraints).without_techniques(vec![TechniqueKind::NishioForcingChain]);
+  let mut solver = LogicalSolver::new(constraints).without_techniques([TechniqueKind::NishioForcingChain]);
   let result = solver.solve();
   assert_eq!(result.solution_type, SolutionType::Partial);
 }
@@ -379,7 +379,7 @@ fn check_classic_9x9_1_solve() {
 fn check_classic_9x9_2_conflicts_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 3),
         FixedNumber::new(0, 1, 3),
         FixedNumber::new(0, 7, 8),

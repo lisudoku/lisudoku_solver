@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_locked_candidates_pairs() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4),
         FixedNumber::new(0, 1, 5),
         FixedNumber::new(0, 2, 6),
@@ -39,7 +39,7 @@ fn check_locked_candidates_pairs() {
 fn check_locked_candidates_pairs_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 4),
         FixedNumber::new(0, 1, 5),
         FixedNumber::new(0, 2, 6),
@@ -59,7 +59,7 @@ fn check_locked_candidates_pairs_no_affected_cells() {
 fn check_locked_candidates_pairs_on_primary_diagonal() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 2),
         FixedNumber::new(0, 2, 4),
         FixedNumber::new(1, 2, 5),
@@ -102,7 +102,7 @@ fn check_locked_candidates_pairs_on_primary_diagonal() {
 fn check_locked_candidates_pairs_on_secondary_diagonal() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 6, 4),
         FixedNumber::new(0, 7, 2),
         FixedNumber::new(1, 6, 5),

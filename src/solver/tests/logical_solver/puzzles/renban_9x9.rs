@@ -5,7 +5,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::Techniq
 fn check_renban_9x9_1_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 5), FixedNumber::new(2, 1, 6), FixedNumber::new(0, 4, 3),
         FixedNumber::new(0, 5, 6), FixedNumber::new(1, 3, 2), FixedNumber::new(3, 1, 3),
         FixedNumber::new(3, 0, 7), FixedNumber::new(4, 0, 8), FixedNumber::new(3, 5, 1),
@@ -15,7 +15,7 @@ fn check_renban_9x9_1_solve() {
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(1, 0), CellPosition::new(0, 0), CellPosition::new(0, 1),
           CellPosition::new(0, 2), CellPosition::new(1, 2),
@@ -92,7 +92,7 @@ fn check_renban_9x9_1_solve() {
 fn check_renban_9x9_2_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 1), FixedNumber::new(1, 2, 2), FixedNumber::new(1, 3, 3),
         FixedNumber::new(2, 1, 4), FixedNumber::new(2, 2, 5), FixedNumber::new(2, 3, 6),
         FixedNumber::new(3, 1, 7), FixedNumber::new(3, 2, 8), FixedNumber::new(3, 3, 9),
@@ -105,7 +105,7 @@ fn check_renban_9x9_2_solve() {
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 7), CellPosition::new(0, 8),
           CellPosition::new(1, 8), CellPosition::new(2, 8),
@@ -151,14 +151,14 @@ fn check_renban_9x9_2_solve() {
 fn check_renban_9x9_3_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 4), FixedNumber::new(0, 5, 8), FixedNumber::new(2, 6, 7),
         FixedNumber::new(3, 8, 6), FixedNumber::new(5, 0, 5), FixedNumber::new(6, 2, 2),
         FixedNumber::new(8, 3, 1), FixedNumber::new(8, 7, 3),
       ]
     )
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 7), CellPosition::new(0, 8), CellPosition::new(1, 8),
         ]),

@@ -8,7 +8,7 @@ fn check_9x9_thermo_medium_solve() {
   // UK Sudoku Championship 2022 booklet - 9x9 thermo https://ukpuzzles.org/file_download.php?fileid=247&md5=c200e06d8822177932d906103919ceba
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 2, 2),
         FixedNumber::new(2, 6, 4),
         FixedNumber::new(3, 4, 5),
@@ -18,7 +18,7 @@ fn check_9x9_thermo_medium_solve() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 6),
           CellPosition::new(0, 5),
@@ -102,10 +102,10 @@ fn check_9x9_thermo_medium_solve() {
 fn check_9x9_thermo_no_solution() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(8, 1, 9)]
+      [FixedNumber::new(8, 1, 9)]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 0),
           CellPosition::new(1, 0),
@@ -130,7 +130,7 @@ fn check_9x9_thermo_no_solution() {
 fn check_9x9_thermo_hard_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 6), CellPosition::new(1, 5), CellPosition::new(1, 4),
           CellPosition::new(2, 3), CellPosition::new(3, 3),

@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_renban_correct() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![CellPosition::new(1, 2), CellPosition::new(0, 2), CellPosition::new(0, 3)]),
       ]
     );
@@ -23,7 +23,7 @@ fn check_renban_correct() {
 fn check_renban_wrong_value_conflict() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![CellPosition::new(1, 3), CellPosition::new(2, 2)]),
       ]
     );
@@ -51,7 +51,7 @@ fn check_renban_wrong_value_conflict() {
 fn check_renban_wrong_value_conflict_2() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(0, 0), CellPosition::new(0, 1),
           CellPosition::new(1, 2), CellPosition::new(2, 2),
@@ -82,7 +82,7 @@ fn check_renban_wrong_value_conflict_2() {
 fn check_renban_wrong_not_consecutive() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![CellPosition::new(0, 0), CellPosition::new(1, 0), CellPosition::new(1, 1)]),
       ]
     );
@@ -110,7 +110,7 @@ fn check_renban_wrong_not_consecutive() {
 fn check_renban_wrong_partial_not_consecutive() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![CellPosition::new(0, 2), CellPosition::new(1, 3), CellPosition::new(0, 1)]),
       ]
     );
@@ -138,7 +138,7 @@ fn check_renban_wrong_partial_not_consecutive() {
 fn check_renban_correct_partial_with_fixed_value() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(1, 1), CellPosition::new(2, 1),
           CellPosition::new(3, 1), CellPosition::new(3, 0),
@@ -160,7 +160,7 @@ fn check_renban_correct_partial_with_fixed_value() {
 fn check_renban_correct_partial_with_no_value() {
   let constraints = SudokuConstraints::new(4)
     .with_renbans(
-      vec![
+      [
         Renban(vec![
           CellPosition::new(1, 1), CellPosition::new(2, 1),
           CellPosition::new(3, 1), CellPosition::new(3, 0),

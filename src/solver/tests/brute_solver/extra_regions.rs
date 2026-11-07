@@ -4,7 +4,7 @@ use ntest::timeout;
 fn extra_regions_9x9_multiple_solutions_constraints() -> (SudokuConstraints, u32) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(8, 0, 9),
         FixedNumber::new(8, 1, 8),
         FixedNumber::new(8, 2, 7),
@@ -19,7 +19,7 @@ fn extra_regions_9x9_multiple_solutions_constraints() -> (SudokuConstraints, u32
       ]
     )
     .with_extra_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(0, 2),
           CellPosition::new(0, 3), CellPosition::new(0, 4), CellPosition::new(1, 1),
@@ -69,7 +69,7 @@ fn brute_solver_with_logic_finds_many_solutions_in_extra_regions_9x9() {
 fn extra_regions_9x9_no_solution_constraints() -> SudokuConstraints {
   SudokuConstraints::new(9)
     .with_extra_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(0, 0), CellPosition::new(0, 1), CellPosition::new(0, 2),
           CellPosition::new(0, 3), CellPosition::new(0, 4), CellPosition::new(1, 1),
@@ -123,7 +123,7 @@ fn brute_solver_with_logic_finds_no_solution_in_extra_regions_9x9() {
 fn extra_regions_9x9_unique_solution_constraints() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 2, 8),
         FixedNumber::new(0, 3, 3),
@@ -148,7 +148,7 @@ fn extra_regions_9x9_unique_solution_constraints() -> (SudokuConstraints, Grid) 
       ]
     )
     .with_extra_regions(
-      vec![
+      [
         Region(vec![
           CellPosition::new(1, 0), CellPosition::new(1, 1), CellPosition::new(1, 2),
           CellPosition::new(1, 3), CellPosition::new(2, 0), CellPosition::new(2, 3),

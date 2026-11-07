@@ -5,13 +5,13 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_common_peer_elimination_kropki_1() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(4, 2, 7), FixedNumber::new(5, 2, 5),
         FixedNumber::new(4, 6, 2), FixedNumber::new(5, 6, 3),
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(3, 0), CellPosition::new(3, 1)),
         KropkiDot::consecutive(CellPosition::new(3, 0), CellPosition::new(4, 0)),
       ]

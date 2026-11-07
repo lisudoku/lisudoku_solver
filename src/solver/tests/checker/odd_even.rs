@@ -4,12 +4,12 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_wrong_odd() {
   let constraints = SudokuConstraints::new(4)
     .with_even_cells(
-      vec![
+      [
         CellPosition::new(0, 0), CellPosition::new(0, 2), CellPosition::new(3, 2),
       ]
     )
     .with_odd_cells(
-      vec![
+      [
         CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(3, 0),
       ]
     );
@@ -37,12 +37,12 @@ fn check_wrong_odd() {
 fn check_wrong_even() {
   let constraints = SudokuConstraints::new(4)
     .with_even_cells(
-      vec![
+      [
         CellPosition::new(0, 0), CellPosition::new(0, 2), CellPosition::new(3, 3),
       ]
     )
     .with_odd_cells(
-      vec![
+      [
         CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(3, 1),
       ]
     );
@@ -70,12 +70,12 @@ fn check_wrong_even() {
 fn check_solved_grid() {
   let constraints = SudokuConstraints::new(4)
     .with_even_cells(
-      vec![
+      [
         CellPosition::new(0, 0), CellPosition::new(0, 2), CellPosition::new(3, 2),
       ]
     )
     .with_odd_cells(
-      vec![
+      [
         CellPosition::new(0, 1), CellPosition::new(0, 3), CellPosition::new(3, 1),
       ]
     );

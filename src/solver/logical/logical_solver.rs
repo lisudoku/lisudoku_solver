@@ -277,14 +277,14 @@ impl LogicalSolver {
   }
 
   #[cfg(test)]
-  pub(crate) fn apply_steps(&mut self, steps: &Vec<SolutionStep>) {
+  pub(crate) fn apply_steps(&mut self, steps: &[SolutionStep]) {
     for mut step in steps {
       self.apply_step(&mut step);
     }
   }
 
   /// Returns cells that are seen by all `cells` with any of `values` candidates
-  pub(crate) fn cells_peers_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
+  pub(crate) fn cells_peers_with_any_candidates(&self, cells: &[CellPosition], values: &CandidateSet) -> Vec<CellPosition> {
     self
       .state
       .cell_peers_with_candidates(&cells[0], values)
@@ -297,11 +297,11 @@ impl LogicalSolver {
       .collect()
   }
 
-  pub(crate) fn any_cells_with_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
+  pub(crate) fn any_cells_with_candidates(&self, cells: &[CellPosition], values: &CandidateSet) -> bool {
     cells.iter().any(|cell| !self.state.candidates[cell.row][cell.col].is_disjoint(&values))
   }
 
-  pub(crate) fn any_cells_with_other_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> bool {
+  pub(crate) fn any_cells_with_other_candidates(&self, cells: &[CellPosition], values: &CandidateSet) -> bool {
     cells.iter().any(|cell| self.state.candidates[cell.row][cell.col].difference(&values).len() > 0)
   }
 
@@ -322,8 +322,8 @@ impl LogicalSolver {
   }
 
   /// Returns the list of invalid candidates for each cell
-  pub(crate) fn cell_candidates_diff(&self, cells: &Vec<CellPosition>, valid_candidates: Vec<CandidateSet>) -> Vec<(CellPosition, Vec<u32>)> {
-    cells.into_iter().enumerate().filter_map(|(cell_index, &cell)| {
+  pub(crate) fn cell_candidates_diff(&self, cells: &[CellPosition], valid_candidates: &[CandidateSet]) -> Vec<(CellPosition, Vec<u32>)> {
+    cells.iter().enumerate().filter_map(|(cell_index, &cell)| {
       if self.state.value_at(&cell) != 0 {
         return None
       }
@@ -411,8 +411,8 @@ impl LogicalSolver {
     self.state.candidates[cell.row][cell.col].to_bitmask()
   }
 
-  pub(crate) fn cells_to_cache_key(&self, cells: &Vec<CellPosition>) -> CellsCacheKey {
-    cells.into_iter().map(|cell| {
+  pub(crate) fn cells_to_cache_key(&self, cells: &[CellPosition]) -> CellsCacheKey {
+    cells.iter().map(|cell| {
       let cell_value = self.state.value_at(cell);
       (
         cell.row as u32 * (self.state.puzzle.grid_size as u32 + 1) + cell.col as u32,

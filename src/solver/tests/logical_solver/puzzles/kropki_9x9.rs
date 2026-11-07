@@ -8,7 +8,7 @@ fn check_kropki_9x9_1_solve() {
   let grid_size = 9;
   let constraints = SudokuConstraints::new(grid_size)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
         KropkiDot::double(CellPosition::new(1, 0), CellPosition::new(2, 0)),
         KropkiDot::double(CellPosition::new(2, 1), CellPosition::new(3, 1)),
@@ -80,7 +80,7 @@ fn check_kropki_9x9_1_solve() {
 fn check_kropki_9x9_2_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 4),
         FixedNumber::new(0, 4, 3),
         FixedNumber::new(3, 4, 4),
@@ -96,7 +96,7 @@ fn check_kropki_9x9_2_solve() {
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 0), CellPosition::new(1, 1)),
         KropkiDot::consecutive(CellPosition::new(1, 1), CellPosition::new(1, 2)),
         KropkiDot::consecutive(CellPosition::new(1, 5), CellPosition::new(2, 5)),
@@ -142,7 +142,7 @@ fn check_kropki_9x9_2_solve() {
 fn check_kropki_9x9_3_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(1, 1), CellPosition::new(2, 1)),
         KropkiDot::double(CellPosition::new(2, 0), CellPosition::new(2, 1)),
         KropkiDot::double(CellPosition::new(2, 0), CellPosition::new(3, 0)),
@@ -213,7 +213,7 @@ fn check_kropki_9x9_3_solve() {
 fn check_kropki_9x9_4_solve() {
   let constraints = SudokuConstraints::new(9)
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::double(CellPosition::new(0, 3), CellPosition::new(1, 3)),
         KropkiDot::consecutive(CellPosition::new(0, 6), CellPosition::new(0, 7)),

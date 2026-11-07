@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_hidden_pairs_with_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 1),
         FixedNumber::new(0, 4, 2),
         FixedNumber::new(3, 1, 1),
@@ -34,7 +34,7 @@ fn check_hidden_pairs_with_affected_cells() {
 fn check_hidden_pairs_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 1),
         FixedNumber::new(0, 4, 2),
         FixedNumber::new(3, 1, 1),

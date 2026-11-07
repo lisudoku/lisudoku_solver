@@ -4,7 +4,7 @@ use crate::{solver::{logical::logical_solver::LogicalSolver}, types::{FixedNumbe
 fn check_anti_knight_4x4_1_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 1, 2),
         FixedNumber::new(1, 0, 3),

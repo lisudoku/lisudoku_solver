@@ -1,7 +1,7 @@
 use crate::solver::logical::logical_solver::LogicalSolver;
 use crate::solver::logical::techniques::{TechniqueDefinition, TechniqueKind, TechniquePhase};
 use crate::solver::types::CandidateSet;
-use crate::types::{Area, SolutionStep};
+use crate::types::{Area, CellPosition, SolutionStep};
 use itertools::Itertools;
 
 // Within a house, 2/3 cells have the same set of 2/3 candidates, remove those from all
@@ -58,7 +58,7 @@ impl NakedSet {
         continue
       }
 
-      let affected_cells = solver
+      let affected_cells: Vec<CellPosition> = solver
         .state
         .filter_cells_with_any_candidates(&area_cells, &combined_candidates)
         .into_iter()

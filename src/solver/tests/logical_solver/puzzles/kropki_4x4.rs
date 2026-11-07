@@ -4,10 +4,10 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{CellPosition
 fn check_kropki_4x4_1_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(3, 0, 4) ]
+      [ FixedNumber::new(3, 0, 4) ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),
@@ -35,13 +35,13 @@ fn check_kropki_4x4_1_solve() {
 fn check_kropki_4x4_no_solution_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 3, 4),
         FixedNumber::new(3, 0, 4),
       ]
     )
     .with_kropki_dots(
-      vec![
+      [
         KropkiDot::consecutive(CellPosition::new(0, 0), CellPosition::new(0, 1)),
         KropkiDot::consecutive(CellPosition::new(0, 1), CellPosition::new(0, 2)),
         KropkiDot::consecutive(CellPosition::new(0, 2), CellPosition::new(0, 3)),

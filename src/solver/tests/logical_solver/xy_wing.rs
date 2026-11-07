@@ -4,7 +4,7 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_xy_wing() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 9),
         FixedNumber::new(1, 0, 5),
         FixedNumber::new(1, 1, 4),
@@ -56,7 +56,7 @@ fn check_xy_wing() {
 fn check_xy_wing_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 9),
         FixedNumber::new(1, 0, 5),
         FixedNumber::new(1, 1, 4),
@@ -89,7 +89,7 @@ fn check_xy_wing_no_affected_cells() {
 fn check_xy_wing_on_row_no_affected_cells() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 4),
         FixedNumber::new(0, 4, 5),
         FixedNumber::new(0, 5, 6),

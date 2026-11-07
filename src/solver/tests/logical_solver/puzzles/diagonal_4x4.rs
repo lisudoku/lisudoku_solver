@@ -4,7 +4,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber,
 fn check_diagonal_4x4_1_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 2),
         FixedNumber::new(1, 2, 1),
         FixedNumber::new(3, 0, 4),
@@ -30,7 +30,7 @@ fn check_diagonal_4x4_1_solve() {
 fn check_diagonal_4x4_2_solve() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 2),
         FixedNumber::new(1, 2, 1),
         FixedNumber::new(3, 0, 4),

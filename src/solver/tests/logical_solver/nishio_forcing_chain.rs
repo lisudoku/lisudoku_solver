@@ -4,14 +4,14 @@ use crate::{solver::logical::{logical_solver::LogicalSolver, techniques::{Techni
 fn check_nishio_forcing_chain_valid() {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 0, 1),
         FixedNumber::new(2, 1, 2),
         FixedNumber::new(2, 2, 3),
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 6), CellPosition::new(0, 7), CellPosition::new(0, 8),
           CellPosition::new(1, 8), CellPosition::new(1, 7), CellPosition::new(1, 6),
@@ -52,12 +52,12 @@ fn check_nishio_forcing_chain_valid() {
 fn check_nishio_forcing_chain_contradiction() {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 1, 2), FixedNumber::new(0, 2, 3), FixedNumber::new(2, 0, 4),
       ]
     )
     .with_palindromes(
-      vec![
+      [
         Palindrome(vec![
           CellPosition::new(0, 0), CellPosition::new(1, 1), CellPosition::new(1, 2),
           CellPosition::new(0, 3),

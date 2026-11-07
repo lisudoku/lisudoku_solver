@@ -52,7 +52,7 @@ impl SolveState {
 
   pub(crate) fn new(constraints: SudokuConstraints) -> SolveState {
     let grid = FixedNumbersConstraint::build_initial_grid_from_fixed_numbers(
-      constraints.fixed_numbers.as_ref().unwrap_or(&vec![]),
+      constraints.fixed_numbers.as_deref().unwrap_or(&[]),
       constraints.grid_size,
     );
 
@@ -151,8 +151,8 @@ impl SolveState {
     }).collect()
   }
 
-  pub(crate) fn filter_empty_cells(&self, cells: &Vec<CellPosition>) -> Vec<CellPosition> {
-    cells.into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).copied().collect()
+  pub(crate) fn filter_empty_cells(&self, cells: &[CellPosition]) -> Vec<CellPosition> {
+    cells.iter().filter(|cell| self.grid[cell.row][cell.col] == 0).copied().collect()
   }
 
   pub(crate) fn area_empty_cells(&self, area: &Area) -> Vec<CellPosition> {
@@ -178,10 +178,10 @@ impl SolveState {
   }
 
   pub(crate) fn area_cells_with_candidate(&self, area: &Area, value: u32) -> Vec<CellPosition> {
-    self.area_cells_with_candidates(area, &CandidateSet::from_iter([value]))
+    self.area_cells_with_candidates(area, &CandidateSet::from([value]))
   }
 
-  pub(crate) fn filter_cells_with_any_candidates(&self, cells: &Vec<CellPosition>, values: &CandidateSet) -> Vec<CellPosition> {
+  pub(crate) fn filter_cells_with_any_candidates(&self, cells: &[CellPosition], values: &CandidateSet) -> Vec<CellPosition> {
     cells
       .iter()
       .filter(|&cell| !self.compute_cell_candidates(cell).is_disjoint(values))
@@ -232,11 +232,11 @@ impl SolveState {
     self.filter_cells_with_any_candidates(&peers, values)
   }
 
-  pub(crate) fn count_empty_cells_in_list(&self, cells: &Vec<CellPosition>) -> usize {
-    cells.into_iter().filter(|cell| self.grid[cell.row][cell.col] == 0).count()
+  pub(crate) fn count_empty_cells_in_list(&self, cells: &[CellPosition]) -> usize {
+    cells.iter().filter(|cell| self.grid[cell.row][cell.col] == 0).count()
   }
 
-  pub(crate) fn update_candidates(&mut self, cells: &Vec<CellPosition>, value: u32) {
+  pub(crate) fn update_candidates(&mut self, cells: &[CellPosition], value: u32) {
     for cell in cells {
       self.candidates[cell.row][cell.col].remove(&value);
     }

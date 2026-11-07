@@ -4,7 +4,7 @@ use crate::{solver::{SolveState, GridCheckResult}, types::{Area, CellPosition, G
 fn check_killer_low_sum() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(10),
           region: Region(vec![
@@ -39,7 +39,7 @@ fn check_killer_low_sum() {
 fn check_killer_high_sum() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(9),
           region: Region(vec![
@@ -75,7 +75,7 @@ fn check_killer_high_sum() {
 fn check_killer_unique_digits() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(9),
           region: Region(vec![
@@ -111,7 +111,7 @@ fn check_killer_unique_digits() {
 fn check_killer_correct() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(10),
           region: Region(vec![
@@ -138,7 +138,7 @@ fn check_killer_correct() {
 fn check_killer_partially_correct() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(10),
           region: Region(vec![
@@ -165,7 +165,7 @@ fn check_killer_partially_correct() {
 fn check_killer_partially_correct_exact_sum() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(7),
           region: Region(vec![
@@ -192,7 +192,7 @@ fn check_killer_partially_correct_exact_sum() {
 fn check_killer_partially_incorrect_high_sum() {
   let constraints = SudokuConstraints::new(4)
     .with_killer_cages(
-      vec![
+      [
         KillerCage {
           sum: Some(6),
           region: Region(vec![

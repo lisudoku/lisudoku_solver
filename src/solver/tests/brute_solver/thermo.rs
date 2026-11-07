@@ -4,10 +4,10 @@ use ntest::timeout;
 fn thermo_9x9_no_solution() -> SudokuConstraints {
   SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![FixedNumber::new(8, 1, 9)]
+      [FixedNumber::new(8, 1, 9)]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition { row: 0, col: 0 },
           CellPosition { row: 1, col: 0 },
@@ -27,7 +27,7 @@ fn thermo_9x9_no_solution() -> SudokuConstraints {
 fn thermo_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(2, 2, 2),
         FixedNumber::new(2, 6, 4),
         FixedNumber::new(3, 4, 5),
@@ -37,7 +37,7 @@ fn thermo_9x9_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition { row: 0, col: 6 },
           CellPosition { row: 0, col: 5 },
@@ -116,7 +116,7 @@ fn thermo_6x6_unique_solution() -> (SudokuConstraints, Grid) {
   // WSC booklet 6x6 thermo https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 4),
         FixedNumber::new(2, 0, 5),
         FixedNumber::new(4, 5, 2),
@@ -125,7 +125,7 @@ fn thermo_6x6_unique_solution() -> (SudokuConstraints, Grid) {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition { row: 0, col: 0 },
           CellPosition { row: 0, col: 1 },

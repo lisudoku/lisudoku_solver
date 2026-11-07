@@ -5,7 +5,7 @@ fn check_thermo_6x6_1_solve() {
   // WSC booklet 6x6 thermo https://uploads-ssl.webflow.com/62793457876c001d28edf162/6348945a45b06acb414391b7_WSC_2022_IB_v2.1.pdf
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 0, 4),
         FixedNumber::new(2, 0, 5),
         FixedNumber::new(4, 5, 2),
@@ -14,7 +14,7 @@ fn check_thermo_6x6_1_solve() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 0),
           CellPosition::new(0, 1),
@@ -70,7 +70,7 @@ fn check_thermo_6x6_1_solve() {
 fn check_thermo_6x6_2_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 5),
         FixedNumber::new(0, 5, 4),
         FixedNumber::new(2, 2, 1),
@@ -81,7 +81,7 @@ fn check_thermo_6x6_2_solve() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(1, 1),
           CellPosition::new(2, 1),
@@ -116,14 +116,14 @@ fn check_thermo_6x6_2_solve() {
 fn check_thermo_6x6_3_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 6),
         FixedNumber::new(2, 2, 5),
         FixedNumber::new(3, 3, 4),
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(2, 0),
           CellPosition::new(1, 0),
@@ -156,13 +156,13 @@ fn check_thermo_6x6_3_solve() {
 fn check_thermo_6x6_4_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 1, 5),
         FixedNumber::new(4, 4, 6),
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(1, 4),
           CellPosition::new(2, 3),
@@ -193,7 +193,7 @@ fn check_thermo_6x6_4_solve() {
 fn check_thermo_6x6_5_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 1),
         FixedNumber::new(0, 5, 3),
         FixedNumber::new(5, 0, 2),
@@ -201,7 +201,7 @@ fn check_thermo_6x6_5_solve() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(1, 4),
           CellPosition::new(0, 3),
@@ -232,7 +232,7 @@ fn check_thermo_6x6_5_solve() {
 fn check_thermo_6x6_6_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(1, 5, 3),
         FixedNumber::new(2, 5, 1),
         FixedNumber::new(5, 2, 1),
@@ -240,7 +240,7 @@ fn check_thermo_6x6_6_solve() {
       ]
     )
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(0, 3),
           CellPosition::new(1, 2),
@@ -283,7 +283,7 @@ fn check_thermo_6x6_6_solve() {
 fn check_thermo_6x6_7_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_thermos(
-      vec![
+      [
         Thermo(vec![
           CellPosition::new(2, 1),
           CellPosition::new(2, 2),

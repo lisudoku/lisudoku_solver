@@ -4,7 +4,7 @@ use crate::{solver::logical::logical_solver::LogicalSolver, types::{FixedNumber,
 fn check_classic_6x6_1_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 0, 6),
         FixedNumber::new(1, 0, 1),
         FixedNumber::new(1, 1, 4),
@@ -43,7 +43,7 @@ fn check_classic_6x6_1_solve() {
 fn check_classic_6x6_2_hard_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 5),
         FixedNumber::new(0, 5, 2),
         FixedNumber::new(1, 0, 6),
@@ -79,7 +79,7 @@ fn check_classic_6x6_2_hard_solve() {
 fn check_classic_6x6_3_hard_solve() {
   let constraints = SudokuConstraints::new(6)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 2, 2),
         FixedNumber::new(0, 3, 1),
         FixedNumber::new(1, 5, 6),

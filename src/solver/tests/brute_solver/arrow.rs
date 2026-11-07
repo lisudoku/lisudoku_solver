@@ -6,10 +6,10 @@ use ntest::timeout;
 fn arrow_9x9_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(9)
     .with_fixed_numbers(
-      vec![ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
+      [ FixedNumber::new(0, 3, 1), FixedNumber::new(5, 8, 1) ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(0, 0) ],
           arrow_cells: vec![
@@ -115,12 +115,12 @@ fn brute_solver_with_logic_solves_arrow_9x9() {
 fn arrow_4x4_unique_solution() -> (SudokuConstraints, Grid) {
   let constraints = SudokuConstraints::new(4)
     .with_fixed_numbers(
-      vec![
+      [
         FixedNumber::new(0, 3, 3), FixedNumber::new(2, 0, 1),
       ]
     )
     .with_arrows(
-      vec![
+      [
         Arrow {
           circle_cells: vec![ CellPosition::new(3, 0) ],
           arrow_cells: vec![
