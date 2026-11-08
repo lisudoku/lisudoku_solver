@@ -17,7 +17,7 @@ impl LogicalSolver {
     }).collect();
 
     // TODO: rethink this, it's inefficient
-    let cache_key: CellsCacheKey = self.cells_and_peers_to_cache_key(cells, &cell_peers.iter().cloned().flatten().collect_vec());
+    let cache_key: CellsCacheKey = self.state.cells_and_peers_to_cache_key(cells, &cell_peers.iter().cloned().flatten().collect_vec());
     if let Some(cached_result) = self.caches.cell_eliminations_cache.borrow().get(&cache_key) {
       return cached_result.to_owned()
     }
@@ -28,7 +28,7 @@ impl LogicalSolver {
       (0..gs).map(|col| {
         let cell = CellPosition::new(row, col);
         if self.state.value_at(&cell) == 0 {
-          self.candidates_to_set(cell)
+          self.state.candidates_to_set(cell)
         } else {
           0
         }

@@ -39,7 +39,7 @@ impl ConstraintDefinition for ArrowConstraint {
 
       if arrow_full && circle_full {
         if arrow_sum == circle_number {
-          return GridCheckResult::solved()
+          continue
         }
         return GridCheckResult::unsolved(
           InvalidStateReason {
@@ -52,7 +52,7 @@ impl ConstraintDefinition for ArrowConstraint {
 
       if circle_full {
         if arrow_sum <= circle_number {
-          return GridCheckResult::solved()
+          continue
         }
 
         return GridCheckResult::unsolved(

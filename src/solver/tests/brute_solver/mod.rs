@@ -11,3 +11,4 @@ mod diagonal;
 mod odd_even;
 mod killer;
 mod renban;
+mod mixed;

@@ -102,6 +102,13 @@ impl BruteSolver {
     }
   }
 
+  fn record_solution(&mut self) {
+    if self.solution.is_none() {
+      self.solution = Some(self.state.grid().clone());
+    }
+    self.solution_count += 1;
+  }
+
   fn recursive_check(&mut self, depth: u32) {
     let mut best_cell: Option<CellPosition> = None;
     let mut best_candidates = CandidateSet::new();
@@ -115,10 +122,7 @@ impl BruteSolver {
           return
         }
       }
-      if self.solution.is_none() {
-        self.solution = Some(self.state.grid().clone());
-      }
-      self.solution_count += 1;
+      self.record_solution();
       return
     }
 
@@ -146,11 +150,7 @@ impl BruteSolver {
         return
       }
       if result.solution_type == SolutionType::Full {
-        if self.solution.is_none() {
-          self.solution = Some(self.state.grid().clone());
-        }
-        self.solution_count += 1;
-
+        self.record_solution();
         for cell in logic_cells.unwrap() {
           self.state.clear_value(&cell);
         }

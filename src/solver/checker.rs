@@ -65,7 +65,7 @@ impl SolveState {
       }
     }
 
-    // Check that all empty cell values are valid amd still have candidates
+    // Check that all empty cell values are valid and still have candidates
     for cell in self.all_empty_cells() {
       let cell_candidates = self.compute_cell_candidates(&cell);
       if cell_candidates.is_empty() {

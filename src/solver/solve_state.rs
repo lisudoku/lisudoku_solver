@@ -1,4 +1,5 @@
-use crate::{solver::{constraints::{ConstraintDefinition, fixed_numbers::FixedNumbersConstraint}, types::{CandidateGrid, CandidateSet, CellPositionSet, Puzzle}}, types::{Area, CellPosition, Grid, SudokuConstraints}};
+use crate::{solver::{constraints::{ConstraintDefinition, fixed_numbers::FixedNumbersConstraint}, logical::techniques::combinations::cell_combination_logic::CellsCacheKey, types::{CandidateGrid, CandidateSet, CellPositionSet, Puzzle}}, types::{Area, CellPosition, Grid, SudokuConstraints}};
+use itertools::Itertools;
 
 #[derive(Clone, Default)]
 pub(crate) struct SolveState {
@@ -240,5 +241,34 @@ impl SolveState {
     for cell in cells {
       self.candidates[cell.row][cell.col].remove(&value);
     }
+  }
+
+  pub(crate) fn candidates_to_set(&self, cell: CellPosition) -> u32 {
+    self.candidates[cell.row][cell.col].to_bitmask()
+  }
+
+  fn cell_cache_key(&self, cell: &CellPosition) -> (u32, u32) {
+    let cell_value = self.value_at(cell);
+    (
+      cell.to_index(self.puzzle.grid_size) as u32,
+      if cell_value == 0 {
+        self.candidates_to_set(*cell) + self.puzzle.grid_size as u32 + 1
+      } else {
+        cell_value
+      },
+    )
+  }
+
+  pub(crate) fn cells_to_cache_key(&self, cells: &[CellPosition]) -> CellsCacheKey {
+    cells.iter().map(|cell| {
+      self.cell_cache_key(cell)
+    }).collect()
+  }
+
+  pub(crate) fn cells_and_peers_to_cache_key(&self, cells: &[CellPosition], peers: &[CellPosition]) -> CellsCacheKey {
+    // TODO: could potentially have collisions
+    cells.into_iter().chain(peers).unique().map(|cell| {
+      self.cell_cache_key(cell)
+    }).collect()
   }
 }

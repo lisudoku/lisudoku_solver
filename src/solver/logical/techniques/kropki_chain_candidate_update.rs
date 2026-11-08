@@ -256,7 +256,7 @@ impl KropkiChainCombinationsLogic<'_> {
   }
 
   fn cache_key(&self) -> CellsCacheKey {
-    self.solver.cells_to_cache_key(&self.cells())
+    self.solver.state.cells_to_cache_key(&self.cells())
   }
 }
 
