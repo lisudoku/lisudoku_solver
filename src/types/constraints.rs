@@ -230,12 +230,6 @@ impl SudokuConstraints {
     self
   }
 
-  pub fn to_lz_string(&self) -> String {
-    let json = serde_json::to_string(&self).unwrap();
-    let lz_string = lz_str::compress_to_base64(&json);
-    lz_string
-  }
-
   pub fn to_grid_string(&self) -> String {
     Grid::from_fixed_numbers(self.grid_size, &self.fixed_numbers).to_string(Some("\n"))
   }
