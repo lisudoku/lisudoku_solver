@@ -1,6 +1,6 @@
 [package]
 name = "lisudoku-solver"
-version = "0.1.38"
+version = "0.1.39"
 authors = ["George Marcus <george.marcus922@gmail.com>"]
 description = "Solver for sudoku variant puzzles used by lisudoku"
 license-file = "LICENSE"
@@ -39,3 +39,6 @@ url = "2"
 [profile.profiling]
 inherits = "release"
 debug = true
+
+[profile.release]
+codegen-units = 1 # Slower build for better optimizations
